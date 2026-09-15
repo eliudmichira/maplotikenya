@@ -1,0 +1,56 @@
+{
+    "project_info": {
+        "project_number": "1020344751483",
+        "firebase_url": "https://homeske-default-rtdb.firebaseio.com",
+        "project_id": "homeske",
+        "storage_bucket": "homeske.firebasestorage.app"
+    },
+    "client": [
+        {
+            "client_info": {
+                "mobilesdk_app_id": "1:1020344751483:android:d5e00747d8c06a8c5699de",
+                "android_client_info": {
+                    "package_name": "com.homeske.app"
+                }
+            },
+            "oauth_client": [
+                {
+                    "client_id": "1020344751483-ibfjij2o471o84hibqmhsdf5re5dgunk.apps.googleusercontent.com",
+                    "client_type": 1,
+                    "android_info": {
+                        "package_name": "com.homeske.app",
+                        "certificate_hash": "70ec639debcea4dd90e059698d958b09cd4c79db"
+                    }
+                },
+                {
+                    "client_id": "1020344751483-rs94oqu2ge8u8q6si38fs4q2nudc48oq.apps.googleusercontent.com",
+                    "client_type": 1,
+                    "android_info": {
+                        "package_name": "com.homeske.app",
+                        "certificate_hash": "e352b0b92034489eb4f546fa02cb62fbf7587bc8"
+                    }
+                },
+                {
+                    "client_id": "1020344751483-g52r6na0gtbepr6v7o1jdtu9t1ctfvrj.apps.googleusercontent.com",
+                    "client_type": 3
+                }
+            ],
+            "api_key": [
+                {
+                    "current_key": "AIzaSyAZzGWfTzJGDa_j0p4ed8iI5BSVtovxnM8"
+                }
+            ],
+            "services": {
+                "appinvite_service": {
+                    "other_platform_oauth_client": [
+                        {
+                            "client_id": "1020344751483-g52r6na0gtbepr6v7o1jdtu9t1ctfvrj.apps.googleusercontent.com",
+                            "client_type": 3
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "configuration_version": "1"
+}
