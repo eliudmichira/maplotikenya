@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTheme } from '../context/ThemeContext';
 import logoPadded from '../assets/logo_padded.png';
+import Logo from './Logo';
 
 // Main Preloader Component with multiple variants
 const Preloader = ({
@@ -29,7 +30,7 @@ const Preloader = ({
 
   // Minimalist Spinner Variant
   const SpinnerLoader = () => (
-    <div className={`${sizeClasses[size]} animate-spin rounded-full border-2 border-[#fbbf24]/20 border-t-[#000000]`} />
+    <div className={`${sizeClasses[size]} animate-spin rounded-full border-2 border-[#fbbf24]/20 border-t-[#fbbf24]`} />
   );
 
   // Minimalist Pulse Variant
@@ -43,7 +44,7 @@ const Preloader = ({
       {[0, 1, 2].map((i) => (
         <div
           key={i}
-          className={`w-2 h-2 rounded-full bg-[#000000] animate-pulse`}
+          className={`w-2 h-2 rounded-full bg-[#fbbf24] animate-pulse`}
           style={{ animationDelay: `${i * 0.2}s` }}
         />
       ))}
@@ -54,7 +55,7 @@ const Preloader = ({
   const RingLoader = () => (
     <div className={`${sizeClasses[size]} relative`}>
       <div className={`absolute inset-0 rounded-full border-2 border-[#fbbf24]/20`} />
-      <div className={`absolute inset-0 rounded-full border-2 border-transparent border-t-[#000000] animate-spin`} />
+      <div className={`absolute inset-0 rounded-full border-2 border-transparent border-t-[#fbbf24] animate-spin`} />
     </div>
   );
 
@@ -64,7 +65,7 @@ const Preloader = ({
       {[0, 1, 2, 3, 4].map((i) => (
         <div
           key={i}
-          className={`w-1 h-6 rounded-full bg-[#000000] animate-pulse`}
+          className={`w-1 h-6 rounded-full bg-[#fbbf24] animate-pulse`}
           style={{
             animationDelay: `${i * 0.1}s`,
             animationDuration: '1s'
@@ -77,7 +78,7 @@ const Preloader = ({
   // Minimalist Cube Variant
   const CubeLoader = () => (
     <div className={`${sizeClasses[size]} relative transform rotate-45`}>
-      <div className={`absolute inset-0 rounded-lg bg-[#000000] animate-pulse`} />
+      <div className={`absolute inset-0 rounded-lg bg-[#fbbf24]/40 animate-pulse`} />
       <div className={`absolute inset-1 rounded-lg ${isDark ? 'bg-[#000000]' : 'bg-white'}`} />
     </div>
   );
@@ -94,7 +95,7 @@ const Preloader = ({
   const LogoSpinner = () => (
     <div className="relative">
       {/* Simple spinning ring */}
-      <div className="w-24 h-24 rounded-full border-2 border-[#fbbf24]/20 border-t-[#000000] animate-spin" style={{ animationDuration: '2s' }} />
+      <div className="w-24 h-24 rounded-full border-2 border-[#fbbf24]/20 border-t-[#fbbf24] animate-spin" style={{ animationDuration: '2s' }} />
 
       {/* Center logo */}
       <div className="absolute inset-4 rounded-full bg-[#000000] flex items-center justify-center overflow-hidden">
@@ -232,7 +233,7 @@ const Preloader = ({
                   {[0, 1, 2].map((i) => (
                     <div
                       key={i}
-                      className={`w-2 h-2 rounded-full bg-[#000000] animate-pulse`}
+                      className={`w-2 h-2 rounded-full bg-[#fbbf24] animate-pulse`}
                       style={{ animationDelay: `${i * 0.2}s` }}
                     />
                   ))}
@@ -259,39 +260,29 @@ const Preloader = ({
 };
 
 // Convenience components for common use cases
-export const PageLoader = ({ text = 'Welcome to MaplotiKenya' }) => (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#000000]">
-    <div className="text-center space-y-8 max-w-md mx-auto px-6">
-      {/* Minimalist Logo Container */}
-      <div className="relative mx-auto w-32 h-32">
-        {/* Simple spinning ring */}
-        <div className="w-32 h-32 rounded-full border-2 border-[#fbbf24]/20 border-t-[#000000] animate-spin" style={{ animationDuration: '2s' }} />
+export const PageLoader = ({ text = 'Finding your perfect home' }) => (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0A0A0A]">
+    <div className="text-center px-6">
+      {/* The wordmark itself is the loader; no icon-in-a-circle */}
+      <Logo
+        variant="ultra"
+        greenStyle="premium"
+        glow="subtle"
+        pulse="off"
+        isDark
+        className="text-4xl sm:text-5xl md:text-6xl"
+      />
 
-        {/* Center logo */}
-        <div className="absolute inset-4 rounded-full bg-[#000000] flex items-center justify-center overflow-hidden">
-          <img src={logoPadded} alt="MaplotiKenya" className="w-20 h-20 object-contain" />
-        </div>
-      </div>
+      <p className="mt-6 text-xs sm:text-sm font-medium uppercase tracking-[0.24em] text-white/50">
+        {text}
+      </p>
 
-      {/* Clean Typography */}
-      <div className="space-y-4">
-        <h1 className="text-3xl font-bold text-white tracking-wide">
-          {text}
-        </h1>
-        <p className="text-lg text-[#f0f0f0] font-medium">
-          Finding your perfect home
-        </p>
-      </div>
-
-      {/* Minimal loading dots */}
-      <div className="flex justify-center space-x-2">
-        {[0, 1, 2].map((i) => (
-          <div
-            key={i}
-            className={`w-2 h-2 rounded-full bg-[#000000] animate-pulse`}
-            style={{ animationDelay: `${i * 0.2}s` }}
-          />
-        ))}
+      {/* Indeterminate amber progress line */}
+      <div className="mt-8 mx-auto h-0.5 w-44 rounded-full bg-white/10 overflow-hidden">
+        <div
+          className="h-full w-1/3 rounded-full bg-gradient-to-r from-[#fbbf24] to-[#f59e0b]"
+          style={{ animation: 'loaderSlide 1.4s ease-in-out infinite' }}
+        />
       </div>
     </div>
   </div>

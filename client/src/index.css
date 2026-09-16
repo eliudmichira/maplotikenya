@@ -1290,3 +1290,9 @@ html {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* Indeterminate progress line used by the full-page loader */
+@keyframes loaderSlide {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
