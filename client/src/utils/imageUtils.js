@@ -23,6 +23,15 @@ export const isPlaceholderImage = (url) => {
 // True when the listing's first image is a genuine photo of the property
 export const hasRealPhoto = (property) => !isPlaceholderImage(getPropertyImage(property));
 
+// Only URLs the browser can actually fetch. Some imported listings carry
+// Flutter asset paths ("assets/images/properties/x.webp") that 404 on the
+// web and get swapped for the placeholder by the error handler, so they are
+// skipped here in favour of the next real URL on the listing.
+export const isLoadableImageUrl = (url) =>
+  typeof url === 'string' && /^(https?:\/\/|\/\/|\/(?!\/)|data:image\/|blob:)/.test(url.trim());
+
+const loadableImages = (list) => (Array.isArray(list) ? list : []).filter(isLoadableImageUrl);
+
 // Extract [lat, lng] from a property using any of the common field shapes
 export const getPropertyCoords = (property) => {
   if (!property) return null;
@@ -84,25 +93,17 @@ export const transformImageUrls = (images) => {
 
 // Get the first valid image from a property
 export const getPropertyImage = (property) => {
-  // Try images array first
-  if (property?.images && Array.isArray(property.images) && property.images.length > 0) {
-    return transformImageUrl(property.images[0]);
-  }
-  
-  // Try single image / cover photo fields
-  const single = property?.image || property?.coverPhoto || property?.coverPhotoUrl;
-  if (single) {
-    return transformImageUrl(single);
-  }
-  
-  // Try photos array
-  if (property?.photos && Array.isArray(property.photos) && property.photos.length > 0) {
-    return transformImageUrl(property.photos[0]);
-  }
-  
-  // Try gallery array
-  if (property?.gallery && Array.isArray(property.gallery) && property.gallery.length > 0) {
-    return transformImageUrl(property.gallery[0]);
+  // First loadable URL across the fields listings use, in priority order
+  const candidates = [
+    ...loadableImages(property?.images),
+    property?.image,
+    property?.coverPhoto,
+    property?.coverPhotoUrl,
+    ...loadableImages(property?.photos),
+    ...loadableImages(property?.gallery),
+  ].filter(isLoadableImageUrl);
+  if (candidates.length > 0) {
+    return transformImageUrl(candidates[0]);
   }
   
   // Fall back to Google Street View if we have coordinates
@@ -117,25 +118,13 @@ export const getPropertyImage = (property) => {
 export const getPropertyImages = (property) => {
   const images = [];
   
-  // Collect from images array
-  if (property?.images && Array.isArray(property.images)) {
-    images.push(...transformImageUrls(property.images));
-  }
-  
-  // Collect from single image / cover photo fields
+  // Collect every loadable URL across the fields listings use
+  images.push(...transformImageUrls(loadableImages(property?.images)));
   [property?.image, property?.coverPhoto, property?.coverPhotoUrl].forEach((u) => {
-    if (u) images.push(transformImageUrl(u));
+    if (isLoadableImageUrl(u)) images.push(transformImageUrl(u));
   });
-  
-  // Collect from photos array
-  if (property?.photos && Array.isArray(property.photos)) {
-    images.push(...transformImageUrls(property.photos));
-  }
-  
-  // Collect from gallery array
-  if (property?.gallery && Array.isArray(property.gallery)) {
-    images.push(...transformImageUrls(property.gallery));
-  }
+  images.push(...transformImageUrls(loadableImages(property?.photos)));
+  images.push(...transformImageUrls(loadableImages(property?.gallery)));
   
   // Remove duplicates and filter out invalid URLs
   const uniqueImages = [...new Set(images)].filter(img => img && typeof img === 'string');
