@@ -352,11 +352,7 @@ export const GoogleLevelFeatureCard = ({ icon: Icon, title, description, delay =
       </div>
 
       {/* Hover Effect */}
-      <motion.div
-        className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary-500/5 to-secondary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        initial={{ scale: 0.8 }}
-        whileHover={{ scale: 1 }}
-      />
+      <div className="absolute inset-0 rounded-3xl bg-gradient-to-r from-primary-500/5 to-secondary-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
     </motion.div>
   );
 };

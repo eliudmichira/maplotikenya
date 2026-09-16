@@ -480,11 +480,7 @@ const HomePage = () => {
                 whileTap={{ scale: 0.98 }}
               >
                 {/* Background Gradient on Hover */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-[#000000]/5 to-[#f0f0f0]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  initial={{ scale: 0.8 }}
-                  whileHover={{ scale: 1 }}
-                />
+                <div className="absolute inset-0 rounded-[inherit] bg-gradient-to-br from-[#000000]/5 to-[#f0f0f0]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                 <div className="relative z-10">
                   <motion.div
@@ -1039,19 +1035,11 @@ const HomePage = () => {
 
             <motion.button
               onClick={handleScheduleCall}
-              className={`px-8 py-4 border-2 rounded-full font-semibold transition-all duration-300 relative overflow-hidden group ${isDark
-                ? 'border-[#fbbf24] text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
-                : 'border-[#fbbf24] text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
-                }`}
+              className={`px-8 py-4 border-2 border-[#fbbf24] rounded-full font-semibold transition-colors duration-300 hover:bg-[#fbbf24] hover:text-[#111] ${isDark ? 'text-white' : 'text-gray-900'}`}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
             >
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                initial={{ scale: 0.8 }}
-                whileHover={{ scale: 1 }}
-              />
-              <span className="relative z-10 flex items-center gap-2">
+              <span className="flex items-center gap-2">
                 <Phone className="w-4 h-4" />
                 Schedule a Call
               </span>
