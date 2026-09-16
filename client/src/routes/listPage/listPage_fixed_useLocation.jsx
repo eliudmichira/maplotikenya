@@ -37,7 +37,7 @@ import EnhancedPropertyCard from '../../components/enhanced/PropertyCard';
 import SmartSearchBar from '../../components/enhanced/SmartSearchBar';
 import AdvancedFiltersSidebar from '../../components/enhanced/AdvancedFiltersSidebar';
 import Logo from '../../components/Logo';
-import EnhancedMapComponent from '../../components/listPage/map';
+import EnhancedMapComponent from '../../components/listPage/Map';
 import CartoFallbackMap from '../../components/GoogleMap/CartoFallbackMap';
 import { getPropertyImages, handleImageError } from '../../utils/imageUtils';
 
@@ -398,7 +398,7 @@ function QuickViewModal({ property, isOpen, onClose, onFavoriteToggle, isFavorit
                   />
                   <button
                     onClick={handleContactSubmit}
-                    className="w-full px-4 py-2 bg-[#000000] text-[#000000] font-semibold rounded-lg hover:bg-[#45e695] transition-colors text-sm"
+                    className="w-full px-4 py-2 bg-black text-white dark:bg-white dark:text-black font-semibold rounded-lg hover:bg-[#45e695] transition-colors text-sm"
                   >
                     Send Message
                   </button>
@@ -507,7 +507,7 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
             <div className={`backdrop-blur-sm rounded-lg p-2.5 md:p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-[#0e1311]/80 border-[#fbbf24]/10' : 'bg-white/80 border-gray-200'
               }`}>
               <div className="flex items-center gap-1 mb-1">
-                <Home className="w-3 h-3 md:w-3.5 md:h-3.5 text-[#000000]" />
+                <Home className="w-3 h-3 md:w-3.5 md:h-3.5 text-black dark:text-[#fbbf24]" />
                 <p className={`text-[10px] md:text-[11px] font-medium ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Average Rent</p>
               </div>
               {rent?.avg_range?.min != null && rent?.avg_range?.max != null ? (
@@ -538,7 +538,7 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
             <div className={`backdrop-blur-sm rounded-lg p-2.5 md:p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-[#0e1311]/80 border-[#fbbf24]/10' : 'bg-white/80 border-gray-200'
               }`}>
               <div className="flex items-center gap-1 mb-1">
-                <DollarSign className="w-3 h-3 md:w-3.5 md:h-3.5 text-[#000000]" />
+                <DollarSign className="w-3 h-3 md:w-3.5 md:h-3.5 text-black dark:text-[#fbbf24]" />
                 <p className={`text-[10px] md:text-[11px] font-medium ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Plot Prices</p>
               </div>
 
@@ -624,7 +624,7 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
             <div className={`backdrop-blur-sm rounded-lg p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-[#0e1311]/80 border-[#fbbf24]/10' : 'bg-white/80 border-gray-200'
               }`}>
               <div className="flex items-center gap-1 mb-1">
-                <MapPin className="w-3.5 h-3.5 text-[#000000]" />
+                <MapPin className="w-3.5 h-3.5 text-black dark:text-[#fbbf24]" />
                 <p className={`text-xs font-medium ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Hotspot Areas</p>
               </div>
               <p className={`text-sm font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{insights?.hotspots?.length ?? 0} Areas</p>
@@ -892,7 +892,7 @@ function EnhancedSearchBar({ searchQuery, setSearchQuery, propertyCount, filters
             <button
               onClick={() => setShowFilters(!showFilters)}
               className={`px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs font-medium transition-all duration-300 ${showFilters
-                ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
             >
@@ -939,7 +939,7 @@ function EnhancedSearchBar({ searchQuery, setSearchQuery, propertyCount, filters
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <MapPin className="w-4 h-4 text-[#000000] dark:text-[#000000] group-hover:text-[#000000]" />
+                      <MapPin className="w-4 h-4 text-[#000000] dark:text-white group-hover:text-[#000000]" />
                     </motion.div>
                     <span className="text-gray-700 dark:text-gray-200 font-medium">{suggestion}</span>
                   </motion.button>
@@ -1281,7 +1281,7 @@ function PropertyCard({
               e.stopPropagation();
               navigate(`/property/${property.id}`, { state: { property } });
             }}
-            className="text-[#303030] dark:text-[#000000] font-medium text-sm hover:text-[#000000]/80 dark:hover:text-[#000000]/80 transition-colors flex items-center gap-1"
+            className="text-[#303030] dark:text-white font-medium text-sm hover:text-[#000000]/80 dark:hover:text-white/80 transition-colors flex items-center gap-1"
           >
             View Details
             <ChevronRight className="w-3 h-3" />
@@ -1461,7 +1461,7 @@ function PropertyCard({
 //           e.stopPropagation();
 //           navigate(`/property/${property.id}`, { state: { property } });
 //         }}
-//         className="text-[#303030] dark:text-[#000000] font-medium text-sm hover:text-[#000000]/80 dark:hover:text-[#000000]/80 transition-colors flex items-center gap-1"
+//         className="text-[#303030] dark:text-white font-medium text-sm hover:text-[#000000]/80 dark:hover:text-white/80 transition-colors flex items-center gap-1"
 //       >
 //         View Details
 //         <ChevronRight className="w-3 h-3" />
@@ -1836,7 +1836,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="px-6 py-3 bg-[#000000] text-[#000000] rounded-lg hover:bg-[#45e595] transition-colors font-medium"
+              className="px-6 py-3 bg-black text-white dark:bg-white dark:text-black rounded-lg hover:bg-[#45e595] transition-colors font-medium"
             >
               Refresh Page
             </button>
@@ -1991,7 +1991,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
                     </div>
                     <button
                       onClick={() => navigate(`/property/${selectedProperty.id}`)}
-                      className="w-full px-3 py-1.5 bg-[#000000] text-[#000000] rounded-lg hover:bg-[#f0f0f0] transition-colors text-xs font-semibold"
+                      className="w-full px-3 py-1.5 bg-black text-white dark:bg-white dark:text-black rounded-lg hover:bg-[#f0f0f0] transition-colors text-xs font-semibold"
                     >
                       View Details
                     </button>
@@ -2026,7 +2026,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
           <button
             onClick={() => setDrawingMode(!drawingMode)}
             className={`p-3 rounded-xl transition-all duration-300 ${drawingMode
-              ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+              ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
               : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200'
               }`}
             title="Draw boundary"
@@ -2051,7 +2051,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
           <button
             onClick={() => setShowSchools(!showSchools)}
             className={`p-3 rounded-xl transition-all duration-300 ${showSchools
-              ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+              ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
               : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200'
               }`}
             title="Schools"
@@ -2102,7 +2102,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
 
       {/* Drawing Mode Indicator */}
       {drawingMode && (
-        <div className="absolute bottom-4 right-4 bg-[#000000] text-[#000000] px-4 py-2 rounded-xl shadow-lg">
+        <div className="absolute bottom-4 right-4 bg-black text-white dark:bg-white dark:text-black px-4 py-2 rounded-xl shadow-lg">
           <div className="flex items-center gap-2">
             <Map className="w-4 h-4" />
             <span className="text-sm font-medium">Click to draw boundary</span>
@@ -2212,7 +2212,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
             </motion.button>
             <motion.button
               onClick={clearAllFilters}
-              className="text-[#000000] dark:text-[#000000] hover:text-[#f0f0f0] dark:hover:text-[#f0f0f0] text-sm font-medium"
+              className="text-[#000000] dark:text-white hover:text-[#f0f0f0] dark:hover:text-[#f0f0f0] text-sm font-medium"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.2 }}
@@ -3763,7 +3763,7 @@ export default function MapView() {
                 </div>
               ) : (
                 <div className="flex items-center gap-3">
-                  <a href="/login" className="px-5 py-2.5 text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-[#000000] dark:hover:text-[#000000] transition-colors rounded-full hover:bg-[#000000]/20 dark:hover:bg-[#000000]/30">
+                  <a href="/login" className="px-5 py-2.5 text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white transition-colors rounded-full hover:bg-black/10 dark:hover:bg-white/10">
                     Sign In
                   </a>
                   <a href="/register" className="px-6 py-2.5 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-full text-base font-semibold hover:shadow-lg hover:shadow-[#000000]/30 transition-all duration-300">
@@ -3781,7 +3781,7 @@ export default function MapView() {
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isNearPublicTransport: !prev.isNearPublicTransport }))}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isNearPublicTransport
-                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -3791,7 +3791,7 @@ export default function MapView() {
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isWaterIncluded: !prev.isWaterIncluded }))}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isWaterIncluded
-                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -3801,7 +3801,7 @@ export default function MapView() {
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isWifiIncluded: !prev.isWifiIncluded }))}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isWifiIncluded
-                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -3811,7 +3811,7 @@ export default function MapView() {
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isGatedCommunity: !prev.isGatedCommunity }))}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isGatedCommunity
-                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -3821,7 +3821,7 @@ export default function MapView() {
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isNewlyBuilt: !prev.isNewlyBuilt }))}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isNewlyBuilt
-                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -3831,7 +3831,7 @@ export default function MapView() {
               <button
                 onClick={() => setFilters(prev => ({ ...prev, hasElevator: !prev.hasElevator }))}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.hasElevator
-                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -3841,7 +3841,7 @@ export default function MapView() {
               <button
                 onClick={() => setFilters(prev => ({ ...prev, hasParking: !prev.hasParking }))}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.hasParking
-                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -3862,7 +3862,7 @@ export default function MapView() {
                   onClick={() => setFilters(prev => ({ ...prev, listingType: opt.v }))}
                   className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
                     (filters.listingType || 'all') === opt.v
-                      ? 'bg-[#000000] text-[#000000] shadow'
+                      ? 'bg-black text-white dark:bg-white dark:text-black shadow'
                       : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
@@ -4001,7 +4001,7 @@ export default function MapView() {
                 <button
                   onClick={() => setViewMode('grid')}
                   className={`px-2.5 py-1 rounded-full transition-all duration-300 flex items-center gap-1 relative overflow-hidden ${viewMode === 'grid'
-                    ? 'bg-white dark:bg-gray-600 shadow-md text-[#303030] dark:text-[#000000] font-medium'
+                    ? 'bg-white dark:bg-gray-600 shadow-md text-[#303030] dark:text-white font-medium'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
                     }`}
                 >
@@ -4014,7 +4014,7 @@ export default function MapView() {
                 <button
                   onClick={() => setViewMode('list')}
                   className={`px-2.5 py-1 rounded-full transition-all duration-300 flex items-center gap-1 relative overflow-hidden ${viewMode === 'list'
-                    ? 'bg-white dark:bg-gray-600 shadow-md text-[#303030] dark:text-[#000000] font-medium'
+                    ? 'bg-white dark:bg-gray-600 shadow-md text-[#303030] dark:text-white font-medium'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
                     }`}
                 >
@@ -4032,7 +4032,7 @@ export default function MapView() {
         {!showMap && !mapHintDismissed && (
           <button
             onClick={dismissMapHint}
-            className="hidden lg:flex mt-2 w-full items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-medium bg-emerald-50 dark:bg-[#000000]/10 text-emerald-700 dark:text-[#000000] border border-emerald-200/60 dark:border-[#fbbf24]/20 hover:bg-emerald-100 dark:hover:bg-[#000000]/20 transition-colors"
+            className="hidden lg:flex mt-2 w-full items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-medium bg-emerald-50 dark:bg-white/10 text-emerald-700 dark:text-white border border-emerald-200/60 dark:border-[#fbbf24]/20 hover:bg-emerald-100 dark:hover:bg-white/20 transition-colors"
           >
             <MapPin className="w-3.5 h-3.5 shrink-0" />
             <span className="flex-1 text-left">Map is hidden â€” show it to view locations</span>
@@ -4302,7 +4302,7 @@ function FallbackMap({ propertyData, onPropertySelect }) {
                   setSelectedProperty(null);
                   onPropertySelect && onPropertySelect(selectedProperty);
                 }}
-                className="w-full bg-[#000000] text-[#000000] py-2 rounded-lg hover:bg-[#45e595] transition-colors font-medium"
+                className="w-full bg-black text-white dark:bg-white dark:text-black py-2 rounded-lg hover:bg-[#45e595] transition-colors font-medium"
               >
                 View Full Details
               </button>
@@ -4341,7 +4341,7 @@ class ErrorBoundary extends React.Component {
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="px-6 py-3 bg-[#000000] text-[#000000] rounded-lg hover:bg-[#45e595] transition-colors font-medium"
+              className="px-6 py-3 bg-black text-white dark:bg-white dark:text-black rounded-lg hover:bg-[#45e595] transition-colors font-medium"
             >
               Refresh Page
             </button>

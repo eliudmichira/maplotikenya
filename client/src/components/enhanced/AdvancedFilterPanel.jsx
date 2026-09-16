@@ -215,7 +215,7 @@ const AdvancedFilterPanel = ({
                     onClick={() => setActiveSection(section.id)}
                     className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 whitespace-nowrap ${
                       activeSection === section.id
-                        ? 'bg-[#000000] text-[#000000]'
+                        ? 'bg-black text-white dark:bg-white dark:text-black'
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                     }`}
                     whileHover={{ scale: 1.05 }}
@@ -311,7 +311,7 @@ const AdvancedFilterPanel = ({
                               onClick={() => toggleArrayFilter('homeTypes', type.id)}
                               className={`p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-2 ${
                                 localFilters.homeTypes?.includes(type.id)
-                                  ? 'border-[#fbbf24] bg-[#000000]/10 text-[#000000]'
+                                  ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
                                   : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -407,7 +407,7 @@ const AdvancedFilterPanel = ({
                               onClick={() => toggleArrayFilter('amenities', amenity.id)}
                               className={`p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-2 ${
                                 localFilters.amenities?.includes(amenity.id)
-                                  ? 'border-[#fbbf24] bg-[#000000]/10 text-[#000000]'
+                                  ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
                                   : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -436,7 +436,7 @@ const AdvancedFilterPanel = ({
                               onClick={() => toggleArrayFilter('locationFeatures', feature.id)}
                               className={`w-full p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-3 ${
                                 localFilters.locationFeatures?.includes(feature.id)
-                                  ? 'border-[#fbbf24] bg-[#000000]/10 text-[#000000]'
+                                  ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
                                   : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                               }`}
                               whileHover={{ scale: 1.01, x: 4 }}
@@ -471,7 +471,7 @@ const AdvancedFilterPanel = ({
                               onClick={() => updateFilter(feature.id, !localFilters[feature.id])}
                               className={`w-full p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-3 ${
                                 localFilters[feature.id]
-                                  ? 'border-[#fbbf24] bg-[#000000]/10 text-[#000000]'
+                                  ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
                                   : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                               }`}
                               whileHover={{ scale: 1.01, x: 4 }}

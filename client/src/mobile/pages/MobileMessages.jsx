@@ -569,7 +569,7 @@ const MobileMessages = () => {
                                                     setShowEmojiPicker(prev => !prev);
                                                     hapticLight();
                                                 }}
-                                                className={`p-3 rounded-xl transition-colors ${showEmojiPicker ? 'text-[#000000] bg-[#000000]/10' : 'text-gray-400 hover:text-[#000000]'}`}
+                                                className={`p-3 rounded-xl transition-colors ${showEmojiPicker ? 'text-black bg-black/10 dark:text-white dark:bg-white/10' : 'text-gray-400 hover:text-[#000000]'}`}
                                                 aria-label="Insert emoji"
                                             >
                                                 <Smile size={20} />
@@ -580,7 +580,7 @@ const MobileMessages = () => {
                                                     animate={{ scale: 1, opacity: 1 }}
                                                     onClick={handleSendMessage}
                                                     disabled={sendingMessage}
-                                                    className="p-3 bg-[#000000] text-[#000000] rounded-xl shadow-lg hover:shadow-[#000000]/30 transition-shadow"
+                                                    className="p-3 bg-black text-white dark:bg-white dark:text-black rounded-xl shadow-lg hover:shadow-[#000000]/30 transition-shadow"
                                                 >
                                                     {sendingMessage ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}
                                                 </motion.button>

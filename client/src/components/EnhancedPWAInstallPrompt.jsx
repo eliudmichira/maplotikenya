@@ -386,7 +386,7 @@ const EnhancedPWAInstallPrompt = () => {
                       onClick={handleLearnMore}
                       className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
                         showFeatures
-                          ? 'bg-[#000000] text-[#000000]'
+                          ? 'bg-black text-white dark:bg-white dark:text-black'
                           : isDark
                             ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -400,7 +400,7 @@ const EnhancedPWAInstallPrompt = () => {
                       onClick={handleShowBenefits}
                       className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
                         showBenefits
-                          ? 'bg-[#000000] text-[#000000]'
+                          ? 'bg-black text-white dark:bg-white dark:text-black'
                           : isDark
                             ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'

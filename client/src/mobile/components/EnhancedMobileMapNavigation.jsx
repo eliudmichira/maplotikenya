@@ -359,7 +359,7 @@ const EnhancedMobileMapNavigation = ({
                   <button
                     onClick={() => setIsFilterPanelOpen(!isFilterPanelOpen)}
                     className={`p-2 rounded-full flex items-center justify-center transition-all duration-300 ${isFilterPanelOpen
-                      ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                      ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                       : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                   >
@@ -391,7 +391,7 @@ const EnhancedMobileMapNavigation = ({
                           className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left group"
                         >
                           <div className="w-8 h-8 bg-[#000000]/20 dark:bg-[#000000]/20 rounded-lg flex items-center justify-center group-hover:bg-[#000000] transition-colors">
-                            <MapPin className="w-4 h-4 text-[#000000] dark:text-[#000000] group-hover:text-[#000000]" />
+                            <MapPin className="w-4 h-4 text-[#000000] dark:text-white group-hover:text-[#000000]" />
                           </div>
                           <span className="text-gray-700 dark:text-gray-200 font-medium">{suggestion}</span>
                         </motion.button>
@@ -409,7 +409,7 @@ const EnhancedMobileMapNavigation = ({
             <button
               onClick={() => setViewMode('grid')}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${viewMode === 'grid'
-                ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                 : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
             >
@@ -419,7 +419,7 @@ const EnhancedMobileMapNavigation = ({
             <button
               onClick={() => setViewMode('list')}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${viewMode === 'list'
-                ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                 : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
             >
@@ -432,7 +432,7 @@ const EnhancedMobileMapNavigation = ({
                 key={filter.key}
                 onClick={() => toggleFilter(filter.key)}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters[filter.key]
-                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                  ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -539,7 +539,7 @@ const EnhancedMobileMapNavigation = ({
                           key={filter.key}
                           onClick={() => toggleFilter(filter.key)}
                           className={`p-3 rounded-xl text-left transition-all duration-300 ${filters[filter.key]
-                            ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                            ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                             : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                             }`}
                           whileHover={{ scale: 1.02 }}

@@ -224,7 +224,7 @@ const AccountDashboard = () => {
                <Edit className="w-4 h-4" />
                <span>Edit Profile</span>
              </button>
-             <button className={`${isDark ? 'bg-[#000000]' : 'bg-gray-100'} text-[#000000] font-outfit font-semibold px-6 py-3 rounded-xl border border-[#fbbf24]/30 hover:bg-[#000000]/10 transition-all duration-300`}>
+             <button className={`${isDark ? 'bg-[#000000]' : 'bg-gray-100'} text-black font-outfit font-semibold px-6 py-3 rounded-xl border border-[#fbbf24]/30 hover:bg-black/10 dark:text-white dark:hover:bg-white/10 transition-all duration-300`}>
                Share Profile
              </button>
            </div>

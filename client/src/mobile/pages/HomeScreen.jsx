@@ -1003,7 +1003,7 @@ const HomeScreen = () => {
                                                     <div className="absolute top-0 left-0 right-0 p-1.5 flex justify-between items-start bg-gradient-to-b from-black/60 to-transparent">
                                                         <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wide ${(property.status?.toLowerCase().includes('rent'))
                                                             ? 'bg-emerald-500/90 text-white'
-                                                            : 'bg-[#000000]/90 text-[#000000]'
+                                                            : 'bg-black/90 text-white dark:bg-white/90 dark:text-black'
                                                             }`}>
                                                             {(property.status?.toLowerCase().includes('rent')) ? 'Rent' : 'Sale'}
                                                         </span>

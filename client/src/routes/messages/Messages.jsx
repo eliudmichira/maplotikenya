@@ -286,7 +286,7 @@ const Messages = () => {
             </div>
             <button 
               onClick={fetchConversations}
-              className="bg-[#000000] text-[#000000] px-4 py-2 rounded-lg font-outfit font-medium hover:bg-[#000000]/90 transition-colors"
+              className="bg-black text-white dark:bg-white dark:text-black px-4 py-2 rounded-lg font-outfit font-medium hover:bg-[#000000]/90 transition-colors"
             >
               Try Again
             </button>

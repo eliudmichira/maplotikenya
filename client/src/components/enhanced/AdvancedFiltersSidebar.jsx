@@ -181,7 +181,7 @@ const AdvancedFiltersSidebar = ({
                 onClick={() => setActiveSection(section.id)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 text-left ${
                   activeSection === section.id
-                    ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                    ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                     : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
                 whileHover={{ scale: 1.02, x: 2 }}
@@ -293,7 +293,7 @@ const AdvancedFiltersSidebar = ({
                         onClick={() => toggleArrayFilter('homeTypes', type.id)}
                         className={`p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-2 ${
                           filters.homeTypes?.includes(type.id)
-                            ? 'border-[#fbbf24] bg-[#000000]/10 text-[#000000]'
+                            ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
                             : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                         }`}
                         whileHover={{ scale: 1.02 }}
@@ -389,7 +389,7 @@ const AdvancedFiltersSidebar = ({
                         onClick={() => toggleArrayFilter('amenities', amenity.id)}
                         className={`p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-2 ${
                           filters.amenities?.includes(amenity.id)
-                            ? 'border-[#fbbf24] bg-[#000000]/10 text-[#000000]'
+                            ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
                             : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                         }`}
                         whileHover={{ scale: 1.02 }}
@@ -418,7 +418,7 @@ const AdvancedFiltersSidebar = ({
                         onClick={() => toggleArrayFilter('locationFeatures', feature.id)}
                         className={`w-full p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-3 ${
                           filters.locationFeatures?.includes(feature.id)
-                            ? 'border-[#fbbf24] bg-[#000000]/10 text-[#000000]'
+                            ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
                             : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                         }`}
                         whileHover={{ scale: 1.01, x: 4 }}
@@ -453,7 +453,7 @@ const AdvancedFiltersSidebar = ({
                         onClick={() => updateFilter(feature.id, !filters[feature.id])}
                         className={`w-full p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-3 ${
                           filters[feature.id]
-                            ? 'border-[#fbbf24] bg-[#000000]/10 text-[#000000]'
+                            ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
                             : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                         }`}
                         whileHover={{ scale: 1.01, x: 4 }}

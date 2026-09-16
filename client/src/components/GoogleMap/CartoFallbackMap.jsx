@@ -260,7 +260,7 @@ const CartoFallbackMap = ({
                     key={opt.value}
                     onClick={() => setMapStyle(opt.value)}
                     className={`px-3 py-2 rounded-xl flex items-center gap-2 text-xs md:text-sm font-medium transition-all duration-300 ${mapStyle === opt.value
-                        ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                        ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                         : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                   >

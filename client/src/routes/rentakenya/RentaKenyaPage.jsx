@@ -373,7 +373,7 @@ const RentaKenyaPage = () => {
                   <h3 className="font-semibold text-gray-900 dark:text-white">
                     {tech.name}
                   </h3>
-                  <span className="px-2 py-1 text-xs font-medium bg-[#000000]/20 text-[#000000] rounded-full">
+                  <span className="px-2 py-1 text-xs font-medium bg-black/20 text-black dark:bg-white/20 dark:text-white rounded-full">
                     {tech.category}
                   </span>
                 </div>

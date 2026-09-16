@@ -208,7 +208,7 @@ const BookingModal = ({ isOpen, onClose, property, agent }) => {
                                                     onClick={() => setTime(slot)}
                                                     className={`py-3 rounded-xl text-xs font-bold transition-all border ${
                                                         time === slot
-                                                        ? 'bg-[#000000] border-[#fbbf24] text-[#000000]'
+                                                        ? 'bg-black border-[#fbbf24] text-white dark:bg-white dark:text-black'
                                                         : (isDark ? 'bg-white/5 border-white/10 text-gray-400' : 'bg-white border-gray-200 text-gray-600')
                                                     }`}
                                                 >

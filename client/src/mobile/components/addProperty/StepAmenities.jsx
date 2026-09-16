@@ -64,7 +64,7 @@ const StepAmenities = ({ formData, handleAmenityToggle }) => {
                                             type="button"
                                             onClick={() => handleAmenityToggle(item.value)}
                                             className={`px-4 py-2.5 rounded-xl text-sm font-medium border transition-all duration-200 ${isSelected
-                                                ? 'bg-[#000000] text-[#000000] border-[#fbbf24] shadow-lg shadow-[#000000]/20 transform scale-105'
+                                                ? 'bg-black text-white dark:bg-white dark:text-black border-[#fbbf24] shadow-lg shadow-[#000000]/20 transform scale-105'
                                                 : isDark
                                                     ? 'bg-[#1a1d2d] text-gray-300 border-gray-700 hover:border-gray-500'
                                                     : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-gray-300'

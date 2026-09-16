@@ -279,7 +279,7 @@ function ContactPage() {
                       onChange={(e) => setFormData({ ...formData, scheduleTour: e.target.checked })}
                       className={`w-5 h-5 rounded focus:ring-2 focus:ring-[#000000] ${
                         isDark 
-                          ? 'text-[#000000] bg-[#000000] border-[rgba(251,191,36,0.3)] focus:ring-offset-[#000000]' 
+                          ? 'text-white bg-black border-[rgba(251,191,36,0.3)] focus:ring-offset-black dark:text-black dark:bg-white' 
                           : 'text-[#000000] bg-white border-gray-300 focus:ring-offset-white'
                       }`}
                     />

@@ -1494,7 +1494,7 @@ const DesktopAddProperty = () => {
                   <button
                     type="button"
                     onClick={() => setShowAddUnit(true)}
-                    className="flex items-center gap-2 px-4 py-2 bg-[#000000]/10 text-[#000000] border border-[#fbbf24]/30 rounded-xl hover:bg-[#000000]/20 transition-all font-outfit font-medium"
+                    className="flex items-center gap-2 px-4 py-2 bg-black/10 text-black dark:bg-white/10 dark:text-white border border-[#fbbf24]/30 rounded-xl hover:bg-[#000000]/20 transition-all font-outfit font-medium"
                   >
                     <Plus className="w-4 h-4" /> Add Configuration
                   </button>
@@ -1509,7 +1509,7 @@ const DesktopAddProperty = () => {
                           <div>
                             <div className="flex items-center gap-2 mb-1">
                               <h3 className={`font-outfit font-bold text-lg ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{unit.name}</h3>
-                              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${isDark ? 'bg-[#000000]/20 text-[#000000]' : 'bg-[#000000]/10 text-[#000000]'}`}>
+                              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${isDark ? 'bg-black/20 text-black dark:bg-white/20 dark:text-white' : 'bg-black/10 text-black dark:bg-white/10 dark:text-white'}`}>
                                 {unit.unitsAvailable} Units
                               </span>
                             </div>
@@ -1709,7 +1709,7 @@ const DesktopAddProperty = () => {
                           checked={formData.amenities.includes(amenity.value)}
                           onChange={() => handleAmenityToggle(amenity.value)}
                           className={`w-4 h-4 rounded focus:ring-2 focus:ring-[#000000] ${isDark
-                            ? 'text-[#000000] bg-[#000000] border-[rgba(251,191,36,0.3)] focus:ring-offset-[#000000]'
+                            ? 'text-white bg-black border-[rgba(251,191,36,0.3)] focus:ring-offset-black dark:text-black dark:bg-white'
                             : 'text-[#000000] bg-white border-gray-300 focus:ring-offset-white'
                             }`}
                         />

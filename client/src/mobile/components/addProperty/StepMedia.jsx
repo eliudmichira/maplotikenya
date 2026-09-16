@@ -39,7 +39,7 @@ const StepMedia = ({ previewImages, handleImageUpload, removeImage }) => {
                                     <X className="w-3.5 h-3.5" />
                                 </button>
                                 {i === 0 && (
-                                    <span className="absolute bottom-1 left-1 bg-[#000000] text-[#000000] text-[10px] font-bold px-1.5 py-0.5 rounded">
+                                    <span className="absolute bottom-1 left-1 bg-black text-white dark:bg-white dark:text-black text-[10px] font-bold px-1.5 py-0.5 rounded">
                                         Cover
                                     </span>
                                 )}

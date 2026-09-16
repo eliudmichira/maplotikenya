@@ -127,8 +127,8 @@ const StepLocation = ({ formData, handleInputChange, handleMapsLinkChange, handl
                         className={`w-full py-3 rounded-xl font-bold text-sm transition-all border flex items-center justify-center gap-2 ${geocoding
                             ? 'opacity-70 cursor-wait'
                             : isDark
-                                ? 'border-[#fbbf24]/30 text-[#000000] hover:bg-[#000000]/10'
-                                : 'border-[#fbbf24] text-[#000000] hover:bg-[#000000]/10'
+                                ? 'border-[#fbbf24]/30 text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
+                                : 'border-[#fbbf24] text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
                             }`}
                     >
                         {geocoding ? 'Locating...' : 'Geocode Address'}

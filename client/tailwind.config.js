@@ -53,6 +53,15 @@ export default {
           50:  '#fffdf6', 100: '#fffaf0', 200: '#f7f6f0',
           300: '#f7f1e3', 400: '#eee9db', 500: '#e0dccf',
         },
+        // ─── NEUTRAL GRAY (no blue tint) ─────────────────────────────
+        // Tailwind's default gray is blue-tinted (#374151, #1f2937, #111827),
+        // which clashed with the neutral blacks used by the CSS variables and
+        // the isDark ternaries in dark mode. Align it with --bg / --surface.
+        gray: {
+          50:  '#f8f8f8', 100: '#f0f0f0', 200: '#e2e2e2', 300: '#c8c8c8',
+          400: '#a3a3a3', 500: '#6b6b6b', 600: '#303030', 700: '#1a1a1a',
+          800: '#111111', 900: '#0a0a0a', 950: '#000000',
+        },
         // ─── ALL COLORFUL FAMILIES → MONO (single source of truth) ───
         emerald:  monoRamp(),
         green:    monoRamp(),

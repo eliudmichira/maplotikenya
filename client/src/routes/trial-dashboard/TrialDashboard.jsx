@@ -362,13 +362,13 @@ const TrialDashboard = () => {
                     <div className="flex items-center space-x-3">
                       <div className={`p-2 rounded-lg ${feature.priority
                           ? 'bg-[#000000] text-white'
-                          : 'bg-[#000000]/10 text-[#000000]'
+                          : 'bg-black/10 text-black dark:bg-white/10 dark:text-white'
                         }`}>
                         <feature.icon className="w-5 h-5" />
                       </div>
                       <div>
                         <h4 className={`font-semibold ${feature.priority
-                            ? 'text-[#000000] dark:text-[#000000]'
+                            ? 'text-[#000000] dark:text-white'
                             : 'text-gray-900 dark:text-white'
                           }`}>
                           {feature.title}

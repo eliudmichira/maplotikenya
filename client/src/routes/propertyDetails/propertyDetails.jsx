@@ -453,7 +453,7 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
         <button
           onClick={handleCallAgent}
           className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-outfit font-medium transition-all duration-200 ${isDark
-            ? 'bg-[#000000] text-[#000000] hover:bg-[#45e595]'
+            ? 'bg-black text-white dark:bg-white dark:text-black hover:bg-[#45e595]'
             : 'bg-emerald-600 text-white hover:bg-emerald-700'
             }`}
         >

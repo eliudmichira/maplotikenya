@@ -500,7 +500,7 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
                         </p>
                         <button
                             onClick={() => window.location.reload()}
-                            className="px-6 py-3 bg-[#000000] text-[#000000] rounded-lg hover:bg-[#45e595] transition-colors font-medium"
+                            className="px-6 py-3 bg-black text-white dark:bg-white dark:text-black rounded-lg hover:bg-[#45e595] transition-colors font-medium"
                         >
                             Refresh Page
                         </button>
@@ -696,7 +696,7 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
                     <button
                         onClick={() => setDrawingMode(!drawingMode)}
                         className={`p-3 rounded-xl transition-all duration-300 ${drawingMode
-                            ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                            ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                             : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200'
                             }`}
                         title="Draw boundary"
@@ -721,7 +721,7 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
                     <button
                         onClick={() => setShowSchools(!showSchools)}
                         className={`p-3 rounded-xl transition-all duration-300 ${showSchools
-                            ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                            ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                             : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200'
                             }`}
                         title="Schools"
@@ -753,7 +753,7 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
                             key={theme.value}
                             onClick={() => setMapTheme(theme.value)}
                             className={`px-3 py-2 rounded-xl flex items-center gap-2 text-xs md:text-sm font-medium transition-all duration-300 ${mapTheme === theme.value
-                                ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
+                                ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                                 : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
                                 }`}
                         >
@@ -772,7 +772,7 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
 
             {/* Drawing Mode Indicator */}
             {drawingMode && (
-                <div className="absolute bottom-4 right-4 bg-[#000000] text-[#000000] px-4 py-2 rounded-xl shadow-lg">
+                <div className="absolute bottom-4 right-4 bg-black text-white dark:bg-white dark:text-black px-4 py-2 rounded-xl shadow-lg">
                     <div className="flex items-center gap-2">
                         <Map className="w-4 h-4" />
                         <span className="text-sm font-medium">Click to draw boundary</span>

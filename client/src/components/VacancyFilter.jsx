@@ -82,7 +82,7 @@ const VacancyFilter = ({ onFilterChange, activeFilters = {} }) => {
         onClick={() => setIsOpen(!isOpen)}
         className={`flex items-center space-x-2 px-4 py-2 rounded-lg border transition-all ${
           activeFilterCount > 0
-            ? 'bg-[#000000] text-[#000000] border-[#fbbf24]'
+            ? 'bg-black text-white dark:bg-white dark:text-black border-[#fbbf24]'
             : isDark
               ? 'bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700'
               : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
@@ -91,7 +91,7 @@ const VacancyFilter = ({ onFilterChange, activeFilters = {} }) => {
         <Filter className="w-4 h-4" />
         <span className="text-sm font-medium">Vacancy Filter</span>
         {activeFilterCount > 0 && (
-          <span className="bg-[#000000] text-[#000000] text-xs font-bold px-2 py-0.5 rounded-full">
+          <span className="bg-black text-white dark:bg-white dark:text-black text-xs font-bold px-2 py-0.5 rounded-full">
             {activeFilterCount}
           </span>
         )}

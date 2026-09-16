@@ -308,7 +308,7 @@ const MobileAgentCard = ({ agent = {}, propertyId, propertyTitle, propertyImage,
                 onError={() => setImageError(true)}
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-[#000000]/15 text-[#000000] font-bold text-3xl">
+              <div className="w-full h-full flex items-center justify-center bg-black/15 text-black dark:bg-white/15 dark:text-white font-bold text-3xl">
                 {(agent.name || 'A').charAt(0).toUpperCase()}
               </div>
             )}
@@ -349,8 +349,8 @@ const MobileAgentCard = ({ agent = {}, propertyId, propertyTitle, propertyImage,
           disabled={isSending}
           whileTap={{ scale: 0.97 }}
           className={`flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border-2 font-bold text-sm transition-all disabled:opacity-50 ${isDark
-            ? 'border-[#fbbf24]/30 text-[#000000] hover:bg-[#000000]/10'
-            : 'border-[#fbbf24]/40 text-[#000000] hover:bg-[#000000]/5'
+            ? 'border-[#fbbf24]/30 text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
+            : 'border-[#fbbf24]/40 text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5'
             }`}
         >
           {isSending ? (
@@ -369,8 +369,8 @@ const MobileAgentCard = ({ agent = {}, propertyId, propertyTitle, propertyImage,
             href={`mailto:${agent.email}?subject=${encodeURIComponent(`Inquiry about ${propertyTitle || 'your property'}`)}`}
             whileTap={{ scale: 0.97 }}
             className={`flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border-2 font-bold text-sm transition-all ${isDark
-              ? 'border-[#fbbf24]/30 text-[#000000] hover:bg-[#000000]/10'
-              : 'border-[#fbbf24]/40 text-[#000000] hover:bg-[#000000]/5'
+              ? 'border-[#fbbf24]/30 text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
+              : 'border-[#fbbf24]/40 text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5'
               }`}
           >
             <Mail className="w-5 h-5" />
@@ -593,7 +593,7 @@ const StickyActionBar = ({ agent, propertyId, propertyTitle, propertyPrice, prop
               whileTap={{ scale: 0.92 }}
               onClick={() => setIsBookingOpen(true)}
               className={`h-14 w-14 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${isDark
-                ? 'bg-[#000000]/10 border-[#fbbf24]/30 text-[#000000] hover:bg-[#000000]/20'
+                ? 'bg-black/10 border-[#fbbf24]/30 text-black dark:bg-white/10 dark:text-white hover:bg-[#000000]/20'
                 : 'bg-emerald-50 border-emerald-200 text-[#000000] hover:bg-emerald-100'
                 }`}
             >
@@ -1277,14 +1277,14 @@ const MobilePropertyDetails = () => {
             <div>
               <div className="flex items-center gap-2 mb-3">
                 {property.type && (
-                  <span className="px-3 py-1 bg-[#000000]/15 text-[#000000] text-[10px] font-bold uppercase tracking-[0.12em] rounded-full border border-[#fbbf24]/20">
+                  <span className="px-3 py-1 bg-black/15 text-black dark:bg-white/15 dark:text-white text-[10px] font-bold uppercase tracking-[0.12em] rounded-full border border-[#fbbf24]/20">
                     {property.type}
                   </span>
                 )}
                 {property.status && (
                   <span className={`px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] rounded-full border ${property.status.toLowerCase().includes('rent')
                     ? 'bg-emerald-500/15 text-emerald-400 border-emerald-400/20'
-                    : 'bg-[#000000]/15 text-[#000000] border-[#fbbf24]/20'
+                    : 'bg-black/15 text-black dark:bg-white/15 dark:text-white border-[#fbbf24]/20'
                     }`}>
                     {property.status.replace(/-/g, ' ')}
                   </span>
@@ -1435,7 +1435,7 @@ const MobilePropertyDetails = () => {
                             {unit.name}
                           </h4>
                           <span className={`inline-flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-full font-black uppercase tracking-wider ${Number(unit.unitsAvailable) > 0
-                            ? 'bg-[#000000]/10 text-[#000000]'
+                            ? 'bg-black/10 text-black dark:bg-white/10 dark:text-white'
                             : 'bg-red-500/10 text-red-500'
                             }`}>
                             <div className={`w-1.5 h-1.5 rounded-full ${Number(unit.unitsAvailable) > 0 ? 'bg-[#000000]' : 'bg-red-500'
@@ -1543,7 +1543,7 @@ const MobilePropertyDetails = () => {
                     whileTap={{ scale: 0.95 }}
                     onClick={() => navigate('/properties')}
                     className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider border-2 transition-all ${isDark
-                      ? 'border-[#fbbf24]/20 text-[#000000] hover:bg-[#000000]/10'
+                      ? 'border-[#fbbf24]/20 text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
                       : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
                   >
                     View all

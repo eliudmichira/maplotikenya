@@ -194,7 +194,7 @@ const RentaKenyaLanding = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#000000]/10 border border-[#fbbf24]/20 text-[#000000] text-sm font-medium mb-8"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/10 border border-[#fbbf24]/20 text-black dark:bg-white/10 dark:text-white text-sm font-medium mb-8"
             >
               <Award className="w-4 h-4" />
               Africa's First AI-Powered Rental Management Platform
@@ -422,7 +422,7 @@ const RentaKenyaLanding = () => {
                         {feature.benefits.map((benefit, i) => (
                           <span
                             key={i}
-                            className="px-3 py-1 bg-[#000000]/10 text-[#000000] text-sm rounded-full"
+                            className="px-3 py-1 bg-black/10 text-black dark:bg-white/10 dark:text-white text-sm rounded-full"
                           >
                             {benefit}
                           </span>

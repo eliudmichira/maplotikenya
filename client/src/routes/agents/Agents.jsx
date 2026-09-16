@@ -304,7 +304,7 @@ const Agents = () => {
               <span
                 className={`px-2 py-1 text-xs font-outfit rounded-full ${isDark
                   ? 'bg-[rgba(251,191,36,0.2)] text-[#000000]'
-                  : 'bg-[#000000]/10 text-[#000000]'
+                  : 'bg-black/10 text-black dark:bg-white/10 dark:text-white'
                   }`}
               >
                 {agent.specialization}
@@ -315,7 +315,7 @@ const Agents = () => {
                 key={index}
                 className={`px-2 py-1 text-xs font-outfit rounded-full ${isDark
                   ? 'bg-[rgba(251,191,36,0.2)] text-[#000000]'
-                  : 'bg-[#000000]/10 text-[#000000]'
+                  : 'bg-black/10 text-black dark:bg-white/10 dark:text-white'
                   }`}
               >
                 {specialty}

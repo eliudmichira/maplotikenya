@@ -32,7 +32,7 @@ const AreaDirectory = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 md:py-20">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5 text-xs font-semibold tracking-wide uppercase bg-[#000000]/10 text-[#000000] border border-[#fbbf24]/20">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5 text-xs font-semibold tracking-wide uppercase bg-black/10 text-black dark:bg-white/10 dark:text-white border border-[#fbbf24]/20">
             <MapPin className="w-3.5 h-3.5" />
             Area Directory
           </div>
@@ -87,7 +87,7 @@ const AreaDirectory = () => {
                 onClick={() => setSort(opt.value)}
                 className={`px-4 py-2.5 rounded-xl transition-all ${
                   sort === opt.value
-                    ? 'bg-[#000000] text-[#000000] shadow'
+                    ? 'bg-black text-white dark:bg-white dark:text-black shadow'
                     : `${isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`
                 }`}
               >

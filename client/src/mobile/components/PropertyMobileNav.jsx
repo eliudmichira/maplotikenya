@@ -402,7 +402,7 @@ export const PropertyMobileButton = ({
   const variantClasses = {
     primary: 'bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] hover:shadow-lg',
     secondary: isDark ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-gray-200 text-gray-900 hover:bg-gray-300',
-    outline: 'border-2 border-[#fbbf24] text-[#000000] hover:bg-[#000000] hover:text-[#000000]',
+    outline: 'border-2 border-[#fbbf24] text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black',
     ghost: isDark ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100',
     danger: 'bg-red-500 text-white hover:bg-red-600'
   };

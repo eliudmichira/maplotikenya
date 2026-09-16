@@ -451,7 +451,7 @@ const UserDashboard = () => {
                   </div>
                   {property.reason && (
                     <div className="absolute bottom-3 left-3">
-                      <div className="px-2 py-1 rounded-full bg-[#000000]/90 text-[#000000] text-xs font-medium">
+                      <div className="px-2 py-1 rounded-full bg-black/90 text-white dark:bg-white/90 dark:text-black text-xs font-medium">
                         {property.reason}
                       </div>
                     </div>

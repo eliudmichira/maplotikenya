@@ -156,7 +156,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
                     </h2>
                     <button
                         onClick={() => setShowAddUnit(true)}
-                        className={`text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 ${isDark ? 'bg-[#000000]/20 text-[#000000]' : 'bg-[#000000]/10 text-[#000000]'}`}
+                        className={`text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 ${isDark ? 'bg-black/20 text-black dark:bg-white/20 dark:text-white' : 'bg-black/10 text-black dark:bg-white/10 dark:text-white'}`}
                     >
                         <Plus className="w-3 h-3" /> Add Unit
                     </button>
@@ -218,7 +218,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
                                         key={type.id}
                                         onClick={() => selectUnitType(type)}
                                         className={`px-3 py-2 rounded-lg text-xs font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 ${newUnit.type === type.id
-                                            ? 'bg-[#000000] text-[#000000]'
+                                            ? 'bg-black text-white dark:bg-white dark:text-black'
                                             : isDark ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                             }`}
                                     >
@@ -306,7 +306,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
 
                             <button
                                 onClick={handleAddUnit}
-                                className="w-full py-3 rounded-lg bg-[#000000] text-[#000000] font-bold text-sm hover:shadow-lg hover:shadow-[#000000]/20 transition-all flex items-center justify-center gap-2"
+                                className="w-full py-3 rounded-lg bg-black text-white dark:bg-white dark:text-black font-bold text-sm hover:shadow-lg hover:shadow-[#000000]/20 transition-all flex items-center justify-center gap-2"
                             >
                                 <Plus className="w-4 h-4" /> Add Configuration
                             </button>

@@ -104,7 +104,7 @@ const StepBasics = ({ formData, handleInputChange, errors }) => {
                                     type="button"
                                     onClick={() => handleInputChange('status', status)}
                                     className={`p-3 rounded-xl border-2 font-bold uppercase tracking-wide transition-all ${formData.status === status
-                                        ? 'border-[#fbbf24] bg-[#000000] text-[#000000]'
+                                        ? 'border-[#fbbf24] bg-black text-white dark:bg-white dark:text-black'
                                         : isDark
                                             ? 'border-gray-700 bg-[#1a1d2d] text-gray-400'
                                             : 'border-gray-200 bg-gray-50 text-gray-500'

@@ -136,7 +136,7 @@ const MobilePropertyCard = ({ property, onViewDetails, onToggleFavorite, isFavor
             e.stopPropagation();
             onViewDetails(property);
           }}
-          className="mt-4 w-full h-11 rounded-xl bg-[#000000] text-[#000000] text-[13px] font-semibold tracking-wide flex items-center justify-center gap-1.5 shadow-sm shadow-[#000000]/20 active:scale-[0.98] transition-transform"
+          className="mt-4 w-full h-11 rounded-xl bg-black text-white dark:bg-white dark:text-black text-[13px] font-semibold tracking-wide flex items-center justify-center gap-1.5 shadow-sm shadow-[#000000]/20 active:scale-[0.98] transition-transform"
         >
           View details
           <ArrowRight className="w-4 h-4" />
@@ -365,7 +365,7 @@ const MobilePropertyList = () => {
             <button
               onClick={() => setShowFilters(true)}
               className={`h-10 px-3 rounded-lg shrink-0 flex items-center justify-center gap-1.5 text-[13px] font-medium relative ${Object.values(filters).some(f => f !== '' && f !== false)
-                ? 'bg-[#000000] text-[#000000]'
+                ? 'bg-black text-white dark:bg-white dark:text-black'
                 : isDark
                   ? 'bg-gray-800/60 border border-white/10 text-gray-300'
                   : 'bg-gray-50 border border-gray-200 text-gray-700'
@@ -385,7 +385,7 @@ const MobilePropertyList = () => {
                   key={filter.value || 'all'}
                   onClick={() => setFilters(prev => ({ ...prev, status: filter.value }))}
                   className={`shrink-0 px-4 py-1.5 rounded-full text-[12px] font-medium border transition-colors ${isActive
-                    ? 'bg-[#000000] border-[#fbbf24] text-[#000000]'
+                    ? 'bg-black border-[#fbbf24] text-white dark:bg-white dark:text-black'
                     : isDark
                       ? 'bg-transparent border-white/10 text-gray-400'
                       : 'bg-transparent border-gray-200 text-gray-600'
@@ -604,7 +604,7 @@ const MobilePropertyList = () => {
                     </motion.button>
                     <button
                       onClick={() => setShowFilters(false)}
-                      className="flex-1 px-4 py-3.5 bg-[#000000] rounded-xl text-[#000000] text-[14px] font-semibold active:opacity-90"
+                      className="flex-1 px-4 py-3.5 bg-black rounded-xl text-white dark:bg-white dark:text-black text-[14px] font-semibold active:opacity-90"
                     >
                       Apply filters
                     </button>

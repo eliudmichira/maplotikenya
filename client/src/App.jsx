@@ -64,7 +64,7 @@ const Dashboard = lazy(() => import('./routes/dashboard/dashboard'));
 const ResponsiveDashboardRedirect = lazy(() => import('./routes/dashboard/ResponsiveDashboardRedirect'));
 const ScrapingDashboard = lazy(() => import('./pages/ScrapingDashboard'));
 const AdminPanel = lazy(() => import('./routes/admin/AdminPanel'));
-const ProfilePage = lazy(() => import('./routes/profilePage/profilePage'));
+const ProfilePage = lazy(() => import('./routes/profilePage/ProfilePage'));
 const AgentVerificationPage = lazy(() => import('./routes/agent-verification/AgentVerificationPage'));
 const AddProperty = lazy(() => import('./routes/properties/AddProperty'));
 const TrialLogin = lazy(() => import('./routes/trial-login/TrialLogin'));

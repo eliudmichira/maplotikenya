@@ -263,7 +263,7 @@ const ProfilePage = () => {
                         {currentUser?.name || currentUser?.username || 'User'}
                       </h1>
                       {currentUser?.role === 'premium' && (
-                        <span className="px-3 py-1 bg-gradient-to-r from-[#000000]/30 to-[#45e695]/30 border border-[#fbbf24]/40 text-[#000000] dark:text-[#000000] text-xs font-bold rounded-full flex items-center gap-1 shadow-sm backdrop-blur-sm">
+                        <span className="px-3 py-1 bg-gradient-to-r from-[#000000]/30 to-[#45e695]/30 border border-[#fbbf24]/40 text-[#000000] dark:text-white text-xs font-bold rounded-full flex items-center gap-1 shadow-sm backdrop-blur-sm">
                           <Award className="w-3 h-3" />
                           PREMIUM
                         </span>

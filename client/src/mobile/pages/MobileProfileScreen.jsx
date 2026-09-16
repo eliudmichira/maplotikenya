@@ -270,7 +270,7 @@ const MobileProfileScreen = () => {
                             </div>
                             <button
                                 onClick={() => navigate(isAgent ? '/profile/edit/agent' : '/profile/edit')}
-                                className="absolute -bottom-1 -right-1 w-7 h-7 bg-[#000000] rounded-full flex items-center justify-center text-[#000000]"
+                                className="absolute -bottom-1 -right-1 w-7 h-7 bg-black rounded-full flex items-center justify-center text-white dark:bg-white dark:text-black"
                                 aria-label="Edit profile"
                             >
                                 <Camera size={13} />
@@ -315,7 +315,7 @@ const MobileProfileScreen = () => {
                             key={tab}
                             onClick={() => setActiveTab(tab.toLowerCase())}
                             className={`px-4 py-2 rounded-lg font-medium text-[13px] whitespace-nowrap transition-colors ${activeTab === tab.toLowerCase()
-                                ? 'bg-[#000000] text-[#000000]'
+                                ? 'bg-black text-white dark:bg-white dark:text-black'
                                 : isDark
                                     ? 'bg-transparent text-gray-400 border border-white/10'
                                     : 'bg-transparent text-gray-600 border border-gray-200'
@@ -381,7 +381,7 @@ const MobileProfileScreen = () => {
                                                 </div>
                                                 <div className="flex items-center gap-2">
                                                     {item.badge && (
-                                                        <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#000000] text-[#000000]">
+                                                        <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-black text-white dark:bg-white dark:text-black">
                                                             {item.badge}
                                                         </span>
                                                     )}

@@ -27,7 +27,7 @@ const TenantDashboardLayout = ({ tenant }) => {
             <div className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200/50 dark:border-gray-600/50">
               <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">{tenant?.name || 'John Doe'}</p>
               <p className="text-xs text-gray-600 dark:text-gray-300">{tenant?.propertyName || 'Property'} • {tenant?.unitNumber || 'Unit'}</p>
-              <span className="inline-block mt-2 px-3 py-1 rounded-full text-xs bg-[#000000]/20 text-[#000000] border border-[#fbbf24]/30">{tenant?.status || 'Active'}</span>
+              <span className="inline-block mt-2 px-3 py-1 rounded-full text-xs bg-black/20 text-black dark:bg-white/20 dark:text-white border border-[#fbbf24]/30">{tenant?.status || 'Active'}</span>
             </div>
 
             <nav className="space-y-2">

@@ -913,8 +913,8 @@ const HomePage = () => {
             <motion.button
               onClick={handleScheduleCall}
               className={`px-8 py-4 border-2 rounded-full font-semibold transition-all duration-300 relative overflow-hidden group ${isDark
-                ? 'border-[#fbbf24] text-[#000000] hover:bg-[#000000] hover:text-[#111]'
-                : 'border-[#fbbf24] text-[#000000] hover:bg-[#000000] hover:text-white'
+                ? 'border-[#fbbf24] text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
+                : 'border-[#fbbf24] text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black'
                 }`}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
