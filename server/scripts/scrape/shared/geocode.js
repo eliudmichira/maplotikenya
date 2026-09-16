@@ -2,7 +2,7 @@ import axios from 'axios';
 import { existsSync, readFileSync, writeFileSync } from 'fs';
 
 const NOMINATIM = 'https://nominatim.openstreetmap.org/search';
-const UA = 'BumihouseScraper/1.0 (contact: michmichira@gmail.com)';
+const UA = 'MaplotiKenyaScraper/1.0 (contact: michmichira@gmail.com)';
 
 const cache = new Map();
 let cachePath = null;

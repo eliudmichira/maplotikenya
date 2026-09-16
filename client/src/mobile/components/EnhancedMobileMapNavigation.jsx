@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import {
@@ -203,14 +203,14 @@ const EnhancedMobileMapNavigation = ({
             {/* Logo */}
             <div className="flex items-center">
               <Link className="flex items-center gap-2 group" to="/">
-                <div className="w-9 h-9 bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] rounded-xl flex items-center justify-center shadow-lg shadow-[#51faaa]/25 group-hover:shadow-xl group-hover:shadow-[#51faaa]/40 transition-all duration-300">
+                <div className="w-9 h-9 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-xl flex items-center justify-center shadow-lg shadow-[#000000]/25 group-hover:shadow-xl group-hover:shadow-[#000000]/40 transition-all duration-300">
                   <span className="text-[#111] text-sm font-bold">H</span>
                 </div>
                 <span className={`text-lg font-bold tracking-tight transition-colors ${isDark
-                  ? 'text-white group-hover:text-[#51faaa]'
-                  : 'text-gray-900 group-hover:text-[#51faaa]'
+                  ? 'text-white group-hover:text-[#000000]'
+                  : 'text-gray-900 group-hover:text-[#000000]'
                   }`}>
-                  BumiHouse
+                  MaplotiKenya
                 </span>
               </Link>
             </div>
@@ -263,7 +263,7 @@ const EnhancedMobileMapNavigation = ({
               {currentUser ? (
                 <div className="relative">
                   <button className="flex items-center gap-2 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                    <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-[#51faaa]/30">
+                    <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-[#fbbf24]/30">
                       {/* Animated ring border */}
                       <motion.div
                         className="absolute -inset-1 rounded-full"
@@ -276,7 +276,7 @@ const EnhancedMobileMapNavigation = ({
                           ease: "linear"
                         }}
                         style={{
-                          background: "conic-gradient(from 0deg, #51faaa, #dbd5a4, #51faaa)",
+                          background: "conic-gradient(from 0deg, #000000, #f0f0f0, #000000)",
                           mask: "radial-gradient(circle, transparent 55%, black 72%)",
                           WebkitMask: "radial-gradient(circle, transparent 55%, black 72%)"
                         }}
@@ -292,7 +292,7 @@ const EnhancedMobileMapNavigation = ({
                             draggable={false}
                           />
                         ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] flex items-center justify-center">
+                          <div className="w-full h-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] flex items-center justify-center">
                             <span className="text-[#111] font-bold text-sm">
                               {currentUser.displayName ? currentUser.displayName.charAt(0).toUpperCase() : currentUser.email.charAt(0).toUpperCase()}
                             </span>
@@ -303,7 +303,7 @@ const EnhancedMobileMapNavigation = ({
                   </button>
                 </div>
               ) : (
-                <a href="/login" className="px-4 py-2 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-[#51faaa]/30 transition-all duration-300">
+                <a href="/login" className="px-4 py-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-[#000000]/30 transition-all duration-300">
                   Sign In
                 </a>
               )}
@@ -312,11 +312,11 @@ const EnhancedMobileMapNavigation = ({
 
           {/* Search Bar Row */}
           <div className="relative">
-            <div className={`relative bg-white dark:bg-gray-800 rounded-full shadow-lg border-2 transition-all duration-300 ${isFocused ? 'border-[#51faaa] shadow-xl shadow-[#51faaa]/20' : 'border-gray-200 dark:border-gray-700'
+            <div className={`relative bg-white dark:bg-gray-800 rounded-full shadow-lg border-2 transition-all duration-300 ${isFocused ? 'border-[#fbbf24] shadow-xl shadow-[#000000]/20' : 'border-gray-200 dark:border-gray-700'
               }`}>
               <div className="flex items-center p-2">
                 <div className="flex-1 flex items-center">
-                  <Search className={`w-4 h-4 ml-3 transition-colors ${isFocused ? 'text-[#51faaa]' : 'text-gray-400'
+                  <Search className={`w-4 h-4 ml-3 transition-colors ${isFocused ? 'text-[#000000]' : 'text-gray-400'
                     }`} />
                   <input
                     ref={searchInputRef}
@@ -359,7 +359,7 @@ const EnhancedMobileMapNavigation = ({
                   <button
                     onClick={() => setIsFilterPanelOpen(!isFilterPanelOpen)}
                     className={`p-2 rounded-full flex items-center justify-center transition-all duration-300 ${isFilterPanelOpen
-                      ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                      ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                       : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                   >
@@ -390,8 +390,8 @@ const EnhancedMobileMapNavigation = ({
                           }}
                           className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left group"
                         >
-                          <div className="w-8 h-8 bg-[#51faaa]/20 dark:bg-[#51faaa]/20 rounded-lg flex items-center justify-center group-hover:bg-[#51faaa] transition-colors">
-                            <MapPin className="w-4 h-4 text-[#51faaa] dark:text-[#51faaa] group-hover:text-[#0a0c19]" />
+                          <div className="w-8 h-8 bg-[#000000]/20 dark:bg-[#000000]/20 rounded-lg flex items-center justify-center group-hover:bg-[#000000] transition-colors">
+                            <MapPin className="w-4 h-4 text-[#000000] dark:text-[#000000] group-hover:text-[#000000]" />
                           </div>
                           <span className="text-gray-700 dark:text-gray-200 font-medium">{suggestion}</span>
                         </motion.button>
@@ -409,7 +409,7 @@ const EnhancedMobileMapNavigation = ({
             <button
               onClick={() => setViewMode('grid')}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${viewMode === 'grid'
-                ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                 : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
             >
@@ -419,7 +419,7 @@ const EnhancedMobileMapNavigation = ({
             <button
               onClick={() => setViewMode('list')}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${viewMode === 'list'
-                ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                 : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                 }`}
             >
@@ -432,7 +432,7 @@ const EnhancedMobileMapNavigation = ({
                 key={filter.key}
                 onClick={() => toggleFilter(filter.key)}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters[filter.key]
-                  ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -511,7 +511,7 @@ const EnhancedMobileMapNavigation = ({
                 <button
                   onClick={() => setActiveFilterTab('quick')}
                   className={`flex-1 py-3 text-sm font-medium transition-colors ${activeFilterTab === 'quick'
-                    ? 'text-[#51faaa] border-b-2 border-[#51faaa]'
+                    ? 'text-[#000000] border-b-2 border-[#fbbf24]'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                     }`}
                 >
@@ -520,7 +520,7 @@ const EnhancedMobileMapNavigation = ({
                 <button
                   onClick={() => setActiveFilterTab('advanced')}
                   className={`flex-1 py-3 text-sm font-medium transition-colors ${activeFilterTab === 'advanced'
-                    ? 'text-[#51faaa] border-b-2 border-[#51faaa]'
+                    ? 'text-[#000000] border-b-2 border-[#fbbf24]'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                     }`}
                 >
@@ -539,7 +539,7 @@ const EnhancedMobileMapNavigation = ({
                           key={filter.key}
                           onClick={() => toggleFilter(filter.key)}
                           className={`p-3 rounded-xl text-left transition-all duration-300 ${filters[filter.key]
-                            ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                            ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                             : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                             }`}
                           whileHover={{ scale: 1.02 }}
@@ -567,14 +567,14 @@ const EnhancedMobileMapNavigation = ({
                           placeholder="Min Price"
                           value={filters.minPrice}
                           onChange={(e) => setFilters(prev => ({ ...prev, minPrice: e.target.value }))}
-                          className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#51faaa]"
+                          className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#000000]"
                         />
                         <input
                           type="number"
                           placeholder="Max Price"
                           value={filters.maxPrice}
                           onChange={(e) => setFilters(prev => ({ ...prev, maxPrice: e.target.value }))}
-                          className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#51faaa]"
+                          className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#000000]"
                         />
                       </div>
                     </div>
@@ -586,7 +586,7 @@ const EnhancedMobileMapNavigation = ({
                         <select
                           value={filters.minBeds}
                           onChange={(e) => setFilters(prev => ({ ...prev, minBeds: e.target.value }))}
-                          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#51faaa]"
+                          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#000000]"
                         >
                           <option value="">Any</option>
                           <option value="1">1+</option>
@@ -601,7 +601,7 @@ const EnhancedMobileMapNavigation = ({
                         <select
                           value={filters.minBaths}
                           onChange={(e) => setFilters(prev => ({ ...prev, minBaths: e.target.value }))}
-                          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#51faaa]"
+                          className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-[#000000]"
                         >
                           <option value="">Any</option>
                           <option value="1">1+</option>
@@ -622,7 +622,7 @@ const EnhancedMobileMapNavigation = ({
                               type="checkbox"
                               checked={filters[filter.key]}
                               onChange={(e) => setFilters(prev => ({ ...prev, [filter.key]: e.target.checked }))}
-                              className="w-4 h-4 text-[#51faaa] border-gray-300 rounded focus:ring-[#51faaa]"
+                              className="w-4 h-4 text-[#000000] border-gray-300 rounded focus:ring-[#000000]"
                             />
                             <span className="text-sm text-gray-700 dark:text-gray-300">{filter.label}</span>
                           </label>
@@ -647,7 +647,7 @@ const EnhancedMobileMapNavigation = ({
                       setIsFilterPanelOpen(false);
                       setShowFilters(true);
                     }}
-                    className="flex-1 py-3 px-4 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] rounded-xl font-medium hover:shadow-lg hover:shadow-[#51faaa]/30 transition-all duration-300"
+                    className="flex-1 py-3 px-4 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-xl font-medium hover:shadow-lg hover:shadow-[#000000]/30 transition-all duration-300"
                   >
                     Apply Filters
                   </button>

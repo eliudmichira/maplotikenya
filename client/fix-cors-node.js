@@ -6,7 +6,7 @@ const path = require('path');
 const corsConfig = [
   {
     "origin": [
-      "https://dwellmate-285e8.web.app",
+      "https://maploti.web.app",
       "http://localhost:3000",
       "http://localhost:5173",
       "http://127.0.0.1:3000",
@@ -26,7 +26,7 @@ const corsConfig = [
   }
 ];
 
-console.log('🔧 Firebase Storage CORS Fix Tool');
+console.log('ðŸ”§ Firebase Storage CORS Fix Tool');
 console.log('=====================================');
 
 // Function to make HTTPS request
@@ -55,26 +55,26 @@ function makeRequest(options, postData) {
 
 // Function to get access token (this is a simplified version)
 async function getAccessToken() {
-  console.log('❌ This script requires Google Cloud SDK to be installed.');
+  console.log('âŒ This script requires Google Cloud SDK to be installed.');
   console.log('Please install Google Cloud SDK first:');
   console.log('1. Download from: https://cloud.google.com/sdk/docs/install');
   console.log('2. Install and restart your terminal');
   console.log('3. Run: gcloud auth login');
-  console.log('4. Run: gcloud config set project dwellmate-285e8');
-  console.log('5. Run: gsutil cors set cors.json gs://dwellmate-285e8.firebasestorage.app');
+  console.log('4. Run: gcloud config set project maploti');
+  console.log('5. Run: gsutil cors set cors.json gs://maploti.firebasestorage.app');
   process.exit(1);
 }
 
 // Main function
 async function main() {
   try {
-    console.log('📋 CORS Configuration:');
+    console.log('ðŸ“‹ CORS Configuration:');
     console.log(JSON.stringify(corsConfig, null, 2));
     console.log('');
     
     await getAccessToken();
   } catch (error) {
-    console.error('❌ Error:', error.message);
+    console.error('âŒ Error:', error.message);
     process.exit(1);
   }
 }

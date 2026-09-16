@@ -1,8 +1,8 @@
-# Deploy Status
+﻿# Deploy Status
 
 ## Client (Firebase)
 
-- **Hosting URL**: https://dwellmate-285e8.web.app
+- **Hosting URL**: https://maploti.web.app
 - **Last deploy**: Production build + Firebase Hosting + Firestore rules
 - **Commands used**:
   - `npm run build`
@@ -15,7 +15,7 @@ Deploy the server separately to your host (Railway, Render, VPS, etc.):
 1. Set **production** environment variables (no localhost):
    - `NODE_ENV=production`
    - `DATABASE_URL` (e.g. MongoDB Atlas URI)
-   - `CLIENT_URL=https://dwellmate-285e8.web.app`
+   - `CLIENT_URL=https://maploti.web.app`
    - `JWT_SECRET_KEY` (32+ character random secret)
    - `PORT` (if required by host)
    - `EMAIL_USER` / `EMAIL_PASS` if using email

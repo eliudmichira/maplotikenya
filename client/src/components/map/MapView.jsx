@@ -1,4 +1,4 @@
-﻿import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useState, useEffect, useMemo, useRef } from 'react';
 import {
     GoogleMap,
     useJsApiLoader,
@@ -56,8 +56,8 @@ const formatPricePill = (price) => {
 
 const buildPricePillSvg = (label, { featured = false, selected = false } = {}) => {
     const bg = selected
-        ? (featured ? '#d97706' : '#10b981')
-        : (featured ? '#f59e0b' : '#3dd88a');
+        ? (featured ? '#d97706' : '#000000')
+        : (featured ? '#f59e0b' : '#fbbf24');
     const ring = selected ? '#ffffff' : 'rgba(255,255,255,0.85)';
     const ringW = selected ? 2.5 : 1.25;
     const scale = selected ? 1.1 : 1;
@@ -86,7 +86,7 @@ const buildPricePillSvg = (label, { featured = false, selected = false } = {}) =
 
 const buildClusterSvg = (count) => {
     const size = count < 10 ? 44 : count < 50 ? 54 : 64;
-    const fill = '#3dd88a';
+    const fill = '#fbbf24';
     const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${size}' height='${size}' viewBox='0 0 ${size} ${size}'>
         <circle cx='${size / 2}' cy='${size / 2}' r='${size / 2 - 4}' fill='${fill}' fill-opacity='0.25'/>
         <circle cx='${size / 2}' cy='${size / 2}' r='${size / 2 - 8}' fill='${fill}' stroke='#ffffff' stroke-width='3'/>
@@ -336,7 +336,7 @@ const MapView = ({
                 customIcon = {
                     path: g.maps.SymbolPath.CIRCLE,
                     scale: 11,
-                    fillColor: '#3b82f6',
+                    fillColor: '#505050',
                     fillOpacity: 1,
                     strokeColor: '#FFFFFF',
                     strokeWeight: 3,
@@ -414,10 +414,10 @@ const MapView = ({
                             drawingMode: window.google?.maps?.drawing?.OverlayType?.CIRCLE || 'circle',
                             drawingControl: false,
                             circleOptions: {
-                                fillColor: '#51faaa',
+                                fillColor: '#000000',
                                 fillOpacity: 0.2,
                                 strokeWeight: 2,
-                                strokeColor: '#51faaa',
+                                strokeColor: '#000000',
                                 clickable: false,
                                 editable: true,
                                 zIndex: 1,
@@ -466,13 +466,13 @@ const MapView = ({
             {loading && (
                 <div className="absolute inset-0 z-50 pointer-events-none flex items-center justify-center bg-black/20 backdrop-blur-sm">
                     <div className="relative w-64 h-64">
-                        <div className="absolute inset-0 rounded-full border-2 border-[#51faaa] animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] opacity-20"></div>
-                        <div className="absolute inset-0 rounded-full border-2 border-[#51faaa] animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] opacity-10"></div>
+                        <div className="absolute inset-0 rounded-full border-2 border-[#fbbf24] animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] opacity-20"></div>
+                        <div className="absolute inset-0 rounded-full border-2 border-[#fbbf24] animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] opacity-10"></div>
                         <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-4 h-4 bg-[#51faaa] rounded-full shadow-[0_0_15px_rgba(81,250,170,0.8)] animate-pulse"></div>
+                            <div className="w-4 h-4 bg-[#000000] rounded-full shadow-[0_0_15px_rgba(251,191,36,0.8)] animate-pulse"></div>
                         </div>
                         <div className="absolute top-full left-1/2 -translate-x-1/2 mt-4">
-                            <span className="text-[#51faaa] text-xs font-bold uppercase tracking-[0.2em] drop-shadow-md">
+                            <span className="text-[#000000] text-xs font-bold uppercase tracking-[0.2em] drop-shadow-md">
                                 Scanning Area...
                             </span>
                         </div>

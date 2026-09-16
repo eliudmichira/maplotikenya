@@ -207,21 +207,21 @@ function PhotoGallery({ images = [], title, property }) {
           <>
             <button
               onClick={prevImage}
-              className={`absolute left-4 top-1/2 transform -translate-y-1/2 p-2 rounded-full transition-all duration-200 backdrop-blur-sm ${isDark ? 'bg-[#0a0c19]/70 hover:bg-[#0a0c19]/90 text-white' : 'bg-white/80 hover:bg-white text-gray-900'
+              className={`absolute left-4 top-1/2 transform -translate-y-1/2 p-2 rounded-full transition-all duration-200 backdrop-blur-sm ${isDark ? 'bg-[#000000]/70 hover:bg-[#000000]/90 text-white' : 'bg-white/80 hover:bg-white text-gray-900'
                 }`}
             >
               <ChevronLeft className="w-6 h-6" />
             </button>
             <button
               onClick={nextImage}
-              className={`absolute right-4 top-1/2 transform -translate-y-1/2 p-2 rounded-full transition-all duration-200 backdrop-blur-sm ${isDark ? 'bg-[#0a0c19]/70 hover:bg-[#0a0c19]/90 text-white' : 'bg-white/80 hover:bg-white text-gray-900'
+              className={`absolute right-4 top-1/2 transform -translate-y-1/2 p-2 rounded-full transition-all duration-200 backdrop-blur-sm ${isDark ? 'bg-[#000000]/70 hover:bg-[#000000]/90 text-white' : 'bg-white/80 hover:bg-white text-gray-900'
                 }`}
             >
               <ChevronRight className="w-6 h-6" />
             </button>
 
             {/* Image Counter */}
-            <div className={`absolute bottom-4 left-4 px-3 py-1 rounded-full text-sm backdrop-blur-sm ${isDark ? 'bg-[#0a0c19]/70 text-white' : 'bg-black/50 text-white'
+            <div className={`absolute bottom-4 left-4 px-3 py-1 rounded-full text-sm backdrop-blur-sm ${isDark ? 'bg-[#000000]/70 text-white' : 'bg-black/50 text-white'
               }`}>
               {currentImage + 1} of {validImages.length}
             </div>
@@ -231,7 +231,7 @@ function PhotoGallery({ images = [], title, property }) {
         {/* Fullscreen Button */}
         <button
           onClick={() => setIsFullscreen(!isFullscreen)}
-          className={`absolute bottom-4 right-4 p-2 rounded-full transition-all duration-200 backdrop-blur-sm ${isDark ? 'bg-[#0a0c19]/70 hover:bg-[#0a0c19]/90 text-white' : 'bg-black/50 hover:bg-black/70 text-white'
+          className={`absolute bottom-4 right-4 p-2 rounded-full transition-all duration-200 backdrop-blur-sm ${isDark ? 'bg-[#000000]/70 hover:bg-[#000000]/90 text-white' : 'bg-black/50 hover:bg-black/70 text-white'
             }`}
         >
           <Eye className="w-5 h-5" />
@@ -247,7 +247,7 @@ function PhotoGallery({ images = [], title, property }) {
               key={index}
               onClick={() => setCurrentImage(index)}
               className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${currentImage === index
-                ? 'border-[#51faaa]'
+                ? 'border-[#fbbf24]'
                 : 'border-gray-200 dark:border-gray-600'
                 }`}
             >
@@ -316,8 +316,8 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
 
   const buildSvgAvatar = (name) => {
     const initials = getInitials(name);
-    const bg = isDark ? '#0a0c19' : '#51faaa';
-    const fg = isDark ? '#51faaa' : '#0a0c19';
+    const bg = isDark ? '#000000' : '#000000';
+    const fg = isDark ? '#000000' : '#000000';
     const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150">
   <rect width="150" height="150" rx="16" fill="${bg}"/>
@@ -434,7 +434,7 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
 
 
   return (
-    <div className={`${isDark ? 'bg-[#10121e] border-[rgba(81,250,170,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
+    <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
       <div className="text-center mb-4">
         <img
           src={agent.image || agent.photo || agent.avatar || buildSvgAvatar(agent.name)}
@@ -453,7 +453,7 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
         <button
           onClick={handleCallAgent}
           className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-outfit font-medium transition-all duration-200 ${isDark
-            ? 'bg-[#51faaa] text-[#0a0c19] hover:bg-[#45e595]'
+            ? 'bg-[#000000] text-[#000000] hover:bg-[#45e595]'
             : 'bg-emerald-600 text-white hover:bg-emerald-700'
             }`}
         >
@@ -464,11 +464,11 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
         <button
           onClick={handleSendMessage}
           disabled={isSending}
-          className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-outfit font-medium transition-all duration-200 ${isSending
+          className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-full font-outfit font-semibold transition-all duration-200 ${isSending
             ? 'opacity-50 cursor-not-allowed'
             : isDark
-              ? 'border border-[#51faaa] text-[#51faaa] hover:bg-[rgba(81,250,170,0.1)]'
-              : 'border border-emerald-600 text-emerald-600 hover:bg-emerald-50'
+              ? 'border border-[#fbbf24] text-[#fbbf24] hover:bg-[rgba(251,191,36,0.1)]'
+              : 'border border-[#fbbf24] text-[#b45309] hover:bg-[rgba(251,191,36,0.08)]'
             }`}
         >
           {isSending ? (
@@ -486,9 +486,9 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
 
         <button
           onClick={handleEmailAgent}
-          className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-outfit font-medium transition-all duration-200 ${isDark
-            ? 'border border-[#51faaa] text-[#51faaa] hover:bg-[rgba(81,250,170,0.1)]'
-            : 'border border-emerald-600 text-emerald-600 hover:bg-emerald-50'
+          className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-full font-outfit font-semibold transition-all duration-200 ${isDark
+            ? 'border border-[#fbbf24] text-[#fbbf24] hover:bg-[rgba(251,191,36,0.1)]'
+            : 'border border-[#fbbf24] text-[#b45309] hover:bg-[rgba(251,191,36,0.08)]'
             }`}
         >
           <Mail className="w-4 h-4" />
@@ -497,10 +497,7 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
 
         <button
           onClick={() => setIsBookingOpen(true)}
-          className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-outfit font-black transition-all duration-200 ${isDark
-            ? 'bg-gradient-to-r from-[#51faaa] to-[#45e89a] text-[#0a0c19] hover:opacity-90 shadow-lg shadow-[#51faaa]/20'
-            : 'bg-emerald-600 text-white hover:bg-emerald-700 shadow-md'
-            }`}
+          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-full font-outfit font-bold transition-all duration-200 bg-gradient-to-b from-[#fbbf24] to-[#f59e0b] text-[#0e1311] shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_20px_-6px_rgba(251,191,36,0.45)] hover:brightness-110 hover:-translate-y-0.5"
         >
           <Calendar className="w-4 h-4" />
           Book Viewing
@@ -531,7 +528,7 @@ function SchoolRatings({ schools = [] }) {
     return (
       <div className="space-y-4">
         <h3 className={`text-lg font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Nearby Schools</h3>
-        <div className={`p-4 rounded-xl ${isDark ? 'bg-[rgba(81,250,170,0.1)]' : 'bg-emerald-50'}`}>
+        <div className={`p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-emerald-50'}`}>
           <p className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>
             School information not available for this property.
           </p>
@@ -544,7 +541,7 @@ function SchoolRatings({ schools = [] }) {
     <div className="space-y-4">
       <h3 className={`text-lg font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Nearby Schools</h3>
       {schools.map((school, index) => (
-        <div key={index} className={`p-4 rounded-xl ${isDark ? 'bg-[rgba(81,250,170,0.1)]' : 'bg-emerald-50'}`}>
+        <div key={index} className={`p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-emerald-50'}`}>
           <div className="flex items-center justify-between mb-2">
             <h4 className={`font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{school.name}</h4>
             <div className="flex items-center gap-1">
@@ -566,7 +563,7 @@ function NeighborhoodInfo({ neighborhood = {} }) {
   return (
     <div className="space-y-4">
       <h3 className={`text-lg font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Neighborhood</h3>
-      <div className={`p-4 rounded-xl ${isDark ? 'bg-[rgba(81,250,170,0.1)]' : 'bg-emerald-50'}`}>
+      <div className={`p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-emerald-50'}`}>
         <p className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>
           {neighborhood.description || "Neighborhood information not available for this property."}
         </p>
@@ -584,7 +581,7 @@ function PropertyHistory({ history = [] }) {
     return (
       <div className="space-y-4">
         <h3 className={`text-lg font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Property History</h3>
-        <div className={`p-4 rounded-xl ${isDark ? 'bg-[rgba(81,250,170,0.1)]' : 'bg-emerald-50'}`}>
+        <div className={`p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-emerald-50'}`}>
           <p className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>
             Property history not available.
           </p>
@@ -597,7 +594,7 @@ function PropertyHistory({ history = [] }) {
     <div className="space-y-4">
       <h3 className={`text-lg font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Property History</h3>
       {history.map((event, index) => (
-        <div key={index} className={`p-4 rounded-xl ${isDark ? 'bg-[rgba(81,250,170,0.1)]' : 'bg-emerald-50'}`}>
+        <div key={index} className={`p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-emerald-50'}`}>
           <div className="flex items-center justify-between mb-2">
             <h4 className={`font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{event.type}</h4>
             <span className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>{event.date}</span>
@@ -619,11 +616,11 @@ function SimilarProperties({ properties = [] }) {
   }
 
   return (
-    <div className={`${isDark ? 'bg-[#10121e] border-[rgba(81,250,170,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
+    <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
       <h3 className={`text-lg font-outfit font-semibold mb-4 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Similar Properties</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {properties.map((property, index) => (
-          <div key={index} className={`p-4 rounded-xl ${isDark ? 'bg-[rgba(81,250,170,0.1)]' : 'bg-gray-50'}`}>
+          <div key={index} className={`p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-gray-50'}`}>
             <h4 className={`font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{property.title}</h4>
             <p className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>{property.price}</p>
           </div>
@@ -648,8 +645,8 @@ function LocationCard({ latitude, longitude, address }) {
   const mapLink = `https://www.google.com/maps/search/?api=1&query=${qParam}`;
 
   return (
-    <div className={`${isDark ? 'bg-[#10121e] border-[rgba(81,250,170,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl border transition-colors duration-300`}>
-      <div className={`p-6 border-b ${isDark ? 'border-[rgba(81,250,170,0.1)]' : 'border-gray-200'}`}>
+    <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl border transition-colors duration-300`}>
+      <div className={`p-6 border-b ${isDark ? 'border-[rgba(251,191,36,0.1)]' : 'border-gray-200'}`}>
         <h3 className={`text-lg font-outfit font-semibold mb-2 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Location</h3>
         <p className={`px-6 text-sm mb-3 ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>{address || 'Address not available'}</p>
       </div>
@@ -669,14 +666,14 @@ function LocationCard({ latitude, longitude, address }) {
 
       {/* Clickable Link */}
       <div className={`px-6 py-3 border-t text-center ${isDark
-        ? 'bg-[#0a0c19] border-[rgba(81,250,170,0.1)]'
+        ? 'bg-[#000000] border-[rgba(251,191,36,0.1)]'
         : 'bg-gray-50 border-gray-200'
         }`}>
         <a
           href={mapLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[#51faaa] font-outfit font-semibold hover:underline"
+          className="text-[#000000] font-outfit font-semibold hover:underline"
         >
           View on Google Maps
         </a>
@@ -736,10 +733,10 @@ function PropertyDetails() {
 
   if (!property) {
     return (
-      <div className={`min-h-screen pt-32 pb-8 overflow-y-auto ${isDark ? 'bg-[#0a0c19]' : 'bg-gray-50'}`}>
+      <div className={`min-h-screen pt-32 pb-8 overflow-y-auto ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <div className={`w-16 h-16 ${isDark ? 'bg-[#10121e]' : 'bg-gray-200'} rounded-full mx-auto mb-4 animate-pulse`}></div>
+            <div className={`w-16 h-16 ${isDark ? 'bg-[#0e1311]' : 'bg-gray-200'} rounded-full mx-auto mb-4 animate-pulse`}></div>
             <div className={isDark ? 'text-[#ccc]' : 'text-gray-500'}>Loading property details...</div>
           </div>
         </div>
@@ -795,17 +792,17 @@ function PropertyDetails() {
   };
 
   return (
-    <div className={`${isDark ? 'bg-[#0a0c19]' : 'bg-gray-50'}`}>
+    <div className={`${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
 
       {/* Header */}
-      <div className={`${isDark ? 'bg-[#10121e] border-[rgba(81,250,170,0.1)]' : 'bg-white border-gray-200'} border-b sticky top-0 z-40 transition-colors duration-300`}
+      <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.1)]' : 'bg-white border-gray-200'} border-b sticky top-0 z-40 transition-colors duration-300`}
         style={{ paddingTop: 'max(1rem, calc(env(safe-area-inset-top, 0px) + 0.5rem))' }}
       >
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <button
               onClick={() => navigate(-1)}
-              className={`flex items-center gap-2 transition-colors font-outfit ${isDark ? 'text-[#ccc] hover:text-[#51faaa]' : 'text-gray-600 hover:text-gray-900'
+              className={`flex items-center gap-2 transition-colors font-outfit ${isDark ? 'text-[#ccc] hover:text-[#000000]' : 'text-gray-600 hover:text-gray-900'
                 }`}
             >
               <ArrowLeft className="w-5 h-5" />
@@ -813,7 +810,7 @@ function PropertyDetails() {
             </button>
             <div className="flex items-center gap-3">
               <button className={`p-2 rounded-lg transition-colors ${isDark
-                ? 'text-[#ccc] hover:text-[#51faaa] hover:bg-[rgba(81,250,170,0.1)]'
+                ? 'text-[#ccc] hover:text-[#000000] hover:bg-[rgba(251,191,36,0.1)]'
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                 }`}>
                 <Share2 className="w-5 h-5" />
@@ -844,7 +841,7 @@ function PropertyDetails() {
             <PhotoGallery images={safeProperty.images} title={safeProperty.title} property={safeProperty} />
 
             {/* Property Info */}
-            <div className={`${isDark ? 'bg-[#10121e] border-[rgba(81,250,170,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
+            <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
               <div className="flex items-start justify-between mb-6">
                 <div>
                   <h1 className={`text-3xl font-outfit font-bold mb-2 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.title}</h1>
@@ -861,23 +858,23 @@ function PropertyDetails() {
 
               {/* Property Stats */}
               <div className="grid grid-cols-4 gap-4 mb-6">
-                <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(81,250,170,0.1)]' : 'bg-emerald-50'}`}>
-                  <Bed className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#51faaa]' : 'text-emerald-600'}`} />
+                <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-emerald-50'}`}>
+                  <Bed className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#000000]' : 'text-emerald-600'}`} />
                   <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.bedrooms}</div>
                   <div className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Bedrooms</div>
                 </div>
-                <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(81,250,170,0.1)]' : 'bg-green-50'}`}>
-                  <Bath className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#51faaa]' : 'text-green-600'}`} />
+                <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-green-50'}`}>
+                  <Bath className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#000000]' : 'text-green-600'}`} />
                   <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.bathrooms}</div>
                   <div className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Bathrooms</div>
                 </div>
-                <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(81,250,170,0.1)]' : 'bg-purple-50'}`}>
-                  <Building2 className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#51faaa]' : 'text-purple-600'}`} />
+                <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-purple-50'}`}>
+                  <Building2 className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#000000]' : 'text-purple-600'}`} />
                   <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.area.toLocaleString()}</div>
                   <div className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Sq Ft</div>
                 </div>
-                <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(81,250,170,0.1)]' : 'bg-orange-50'}`}>
-                  <Car className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#51faaa]' : 'text-orange-600'}`} />
+                <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-orange-50'}`}>
+                  <Car className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#000000]' : 'text-orange-600'}`} />
                   <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.parkingSpaces ?? '—'}</div>
                   <div className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Parking</div>
                 </div>
@@ -896,7 +893,7 @@ function PropertyDetails() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {safeProperty.features.map((feature, index) => (
                       <div key={index} className={`flex items-center gap-2 ${isDark ? 'text-[#ccc]' : 'text-gray-700'}`}>
-                        <div className="w-2 h-2 bg-[#51faaa] rounded-full"></div>
+                        <div className="w-2 h-2 bg-[#000000] rounded-full"></div>
                         {feature}
                       </div>
                     ))}
@@ -911,7 +908,7 @@ function PropertyDetails() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {safeProperty.amenities.map((amenity, index) => (
                       <div key={index} className={`flex items-center gap-2 ${isDark ? 'text-[#ccc]' : 'text-gray-700'}`}>
-                        <div className="w-2 h-2 bg-[#51faaa] rounded-full"></div>
+                        <div className="w-2 h-2 bg-[#000000] rounded-full"></div>
                         {amenity}
                       </div>
                     ))}
@@ -934,7 +931,7 @@ function PropertyDetails() {
                 isEditable={true}
               />
             ) : (
-              <div className={`${isDark ? 'bg-[#10121e] border-[rgba(81,250,170,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
+              <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
                 <div className="text-center">
                   <h3 className={`text-lg font-outfit font-semibold mb-2 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Vacancy Information</h3>
                   <p className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>
@@ -956,8 +953,8 @@ function PropertyDetails() {
 
 
             {/* Tabs */}
-            <div className={`${isDark ? 'bg-[#10121e] border-[rgba(81,250,170,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl border transition-colors duration-300`}>
-              <div className={`border-b ${isDark ? 'border-[rgba(81,250,170,0.1)]' : 'border-gray-200'}`}>
+            <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl border transition-colors duration-300`}>
+              <div className={`border-b ${isDark ? 'border-[rgba(251,191,36,0.1)]' : 'border-gray-200'}`}>
                 <nav className="flex space-x-8 px-6">
                   {[
                     { id: 'overview', label: 'Overview', icon: Home },
@@ -969,9 +966,9 @@ function PropertyDetails() {
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
                       className={`flex items-center gap-2 py-4 px-1 border-b-2 font-outfit font-medium text-sm transition-colors ${activeTab === tab.id
-                        ? 'border-[#51faaa] text-[#51faaa]'
+                        ? 'border-[#fbbf24] text-[#000000]'
                         : isDark
-                          ? 'border-transparent text-[#ccc] hover:text-[#51faaa] hover:border-[rgba(81,250,170,0.3)]'
+                          ? 'border-transparent text-[#ccc] hover:text-[#000000] hover:border-[rgba(251,191,36,0.3)]'
                           : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                         }`}
                     >
@@ -1038,7 +1035,7 @@ function PropertyDetails() {
 
 
             {/* Quick Stats */}
-            <div className={`${isDark ? 'bg-[#10121e] border-[rgba(81,250,170,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
+            <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
               <h3 className={`text-lg font-outfit font-semibold mb-4 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Property Stats</h3>
               <div className="space-y-3">
                 {(String(safeProperty.type).toLowerCase() !== 'apartment' && safeProperty.pricePerSqft > 0) && (

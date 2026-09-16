@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { getPropertyImages } from '../../utils/imageUtils';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -195,7 +195,7 @@ const PropertyCard = ({
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${property.status === 'new'
                     ? 'bg-green-500 text-white'
                     : property.status === 'featured'
-                      ? 'bg-[#4066ff] text-[#0a0c19]'
+                      ? 'bg-[#4066ff] text-[#000000]'
                       : 'bg-emerald-500 text-white'
                     }`}>
                     {property.status === 'new' ? 'New' : property.status === 'featured' ? 'Featured' : property.status}
@@ -389,7 +389,7 @@ const PropertyCard = ({
             <div className="flex items-center gap-3">
               <motion.button
                 onClick={() => onViewDetails?.(property)}
-                className="flex-1 bg-gradient-to-r from-[#4066ff]/100 to-[#40f2ff]/100 text-[#0a0c19] py-3 px-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-[#4066ff]/30 transition-all duration-300 flex items-center justify-center gap-2"
+                className="flex-1 bg-gradient-to-r from-[#4066ff]/100 to-[#40f2ff]/100 text-[#000000] py-3 px-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-[#4066ff]/30 transition-all duration-300 flex items-center justify-center gap-2"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -501,7 +501,7 @@ const PropertyCard = ({
               <span className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 ${property.status === 'new'
                 ? 'bg-green-500 text-white'
                 : property.status === 'featured'
-                  ? 'bg-[#4066ff] text-[#0a0c19]'
+                  ? 'bg-[#4066ff] text-[#000000]'
                   : 'bg-emerald-500 text-white'
                 }`}>
                 {property.status === 'featured' && <Star className="w-3 h-3 fill-current" />}
@@ -696,7 +696,7 @@ const PropertyCard = ({
         <div className="flex items-center gap-2">
           <motion.button
             onClick={() => onViewDetails?.(property)}
-            className="flex-1 bg-gradient-to-r from-[#4066ff]/100 to-[#40f2ff]/100 text-[#0a0c19] py-2.5 px-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-[#4066ff]/30 transition-all duration-300 flex items-center justify-center gap-2"
+            className="flex-1 bg-gradient-to-r from-[#4066ff]/100 to-[#40f2ff]/100 text-[#000000] py-2.5 px-4 rounded-xl font-semibold hover:shadow-lg hover:shadow-[#4066ff]/30 transition-all duration-300 flex items-center justify-center gap-2"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >

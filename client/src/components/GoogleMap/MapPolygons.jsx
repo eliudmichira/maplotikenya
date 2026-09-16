@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useMap } from '@vis.gl/react-google-maps';
 
 // polygons: array of arrays of {lat, lng}
@@ -16,10 +16,10 @@ const MapPolygons = ({ polygons = [], options = {} }) => {
     polygons.forEach(path => {
       const polygon = new window.google.maps.Polygon({
         paths: path,
-        strokeColor: options.strokeColor || '#51faaa',
+        strokeColor: options.strokeColor || '#000000',
         strokeOpacity: options.strokeOpacity || 0.8,
         strokeWeight: options.strokeWeight || 2,
-        fillColor: options.fillColor || '#51faaa',
+        fillColor: options.fillColor || '#000000',
         fillOpacity: options.fillOpacity || 0.15,
         map,
         ...options

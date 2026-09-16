@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo, useCallback, Suspense, lazy } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, Suspense, lazy } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     Building2, Eye, MessageCircle, BarChart3,
@@ -393,7 +393,7 @@ const MobileAgentProfile = () => {
                                                     <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isDark ? 'bg-white/10' : stat.tileBg}`}>
                                                         <stat.icon className={`w-5 h-5 ${stat.iconColor}`} strokeWidth={2.2} />
                                                     </div>
-                                                    <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(16,185,129,0.15)]" />
+                                                    <span className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_0_3px_rgba(251,191,36,0.15)]" />
                                                 </div>
                                                 <p className={`text-[28px] font-bold leading-none tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                                                     {stat.value}
@@ -567,7 +567,7 @@ const MobileAgentProfile = () => {
                                         <p className={`font-bold text-lg ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>No properties listed yet</p>
                                         <button
                                             onClick={() => navigate('/properties/add')}
-                                            className="mt-6 px-6 py-3 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] rounded-2xl text-gray-900 font-bold"
+                                            className="mt-6 px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-2xl text-gray-900 font-bold"
                                         >
                                             Add Your First Listing
                                         </button>
@@ -595,7 +595,7 @@ const MobileAgentProfile = () => {
                                             <div className="flex-1 min-w-0 flex flex-col justify-between py-1">
                                                 <div>
                                                     <p className={`font-bold text-base truncate ${isDark ? 'text-white' : 'text-gray-900'}`}>{property.title}</p>
-                                                    <p className="text-[#51faaa] font-black text-lg">KES {property.price?.toLocaleString()}</p>
+                                                    <p className="text-[#000000] font-black text-lg">KES {property.price?.toLocaleString()}</p>
                                                 </div>
                                                 <div className="flex items-center gap-3">
                                                     {isOwner ? (
@@ -627,13 +627,13 @@ const MobileAgentProfile = () => {
                                                     ) : (
                                                         // Public view actions
                                                         <div className={`flex items-center gap-1.5 text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                                                            <MapPin size={12} className="text-[#51faaa]" />
+                                                            <MapPin size={12} className="text-[#000000]" />
                                                             <span>{property.location?.city || 'Kenya'}</span>
                                                         </div>
                                                     )}
                                                 </div>
                                             </div>
-                                            <ChevronRight className={`w-5 h-5 self-center ${isDark ? 'text-gray-500' : 'text-gray-600'} group-hover:text-[#51faaa] group-hover:translate-x-1 transition-all`} />
+                                            <ChevronRight className={`w-5 h-5 self-center ${isDark ? 'text-gray-500' : 'text-gray-600'} group-hover:text-[#000000] group-hover:translate-x-1 transition-all`} />
                                         </motion.div>
                                     ))
                                 )}
@@ -658,7 +658,7 @@ const MobileAgentProfile = () => {
                                     initial={{ opacity: 0, scale: 0.95 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                 >
-                                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#51faaa]/20 to-transparent rounded-full blur-2xl" />
+                                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#000000]/20 to-transparent rounded-full blur-2xl" />
                                     <div className="relative z-10">
                                         <div className="flex items-center gap-3 mb-4">
                                             <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 flex items-center justify-center">
@@ -667,18 +667,18 @@ const MobileAgentProfile = () => {
                                             <h3 className={`font-black text-xl ${isDark ? 'text-white' : 'text-gray-900'}`}>Revenue Stream</h3>
                                         </div>
                                         <p className={`text-sm mb-6 leading-relaxed ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>
-                                            You have <span className="text-[#51faaa] font-bold">{properties.length} active listing{properties.length !== 1 ? 's' : ''}</span> with {agentStats.totalViews.toLocaleString()} total views. You've earned KES {agentStats.thisMonthRevenue.toLocaleString()} this month.
+                                            You have <span className="text-[#000000] font-bold">{properties.length} active listing{properties.length !== 1 ? 's' : ''}</span> with {agentStats.totalViews.toLocaleString()} total views. You've earned KES {agentStats.thisMonthRevenue.toLocaleString()} this month.
                                         </p>
 
                                         {/* Stats Comparison Bar */}
                                         <div className={`mt-6 p-4 rounded-2xl ${isDark ? 'bg-white/5' : 'bg-gray-50'} border ${isDark ? 'border-white/10' : 'border-gray-200'}`}>
                                             <div className="flex justify-between items-center mb-2">
                                                 <span className={`text-xs font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Inquiry Rate</span>
-                                                <span className="text-[#51faaa] font-black text-sm">{agentStats.totalViews > 0 ? ((inquiries.length / agentStats.totalViews) * 100).toFixed(1) : '0.0'}%</span>
+                                                <span className="text-[#000000] font-black text-sm">{agentStats.totalViews > 0 ? ((inquiries.length / agentStats.totalViews) * 100).toFixed(1) : '0.0'}%</span>
                                             </div>
                                             <div className="h-2 w-full bg-gray-700/30 rounded-full overflow-hidden">
                                                 <motion.div
-                                                    className="h-full bg-gradient-to-r from-[#51faaa] to-[#dbd5a4]"
+                                                    className="h-full bg-gradient-to-r from-[#fbbf24] to-[#f59e0b]"
                                                     initial={{ width: 0 }}
                                                     animate={{ width: `${Math.min(agentStats.totalViews > 0 ? ((inquiries.length / agentStats.totalViews) * 100 * 10) : 0, 100)}%` }}
                                                     transition={{ duration: 1.5, delay: 0.5 }}
@@ -696,7 +696,7 @@ const MobileAgentProfile = () => {
                                         { label: 'Total Reach', value: agentStats.totalViews.toLocaleString(), icon: Eye, color: 'text-emerald-400' },
                                         { label: 'Agent Score', value: agentStats.avgRating.toFixed(1), icon: Star, color: 'text-yellow-400' },
                                         { label: 'Active Leads', value: inquiries.length, icon: MessageCircle, color: 'text-purple-400' },
-                                        { label: 'Listings', value: properties.length, icon: Award, color: 'text-[#51faaa]' }
+                                        { label: 'Listings', value: properties.length, icon: Award, color: 'text-[#000000]' }
                                     ].map((item, idx) => (
                                         <div key={idx} className={`p-5 rounded-3xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-100 shadow-lg'}`}>
                                             <div className="flex items-center gap-2 mb-3">

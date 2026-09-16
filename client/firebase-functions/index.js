@@ -124,21 +124,21 @@ const sendTrialWelcomeEmail = async (emailData) => {
         }
         .container { max-width: 600px; margin: 0 auto; background: white; }
         .header { 
-          background: linear-gradient(135deg, #51faaa, #3fd693); 
+          background: linear-gradient(135deg, #000000, #1a1a1a); 
           padding: 40px 20px; 
           text-align: center; 
         }
         .content { padding: 40px 20px; }
         .credentials { 
           background: #f8fffe; 
-          border: 2px solid #51faaa; 
+          border: 2px solid #000000; 
           border-radius: 12px; 
           padding: 20px; 
           margin: 20px 0; 
         }
         .button { 
           display: inline-block; 
-          background: linear-gradient(135deg, #51faaa, #3fd693); 
+          background: linear-gradient(135deg, #000000, #1a1a1a); 
           color: white !important; 
           padding: 16px 32px; 
           text-decoration: none; 
@@ -206,7 +206,7 @@ const sendTrialWelcomeEmail = async (emailData) => {
             </ul>
           </div>
           
-          <p style="color: #555; line-height: 1.6;">Questions? Reply to this email or call us at <a href="tel:+254700123456" style="color: #51faaa;">+254 700 123 456</a></p>
+          <p style="color: #555; line-height: 1.6;">Questions? Reply to this email or call us at <a href="tel:+254700123456" style="color: #000000;">+254 700 123 456</a></p>
           
           <p style="color: #555;">Best regards,<br>
           <strong>The Rental Management Team</strong><br>
@@ -214,7 +214,7 @@ const sendTrialWelcomeEmail = async (emailData) => {
         </div>
         
         <div class="footer">
-          <p>Rental Management | Nairobi, Kenya | <a href="mailto:${EMAIL_USER}" style="color: #51faaa;">${EMAIL_USER}</a></p>
+          <p>Rental Management | Nairobi, Kenya | <a href="mailto:${EMAIL_USER}" style="color: #000000;">${EMAIL_USER}</a></p>
           <p>This email was sent because you signed up for a Rental Management trial account.</p>
         </div>
       </div>
@@ -243,7 +243,7 @@ const sendSalesNotification = async (emailData) => {
       <style>
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; padding: 20px; }
         .container { max-width: 600px; margin: 0 auto; background: white; border: 1px solid #ddd; border-radius: 8px; }
-        .header { background: #51faaa; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
+        .header { background: #000000; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
         .content { padding: 20px; }
         .info-row { margin: 10px 0; padding: 8px; background: #f9f9f9; border-radius: 4px; }
         .priority { background: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 8px; margin: 20px 0; }

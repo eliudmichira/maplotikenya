@@ -1,4 +1,4 @@
-import React from 'react'
+﻿import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import App from './App.jsx'
@@ -16,11 +16,11 @@ initSentry();
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 1000 * 60, // 1 minute fresh
+      staleTime: 1000 * 60 * 5, // 5 minutes fresh - avoids redundant re-fetches
       gcTime: 1000 * 60 * 5, // 5 minutes cache (formerly cacheTime)
       refetchOnWindowFocus: false,
       refetchOnReconnect: true,
-      retry: 1,
+      retry: import.meta.env.DEV ? 0 : 1, // skip retries in dev for faster feedback
     }
   }
 });

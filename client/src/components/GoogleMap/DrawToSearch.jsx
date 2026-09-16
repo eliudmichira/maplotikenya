@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMap } from '@vis.gl/react-google-maps';
 import { MapPin, X, RotateCcw } from 'lucide-react';
 
@@ -26,10 +26,10 @@ const DrawToSearch = ({ onDrawComplete, isDrawingMode, onCancel }) => {
         drawingMode: null,
         drawingControl: false,
         polygonOptions: {
-          fillColor: '#51faaa',
+          fillColor: '#000000',
           fillOpacity: 0.2,
           strokeWeight: 2,
-          strokeColor: '#51faaa',
+          strokeColor: '#000000',
           clickable: true,
           editable: true,
           zIndex: 1

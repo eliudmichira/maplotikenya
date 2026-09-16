@@ -6,17 +6,17 @@ const Terms: React.FC = () => {
   const { isDark } = useTheme();
 
   return (
-    <section className={`py-16 ${isDark ? 'bg-[#0a0c19]' : 'bg-white'}`}>
+    <section className={`py-16 ${isDark ? 'bg-[#000000]' : 'bg-white'}`}>
       <div className="max-w-5xl mx-auto px-6 lg:px-8">
         <div className="flex items-center gap-3 mb-6">
-          <FileText className="w-6 h-6 text-[#51faaa]" />
+          <FileText className="w-6 h-6 text-[#000000]" />
           <h1 className={`text-3xl md:text-4xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Terms of Service</h1>
         </div>
         <p className={`${isDark ? 'text-white/70' : 'text-gray-600'} mb-8`}>
           By using Hama Estate, you agree to these terms. Please read them carefully.
         </p>
 
-        <div className={`rounded-2xl p-6 ${isDark ? 'bg-[#10121e] border border-white/10' : 'bg-gray-50 border border-gray-200'}`}>
+        <div className={`rounded-2xl p-6 ${isDark ? 'bg-[#0e1311] border border-white/10' : 'bg-gray-50 border border-gray-200'}`}>
           <h2 className={`text-xl font-semibold mb-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>Use of Service</h2>
           <ul className={`${isDark ? 'text-white/70' : 'text-gray-700'} list-disc pl-5 space-y-2`}>
             <li>Do not misuse the platform or interfere with others.</li>
@@ -25,14 +25,14 @@ const Terms: React.FC = () => {
           </ul>
         </div>
 
-        <div className={`rounded-2xl p-6 mt-6 ${isDark ? 'bg-[#10121e] border border-white/10' : 'bg-gray-50 border border-gray-200'}`}>
+        <div className={`rounded-2xl p-6 mt-6 ${isDark ? 'bg-[#0e1311] border border-white/10' : 'bg-gray-50 border border-gray-200'}`}>
           <h2 className={`text-xl font-semibold mb-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>Liability</h2>
           <p className={`${isDark ? 'text-white/70' : 'text-gray-700'}`}>
             We provide the service “as is” without warranties. We are not liable for indirect or incidental damages.
           </p>
         </div>
 
-        <div className={`rounded-2xl p-6 mt-6 ${isDark ? 'bg-[#10121e] border border-white/10' : 'bg-gray-50 border border-gray-200'}`}>
+        <div className={`rounded-2xl p-6 mt-6 ${isDark ? 'bg-[#0e1311] border border-white/10' : 'bg-gray-50 border border-gray-200'}`}>
           <h2 className={`text-xl font-semibold mb-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>Changes</h2>
           <p className={`${isDark ? 'text-white/70' : 'text-gray-700'}`}>
             We may update these terms from time to time. Continued use means you accept the updated terms.

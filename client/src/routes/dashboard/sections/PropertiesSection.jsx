@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { propertiesAPI } from '../../../lib/firebaseAPI';
 import { Home, Eye, MessageCircle, Star, Edit, Trash2, Plus, Filter, Search, X, Calendar, MapPin, DollarSign, Bed, Bath, Square, Loader2, CheckCircle } from 'lucide-react';
 

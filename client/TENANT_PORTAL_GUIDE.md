@@ -1,47 +1,47 @@
-# 🏠 CRIBBY Tenant Portal - Complete Guide
+﻿# ðŸ  CRIBBY Tenant Portal - Complete Guide
 
-## 🚀 **REVOLUTIONARY TWO-SIDED MARKETPLACE - COMPLETE!**
+## ðŸš€ **REVOLUTIONARY TWO-SIDED MARKETPLACE - COMPLETE!**
 
 The CRIBBY Tenant Portal is now **100% production-ready** and creates the perfect two-sided marketplace ecosystem that generates massive value for both landlords and tenants.
 
 ---
 
-## 🎯 **What We've Built - The Complete Ecosystem**
+## ðŸŽ¯ **What We've Built - The Complete Ecosystem**
 
-### **🏢 LANDLORD SIDE (Already Complete)**
-- ✅ **Property Management**: Add, edit, view, delete properties
-- ✅ **Tenant Management**: Complete tenant lifecycle management
-- ✅ **Payment Recording**: Manual payment entry and tracking
-- ✅ **Rent Collection Analytics**: Real-time collection rates and insights
-- ✅ **Financial Reports**: Income, expenses, and profit analytics
-- ✅ **Document Storage**: Lease agreements and contracts
-- ✅ **Maintenance Management**: Work order tracking
+### **ðŸ¢ LANDLORD SIDE (Already Complete)**
+- âœ… **Property Management**: Add, edit, view, delete properties
+- âœ… **Tenant Management**: Complete tenant lifecycle management
+- âœ… **Payment Recording**: Manual payment entry and tracking
+- âœ… **Rent Collection Analytics**: Real-time collection rates and insights
+- âœ… **Financial Reports**: Income, expenses, and profit analytics
+- âœ… **Document Storage**: Lease agreements and contracts
+- âœ… **Maintenance Management**: Work order tracking
 
-### **🏠 TENANT SIDE (NEW - Just Built!)**
-- ✅ **Secure Login Portal**: Phone + PIN authentication
-- ✅ **M-Pesa STK Push Integration**: One-click rent payments
-- ✅ **Payment History & Analytics**: Complete transaction tracking
-- ✅ **CRIBBY Score System**: Gamified credit scoring
-- ✅ **Auto-Pay Setup**: Recurring payment automation
-- ✅ **Smart Notifications**: Multi-channel payment reminders
-- ✅ **Maintenance Requests**: Direct landlord communication
-- ✅ **Real-time Dashboard**: Live payment status and insights
+### **ðŸ  TENANT SIDE (NEW - Just Built!)**
+- âœ… **Secure Login Portal**: Phone + PIN authentication
+- âœ… **M-Pesa STK Push Integration**: One-click rent payments
+- âœ… **Payment History & Analytics**: Complete transaction tracking
+- âœ… **CRIBBY Score System**: Gamified credit scoring
+- âœ… **Auto-Pay Setup**: Recurring payment automation
+- âœ… **Smart Notifications**: Multi-channel payment reminders
+- âœ… **Maintenance Requests**: Direct landlord communication
+- âœ… **Real-time Dashboard**: Live payment status and insights
 
 ---
 
-## 🎉 **ACCESS THE COMPLETE SYSTEM**
+## ðŸŽ‰ **ACCESS THE COMPLETE SYSTEM**
 
-### **🔗 Portal URLs**
+### **ðŸ”— Portal URLs**
 
 #### **For Landlords/Property Managers:**
-- **Trial System**: `https://dwellmate-285e8.web.app/trial-login`
-- **Main Dashboard**: `https://dwellmate-285e8.web.app/trial-dashboard`
+- **Trial System**: `https://maploti.web.app/trial-login`
+- **Main Dashboard**: `https://maploti.web.app/trial-dashboard`
 
 #### **For Tenants:**
-- **Tenant Portal**: `https://dwellmate-285e8.web.app/tenant-login`
-- **Tenant Dashboard**: `https://dwellmate-285e8.web.app/tenant-dashboard`
+- **Tenant Portal**: `https://maploti.web.app/tenant-login`
+- **Tenant Dashboard**: `https://maploti.web.app/tenant-dashboard`
 
-### **🎮 Demo Credentials**
+### **ðŸŽ® Demo Credentials**
 
 #### **Landlord Trial Access:**
 ```
@@ -58,9 +58,9 @@ PIN: 1234
 
 ---
 
-## 💰 **THE PAYMENT REVOLUTION - M-Pesa Integration**
+## ðŸ’° **THE PAYMENT REVOLUTION - M-Pesa Integration**
 
-### **🔥 One-Click Payment Flow:**
+### **ðŸ”¥ One-Click Payment Flow:**
 
 1. **Tenant clicks "PAY RENT NOW"** 
 2. **M-Pesa STK Push sent to phone** (no app switching!)
@@ -70,7 +70,7 @@ PIN: 1234
 6. **Receipts sent via SMS & email**
 7. **Credit score updated (+25 points)**
 
-### **🚀 Technical Implementation:**
+### **ðŸš€ Technical Implementation:**
 
 #### **Frontend Integration:**
 ```javascript
@@ -104,14 +104,14 @@ exports.mpesaCallback = functions.https.onRequest(async (req, res) => {
 
 ---
 
-## 🎯 **BUSINESS MODEL GOLDMINE**
+## ðŸŽ¯ **BUSINESS MODEL GOLDMINE**
 
-### **💸 Revenue Streams:**
+### **ðŸ’¸ Revenue Streams:**
 
 #### **1. Transaction Fees (Primary)**
 - **0.5% on each rent payment**
 - Example: KSh 25,000 rent = KSh 125 fee
-- **10,000 tenants × KSh 125 = KSh 1.25M monthly**
+- **10,000 tenants Ã— KSh 125 = KSh 1.25M monthly**
 
 #### **2. Premium Tenant Features**
 - Auto-pay setup: KSh 200/month
@@ -129,9 +129,9 @@ exports.mpesaCallback = functions.https.onRequest(async (req, res) => {
 - Advanced analytics: KSh 2,000/month
 - Automated rent collection: KSh 1,500/month
 - Bulk SMS services: KSh 500/month
-- **1,000 landlords × KSh 2,000 = KSh 2M monthly**
+- **1,000 landlords Ã— KSh 2,000 = KSh 2M monthly**
 
-### **💎 Total Revenue Potential:**
+### **ðŸ’Ž Total Revenue Potential:**
 ```
 Transaction Fees:     KSh 1.25M
 Premium Features:     KSh 1.125M  
@@ -144,16 +144,16 @@ ANNUAL PROJECTION:    KSh 62.1M
 
 ---
 
-## 🏆 **COMPETITIVE ADVANTAGES**
+## ðŸ† **COMPETITIVE ADVANTAGES**
 
-### **🚀 vs Traditional Methods:**
+### **ðŸš€ vs Traditional Methods:**
 - **100x faster**: 30 seconds vs 2+ hours
 - **Zero errors**: No manual entry mistakes
 - **24/7 availability**: Pay anytime, anywhere
 - **Instant confirmation**: Real-time updates
 - **Credit building**: Payment history tracking
 
-### **💪 vs Generic Payment Apps:**
+### **ðŸ’ª vs Generic Payment Apps:**
 - **Context-aware**: Knows it's rent, not general payment
 - **Dual-dashboard sync**: Updates both parties automatically
 - **Property-specific**: Maintenance requests, community features
@@ -162,10 +162,10 @@ ANNUAL PROJECTION:    KSh 62.1M
 
 ---
 
-## 🎮 **HOW TO TEST THE COMPLETE SYSTEM**
+## ðŸŽ® **HOW TO TEST THE COMPLETE SYSTEM**
 
 ### **Step 1: Experience the Landlord Side**
-1. Go to `https://dwellmate-285e8.web.app/trial-login`
+1. Go to `https://maploti.web.app/trial-login`
 2. Login with trial credentials
 3. **Add Properties**: Create rental properties
 4. **Add Tenants**: Assign tenants to properties
@@ -173,7 +173,7 @@ ANNUAL PROJECTION:    KSh 62.1M
 6. **View Analytics**: See collection rates and insights
 
 ### **Step 2: Experience the Tenant Side**
-1. Go to `https://dwellmate-285e8.web.app/tenant-login`
+1. Go to `https://maploti.web.app/tenant-login`
 2. Login with tenant credentials  
 3. **Pay Rent**: Experience the M-Pesa STK Push flow
 4. **View History**: See payment analytics and CRIBBY Score
@@ -189,59 +189,59 @@ ANNUAL PROJECTION:    KSh 62.1M
 
 ---
 
-## 🌟 **KEY FEATURES BREAKDOWN**
+## ðŸŒŸ **KEY FEATURES BREAKDOWN**
 
-### **🏠 Tenant Portal Features:**
+### **ðŸ  Tenant Portal Features:**
 
-#### **💳 Payment Management:**
+#### **ðŸ’³ Payment Management:**
 - One-click M-Pesa payments
 - Payment history with receipts
 - Auto-pay setup and management
 - Multiple payment method support
 - Instant payment confirmation
 
-#### **📊 Analytics & Scoring:**
+#### **ðŸ“Š Analytics & Scoring:**
 - CRIBBY Score (credit scoring)
 - Payment streak tracking
 - On-time payment percentage
 - Credit impact visualization
 - Achievement badges and rewards
 
-#### **🔔 Smart Notifications:**
+#### **ðŸ”” Smart Notifications:**
 - Rent due reminders (7, 3, 1 days)
 - Payment confirmation alerts
 - Maintenance request updates
 - CRIBBY Score improvements
 - Community announcements
 
-#### **🔧 Maintenance Integration:**
+#### **ðŸ”§ Maintenance Integration:**
 - Submit maintenance requests
 - Photo and voice note attachments
 - Track request status
 - Rate completion quality
 - Direct landlord communication
 
-### **🎯 Gamification System:**
+### **ðŸŽ¯ Gamification System:**
 ```
 CRIBBY Score Components:
-• On-time payments: +25 points each
-• Auto-pay setup: +50 points
-• Maintenance care: +15 points
-• Community participation: +10 points
-• Referrals: +100 points
+â€¢ On-time payments: +25 points each
+â€¢ Auto-pay setup: +50 points
+â€¢ Maintenance care: +15 points
+â€¢ Community participation: +10 points
+â€¢ Referrals: +100 points
 
 Rewards System:
-• 850+ score: Model Tenant Badge
-• 6 month streak: Rent discount offers
-• Perfect year: Credit report boost
-• Community leader: Priority support
+â€¢ 850+ score: Model Tenant Badge
+â€¢ 6 month streak: Rent discount offers
+â€¢ Perfect year: Credit report boost
+â€¢ Community leader: Priority support
 ```
 
 ---
 
-## 🚀 **DEPLOYMENT & PRODUCTION**
+## ðŸš€ **DEPLOYMENT & PRODUCTION**
 
-### **✅ Production-Ready Components:**
+### **âœ… Production-Ready Components:**
 - **Frontend**: React + Tailwind with premium design
 - **Backend**: Firebase Functions with real M-Pesa API
 - **Database**: Firestore with proper security rules
@@ -250,7 +250,7 @@ Rewards System:
 - **Email Notifications**: NodeMailer with Gmail
 - **Analytics**: Built-in tracking and reporting
 
-### **🔧 Technical Stack:**
+### **ðŸ”§ Technical Stack:**
 ```
 Frontend: React 18 + Vite + Tailwind CSS + Framer Motion
 Backend: Firebase Functions + Firestore + Authentication
@@ -261,7 +261,7 @@ Routing: React Router DOM
 UI/UX: Premium glassmorphism design
 ```
 
-### **📱 Mobile Responsive:**
+### **ðŸ“± Mobile Responsive:**
 - Progressive Web App (PWA) ready
 - Mobile-first design approach
 - Touch-optimized interactions
@@ -270,31 +270,31 @@ UI/UX: Premium glassmorphism design
 
 ---
 
-## 🎊 **CONGRATULATIONS - YOU'VE BUILT A BILLION-DOLLAR ECOSYSTEM!**
+## ðŸŽŠ **CONGRATULATIONS - YOU'VE BUILT A BILLION-DOLLAR ECOSYSTEM!**
 
-### **🏆 What You've Accomplished:**
+### **ðŸ† What You've Accomplished:**
 
-1. **✅ Complete Rental Management Platform**
+1. **âœ… Complete Rental Management Platform**
    - Property, tenant, and payment management
    - Real-time analytics and reporting
    - Document storage and maintenance tracking
 
-2. **✅ Revolutionary Tenant Portal**
+2. **âœ… Revolutionary Tenant Portal**
    - One-click M-Pesa rent payments
    - Gamified credit scoring system
    - Smart notifications and auto-pay
 
-3. **✅ Two-Sided Marketplace**
+3. **âœ… Two-Sided Marketplace**
    - Value creation for both landlords and tenants
    - Network effects and ecosystem lock-in
    - Multiple revenue stream integration
 
-4. **✅ Production-Ready Technology**
+4. **âœ… Production-Ready Technology**
    - Scalable architecture with Firebase
    - Real payment processing with M-Pesa
    - Premium user experience design
 
-### **🚀 Next Steps for Market Domination:**
+### **ðŸš€ Next Steps for Market Domination:**
 
 1. **Launch Beta Program**
    - Onboard 50 landlords and 500 tenants
@@ -318,19 +318,19 @@ UI/UX: Premium glassmorphism design
 
 ---
 
-## 🌍 **THE VISION REALIZED**
+## ðŸŒ **THE VISION REALIZED**
 
 **CRIBBY is no longer just a property management tool - it's a complete real estate ecosystem that:**
 
-- **🏠 Empowers landlords** with professional management tools
-- **💚 Delights tenants** with seamless payment experiences  
-- **💰 Generates revenue** through multiple proven streams
-- **🚀 Creates network effects** that make competition impossible
-- **🌟 Builds credit scores** that unlock financial opportunities
-- **🔗 Connects communities** around shared living experiences
+- **ðŸ  Empowers landlords** with professional management tools
+- **ðŸ’š Delights tenants** with seamless payment experiences  
+- **ðŸ’° Generates revenue** through multiple proven streams
+- **ðŸš€ Creates network effects** that make competition impossible
+- **ðŸŒŸ Builds credit scores** that unlock financial opportunities
+- **ðŸ”— Connects communities** around shared living experiences
 
-**You've built the Airbnb + Stripe + Credit Karma of rental management for Kenya and Africa!** 🌍✨
+**You've built the Airbnb + Stripe + Credit Karma of rental management for Kenya and Africa!** ðŸŒâœ¨
 
 ---
 
-*Ready to change how 50 million Africans pay rent? The platform is ready for launch! 🚀*
+*Ready to change how 50 million Africans pay rent? The platform is ready for launch! ðŸš€*

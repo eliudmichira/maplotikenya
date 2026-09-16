@@ -1,4 +1,4 @@
-﻿import React, { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { MapPin, Heart, MessageCircle, Share2, Home, Car, Utensils, GraduationCap, Bus, Users, Bath, Bed, Ruler, DollarSign, Star, Shield, Building2, CheckCircle, AlertCircle } from "lucide-react";
 import Slider from "../../components/Slider/Slider";
@@ -244,9 +244,9 @@ function SinglePage() {
       {/* Mesh blobs for green glassmorphic dark theme */}
       {isDark && (
         <div className="absolute inset-0 z-0 pointer-events-none">
-          <div className="mesh-blob" style={{top: '10%', left: '5%', width: '420px', height: '420px', background: 'radial-gradient(circle, #2dd284 0%, transparent 70%)', position: 'absolute'}} />
-          <div className="mesh-blob" style={{top: '60%', left: '70%', width: '500px', height: '500px', background: 'radial-gradient(circle, #51faaa 0%, transparent 70%)', position: 'absolute'}} />
-          <div className="mesh-blob" style={{top: '30%', left: '60%', width: '320px', height: '320px', background: 'radial-gradient(circle, #51faaa 0%, transparent 70%)', position: 'absolute'}} />
+          <div className="mesh-blob" style={{top: '10%', left: '5%', width: '420px', height: '420px', background: 'radial-gradient(circle, #303030 0%, transparent 70%)', position: 'absolute'}} />
+          <div className="mesh-blob" style={{top: '60%', left: '70%', width: '500px', height: '500px', background: 'radial-gradient(circle, #000000 0%, transparent 70%)', position: 'absolute'}} />
+          <div className="mesh-blob" style={{top: '30%', left: '60%', width: '320px', height: '320px', background: 'radial-gradient(circle, #000000 0%, transparent 70%)', position: 'absolute'}} />
         </div>
       )}
 

@@ -1,4 +1,4 @@
-import { doc, increment, updateDoc, getDoc, setDoc } from 'firebase/firestore';
+﻿import { doc, increment, updateDoc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
 // Track page view in database
@@ -29,10 +29,10 @@ export const incrementPageView = async (pageName) => {
       });
     }
     
-    console.log('📊 Page view incremented for:', pageName);
     return true;
   } catch (error) {
-    console.error('❌ Error incrementing page view:', error);
+    // Silently fail - pageViews collection may not have write permissions for unauthenticated users
+    // This is non-critical analytics; don't spam the console
     return false;
   }
 };
@@ -41,7 +41,6 @@ export const incrementPageView = async (pageName) => {
 export const getPageViews = async (pageName, date = null) => {
   try {
     const targetDate = date || new Date().toISOString().split('T')[0];
-    // Sanitize page name to avoid invalid document paths
     const sanitizedPageName = pageName.replace(/[\/\\]/g, '_');
     const pageViewRef = doc(db, 'pageViews', `${sanitizedPageName}_${targetDate}`);
     const pageViewSnap = await getDoc(pageViewRef);
@@ -51,8 +50,7 @@ export const getPageViews = async (pageName, date = null) => {
     }
     return 0;
   } catch (error) {
-    console.error('❌ Error getting page views:', error);
-    return 0;
+    return 0; // silently fail
   }
 };
 
@@ -70,7 +68,6 @@ export const getTotalPageViews = async () => {
     
     return totalViews;
   } catch (error) {
-    console.error('❌ Error getting total page views:', error);
-    return 0;
+    return 0; // silently fail
   }
 };

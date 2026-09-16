@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-const content = fs.readFileSync('c:/Users/User/Documents/GitHub/BumihouseUpdate/client/src/routes/listPage/listPage_fixed_useLocation.jsx', 'utf8');
+const content = fs.readFileSync('c:/Users/User/Documents/GitHub/MaplotiKenyaUpdate/client/src/routes/listPage/listPage_fixed_useLocation.jsx', 'utf8');
 const lines = content.split('\n');
 
 console.log("\n=== Lines 30 to 45 ===");

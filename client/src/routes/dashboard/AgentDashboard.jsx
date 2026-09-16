@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -282,7 +282,7 @@ const AgentDashboard = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button
             onClick={() => navigate('/properties/add')}
-            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#111] hover:shadow-lg transition-all"
+            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] hover:shadow-lg transition-all"
           >
             <Plus className="w-5 h-5" />
             <span className="font-medium">Add New Property</span>
@@ -316,7 +316,7 @@ const AgentDashboard = () => {
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">My Properties</h2>
           <button
             onClick={() => navigate('/properties/add')}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
           >
             <Plus className="w-4 h-4" />
             Add Property
@@ -332,7 +332,7 @@ const AgentDashboard = () => {
             </p>
             <button
               onClick={() => navigate('/properties/add')}
-              className="px-6 py-3 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
+              className="px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
             >
               Add Your First Property
             </button>
@@ -359,7 +359,7 @@ const AgentDashboard = () => {
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{property.title}</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{property.location?.address || 'Location not specified'}</p>
                 <div className="flex justify-between items-center">
-                  <span className="font-bold text-[#51faaa]">KES {property.price?.toLocaleString() || '0'}</span>
+                  <span className="font-bold text-[#000000]">KES {property.price?.toLocaleString() || '0'}</span>
                   <div className="flex items-center gap-2 text-sm text-gray-500">
                     <span>{property.bedrooms || 0} beds</span>
                     <span>•</span>
@@ -369,7 +369,7 @@ const AgentDashboard = () => {
                 <div className="mt-3 flex gap-2">
                   <button
                     onClick={() => navigate(`/properties/add?edit=${property.id}`)}
-                    className="flex-1 px-3 py-1 text-xs bg-[#51faaa] text-[#111] rounded-lg font-medium"
+                    className="flex-1 px-3 py-1 text-xs bg-[#000000] text-[#111] rounded-lg font-medium"
                   >
                     Edit
                   </button>
@@ -498,7 +498,7 @@ const AgentDashboard = () => {
                         navigate(`/messages?conversation=${inquiry.conversationId}`);
                       }
                     }}
-                    className="flex-1 px-3 py-1 text-xs bg-[#51faaa] text-[#111] rounded-lg font-medium hover:bg-[#51faaa]/90 transition-colors"
+                    className="flex-1 px-3 py-1 text-xs bg-[#000000] text-[#111] rounded-lg font-medium hover:bg-[#000000]/90 transition-colors"
                   >
                     {inquiry.conversationId ? 'View Chat' : 'Reply'}
                   </button>
@@ -575,7 +575,7 @@ const AgentDashboard = () => {
                 </div>
                 
                 <div className="mt-4 flex gap-2">
-                  <button className="flex-1 px-3 py-2 text-xs bg-[#51faaa] text-[#111] rounded-lg font-medium hover:opacity-90 transition-all">
+                  <button className="flex-1 px-3 py-2 text-xs bg-[#000000] text-[#111] rounded-lg font-medium hover:opacity-90 transition-all">
                     Confirm Viewing
                   </button>
                   <button className="flex-1 px-3 py-2 text-xs border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
@@ -599,7 +599,7 @@ const AgentDashboard = () => {
       <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Analytics Overview</h2>
-          <select className={`px-4 py-2 rounded-lg text-sm font-medium ${isDark ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} border-none focus:ring-2 focus:ring-[#51faaa]`}>
+          <select className={`px-4 py-2 rounded-lg text-sm font-medium ${isDark ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} border-none focus:ring-2 focus:ring-[#000000]`}>
             <option>Last 6 Months</option>
             <option>This Year</option>
             <option>All Time</option>
@@ -607,7 +607,7 @@ const AgentDashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <div className="p-5 rounded-xl bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] text-white shadow-lg relative overflow-hidden">
+          <div className="p-5 rounded-xl bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-white shadow-lg relative overflow-hidden">
              <div className="absolute top-0 right-0 p-4 opacity-20"><TrendingUp className="w-16 h-16" /></div>
             <p className="text-sm font-medium opacity-90 mb-1">Total Revenue</p>
             <p className="text-3xl font-bold mb-2">KES {agentStats.totalRevenue.toLocaleString()}</p>
@@ -653,12 +653,12 @@ const AgentDashboard = () => {
                         <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                             <defs>
                                 <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#51faaa" stopOpacity={0.3}/>
-                                    <stop offset="95%" stopColor="#51faaa" stopOpacity={0}/>
+                                    <stop offset="5%" stopColor="#000000" stopOpacity={0.3}/>
+                                    <stop offset="95%" stopColor="#000000" stopOpacity={0}/>
                                 </linearGradient>
                                 <linearGradient id="colorInquiries" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
-                                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                                    <stop offset="5%" stopColor="#000000" stopOpacity={0.3}/>
+                                    <stop offset="95%" stopColor="#000000" stopOpacity={0}/>
                                 </linearGradient>
                             </defs>
                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDark ? '#374151' : '#e5e7eb'} />
@@ -668,8 +668,8 @@ const AgentDashboard = () => {
                                 contentStyle={{ backgroundColor: isDark ? '#1f2937' : '#ffffff', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                                 itemStyle={{ color: isDark ? '#f3f4f6' : '#111827', fontWeight: 500 }}
                             />
-                            <Area type="monotone" dataKey="views" name="Views" stroke="#51faaa" strokeWidth={3} fillOpacity={1} fill="url(#colorViews)" />
-                            <Area type="monotone" dataKey="inquiries" name="Inquiries" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorInquiries)" />
+                            <Area type="monotone" dataKey="views" name="Views" stroke="#000000" strokeWidth={3} fillOpacity={1} fill="url(#colorViews)" />
+                            <Area type="monotone" dataKey="inquiries" name="Inquiries" stroke="#000000" strokeWidth={3} fillOpacity={1} fill="url(#colorInquiries)" />
                         </AreaChart>
                     </ResponsiveContainer>
                 </div>
@@ -687,7 +687,7 @@ const AgentDashboard = () => {
                                 cursor={{fill: isDark ? '#374151' : '#f3f4f6'}}
                                 contentStyle={{ backgroundColor: isDark ? '#1f2937' : '#ffffff', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                             />
-                            <Bar dataKey="inquiries" name="Leads" fill="#8b5cf6" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                            <Bar dataKey="inquiries" name="Leads" fill="#505050" radius={[4, 4, 0, 0]} maxBarSize={40} />
                         </BarChart>
                     </ResponsiveContainer>
                  </div>
@@ -704,15 +704,15 @@ const AgentDashboard = () => {
                </div>
                <div className="p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Active Listings</p>
-                  <p className="text-xl font-bold text-[#51faaa]">{agentStats.activeListings}</p>
+                  <p className="text-xl font-bold text-[#000000]">{agentStats.activeListings}</p>
                </div>
                <div className="p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Views</p>
-                  <p className="text-xl font-bold text-[#10b981]">{agentStats.totalViews.toLocaleString()}</p>
+                  <p className="text-xl font-bold text-[#000000]">{agentStats.totalViews.toLocaleString()}</p>
                </div>
                <div className="p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Leads</p>
-                  <p className="text-xl font-bold text-[#8b5cf6]">{agentStats.totalInquiries}</p>
+                  <p className="text-xl font-bold text-[#505050]">{agentStats.totalInquiries}</p>
                </div>
             </div>
         </div>
@@ -747,7 +747,7 @@ const AgentDashboard = () => {
                 key={section.id}
                 onClick={() => setActiveSection(section.id)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all ${activeSection === section.id
-                    ? 'bg-[#51faaa] text-[#111] shadow-lg'
+                    ? 'bg-[#000000] text-[#111] shadow-lg'
                     : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
               >

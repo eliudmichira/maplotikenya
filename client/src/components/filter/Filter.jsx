@@ -1,4 +1,4 @@
-﻿import { useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import { Search, MapPin, Home, Building2, DollarSign, Bed, Filter as FilterIcon } from "lucide-react";
 

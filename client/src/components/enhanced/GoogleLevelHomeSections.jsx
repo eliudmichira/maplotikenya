@@ -92,18 +92,7 @@ export const GoogleLevelHero = () => {
           </span>
           <br />
           <motion.span
-            className="inline-block bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent"
-            animate={{
-              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-            style={{
-              backgroundSize: '200% 200%'
-            }}
+            className="inline-block hero-highlight"
           >
             Home in Kenya
           </motion.span>

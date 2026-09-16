@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Users, 
   UserCheck, 
@@ -181,7 +181,7 @@ const VacancyTracker = ({ property, onVacancyUpdate }) => {
         {/* Action Buttons */}
         <div className="flex space-x-2">
           {property.availableUnits > 0 ? (
-            <button className="flex-1 flex items-center justify-center space-x-2 py-2 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] rounded-lg font-semibold text-sm transition-all hover:shadow-lg">
+            <button className="flex-1 flex items-center justify-center space-x-2 py-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-lg font-semibold text-sm transition-all hover:shadow-lg">
               <CheckCircle className="w-4 h-4" />
               <span>Apply Now</span>
             </button>
@@ -277,7 +277,7 @@ const VacancyTracker = ({ property, onVacancyUpdate }) => {
                   type="email"
                   value={waitlistEmail}
                   onChange={(e) => setWaitlistEmail(e.target.value)}
-                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#51faaa] ${
+                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#000000] ${
                     isDark 
                       ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                       : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
@@ -290,7 +290,7 @@ const VacancyTracker = ({ property, onVacancyUpdate }) => {
               <div className="flex space-x-3">
                 <button
                   type="submit"
-                  className="flex-1 py-2 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] rounded-lg font-semibold transition-all hover:shadow-lg"
+                  className="flex-1 py-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-lg font-semibold transition-all hover:shadow-lg"
                 >
                   Join Waitlist
                 </button>

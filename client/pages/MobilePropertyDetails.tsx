@@ -150,7 +150,7 @@ const MobilePropertyDetails = () => {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-12 h-12 text-[#51faaa] animate-spin mx-auto mb-4" />
+          <Loader2 className="w-12 h-12 text-[#000000] animate-spin mx-auto mb-4" />
           <p className="text-gray-600 dark:text-gray-400">Loading property details...</p>
         </div>
       </div>
@@ -172,7 +172,7 @@ const MobilePropertyDetails = () => {
           </p>
           <button
             onClick={() => navigate('/search')}
-            className="px-6 py-2 bg-[#51faaa] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
+            className="px-6 py-2 bg-[#000000] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
           >
             Browse Properties
           </button>
@@ -272,7 +272,7 @@ const MobilePropertyDetails = () => {
               <MapPin className="w-4 h-4" />
               <span>{getPropertyLocation()}</span>
             </div>
-            <div className="text-2xl font-bold text-[#51faaa] mb-3">
+            <div className="text-2xl font-bold text-[#000000] mb-3">
               {formatPrice(property.price)}
             </div>
             
@@ -296,8 +296,8 @@ const MobilePropertyDetails = () => {
           <div className="grid grid-cols-3 gap-4">
             {(property.bedrooms || property.bedroom) && (
               <div className="text-center">
-                <div className="w-12 h-12 bg-[#51faaa]/20 rounded-lg flex items-center justify-center mx-auto mb-2">
-                  <Bed className="w-6 h-6 text-[#51faaa]" />
+                <div className="w-12 h-12 bg-[#000000]/20 rounded-lg flex items-center justify-center mx-auto mb-2">
+                  <Bed className="w-6 h-6 text-[#000000]" />
                 </div>
                 <div className="text-lg font-semibold text-gray-900 dark:text-white">
                   {property.bedrooms || property.bedroom}
@@ -308,8 +308,8 @@ const MobilePropertyDetails = () => {
             
             {(property.bathrooms || property.bathroom) && (
               <div className="text-center">
-                <div className="w-12 h-12 bg-[#51faaa]/20 rounded-lg flex items-center justify-center mx-auto mb-2">
-                  <TrendingUp className="w-6 h-6 text-[#51faaa]" />
+                <div className="w-12 h-12 bg-[#000000]/20 rounded-lg flex items-center justify-center mx-auto mb-2">
+                  <TrendingUp className="w-6 h-6 text-[#000000]" />
                 </div>
                 <div className="text-lg font-semibold text-gray-900 dark:text-white">
                   {property.bathrooms || property.bathroom}
@@ -320,8 +320,8 @@ const MobilePropertyDetails = () => {
             
             {property.type && (
               <div className="text-center">
-                <div className="w-12 h-12 bg-[#51faaa]/20 rounded-lg flex items-center justify-center mx-auto mb-2">
-                  <Building className="w-6 h-6 text-[#51faaa]" />
+                <div className="w-12 h-12 bg-[#000000]/20 rounded-lg flex items-center justify-center mx-auto mb-2">
+                  <Building className="w-6 h-6 text-[#000000]" />
                 </div>
                 <div className="text-lg font-semibold text-gray-900 dark:text-white capitalize">
                   {property.type}
@@ -352,8 +352,8 @@ const MobilePropertyDetails = () => {
               <div className="grid grid-cols-2 gap-3">
                 {amenities.map((amenity, index) => (
                   <div key={index} className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                    <div className="w-8 h-8 bg-[#51faaa]/20 rounded-lg flex items-center justify-center">
-                      {amenitiesIcons[amenity.toLowerCase()] || <Home className="w-4 h-4 text-[#51faaa]" />}
+                    <div className="w-8 h-8 bg-[#000000]/20 rounded-lg flex items-center justify-center">
+                      {amenitiesIcons[amenity.toLowerCase()] || <Home className="w-4 h-4 text-[#000000]" />}
                     </div>
                     <span className="text-gray-700 dark:text-gray-300 capitalize">
                       {amenity}
@@ -434,7 +434,7 @@ const MobilePropertyDetails = () => {
               <div className="space-y-4">
                 <button
                   onClick={handleCall}
-                  className="w-full flex items-center gap-3 p-4 bg-[#51faaa] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
+                  className="w-full flex items-center gap-3 p-4 bg-[#000000] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
                 >
                   <Phone className="w-5 h-5" />
                   Call Agent
@@ -518,7 +518,7 @@ const MobilePropertyDetails = () => {
       {/* Floating Action Button */}
       <button
         onClick={toggleContactOptions}
-        className="fixed bottom-20 right-4 w-14 h-14 bg-[#51faaa] text-[#111] rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center hover:scale-110"
+        className="fixed bottom-20 right-4 w-14 h-14 bg-[#000000] text-[#111] rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center hover:scale-110"
       >
         <Phone className="w-6 h-6" />
       </button>

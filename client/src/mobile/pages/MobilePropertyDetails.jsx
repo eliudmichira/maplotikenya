@@ -76,10 +76,10 @@ const MobilePhotoGallery = ({ images = [], title, currentImageIndex, setCurrentI
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 pointer-events-none" />
 
       <Helmet>
-        <title>{property?.title ? `${property.title} | HomesKE` : 'Property Details | HomesKE'}</title>
-        <meta name="description" content={property?.description?.substring(0, 160) || 'View property details on HomesKE'} />
+        <title>{property?.title ? `${property.title} | MaplotiKenya` : 'Property Details | MaplotiKenya'}</title>
+        <meta name="description" content={property?.description?.substring(0, 160) || 'View property details on MaplotiKenya'} />
         <meta property="og.title" content={property?.title || 'Property Details'} />
-        <meta property="og.description" content={property?.description?.substring(0, 160) || 'View property details on HomesKE'} />
+        <meta property="og.description" content={property?.description?.substring(0, 160) || 'View property details on MaplotiKenya'} />
         {property?.images?.[0] && <meta property="og.image" content={property.images[0]} />}
         <meta name="twitter:card" content="summary_large_image" />
       </Helmet>
@@ -94,7 +94,7 @@ const MobilePhotoGallery = ({ images = [], title, currentImageIndex, setCurrentI
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setCurrentImageIndex(idx)}
                 className={`relative flex-shrink-0 w-16 h-16 rounded-2xl overflow-hidden border-2 transition-all shadow-lg ${idx === currentImageIndex
-                  ? 'border-[#51faaa] scale-110'
+                  ? 'border-[#fbbf24] scale-110'
                   : 'border-white/20 opacity-70 backdrop-blur-md'
                   }`}
               >
@@ -146,7 +146,7 @@ const KeySpecsCard = ({ property, isDark, formatPrice }) => {
             >
               <div className="flex items-center gap-3">
                 <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${isDark ? 'bg-white/5' : 'bg-gray-100'}`}>
-                  <spec.icon className={`w-4 h-4 ${isDark ? 'text-[#51faaa]' : 'text-gray-600'}`} />
+                  <spec.icon className={`w-4 h-4 ${isDark ? 'text-[#000000]' : 'text-gray-600'}`} />
                 </div>
                 <span className={`text-sm font-bold ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
                   {spec.label}
@@ -170,8 +170,8 @@ const SimilarPropertyCard = ({ property, isDark, formatPrice, onClick }) => {
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
       className={`flex-shrink-0 w-[280px] rounded-[32px] overflow-hidden border cursor-pointer transition-all shadow-sm ${isDark
-        ? 'bg-gray-800/40 border-white/5 hover:border-[#51faaa]/30 hover:bg-gray-800/60'
-        : 'bg-white/80 border-gray-100 hover:border-[#51faaa]/40 hover:shadow-md hover:bg-white'
+        ? 'bg-gray-800/40 border-white/5 hover:border-[#fbbf24]/30 hover:bg-gray-800/60'
+        : 'bg-white/80 border-gray-100 hover:border-[#fbbf24]/40 hover:shadow-md hover:bg-white'
         }`}
     >
       {/* Image */}
@@ -187,7 +187,7 @@ const SimilarPropertyCard = ({ property, isDark, formatPrice, onClick }) => {
           <div className="absolute top-3 left-3">
             <span className={`px-3 py-1 text-[10px] font-black uppercase tracking-[0.1em] rounded-full backdrop-blur-md border ${property.status.toLowerCase().includes('rent')
               ? 'bg-emerald-500/80 text-white border-white/20'
-              : 'bg-[#51faaa]/80 text-gray-900 border-white/20'
+              : 'bg-[#000000]/80 text-gray-900 border-white/20'
               }`}>
               {property.status.replace(/-/g, ' ')}
             </span>
@@ -224,11 +224,11 @@ const SimilarPropertyCard = ({ property, isDark, formatPrice, onClick }) => {
 
         {/* Price Row */}
         <div className="flex items-center justify-between">
-          <p className="text-[#51faaa] font-black text-lg tracking-tight">
+          <p className="text-[#000000] font-black text-lg tracking-tight">
             {formatPrice(property.price)}
           </p>
           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isDark ? 'bg-white/5' : 'bg-gray-100'}`}>
-            <ArrowLeft className="w-4 h-4 text-[#51faaa] rotate-180" />
+            <ArrowLeft className="w-4 h-4 text-[#000000] rotate-180" />
           </div>
         </div>
       </div>
@@ -298,7 +298,7 @@ const MobileAgentCard = ({ agent = {}, propertyId, propertyTitle, propertyImage,
             if (agentId) navigate(`/agent/${agentId}`);
           }}
         >
-          <div className={`w-24 h-24 rounded-full overflow-hidden border-3 ${isDark ? 'border-[#51faaa]/40' : 'border-[#51faaa]/50'
+          <div className={`w-24 h-24 rounded-full overflow-hidden border-3 ${isDark ? 'border-[#fbbf24]/40' : 'border-[#fbbf24]/50'
             }`}>
             {!imageError && (agent.avatar || agent.photo || agent.image) ? (
               <img
@@ -308,7 +308,7 @@ const MobileAgentCard = ({ agent = {}, propertyId, propertyTitle, propertyImage,
                 onError={() => setImageError(true)}
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-[#51faaa]/15 text-[#51faaa] font-bold text-3xl">
+              <div className="w-full h-full flex items-center justify-center bg-[#000000]/15 text-[#000000] font-bold text-3xl">
                 {(agent.name || 'A').charAt(0).toUpperCase()}
               </div>
             )}
@@ -336,7 +336,7 @@ const MobileAgentCard = ({ agent = {}, propertyId, propertyTitle, propertyImage,
           <motion.a
             href={`tel:${agent.phone}`}
             whileTap={{ scale: 0.97 }}
-            className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-gradient-to-r from-[#51faaa] to-[#45e89a] text-gray-900 font-bold text-sm shadow-lg"
+            className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-gradient-to-r from-[#000000] to-[#f59e0b] text-gray-900 font-bold text-sm shadow-lg"
           >
             <Phone className="w-5 h-5" />
             <span>{agent.phone}</span>
@@ -349,12 +349,12 @@ const MobileAgentCard = ({ agent = {}, propertyId, propertyTitle, propertyImage,
           disabled={isSending}
           whileTap={{ scale: 0.97 }}
           className={`flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border-2 font-bold text-sm transition-all disabled:opacity-50 ${isDark
-            ? 'border-[#51faaa]/30 text-[#51faaa] hover:bg-[#51faaa]/10'
-            : 'border-[#51faaa]/40 text-[#51faaa] hover:bg-[#51faaa]/5'
+            ? 'border-[#fbbf24]/30 text-[#000000] hover:bg-[#000000]/10'
+            : 'border-[#fbbf24]/40 text-[#000000] hover:bg-[#000000]/5'
             }`}
         >
           {isSending ? (
-            <div className="w-5 h-5 border-2 border-[#51faaa] border-t-transparent rounded-full animate-spin" />
+            <div className="w-5 h-5 border-2 border-[#fbbf24] border-t-transparent rounded-full animate-spin" />
           ) : (
             <>
               <MessageCircle className="w-5 h-5" />
@@ -369,8 +369,8 @@ const MobileAgentCard = ({ agent = {}, propertyId, propertyTitle, propertyImage,
             href={`mailto:${agent.email}?subject=${encodeURIComponent(`Inquiry about ${propertyTitle || 'your property'}`)}`}
             whileTap={{ scale: 0.97 }}
             className={`flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border-2 font-bold text-sm transition-all ${isDark
-              ? 'border-[#51faaa]/30 text-[#51faaa] hover:bg-[#51faaa]/10'
-              : 'border-[#51faaa]/40 text-[#51faaa] hover:bg-[#51faaa]/5'
+              ? 'border-[#fbbf24]/30 text-[#000000] hover:bg-[#000000]/10'
+              : 'border-[#fbbf24]/40 text-[#000000] hover:bg-[#000000]/5'
               }`}
           >
             <Mail className="w-5 h-5" />
@@ -382,7 +382,7 @@ const MobileAgentCard = ({ agent = {}, propertyId, propertyTitle, propertyImage,
         <motion.button
           onClick={() => setIsBookingOpen(true)}
           whileTap={{ scale: 0.97 }}
-          className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-[#51faaa] text-gray-900 font-bold text-sm shadow-lg"
+          className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl bg-[#000000] text-gray-900 font-bold text-sm shadow-lg"
         >
           <Calendar className="w-5 h-5" />
           <span>Book Viewing</span>
@@ -441,7 +441,7 @@ const MobileLocationCard = ({ property, isDark }) => {
         </h3>
         {address && (
           <div className="flex items-center gap-2 mt-2">
-            <MapPin className="w-4 h-4 text-[#51faaa] flex-shrink-0" />
+            <MapPin className="w-4 h-4 text-[#000000] flex-shrink-0" />
             <span className={`text-sm font-bold leading-snug ${isDark ? 'text-white' : 'text-gray-900'}`}>
               {addressText}
             </span>
@@ -468,7 +468,7 @@ const MobileLocationCard = ({ property, isDark }) => {
             rel="noopener noreferrer"
             className="pointer-events-auto inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-white text-gray-900 text-[11px] font-black uppercase tracking-[0.1em] shadow-lg active:scale-95 transition-transform"
           >
-            <MapPin className="w-3.5 h-3.5 text-[#51faaa]" />
+            <MapPin className="w-3.5 h-3.5 text-[#000000]" />
             Open In Google Maps
           </a>
         </div>
@@ -554,7 +554,7 @@ const StickyActionBar = ({ agent, propertyId, propertyTitle, propertyPrice, prop
                     Price
                   </span>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-black text-[#51faaa] tracking-tight">
+                    <span className="text-2xl font-black text-[#000000] tracking-tight">
                       {formatPrice(propertyPrice).split(' ')[1]}
                     </span>
                     <span className={`text-xs font-bold ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
@@ -573,7 +573,7 @@ const StickyActionBar = ({ agent, propertyId, propertyTitle, propertyPrice, prop
               whileTap={{ scale: 0.95 }}
               onClick={handleSendMessage}
               disabled={isSending}
-              className="flex-1 h-14 rounded-full bg-gradient-to-r from-[#51faaa] to-[#45e89a] flex items-center justify-center gap-2 font-black text-gray-900 shadow-[0_8px_20px_rgba(81,250,170,0.3)] disabled:opacity-50 transition-all duration-300 relative overflow-hidden group"
+              className="flex-1 h-14 rounded-full bg-gradient-to-r from-[#000000] to-[#f59e0b] flex items-center justify-center gap-2 font-black text-gray-900 shadow-[0_8px_20px_rgba(251,191,36,0.3)] disabled:opacity-50 transition-all duration-300 relative overflow-hidden group"
             >
               {/* Shine animation */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
@@ -593,8 +593,8 @@ const StickyActionBar = ({ agent, propertyId, propertyTitle, propertyPrice, prop
               whileTap={{ scale: 0.92 }}
               onClick={() => setIsBookingOpen(true)}
               className={`h-14 w-14 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${isDark
-                ? 'bg-[#51faaa]/10 border-[#51faaa]/30 text-[#51faaa] hover:bg-[#51faaa]/20'
-                : 'bg-emerald-50 border-emerald-200 text-[#51faaa] hover:bg-emerald-100'
+                ? 'bg-[#000000]/10 border-[#fbbf24]/30 text-[#000000] hover:bg-[#000000]/20'
+                : 'bg-emerald-50 border-emerald-200 text-[#000000] hover:bg-emerald-100'
                 }`}
             >
               <Calendar className="w-5 h-5" />
@@ -762,7 +762,7 @@ const ReviewsSection = ({ property, isDark, propertyId }) => {
         {!isWritingReview && (
           <button
             onClick={handleWriteReview}
-            className="text-[#51faaa] text-xs font-bold hover:underline"
+            className="text-[#000000] text-xs font-bold hover:underline"
           >
             Write a Review
           </button>
@@ -816,7 +816,7 @@ const ReviewsSection = ({ property, isDark, propertyId }) => {
                 disabled={isSubmitting || !rating || !reviewText.trim()}
                 className={`flex-1 py-2.5 rounded-lg font-bold text-sm transition-all ${isSubmitting || !rating || !reviewText.trim()
                   ? 'bg-gray-400 text-gray-700 cursor-not-allowed'
-                  : 'bg-[#51faaa] text-gray-900 hover:bg-[#45e89a]'
+                  : 'bg-[#000000] text-gray-900 hover:bg-[#f59e0b]'
                   }`}
               >
                 {isSubmitting ? (
@@ -852,7 +852,7 @@ const ReviewsSection = ({ property, isDark, propertyId }) => {
       {/* Reviews List */}
       {loadingReviews ? (
         <div className="p-8 flex justify-center">
-          <div className="w-8 h-8 border-2 border-[#51faaa] border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-[#fbbf24] border-t-transparent rounded-full animate-spin" />
         </div>
       ) : reviews.length > 0 ? (
         <div className={`divide-y ${isDark ? 'divide-white/5' : 'divide-gray-200'}`}>
@@ -868,8 +868,8 @@ const ReviewsSection = ({ property, isDark, propertyId }) => {
                       className="w-10 h-10 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="w-10 h-10 rounded-full bg-[#51faaa]/20 flex items-center justify-center">
-                      <span className="text-[#51faaa] font-bold text-sm">
+                    <div className="w-10 h-10 rounded-full bg-[#000000]/20 flex items-center justify-center">
+                      <span className="text-[#000000] font-bold text-sm">
                         {(review.userName || 'A').charAt(0).toUpperCase()}
                       </span>
                     </div>
@@ -904,8 +904,8 @@ const ReviewsSection = ({ property, isDark, propertyId }) => {
                     <button
                       onClick={() => reviewsAPI.markHelpful(propertyId, review.id)}
                       className={`text-xs flex items-center gap-1 transition-colors ${isDark
-                        ? 'text-gray-500 hover:text-[#51faaa]'
-                        : 'text-gray-400 hover:text-[#51faaa]'
+                        ? 'text-gray-500 hover:text-[#000000]'
+                        : 'text-gray-400 hover:text-[#000000]'
                         }`}
                     >
                       <CheckCircle className="w-3.5 h-3.5" />
@@ -921,8 +921,8 @@ const ReviewsSection = ({ property, isDark, propertyId }) => {
         // Empty State
         !isWritingReview && (
           <div className="p-8 text-center">
-            <div className="w-12 h-12 rounded-full bg-[#51faaa]/10 mx-auto mb-3 flex items-center justify-center">
-              <MessageSquare className="w-6 h-6 text-[#51faaa]" />
+            <div className="w-12 h-12 rounded-full bg-[#000000]/10 mx-auto mb-3 flex items-center justify-center">
+              <MessageSquare className="w-6 h-6 text-[#000000]" />
             </div>
             <h4 className={`font-bold mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
               No Reviews Yet
@@ -960,12 +960,12 @@ const MiniFooter = ({ property, isDark }) => {
           <div className="flex items-center gap-2">
             <img
               src={logoPng}
-              alt="HomesKE Logo"
+              alt="MaplotiKenya Logo"
               className="h-12 w-auto object-contain drop-shadow-md"
             />
           </div>
           <p className={`text-[10px] uppercase font-bold tracking-widest ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
-            © {new Date().getFullYear()} HomesKE. All rights reserved.
+            © {new Date().getFullYear()} MaplotiKenya. All rights reserved.
           </p>
         </div>
 
@@ -975,7 +975,7 @@ const MiniFooter = ({ property, isDark }) => {
             Listing ID: <span className="font-mono">{property.id?.substring(0, 8).toUpperCase() || 'N/A'}</span>
           </p>
           <p className={`text-[10px] leading-relaxed max-w-xs mx-auto ${isDark ? 'text-gray-600' : 'text-gray-400'}`}>
-            Information is deemed reliable but not guaranteed. HomesKE relies on agents and property owners for accuracy.
+            Information is deemed reliable but not guaranteed. MaplotiKenya relies on agents and property owners for accuracy.
           </p>
         </div>
       </div>
@@ -1136,8 +1136,8 @@ const MobilePropertyDetails = () => {
         <div className="flex items-center justify-center h-[70vh]">
           <div className="flex flex-col items-center gap-4">
             <div className="relative w-16 h-16">
-              <div className="absolute inset-0 border-4 border-[#51faaa]/20 rounded-full"></div>
-              <div className="absolute inset-0 border-4 border-[#51faaa] border-t-transparent rounded-full animate-spin"></div>
+              <div className="absolute inset-0 border-4 border-[#fbbf24]/20 rounded-full"></div>
+              <div className="absolute inset-0 border-4 border-[#fbbf24] border-t-transparent rounded-full animate-spin"></div>
             </div>
             <p className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
               Loading property details...
@@ -1243,7 +1243,7 @@ const MobilePropertyDetails = () => {
               key={tab.name}
               onClick={() => handleTabChange(tab.name)}
               className={`relative py-4 px-2 flex flex-col items-center gap-1 text-xs font-bold uppercase tracking-wider transition-colors ${activeTab === tab.name
-                ? 'text-[#51faaa]'
+                ? 'text-[#000000]'
                 : isDark ? 'text-gray-500 hover:text-gray-300' : 'text-gray-400 hover:text-gray-600'
                 }`}
             >
@@ -1252,7 +1252,7 @@ const MobilePropertyDetails = () => {
               {activeTab === tab.name && (
                 <motion.div
                   layoutId="activeTab"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#51faaa]"
+                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#000000]"
                   transition={{ type: "spring", stiffness: 500, damping: 30 }}
                 />
               )}
@@ -1277,14 +1277,14 @@ const MobilePropertyDetails = () => {
             <div>
               <div className="flex items-center gap-2 mb-3">
                 {property.type && (
-                  <span className="px-3 py-1 bg-[#51faaa]/15 text-[#51faaa] text-[10px] font-bold uppercase tracking-[0.12em] rounded-full border border-[#51faaa]/20">
+                  <span className="px-3 py-1 bg-[#000000]/15 text-[#000000] text-[10px] font-bold uppercase tracking-[0.12em] rounded-full border border-[#fbbf24]/20">
                     {property.type}
                   </span>
                 )}
                 {property.status && (
                   <span className={`px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] rounded-full border ${property.status.toLowerCase().includes('rent')
                     ? 'bg-emerald-500/15 text-emerald-400 border-emerald-400/20'
-                    : 'bg-[#51faaa]/15 text-[#51faaa] border-[#51faaa]/20'
+                    : 'bg-[#000000]/15 text-[#000000] border-[#fbbf24]/20'
                     }`}>
                     {property.status.replace(/-/g, ' ')}
                   </span>
@@ -1298,7 +1298,7 @@ const MobilePropertyDetails = () => {
 
               {property.address && (
                 <div className="flex items-center gap-2 text-sm mt-2">
-                  <MapPin className="w-4 h-4 text-[#51faaa] flex-shrink-0" />
+                  <MapPin className="w-4 h-4 text-[#000000] flex-shrink-0" />
                   <span className={isDark ? 'text-gray-400' : 'text-gray-600'}>
                     {typeof property.address === 'string' ? property.address : (property.address?.address || property.address?.city || 'Location available')}
                   </span>
@@ -1313,7 +1313,7 @@ const MobilePropertyDetails = () => {
                   </span>
                   {property.views && (
                     <>
-                      <span className={isDark ? 'text-gray-600' : 'text-gray-300'}>•</span>
+                      <span className={isDark ? 'text-gray-600' : 'text-gray-300'}>â€¢</span>
                       <div className="flex items-center gap-1">
                         <Eye className={`w-3.5 h-3.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`} />
                         <span className={`text-[11px] ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
@@ -1324,7 +1324,7 @@ const MobilePropertyDetails = () => {
                   )}
                 </div>
                 <div className="flex items-end justify-between gap-3">
-                  <p className="text-[34px] font-black text-[#51faaa] tracking-tight leading-none">
+                  <p className="text-[34px] font-black text-[#000000] tracking-tight leading-none">
                     {formatPrice(property.price)}
                   </p>
                   {property.area > 0 && (
@@ -1350,7 +1350,7 @@ const MobilePropertyDetails = () => {
                     className={`flex-1 flex flex-col items-center justify-center py-4 rounded-2xl border ${isDark ? 'border-white/10 bg-white/[0.02]' : 'border-gray-200 bg-white'
                       }`}
                   >
-                    <stat.icon className={`w-5 h-5 mb-2 ${isDark ? 'text-[#51faaa]' : 'text-gray-400'}`} />
+                    <stat.icon className={`w-5 h-5 mb-2 ${isDark ? 'text-[#000000]' : 'text-gray-400'}`} />
                     <span className={`text-lg font-black tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>
                       {stat.value}
                     </span>
@@ -1366,7 +1366,7 @@ const MobilePropertyDetails = () => {
             {property.description && (
               <p className={`text-[15px] leading-relaxed ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
                 {property.description.length > 150
-                  ? `${property.description.slice(0, 150).trim()}…`
+                  ? `${property.description.slice(0, 150).trim()}â€¦`
                   : property.description}
               </p>
             )}
@@ -1379,7 +1379,7 @@ const MobilePropertyDetails = () => {
                 'Secure in-app inquiries & viewings',
               ].map((line, idx) => (
                 <div key={idx} className="flex items-center gap-2.5">
-                  <CheckCircle className="w-4 h-4 text-[#51faaa] flex-shrink-0" />
+                  <CheckCircle className="w-4 h-4 text-[#000000] flex-shrink-0" />
                   <span className={`text-[13px] ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
                     {line}
                   </span>
@@ -1435,10 +1435,10 @@ const MobilePropertyDetails = () => {
                             {unit.name}
                           </h4>
                           <span className={`inline-flex items-center gap-1.5 text-[10px] px-2.5 py-1 rounded-full font-black uppercase tracking-wider ${Number(unit.unitsAvailable) > 0
-                            ? 'bg-[#51faaa]/10 text-[#51faaa]'
+                            ? 'bg-[#000000]/10 text-[#000000]'
                             : 'bg-red-500/10 text-red-500'
                             }`}>
-                            <div className={`w-1.5 h-1.5 rounded-full ${Number(unit.unitsAvailable) > 0 ? 'bg-[#51faaa]' : 'bg-red-500'
+                            <div className={`w-1.5 h-1.5 rounded-full ${Number(unit.unitsAvailable) > 0 ? 'bg-[#000000]' : 'bg-red-500'
                               }`} />
                             {Number(unit.unitsAvailable) > 0
                               ? `${unit.unitsAvailable} Available`
@@ -1447,7 +1447,7 @@ const MobilePropertyDetails = () => {
                           </span>
                         </div>
                         <div className="text-right">
-                          <p className="text-[#51faaa] font-black text-lg tracking-tight">
+                          <p className="text-[#000000] font-black text-lg tracking-tight">
                             {formatPrice(unit.price)}
                           </p>
                           {unit.rentPeriod && (
@@ -1509,7 +1509,7 @@ const MobilePropertyDetails = () => {
                         className="flex items-center gap-3"
                       >
                         <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${isDark ? 'bg-white/5' : 'bg-gray-100'}`}>
-                          <div className="text-[#51faaa]">
+                          <div className="text-[#000000]">
                             {getAmenityIcon(amenity)}
                           </div>
                         </div>
@@ -1543,7 +1543,7 @@ const MobilePropertyDetails = () => {
                     whileTap={{ scale: 0.95 }}
                     onClick={() => navigate('/properties')}
                     className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider border-2 transition-all ${isDark
-                      ? 'border-[#51faaa]/20 text-[#51faaa] hover:bg-[#51faaa]/10'
+                      ? 'border-[#fbbf24]/20 text-[#000000] hover:bg-[#000000]/10'
                       : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
                   >
                     View all

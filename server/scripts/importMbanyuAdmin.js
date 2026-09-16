@@ -2,7 +2,7 @@ import { initializeApp } from 'firebase-admin/app';
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
 import { scrapeMbanyu } from './scrape/sites/mbanyu.js';
 
-// Initialize Firebase Admin for Maploti project
+// Initialize Firebase Admin for MaplotiKenya project
 const app = initializeApp({
   projectId: 'maploti',
 });
@@ -116,7 +116,7 @@ async function main() {
     }
   }
 
-  console.log(`\n🎉 DONE! Successfully imported ${inserted} listings into Maploti Firestore (Skipped ${skipped} duplicates).`);
+  console.log(`\n🎉 DONE! Successfully imported ${inserted} listings into MaplotiKenya Firestore (Skipped ${skipped} duplicates).`);
   process.exit(0);
 }
 

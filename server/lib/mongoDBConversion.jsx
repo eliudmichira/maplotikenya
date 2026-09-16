@@ -4,10 +4,10 @@ import {MongoClient} from 'mongodb';
 // const { MongoClient } = require("mongodb");
 
 async function convertFieldsToArrays() {
-  const client = new MongoClient("mongodb+srv://bumihouse:zixx13060@cluster0.yahsqkj.mongodb.net/bumihouse?retryWrites=true&w=majority"); // change if needed
+  const client = new MongoClient("mongodb+srv://maplotikenya:zixx13060@cluster0.yahsqkj.mongodb.net/maplotikenya?retryWrites=true&w=majority"); // change if needed
   await client.connect();
 
-  const db = client.db("bumihouse"); // replace with your DB name
+  const db = client.db("maplotikenya"); // replace with your DB name
   const collection = db.collection("Residency"); // replace with your collection
 
   const fieldsToConvert = ["image"];

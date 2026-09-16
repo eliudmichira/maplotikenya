@@ -1,36 +1,36 @@
-﻿/* 🎨 Hama Estate Design System CSS */
+/* 🎨 Hama Estate Design System CSS */
 
 /* CSS Variables for Design System */
 :root {
   /* Primary Colors */
-  --primary-green: #51faaa;
-  --primary-gold: #dbd5a4;
-  --dark-bg: #0a0c19;
+  --primary-green: #fbbf24;    /* now amber */
+  --primary-gold:  #f59e0b;
+  --dark-bg: #000000;
+
+  /* Gradient Combinations — AMBER (was gray/black) */
+  --gradient-primary:      linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+  --gradient-primary-br:   linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  --gradient-card:         linear-gradient(to bottom right, rgba(251,191,36,0.10), rgba(245,158,11,0.06));
+  --gradient-card-gold:    linear-gradient(to bottom right, rgba(251,191,36,0.12), rgba(245,158,11,0.08));
+  --gradient-mixed:        linear-gradient(to bottom right, rgba(251,191,36,0.10), rgba(245,158,11,0.06));
   
-  /* Gradient Combinations */
-  --gradient-primary: linear-gradient(to right, #51faaa, #dbd5a4);
-  --gradient-primary-br: linear-gradient(to bottom right, #51faaa, #dbd5a4);
-  --gradient-card: linear-gradient(to bottom right, #51faaa20, #dbd5a430);
-  --gradient-card-gold: linear-gradient(to bottom right, #dbd5a420, #dbd5a430);
-  --gradient-mixed: linear-gradient(to bottom right, #51faaa20, #dbd5a430);
-  
-  /* Background Colors - Light Theme */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f9fafb;
-  --bg-tertiary: #f3f4f6;
-  --bg-accent: #e5e7eb;
-  
-  /* Text Colors - Light Theme */
-  --text-primary: #111827;
-  --text-secondary: #6b7280;
-  --text-muted: #9ca3af;
-  --text-light: #d1d5db;
+  /* Background Colors - Light Theme (mono) */
+  --bg-primary:   #ffffff;
+  --bg-secondary: #f8f8f8;
+  --bg-tertiary:  #f0f0f0;
+  --bg-accent:    #e2e2e2;
+
+  /* Text Colors - Light Theme (mono) */
+  --text-primary:   #000000;
+  --text-secondary: #505050;
+  --text-muted:     #808080;
+  --text-light:     #a3a3a3;
   
   /* Status Colors */
-  --success: #51faaa;
+  --success: #000000;
   --warning: #f59e0b;
   --error: #ef4444;
-  --info: #51faaa;
+  --info: #000000;
   
   /* Spacing Scale */
   --space-1: 0.25rem;
@@ -54,23 +54,25 @@
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  --shadow-primary: 0 4px 15px rgba(59, 130, 246, 0.3);
-  --shadow-primary-lg: 0 8px 25px rgba(59, 130, 246, 0.4);
+  /* Embossed CTA shadows (mono) */
+  --shadow-primary: inset 0 1px 0 rgba(255,255,255,0.10), 0 1px 2px rgba(0,0,0,0.35), 0 8px 24px -6px rgba(0,0,0,0.4);
+  --shadow-primary-lg: inset 0 1px 0 rgba(255,255,255,0.15), 0 2px 4px rgba(0,0,0,0.4), 0 12px 32px -8px rgba(0,0,0,0.5);
 }
 
-/* Dark Mode Variables */
-[data-theme="dark"] {
-  /* Background Colors - Dark Theme */
-  --bg-primary: #111827;
-  --bg-secondary: #1f2937;
-  --bg-tertiary: #374151;
-  --bg-accent: #4b5563;
-  
+/* Dark Mode Variables — support BOTH toggles: [data-theme="dark"] AND html.dark */
+[data-theme="dark"],
+html.dark {
+  /* Background Colors - Dark Theme (true neutral) */
+  --bg-primary:   #0A0A0A;
+  --bg-secondary: #111111;
+  --bg-tertiary:  #131313;
+  --bg-accent:    #1C1C1C;
+
   /* Text Colors - Dark Theme */
-  --text-primary: #f9fafb;
-  --text-secondary: #d1d5db;
-  --text-muted: #9ca3af;
-  --text-light: #6b7280;
+  --text-primary:   #F2F2F2;
+  --text-secondary: #C0C0C0;
+  --text-muted:     #808080;
+  --text-light:     #505050;
 }
 
 /* Base Styles */
@@ -114,12 +116,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.25);
+  box-shadow: 0 10px 25px rgba(251, 191, 36, 0.25);
   transition: var(--transition);
 }
 
 .logo-icon:hover {
-  box-shadow: 0 20px 40px rgba(59, 130, 246, 0.4);
+  box-shadow: 0 20px 40px rgba(251, 191, 36, 0.4);
   transform: translateY(-2px);
 }
 
@@ -135,18 +137,30 @@
   color: var(--primary-green);
 }
 
-/* Button Styles */
+/* Button Styles — Amber pill + embossed (matches sign-in feel) */
 .btn-primary {
-  background: var(--gradient-primary);
-  color: var(--dark-bg);
-  padding: 0.625rem 1.5rem;
+  background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+  color: #0e1311;
+  padding: 0.75rem 1.5rem;
   border-radius: 9999px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
   border: none;
   cursor: pointer;
-  transition: var(--transition);
-  box-shadow: var(--shadow-primary);
+  transition: transform 0.22s cubic-bezier(0.16,1,0.3,1), box-shadow 0.22s cubic-bezier(0.16,1,0.3,1), filter 0.22s ease;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 1px 2px rgba(0, 0, 0, 0.15),
+    0 8px 20px -6px rgba(251, 191, 36, 0.45);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 12px 28px -8px rgba(251, 191, 36, 0.6);
 }
 
 .btn-primary:hover {
@@ -167,7 +181,7 @@
 }
 
 .btn-secondary:hover {
-  background: rgba(59, 130, 246, 0.2);
+  background: rgba(251, 191, 36, 0.2);
   color: var(--dark-bg);
 }
 
@@ -211,7 +225,7 @@
   padding: 1rem;
   text-align: center;
   transition: var(--transition);
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(251, 191, 36, 0.2);
 }
 
 .feature-card:hover {
@@ -245,7 +259,7 @@
 .input-field:focus {
   outline: none;
   border-color: var(--primary-green);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
 }
 
 .select-field {
@@ -263,7 +277,7 @@
 .select-field:focus {
   outline: none;
   border-color: var(--primary-green);
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+  box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.1);
 }
 
 /* Modal/Overlay Components */
@@ -306,7 +320,7 @@
 .filter-badge.active {
   background: var(--primary-green);
   color: var(--dark-bg);
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.2);
 }
 
 .filter-badge.inactive {
@@ -342,7 +356,7 @@
 }
 
 .hover-glow:hover {
-  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
 }
 
 /* Keyframe Animations */
@@ -500,7 +514,7 @@
 /* Focus Styles */
 .focus-ring:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.3);
 }
 
 /* Loading States */

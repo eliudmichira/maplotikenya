@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <link rel="canonical" href="https://maploti.app/login.html" />
+  <title>Sign In — Maploti</title>
+  <meta name="description" content="Sign in to Maploti to access your saved properties, chat with agents and list your own property across Kenya." />
+  <meta property="og:title" content="Sign In — Maploti" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=10" />
+  <noscript><style>.reveal { opacity: 1; transform: none; }</style></noscript>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23BFFF1A'/%3E%3Ctext x='16' y='23' font-family='Inter,sans-serif' font-weight='900' font-size='19' text-anchor='middle' fill='%23000'%3EM%3C/text%3E%3C/svg%3E" />
+
+  <!-- Firebase (same project as the Maploti app) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+</head>
+<body>
+
+  <!-- ══════════════ NAV ══════════════ -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="brand" aria-label="Maploti home">
+        <span class="brand__mark">M</span>
+        <span class="brand__word">MAPLOTI</span>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="listings.html" class="nav__link">Properties</a>
+        <a href="saved.html" class="nav__link">Saved</a>
+        <a href="map.html" class="nav__link">Map</a>
+        <a href="index.html#how" class="nav__link">How it works</a>
+        <a href="index.html#app" class="nav__link">The App</a>
+      </nav>
+
+      <div class="nav__actions">
+        <a href="login.html" class="btn btn--ghost nav__signin" aria-current="page">Sign In</a>
+        <a href="login.html" class="btn btn--accent nav__cta">List a Property</a>
+        <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <a href="listings.html">Properties</a>
+      <a href="saved.html">Saved</a>
+      <a href="map.html">Map</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#app">The App</a>
+      <a href="login.html">Sign In</a>
+      <a href="login.html" class="btn btn--accent btn--block">List a Property</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="auth">
+      <div class="container auth__grid">
+
+        <!-- ── Auth form panel ── -->
+        <div class="auth__panel reveal">
+          <div class="auth__brand">
+            <span class="auth__brand-mark">M</span>
+            <div>
+              <span class="auth__brand-word">MAPLOTI</span>
+              <span class="auth__brand-sub">Kenya Real Estate Platform</span>
+            </div>
+          </div>
+
+          <!-- Mode pill: Sign In / Register -->
+          <div class="auth__pill" role="group" aria-label="Authentication mode">
+            <button type="button" id="tabSignin" class="is-active" aria-pressed="true">Sign In</button>
+            <button type="button" id="tabRegister" aria-pressed="false">Register</button>
+          </div>
+
+          <!-- Dynamic heading -->
+          <h1 class="auth__title" id="authTitle">Welcome back to Maploti</h1>
+          <p class="auth__sub" id="authSub">Access your saved properties and manage your account.</p>
+
+          <!-- Google sign-in -->
+          <button type="button" class="auth__google" id="googleBtn">
+            <span class="auth__google-label">
+              <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.1 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3l5.7-5.7C34.1 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.1 5.7l6.2 5.2C41.6 36.2 44 30.6 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg>
+              <span id="googleLabel">Sign in with Google</span>
+            </span>
+          </button>
+
+          <div class="auth__divider">or continue with email</div>
+
+          <!-- Email / password form -->
+          <form id="authForm" novalidate>
+            <div class="auth__field" id="nameField">
+              <label class="auth__label" for="name">Full Name</label>
+              <div class="auth__input-wrap">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <input class="auth__input" type="text" id="name" name="name" placeholder="e.g. John Doe" autocomplete="name" />
+              </div>
+              <p class="auth__error-msg" data-for="name">Enter your full name</p>
+            </div>
+
+            <div class="auth__field">
+              <label class="auth__label" for="email">Email Address</label>
+              <div class="auth__input-wrap">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+                <input class="auth__input" type="email" id="email" name="email" placeholder="name@example.com" autocomplete="email" inputmode="email" />
+              </div>
+              <p class="auth__error-msg" data-for="email">Enter a valid email address</p>
+            </div>
+
+            <div class="auth__field">
+              <label class="auth__label" for="password">Password</label>
+              <div class="auth__input-wrap">
+                <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <input class="auth__input" type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" />
+                <button type="button" class="auth__eye" id="eyeBtn" aria-label="Show password">
+                  <svg id="eyeOpen" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                  <svg id="eyeClosed" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><path d="m1 1 22 22"/></svg>
+                </button>
+              </div>
+              <p class="auth__error-msg" data-for="password">Password must be at least 6 characters</p>
+            </div>
+
+            <button type="button" class="auth__forgot" id="forgotLink">Forgot Password?</button>
+
+            <button type="submit" class="btn btn--accent auth__submit" id="submitBtn">
+              <span id="submitLabel">SIGN IN</span>
+            </button>
+          </form>
+
+          <p class="auth__switch" id="switchLine">
+            Don't have an account? <button type="button" id="switchBtn">Register</button>
+          </p>
+
+          <!-- Success state -->
+          <div class="auth__success" id="authSuccess" hidden>
+            <div class="auth__success-icon">
+              <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"/></svg>
+            </div>
+            <h2 class="auth__title" id="successTitle">You're in!</h2>
+            <p class="auth__sub" id="successSub">Welcome back — your saved properties are waiting.</p>
+            <div style="display:flex;gap:12px;justify-content:center;margin-top:26px;flex-wrap:wrap">
+              <a href="listings.html" class="btn btn--accent">Browse Properties</a>
+              <a href="index.html" class="btn btn--outline">Back to Home</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Brand side panel ── -->
+        <aside class="auth__side reveal reveal--delay-1">
+          <p class="eyebrow">Maploti · Kenya Real Estate Platform</p>
+          <h2 class="display" style="font-size:clamp(34px,4.4vw,56px)">Your plot<br />awaits</h2>
+          <p class="auth__side-sub" style="color:var(--mute);margin-top:20px;max-width:440px;font-size:15px">
+            One account for everything — searching, saving and listing property across all 47 counties.
+          </p>
+          <ul class="auth__side-list">
+            <li>
+              <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 10 3 3 7-7"/></svg>
+              <span>Saved properties, synced everywhere
+                <small>Heart listings on any device and find them instantly.</small>
+              </span>
+            </li>
+            <li>
+              <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 10 3 3 7-7"/></svg>
+              <span>Direct WhatsApp contact with agents
+                <small>Talk to owners and agents in one tap — no middlemen.</small>
+              </span>
+            </li>
+            <li>
+              <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 10 3 3 7-7"/></svg>
+              <span>List your own property in minutes
+                <small>Photos, price and location — publish straight to the map.</small>
+              </span>
+            </li>
+          </ul>
+
+          <div class="hero__stats" style="margin-top:44px">
+            <div class="stat">
+              <span class="stat__num" id="sideListings" data-count="770" data-suffix="+">770+</span>
+              <span class="stat__label">Live listings</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num" id="sideTopAreas" style="font-size:15px;white-space:nowrap">Nairobi · Mombasa</span>
+              <span class="stat__label">Top areas</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num" id="sideAreas">45+</span>
+              <span class="stat__label">Neighbourhoods</span>
+            </div>
+          </div>
+        </aside>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="index.html" class="brand">
+            <span class="brand__mark">M</span>
+            <span class="brand__word">MAPLOTI</span>
+          </a>
+          <p class="footer__tag">Find, save and list properties across Kenya.</p>
+          <div class="footer__socials">
+            <a href="#" aria-label="X / Twitter">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L1.6 2H8l4.4 5.9L18.9 2Zm-1.1 18h1.7L7.1 3.9H5.3L17.8 20Z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M14 8.5V6.8c0-.8.2-1.3 1.3-1.3H17V2.1h-2.6C11.4 2.1 10 3.7 10 6.4v2.1H8V12h2v9h4v-9h2.7l.3-3.5h-3Z"/></svg>
+            </a>
+            <a href="#" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M23 7.5s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.4-1C16.7 4 12 4 12 4s-4.7 0-7.7.2c-.5.1-1.5.1-2.4 1-.7.7-.9 2.3-.9 2.3S.8 9.4.8 11.3v1.4c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.6 1 1.9.2 7.5.2 7.5.2s4.7 0 7.7-.3c.5-.1 1.5-.1 2.4-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8v-1.4c0-1.8-.2-3.7-.2-3.7ZM9.7 15.4V8.6l6.2 3.4-6.2 3.4Z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <h4>Product</h4>
+          <a href="listings.html">Properties</a>
+          <a href="map.html">Map</a>
+          <a href="index.html#app">The App</a>
+          <a href="login.html">List a property</a>
+        </div>
+        <div class="footer__col">
+          <h4>Company</h4>
+          <a href="index.html#how">About Maploti</a>
+          <a href="index.html#app">Get the app</a>
+          <a href="mailto:hello@maploti.app">Contact</a>
+        </div>
+        <div class="footer__col">
+          <h4>Legal</h4>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="cookies.html">Cookie Policy</a>
+        </div>
+      </div>
+
+      <div class="footer__bar">
+        <span>© 2026 Maploti · Nairobi, Kenya</span>
+        <span class="footer__made">Made in Kenya 🇰🇪</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/firebase.js?v=4"></script>
+  <script src="js/data.js?v=4"></script>
+  <script src="js/user.js?v=4"></script>
+  <script src="js/site.js?v=4"></script>
+  <script src="js/auth.js?v=4"></script>
+
+  <!-- Live side-panel stats: same M.liveStats() computation as the
+       homepage hero, so the numbers can never drift apart. -->
+  <script>
+    (function () {
+      window.MAPLOTI.ready()
+        .then(function (list) {
+          var s = window.MAPLOTI.liveStats(list);
+          var listings = document.getElementById('sideListings');
+          if (listings) listings.textContent = s.listings.toLocaleString('en-US') + '+';
+          var topAreas = document.getElementById('sideTopAreas');
+          if (topAreas) topAreas.textContent = s.topAreas.length ? s.topAreas.join(' · ') : '—';
+          var areas = document.getElementById('sideAreas');
+          if (areas) {
+            areas.textContent = s.areas ? s.areas.toLocaleString('en-US') + '+' : '—';
+          }
+        })
+        .catch(function () {
+          /* keep the static fallback numbers */
+        });
+    })();
+  </script>
+</body>
+</html>

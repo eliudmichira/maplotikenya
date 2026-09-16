@@ -1,6 +1,6 @@
 {
-  "appId": "com.homeske.app",
-  "appName": "HomesKE",
+  "appId": "ke.maploti.maploti",
+  "appName": "MaplotiKenya",
   "webDir": "dist",
   "plugins": {
     "FirebaseAuthentication": {

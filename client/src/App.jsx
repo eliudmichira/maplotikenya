@@ -57,6 +57,7 @@ const MobileAddProperty = lazy(() => import('./mobile/pages/MobileAddProperty'))
 
 // Desktop pages
 const PropertyDetails = lazy(() => import('./routes/propertyDetails/propertyDetails'));
+const DesignPreview = lazy(() => import('./pages/DesignPreview'));
 const ListPage = lazy(() => import('./routes/listPage/listPage_fixed_useLocation'));
 // Desktop /login and /register now route to the shared <MobileAuth /> screen (see /auth).
 const Dashboard = lazy(() => import('./routes/dashboard/dashboard'));
@@ -106,6 +107,9 @@ function AppContent() {
   return (
     <Suspense fallback={<PageLoader />}>
       <Routes>
+        {/* Design system preview — Nairobi Nocturne */}
+        <Route path="/design" element={<DesignPreview />} />
+
         {/* Critical Legal Page - Top Priority - Standalone to avoid Layout issues */}
         <Route path="/account-deletion" element={
           <div className="layout min-h-screen bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-white">

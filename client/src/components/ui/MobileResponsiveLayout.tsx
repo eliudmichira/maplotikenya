@@ -192,7 +192,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({
               flex flex-col items-center justify-center w-16 h-16 rounded-xl
               transition-all duration-200 relative
               ${activeItem === item.id
-                ? 'bg-gradient-to-br from-[#3b82f6] to-[#06b6d4] text-[#0a0c19] shadow-lg'
+                ? 'bg-gradient-to-br from-[#505050] to-[#06b6d4] text-[#000000] shadow-lg'
                 : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
               }
             `}
@@ -288,9 +288,9 @@ export const MobileButton: React.FC<MobileButtonProps> = ({
   className = ''
 }) => {
   const variantClasses = {
-    primary: 'bg-gradient-to-r from-[#3b82f6] to-[#06b6d4] text-[#0a0c19] hover:shadow-lg',
+    primary: 'bg-gradient-to-r from-[#505050] to-[#06b6d4] text-[#000000] hover:shadow-lg',
     secondary: 'bg-gray-700 text-white hover:bg-gray-600',
-    outline: 'border-2 border-[#3b82f6] text-[#3b82f6] hover:bg-[#3b82f6] hover:text-[#0a0c19]',
+    outline: 'border-2 border-[#505050] text-[#505050] hover:bg-[#505050] hover:text-[#000000]',
     ghost: 'text-gray-400 hover:text-white hover:bg-gray-800',
     danger: 'bg-red-500 text-white hover:bg-red-600'
   };

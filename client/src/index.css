@@ -1,5 +1,48 @@
-﻿/* LinkGenie Design System */
+/* MaplotiKenya — Ascend-inspired palette + Apfel Grotezk */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* Apfel Grotezk — self-hosted (Collletttivo, OFL) */
+@font-face {
+  font-family: 'Apfel Grotezk';
+  src: url('/fonts/apfel/ApfelGrotezk-Regular.woff2') format('woff2'),
+       url('/fonts/apfel/ApfelGrotezk-Regular.woff')  format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Apfel Grotezk';
+  src: url('/fonts/apfel/ApfelGrotezk-Mittel.woff2') format('woff2'),
+       url('/fonts/apfel/ApfelGrotezk-Mittel.woff')  format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Apfel Grotezk';
+  src: url('/fonts/apfel/ApfelGrotezk-Satt.woff2') format('woff2'),
+       url('/fonts/apfel/ApfelGrotezk-Satt.woff')  format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Apfel Grotezk';
+  src: url('/fonts/apfel/ApfelGrotezk-Fett.woff2') format('woff2'),
+       url('/fonts/apfel/ApfelGrotezk-Fett.woff')  format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+/* Brukt = "used" display cut — expressive alternate for headlines */
+@font-face {
+  font-family: 'Apfel Grotezk Brukt';
+  src: url('/fonts/apfel/ApfelGrotezk-Brukt.woff2') format('woff2'),
+       url('/fonts/apfel/ApfelGrotezk-Brukt.woff')  format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -82,14 +125,192 @@
   font-family: 'Material Symbols Sharp';
 }
 
-/* Custom CSS Variables */
+/* ── Mono palette · adaptive light + dark ─────────────────────────────
+   Semantic tokens (--bg, --surface, --text, --text-muted, --border,
+   --cta, --cta-fg) auto-flip when `.dark` is toggled on <html>.
+   Static tokens (--accent-neon, --scrim) stay constant. */
+
 :root {
-  --primary-color: #51faaa;
-  --secondary-color: #dbd5a4;
-  --dark-bg: #0a0c19;
-  --dark-secondary: #10121e;
-  --text-primary: #ffffff;
-  --text-secondary: #cccccc;
+  /* LIGHT (default) */
+  --bg:              #ffffff;
+  --surface:         #f8f8f8;
+  --surface-2:       #f0f0f0;
+  --text:            #000000;
+  --text-muted:      #505050;
+  --text-subtle:     #808080;
+  --border:          rgba(0, 0, 0, 0.08);
+  --border-strong:   rgba(0, 0, 0, 0.16);
+  --cta:             #fbbf24;     /* amber — primary CTA everywhere */
+  --cta-fg:          #0e1311;     /* near-black for legibility on amber */
+  --cta-hover:       #f59e0b;
+  --cta-glow:        rgba(251, 191, 36, 0.45);
+  --card:            #ffffff;
+  --input-bg:        #f8f8f8;
+
+  /* Legacy vars — kept for existing components that reference them */
+  --primary-color:   #000000;
+  --primary-mid:     #303030;
+  --primary-soft:    #f0f0f0;
+  --primary-pale:    #f8f8f8;
+  --secondary-color: #f0f0f0;
+  --dark-bg:         var(--bg);
+  --dark-secondary:  var(--surface);
+  --dark-elevated:   var(--surface-2);
+  --text-primary:    var(--text);
+  --text-secondary:  var(--text-muted);
+
+  /* Static across modes */
+  --accent-neon:     #fbbf24;
+  --scrim:           rgba(0, 0, 0, 0.24);
+  --emboss-inset-dark:  inset 0 1px 0 rgba(255, 255, 255, 0.10);
+  --emboss-inset-light: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+html.dark {
+  --bg:              #0A0A0A;      /* true neutral black */
+  --surface:         #111111;      /* card / elevated */
+  --surface-2:       #131313;      /* second elevation */
+  --text:            #F2F2F2;      /* near-white body/text */
+  --text-muted:      #a3a3a3;
+  --text-subtle:     #6b6b6b;
+  --border:          #1C1C1C;      /* neutral hairline */
+  --border-strong:   #262626;
+  --cta:             #fbbf24;      /* same amber in dark mode — pops on black */
+  --cta-fg:          #0e1311;
+  --cta-hover:       #f59e0b;
+  --cta-glow:        rgba(251, 191, 36, 0.35);
+  --card:            #0e1311;
+  --input-bg:        #1a1a1a;
+
+  --primary-color:   #ffffff;
+  --primary-mid:     #c8c8c8;
+  --primary-soft:    #1a1a1a;
+  --primary-pale:    #0e1311;
+  --secondary-color: #1a1a1a;
+  --dark-bg:         var(--bg);
+  --dark-secondary:  var(--surface);
+  --dark-elevated:   var(--surface-2);
+  --text-primary:    var(--text);
+  --text-secondary:  var(--text-muted);
+}
+
+/* ── Pill + embossing utilities ─────────────────────────────────── */
+.btn-pill,
+button.btn-pill {
+  border-radius: 999px !important;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+.emboss,
+.btn-emboss {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.10),
+    0 1px 2px rgba(0, 0, 0, 0.35),
+    0 6px 16px -4px rgba(0, 0, 0, 0.4);
+}
+.emboss-light,
+.btn-emboss-light {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 4px 12px -4px rgba(0, 0, 0, 0.12);
+}
+/* Default CTA — pill, embossed, ADAPTIVE
+   In light mode: black pill with white text.
+   In dark mode:  white pill with black text (auto-inverts). */
+.btn-mono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+  color: var(--cta-fg);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border: none;
+  cursor: pointer;
+  transition: transform 220ms cubic-bezier(0.16,1,0.3,1),
+              box-shadow 220ms cubic-bezier(0.16,1,0.3,1),
+              filter 220ms cubic-bezier(0.16,1,0.3,1);
+}
+.btn-mono:hover { filter: brightness(1.06); }
+/* Amber CTA emboss — matches the sign-in button feel */
+.btn-mono {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 1px 2px rgba(0, 0, 0, 0.15),
+    0 8px 20px -6px var(--cta-glow, rgba(251, 191, 36, 0.45));
+}
+.btn-mono:hover {
+  transform: translateY(-2px);
+  background: var(--cta-hover);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.65),
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 12px 28px -8px var(--cta-glow, rgba(251, 191, 36, 0.6));
+}
+
+/* ── Hero highlight — for phrases like "Home in Kenya" ──────────── */
+.hero-highlight {
+  color: #fbbf24;
+  /* Warm amber glow */
+  text-shadow:
+    0 0 40px rgba(251, 191, 36, 0.35),
+    0 0 12px rgba(251, 191, 36, 0.25);
+}
+.hero-highlight--italic { font-style: italic; }
+
+/* Amber text — gradient-filled words, for section titles */
+.text-amber-fill {
+  background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+/* Explicit variant — light pill on any background */
+.btn-mono--light {
+  background: #ffffff;
+  color: #000000;
+  box-shadow:
+    var(--emboss-inset-light),
+    0 1px 2px rgba(0, 0, 0, 0.08),
+    0 4px 12px -4px rgba(0, 0, 0, 0.12);
+}
+.btn-mono--light:hover { background: #f8f8f8; }
+/* Explicit variant — dark pill on any background */
+.btn-mono--dark {
+  background: #000000;
+  color: #ffffff;
+  box-shadow:
+    var(--emboss-inset-dark),
+    0 1px 2px rgba(0, 0, 0, 0.35),
+    0 8px 24px -6px rgba(0, 0, 0, 0.4);
+}
+.btn-mono--dark:hover { background: #1a1a1a; }
+.btn-mono--accent {
+  background: #fbbf24;
+  color: #0e1311;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    0 6px 20px -6px rgba(251, 191, 36, 0.5);
+}
+.btn-mono--accent:hover {
+  background: #f59e0b;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 10px 28px -8px rgba(251, 191, 36, 0.7);
+}
+/* Video-safe scrim */
+.scrim::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: rgba(0, 0, 0, 0.24);
+  pointer-events: none;
 }
 
 /* Base Styles */
@@ -106,12 +327,13 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Apfel Grotezk', 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--dark-bg);
-  color: var(--text-primary);
+  background-color: var(--bg);       /* adaptive */
+  color: var(--text);                /* adaptive */
   overflow-x: hidden;
+  transition: background-color 240ms ease, color 240ms ease;
 }
 
 /* Mobile-specific optimizations */
@@ -197,12 +419,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(59, 130, 246, 0.3);
+  background: rgba(251, 191, 36, 0.3);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(59, 130, 246, 0.5);
+  background: rgba(251, 191, 36, 0.5);
 }
 
 /* Mobile scrollbar */
@@ -282,9 +504,10 @@ body {
     margin-bottom: max(0px, env(safe-area-inset-bottom));
   }
 
-  /* Gradient backgrounds */
+  /* Gradient backgrounds — AMBER CTA fill */
   .gradient-primary {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+    color: #0e1311;
   }
 
   .gradient-dark {
@@ -411,7 +634,7 @@ body {
   left: 0;
   right: 0;
   background: var(--dark-bg);
-  border-top: 1px solid rgba(59, 130, 246, 0.2);
+  border-top: 1px solid rgba(251, 191, 36, 0.2);
   padding: 1rem;
   z-index: 1000;
   transform: translateY(100%);
@@ -430,7 +653,7 @@ body {
   right: 0;
   z-index: 50;
   background: var(--dark-bg);
-  border-top: 1px solid rgba(59, 130, 246, 0.1);
+  border-top: 1px solid rgba(251, 191, 36, 0.1);
   padding-bottom: max(0px, env(safe-area-inset-bottom));
 }
 
@@ -840,10 +1063,10 @@ button:hover {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #51faaa, #8b5cf6);
+    background: linear-gradient(135deg, #000000, #505050);
     color: white;
     border: none;
-    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 8px 25px rgba(251, 191, 36, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -853,7 +1076,7 @@ button:hover {
 
   .fab-button:hover {
     transform: scale(1.1);
-    box-shadow: 0 12px 35px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 12px 35px rgba(251, 191, 36, 0.4);
   }
 
   .view-toggle {
@@ -886,14 +1109,14 @@ button:hover {
   }
 
   .toggle-button.active {
-    background: linear-gradient(135deg, #51faaa, #8b5cf6);
+    background: linear-gradient(135deg, #000000, #505050);
     color: white;
-    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
   }
 
   .toggle-button:not(.active):hover {
-    background: rgba(59, 130, 246, 0.1);
-    color: #51faaa;
+    background: rgba(251, 191, 36, 0.1);
+    color: #000000;
   }
 }
 

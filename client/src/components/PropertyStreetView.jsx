@@ -94,12 +94,12 @@ export default function PropertyMediaTabs({ property, heightClass, children, var
   };
 
   const pillBase = 'inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full transition-all duration-200';
-  const activeCls = 'bg-[#3dd88a] text-white shadow-sm';
+  const activeCls = 'bg-gradient-to-b from-[#fbbf24] to-[#f59e0b] text-[#0e1311] shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_4px_12px_-4px_rgba(251,191,36,0.45)]';
   const inactiveCls = isDark
-    ? 'bg-slate-800 text-slate-350 hover:bg-slate-700 border border-slate-700'
+    ? 'bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700'
     : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200';
   const disabledCls = isDark
-    ? 'bg-slate-850 text-slate-600 border border-slate-800/80 cursor-not-allowed'
+    ? 'bg-slate-900 text-slate-600 border border-slate-800/80 cursor-not-allowed'
     : 'bg-white text-slate-300 border border-slate-200 cursor-not-allowed';
 
   return (

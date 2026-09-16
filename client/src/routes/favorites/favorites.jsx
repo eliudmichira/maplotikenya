@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, MapPin, Bed, Bath, Building2, DollarSign, Star, Filter, SortAsc, SortDesc, Grid, List, Trash2, Share2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';

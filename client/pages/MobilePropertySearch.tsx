@@ -265,7 +265,7 @@ const MobilePropertySearch = () => {
           </p>
           <button
             onClick={() => refetch()}
-            className="px-6 py-2 bg-[#51faaa] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors flex items-center gap-2 mx-auto"
+            className="px-6 py-2 bg-[#000000] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors flex items-center gap-2 mx-auto"
           >
             <RefreshCw className="w-4 h-4" />
             Try Again
@@ -308,7 +308,7 @@ const MobilePropertySearch = () => {
               onClick={() => setShowFilters(!showFilters)}
               className={`p-2 rounded-lg transition-colors ${
                 showFilters 
-                  ? 'bg-[#51faaa] text-[#111]' 
+                  ? 'bg-[#000000] text-[#111]' 
                   : 'hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-400'
               }`}
             >
@@ -342,7 +342,7 @@ const MobilePropertySearch = () => {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as 'price' | 'date' | 'rating')}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                 >
                   <option value="date">Newest First</option>
                   <option value="price">Price: Low to High</option>
@@ -359,14 +359,14 @@ const MobilePropertySearch = () => {
                     placeholder="Min"
                     value={filters.priceMin}
                     onChange={(e) => setFilters(prev => ({ ...prev, priceMin: e.target.value }))}
-                    className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                    className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                   />
                   <input
                     type="number"
                     placeholder="Max"
                     value={filters.priceMax}
                     onChange={(e) => setFilters(prev => ({ ...prev, priceMax: e.target.value }))}
-                    className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                    className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                   />
                 </div>
               </div>
@@ -378,7 +378,7 @@ const MobilePropertySearch = () => {
                   <select
                     value={filters.beds}
                     onChange={(e) => setFilters(prev => ({ ...prev, beds: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                   >
                     <option value="">Any</option>
                     <option value="1">1+</option>
@@ -392,7 +392,7 @@ const MobilePropertySearch = () => {
                   <select
                     value={filters.baths}
                     onChange={(e) => setFilters(prev => ({ ...prev, baths: e.target.value }))}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                   >
                     <option value="">Any</option>
                     <option value="1">1+</option>
@@ -412,7 +412,7 @@ const MobilePropertySearch = () => {
                       onClick={() => toggleAmenity(amenity.id)}
                       className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors ${
                         filters.amenities.includes(amenity.id)
-                          ? 'bg-[#51faaa] text-[#111]'
+                          ? 'bg-[#000000] text-[#111]'
                           : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                       }`}
                     >
@@ -433,7 +433,7 @@ const MobilePropertySearch = () => {
                 </button>
                 <button
                   onClick={() => setShowFilters(false)}
-                  className="flex-1 px-4 py-2 bg-[#51faaa] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
+                  className="flex-1 px-4 py-2 bg-[#000000] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
                 >
                   Apply Filters
                 </button>
@@ -448,7 +448,7 @@ const MobilePropertySearch = () => {
         {isLoading ? (
           <div className="flex items-center justify-center py-20">
             <div className="text-center">
-              <Loader2 className="w-12 h-12 text-[#51faaa] animate-spin mx-auto mb-4" />
+              <Loader2 className="w-12 h-12 text-[#000000] animate-spin mx-auto mb-4" />
               <p className="text-gray-600 dark:text-gray-400">Loading properties...</p>
             </div>
           </div>
@@ -462,7 +462,7 @@ const MobilePropertySearch = () => {
               </p>
               <button
                 onClick={clearFilters}
-                className="px-6 py-2 bg-[#51faaa] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
+                className="px-6 py-2 bg-[#000000] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
               >
                 Clear Filters
               </button>
@@ -516,7 +516,7 @@ const MobilePropertySearch = () => {
                     </div>
 
                     <div className="flex items-center justify-between mb-2">
-                      <div className="text-base font-bold text-[#51faaa] dark:text-[#51faaa]">
+                      <div className="text-base font-bold text-[#000000] dark:text-[#000000]">
                         {formatPrice(property.price)}
                       </div>
                       {property.rating && (
@@ -548,7 +548,7 @@ const MobilePropertySearch = () => {
                     <div className="flex gap-2">
                       <button 
                         onClick={() => handlePropertyClick(property.id)}
-                        className="flex-1 bg-[#51faaa] text-[#111] py-2 rounded-lg text-xs font-medium hover:bg-[#45e695] transition-colors"
+                        className="flex-1 bg-[#000000] text-[#111] py-2 rounded-lg text-xs font-medium hover:bg-[#45e695] transition-colors"
                       >
                         View Details
                       </button>
@@ -570,7 +570,7 @@ const MobilePropertySearch = () => {
       {/* Floating Action Button */}
       <button
         onClick={() => navigate('/')}
-        className="fixed bottom-20 right-4 w-14 h-14 bg-[#51faaa] text-[#111] rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center hover:scale-110"
+        className="fixed bottom-20 right-4 w-14 h-14 bg-[#000000] text-[#111] rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center hover:scale-110"
       >
         <Map className="w-6 h-6" />
       </button>

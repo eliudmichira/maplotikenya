@@ -1,4 +1,4 @@
-﻿import React, { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, TrendingUp, Home, DollarSign, MapPin } from 'lucide-react';
 import { useProperties } from '../../hooks/useProperties';
@@ -44,12 +44,12 @@ const MobileInsightsPage = () => {
 
             <div className="p-4 pb-24 space-y-6">
                 {isLoading ? (
-                    <div className="flex justify-center py-12"><div className="w-10 h-10 border-2 border-[#51faaa] border-t-transparent rounded-full animate-spin" /></div>
+                    <div className="flex justify-center py-12"><div className="w-10 h-10 border-2 border-[#fbbf24] border-t-transparent rounded-full animate-spin" /></div>
                 ) : (
                     <>
                         <motion.div className={`rounded-2xl border p-5 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-200'}`} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                             <div className="flex items-center gap-3 mb-4">
-                                <div className="w-12 h-12 rounded-xl bg-[#51faaa]/20 flex items-center justify-center"><TrendingUp className="w-6 h-6 text-[#51faaa]" /></div>
+                                <div className="w-12 h-12 rounded-xl bg-[#000000]/20 flex items-center justify-center"><TrendingUp className="w-6 h-6 text-[#000000]" /></div>
                                 <h2 className={`font-bold text-lg ${isDark ? 'text-white' : 'text-gray-900'}`}>Summary</h2>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
@@ -58,7 +58,7 @@ const MobileInsightsPage = () => {
                                     <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Total listings</p>
                                 </div>
                                 <div>
-                                    <p className={`text-2xl font-black text-[#51faaa]`}>
+                                    <p className={`text-2xl font-black text-[#000000]`}>
                                         {stats.avgPrice ? new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', maximumFractionDigits: 0 }).format(stats.avgPrice) : '—'}
                                     </p>
                                     <p className={`text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Avg. price</p>

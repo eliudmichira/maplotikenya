@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -515,9 +515,9 @@ const MobileAddProperty = () => {
     };
 
     return (
-        <div ref={containerRef} className={`fixed inset-0 z-[60] overflow-y-auto ${isDark ? 'bg-[#0a0c19]' : 'bg-gray-50'}`}>
+        <div ref={containerRef} className={`fixed inset-0 z-[60] overflow-y-auto ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
             {/* Header */}
-            <div className={`fixed left-0 right-0 z-[70] px-4 py-4 backdrop-blur-md ${isDark ? 'bg-[#0a0c19]/90 border-b border-white/10' : 'bg-white/90 border-b border-gray-200'}`} style={{ top: 'max(0px, env(safe-area-inset-top, 0px))' }}>
+            <div className={`fixed left-0 right-0 z-[70] px-4 py-4 backdrop-blur-md ${isDark ? 'bg-[#000000]/90 border-b border-white/10' : 'bg-white/90 border-b border-gray-200'}`} style={{ top: 'max(0px, env(safe-area-inset-top, 0px))' }}>
                 <div className="flex items-center justify-between mb-4">
                     <button onClick={() => navigate(-1)} className={`p-2 rounded-full ${isDark ? 'text-white' : 'text-gray-900'}`}>
                         <X className="w-6 h-6" />
@@ -531,7 +531,7 @@ const MobileAddProperty = () => {
                 {/* Progress Bar */}
                 <div className="w-full h-1.5 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
                     <motion.div
-                        className="h-full bg-[#51faaa]"
+                        className="h-full bg-[#000000]"
                         initial={{ width: 0 }}
                         animate={{ width: `${progress}%` }}
                         transition={{ duration: 0.3 }}
@@ -565,7 +565,7 @@ const MobileAddProperty = () => {
             </div>
 
             {/* Footer Actions */}
-            <div className={`fixed bottom-0 left-0 right-0 p-4 backdrop-blur-md ${isDark ? 'bg-[#0a0c19]/90 border-t border-white/10' : 'bg-white/90 border-t border-gray-200'} z-[70]`} style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom, 1rem))' }}>
+            <div className={`fixed bottom-0 left-0 right-0 p-4 backdrop-blur-md ${isDark ? 'bg-[#000000]/90 border-t border-white/10' : 'bg-white/90 border-t border-gray-200'} z-[70]`} style={{ paddingBottom: 'max(1rem, env(safe-area-inset-bottom, 1rem))' }}>
                 <div className="flex gap-3">
                     {currentStep > 1 && (
                         <button
@@ -579,7 +579,7 @@ const MobileAddProperty = () => {
                     {currentStep < totalSteps ? (
                         <button
                             onClick={handleNext}
-                            className={`flex-[2] py-3.5 rounded-xl font-bold bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] flex items-center justify-center gap-2 shadow-lg hover:shadow-[#51faaa]/20`}
+                            className={`flex-[2] py-3.5 rounded-xl font-bold bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] flex items-center justify-center gap-2 shadow-lg hover:shadow-[#000000]/20`}
                         >
                             Next <ChevronRight className="w-5 h-5" />
                         </button>
@@ -587,7 +587,7 @@ const MobileAddProperty = () => {
                         <button
                             onClick={handleSubmit}
                             disabled={loading}
-                            className={`flex-[2] py-3.5 rounded-xl font-bold bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] flex items-center justify-center gap-2 shadow-lg hover:shadow-[#51faaa]/20 disabled:opacity-70`}
+                            className={`flex-[2] py-3.5 rounded-xl font-bold bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] flex items-center justify-center gap-2 shadow-lg hover:shadow-[#000000]/20 disabled:opacity-70`}
                         >
                             {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Check className="w-5 h-5" />}
                             {isEdit ? 'Save Changes' : 'Submit Property'}

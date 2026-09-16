@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 import analyticsService from '../../../lib/analytics';
@@ -48,7 +48,7 @@ const AnalyticsDashboard = () => {
 
         const [usersSnap, propsSnap, realTotalViews, totalPageViews] = await Promise.all([
           getDocs(collection(db, 'users')),
-          getDocs(collection(db, 'properties')),
+          getDocs(collection(db, 'listings')),
           getTotalViews(),
           getTotalPageViews()
         ]);

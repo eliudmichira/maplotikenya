@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     User, Heart, Search, Eye, Star, Home, MessageSquare, Bell,
@@ -99,9 +99,9 @@ const MobileProfileScreen = () => {
                     value: '0',
                     icon: TrendingUp,
                     color: 'green',
-                    gradient: 'from-[#51faaa]/20 to-[#45e695]/20',
+                    gradient: 'from-[#000000]/20 to-[#45e695]/20',
                     iconColor: 'text-[#2eac70]',
-                    bgColor: 'bg-[#51faaa]/20'
+                    bgColor: 'bg-[#000000]/20'
                 },
                 {
                     label: 'Profile Views',
@@ -180,7 +180,7 @@ const MobileProfileScreen = () => {
             sections.push({
                 title: 'Agent Dashboard',
                 items: [
-                    { icon: Home, label: 'My Listings', count: 0, color: 'blue', gradient: 'from-[#51faaa]/10 to-[#dbd5a4]/10', iconColor: 'text-[#2eac70]', action: () => navigate('/agent/listings') },
+                    { icon: Home, label: 'My Listings', count: 0, color: 'blue', gradient: 'from-[#000000]/10 to-[#f0f0f0]/10', iconColor: 'text-[#2eac70]', action: () => navigate('/agent/listings') },
                     { icon: MessageSquare, label: 'Messages', badge: 'New', color: 'green', gradient: 'from-[#45e695]/10 to-emerald-500/10', iconColor: 'text-[#2eac70]', action: () => navigate('/messages') },
                     { icon: Star, label: 'Client Reviews', color: 'yellow', gradient: 'from-yellow-500/10 to-amber-500/10', iconColor: 'text-yellow-500', action: () => navigate('/agent/reviews') }
                 ]
@@ -270,7 +270,7 @@ const MobileProfileScreen = () => {
                             </div>
                             <button
                                 onClick={() => navigate(isAgent ? '/profile/edit/agent' : '/profile/edit')}
-                                className="absolute -bottom-1 -right-1 w-7 h-7 bg-[#51faaa] rounded-full flex items-center justify-center text-[#0a0c19]"
+                                className="absolute -bottom-1 -right-1 w-7 h-7 bg-[#000000] rounded-full flex items-center justify-center text-[#000000]"
                                 aria-label="Edit profile"
                             >
                                 <Camera size={13} />
@@ -285,7 +285,7 @@ const MobileProfileScreen = () => {
                                 {isAgent ? 'Real estate agent' : 'Member'}
                             </p>
                             <div className="mt-2 flex items-center gap-2 flex-wrap">
-                                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#51faaa]">
+                                <span className="inline-flex items-center gap-1 text-[11px] font-medium text-[#000000]">
                                     <Shield size={11} />
                                     Verified
                                 </span>
@@ -315,7 +315,7 @@ const MobileProfileScreen = () => {
                             key={tab}
                             onClick={() => setActiveTab(tab.toLowerCase())}
                             className={`px-4 py-2 rounded-lg font-medium text-[13px] whitespace-nowrap transition-colors ${activeTab === tab.toLowerCase()
-                                ? 'bg-[#51faaa] text-[#0a0c19]'
+                                ? 'bg-[#000000] text-[#000000]'
                                 : isDark
                                     ? 'bg-transparent text-gray-400 border border-white/10'
                                     : 'bg-transparent text-gray-600 border border-gray-200'
@@ -381,7 +381,7 @@ const MobileProfileScreen = () => {
                                                 </div>
                                                 <div className="flex items-center gap-2">
                                                     {item.badge && (
-                                                        <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#51faaa] text-[#0a0c19]">
+                                                        <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-[#000000] text-[#000000]">
                                                             {item.badge}
                                                         </span>
                                                     )}
@@ -422,7 +422,7 @@ const MobileProfileScreen = () => {
                             className="space-y-4"
                         >
                             <h3 className={`text-xs font-black uppercase tracking-widest mb-4 px-2 flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                                <div className="w-1 h-4 bg-gradient-to-b from-[#51faaa] to-[#dbd5a4] rounded-full" />
+                                <div className="w-1 h-4 bg-gradient-to-b from-[#fbbf24] to-[#f59e0b] rounded-full" />
                                 Recent Activity
                             </h3>
                             {recentActivity.length === 0 ? (
@@ -438,7 +438,7 @@ const MobileProfileScreen = () => {
                                     <p className={`text-sm ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Start exploring properties to see your activity here</p>
                                     <motion.button
                                         onClick={() => navigate('/properties')}
-                                        className="mt-6 px-6 py-3 bg-gradient-to-r from-[#51faaa] to-[#45e695] rounded-2xl text-gray-900 font-bold"
+                                        className="mt-6 px-6 py-3 bg-gradient-to-r from-[#000000] to-[#45e695] rounded-2xl text-gray-900 font-bold"
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
                                     >
@@ -481,13 +481,13 @@ const MobileProfileScreen = () => {
                                                 )}
                                                 <p className={`font-bold text-base truncate ${isDark ? 'text-white' : 'text-gray-900'}`}>{activity.title}</p>
                                             </div>
-                                            <p className="text-[#51faaa] font-black text-lg mb-3">{activity.price}</p>
+                                            <p className="text-[#000000] font-black text-lg mb-3">{activity.price}</p>
                                             <div className={`flex items-center gap-2 text-xs ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
                                                 <Clock size={14} />
                                                 <span>{activity.time}</span>
                                             </div>
                                         </div>
-                                        <ChevronRight className={`w-5 h-5 ${isDark ? 'text-gray-500' : 'text-gray-600'} group-hover:text-[#51faaa] group-hover:translate-x-1 transition-all flex-shrink-0`} />
+                                        <ChevronRight className={`w-5 h-5 ${isDark ? 'text-gray-500' : 'text-gray-600'} group-hover:text-[#000000] group-hover:translate-x-1 transition-all flex-shrink-0`} />
                                     </motion.div>
                                 ))
                             )}
@@ -504,7 +504,7 @@ const MobileProfileScreen = () => {
                             className="space-y-4"
                         >
                             <h3 className={`text-xs font-black uppercase tracking-widest mb-4 px-2 flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                                <div className="w-1 h-4 bg-gradient-to-b from-[#51faaa] to-[#dbd5a4] rounded-full" />
+                                <div className="w-1 h-4 bg-gradient-to-b from-[#fbbf24] to-[#f59e0b] rounded-full" />
                                 Market Insights
                             </h3>
 
@@ -513,7 +513,7 @@ const MobileProfileScreen = () => {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
                             >
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#51faaa]/20 to-transparent rounded-full blur-2xl" />
+                                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#000000]/20 to-transparent rounded-full blur-2xl" />
                                 <div className="relative z-10">
                                     <div className="flex items-center gap-3 mb-4">
                                         <div className="w-12 h-12 rounded-2xl bg-emerald-500/20 flex items-center justify-center">
@@ -522,7 +522,7 @@ const MobileProfileScreen = () => {
                                         <h3 className={`font-black text-xl ${isDark ? 'text-white' : 'text-gray-900'}`}>Market Insights</h3>
                                     </div>
                                     <p className={`text-sm mb-6 leading-relaxed ${isDark ? 'text-gray-200' : 'text-gray-700'}`}>
-                                        Properties in Westlands are trending <span className="text-[#51faaa] font-bold">12% above average</span> this month. Great time to explore investment opportunities!
+                                        Properties in Westlands are trending <span className="text-[#000000] font-bold">12% above average</span> this month. Great time to explore investment opportunities!
                                     </p>
                                     <motion.button
                                         className={`px-6 py-3 backdrop-blur-sm rounded-2xl font-bold text-sm transition-all ${isDark ? 'bg-white/20 text-white hover:bg-white/30' : 'bg-gray-200/80 text-gray-900 hover:bg-gray-300/80'}`}

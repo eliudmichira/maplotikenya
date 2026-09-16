@@ -155,7 +155,7 @@ const MobileAuth = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#51faaa] to-[#45e695] px-4 py-8 text-center text-white">
+      <section className="bg-gradient-to-br from-[#000000] to-[#45e695] px-4 py-8 text-center text-white">
         <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
           <Home className="w-8 h-8" />
         </div>
@@ -209,7 +209,7 @@ const MobileAuth = () => {
                     value={formData.name}
                     onChange={handleInputChange}
                     placeholder="Enter your full name"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                     required={!isLogin}
                   />
                 </div>
@@ -229,7 +229,7 @@ const MobileAuth = () => {
                     value={formData.phone}
                     onChange={handleInputChange}
                     placeholder="Enter your phone number"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                   />
                 </div>
               </div>
@@ -247,7 +247,7 @@ const MobileAuth = () => {
                   value={formData.email}
                   onChange={handleInputChange}
                   placeholder="Enter your email"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                   required
                 />
               </div>
@@ -265,7 +265,7 @@ const MobileAuth = () => {
                   value={formData.password}
                   onChange={handleInputChange}
                   placeholder="Enter your password"
-                  className="w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                  className="w-full pl-10 pr-12 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                   required
                 />
                 <button
@@ -291,7 +291,7 @@ const MobileAuth = () => {
                     value={formData.confirmPassword}
                     onChange={handleInputChange}
                     placeholder="Confirm your password"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                     required={!isLogin}
                   />
                 </div>
@@ -323,7 +323,7 @@ const MobileAuth = () => {
               <button
                 onClick={handleDemoLogin}
                 disabled={isLoading}
-                className="w-full border-2 border-[#51faaa] text-[#51faaa] py-3 rounded-lg font-semibold hover:bg-[#51faaa] hover:text-[#111] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full border-2 border-[#fbbf24] text-[#000000] py-3 rounded-lg font-semibold hover:bg-[#000000] hover:text-[#111] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Try Demo Account
               </button>
@@ -337,7 +337,7 @@ const MobileAuth = () => {
             </p>
             <button
               onClick={toggleAuthMode}
-              className="text-[#51faaa] font-medium hover:underline mt-1"
+              className="text-[#000000] font-medium hover:underline mt-1"
             >
               {isLogin ? 'Sign up here' : 'Sign in here'}
             </button>
@@ -350,8 +350,8 @@ const MobileAuth = () => {
             </h3>
             <div className="grid grid-cols-1 gap-3">
               <div className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                <div className="w-10 h-10 bg-[#51faaa]/20 rounded-lg flex items-center justify-center">
-                  <Building className="w-5 h-5 text-[#51faaa]" />
+                <div className="w-10 h-10 bg-[#000000]/20 rounded-lg flex items-center justify-center">
+                  <Building className="w-5 h-5 text-[#000000]" />
                 </div>
                 <div>
                   <h4 className="font-medium text-gray-900 dark:text-white">5,000+ Properties</h4>
@@ -360,8 +360,8 @@ const MobileAuth = () => {
               </div>
               
               <div className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                <div className="w-10 h-10 bg-[#51faaa]/20 rounded-lg flex items-center justify-center">
-                  <Star className="w-5 h-5 text-[#51faaa]" />
+                <div className="w-10 h-10 bg-[#000000]/20 rounded-lg flex items-center justify-center">
+                  <Star className="w-5 h-5 text-[#000000]" />
                 </div>
                 <div>
                   <h4 className="font-medium text-gray-900 dark:text-white">Trusted Platform</h4>
@@ -370,8 +370,8 @@ const MobileAuth = () => {
               </div>
               
               <div className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-                <div className="w-10 h-10 bg-[#51faaa]/20 rounded-lg flex items-center justify-center">
-                  <Home className="w-5 h-5 text-[#51faaa]" />
+                <div className="w-10 h-10 bg-[#000000]/20 rounded-lg flex items-center justify-center">
+                  <Home className="w-5 h-5 text-[#000000]" />
                 </div>
                 <div>
                   <h4 className="font-medium text-gray-900 dark:text-white">Personalized Experience</h4>
@@ -388,7 +388,7 @@ const MobileAuth = () => {
         <div className="flex items-center justify-around">
           <button
             onClick={() => navigate('/')}
-            className="flex flex-col items-center gap-1 p-2 text-gray-600 dark:text-gray-400 hover:text-[#51faaa] transition-colors"
+            className="flex flex-col items-center gap-1 p-2 text-gray-600 dark:text-gray-400 hover:text-[#000000] transition-colors"
           >
             <Home className="w-5 h-5" />
             <span className="text-xs">Home</span>
@@ -396,7 +396,7 @@ const MobileAuth = () => {
           
           <button
             onClick={() => navigate('/search')}
-            className="flex flex-col items-center gap-1 p-2 text-gray-600 dark:text-gray-400 hover:text-[#51faaa] transition-colors"
+            className="flex flex-col items-center gap-1 p-2 text-gray-600 dark:text-gray-400 hover:text-[#000000] transition-colors"
           >
             <Building className="w-5 h-5" />
             <span className="text-xs">Properties</span>
@@ -404,7 +404,7 @@ const MobileAuth = () => {
           
           <button
             onClick={() => navigate('/dashboard')}
-            className="flex flex-col items-center gap-1 p-2 text-[#51faaa]"
+            className="flex flex-col items-center gap-1 p-2 text-[#000000]"
           >
             <Star className="w-5 h-5" />
             <span className="text-xs">Dashboard</span>

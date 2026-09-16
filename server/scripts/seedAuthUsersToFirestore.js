@@ -1,7 +1,7 @@
 /*
  Usage:
  1) Create a Firebase service account JSON in server/.secrets/serviceAccount.json
-    - Firebase Console → Project Settings → Service accounts → Generate new private key
+    - Firebase Console â†’ Project Settings â†’ Service accounts â†’ Generate new private key
  2) Run: node scripts/seedAuthUsersToFirestore.js
 */
 
@@ -15,9 +15,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const envKeyPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 // Default relative to repo root if run from server/ or root
-const defaultKeyPath = fs.existsSync(path.resolve(process.cwd(), '.secrets/dwellmate-serviceAccount.json'))
-  ? path.resolve(process.cwd(), '.secrets/dwellmate-serviceAccount.json')
-  : path.resolve(__dirname, '../.secrets/dwellmate-serviceAccount.json');
+const defaultKeyPath = fs.existsSync(path.resolve(process.cwd(), '.secrets/MAPLOTIKENYA-serviceAccount.json'))
+  ? path.resolve(process.cwd(), '.secrets/MAPLOTIKENYA-serviceAccount.json')
+  : path.resolve(__dirname, '../.secrets/MAPLOTIKENYA-serviceAccount.json');
 const keyPath = envKeyPath && fs.existsSync(envKeyPath) ? envKeyPath : defaultKeyPath;
 
 if (!fs.existsSync(keyPath)) {

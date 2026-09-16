@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Bell, BellOff, MessageCircle, Info, Sparkles, ChevronRight, Settings } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -38,13 +38,13 @@ const MobileNotificationsPage = () => {
             exit={{ opacity: 0, scale: 0.95 }}
             className={`relative p-5 rounded-3xl border transition-all ${
                 isDark 
-                ? `${notification.read ? 'bg-white/5 border-white/5' : 'bg-white/10 border-white/10 shadow-lg shadow-[#51faaa]/5'}` 
+                ? `${notification.read ? 'bg-white/5 border-white/5' : 'bg-white/10 border-white/10 shadow-lg shadow-[#000000]/5'}` 
                 : `${notification.read ? 'bg-white border-gray-100 shadow-sm' : 'bg-emerald-50/50 border-emerald-100 shadow-sm'}`
             }`}
             onClick={() => handleNotificationClick(notification)}
         >
             {!notification.read && (
-                <div className="absolute top-5 right-5 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] shadow-lg shadow-[#51faaa]/40" />
+                <div className="absolute top-5 right-5 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] shadow-lg shadow-[#000000]/40" />
             )}
 
             <div className="flex gap-4">
@@ -75,9 +75,9 @@ const MobileNotificationsPage = () => {
     );
 
     return (
-        <div className={`min-h-screen pb-32 ${isDark ? 'bg-[#0a0c19]' : 'bg-gray-50'}`}>
+        <div className={`min-h-screen pb-32 ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
             {/* Header */}
-            <div className={`sticky top-0 z-40 px-4 pt-4 pb-2 border-b backdrop-blur-2xl ${isDark ? 'bg-[#0a0c19]/80 border-white/10' : 'bg-white/80 border-gray-200'}`}>
+            <div className={`sticky top-0 z-40 px-4 pt-4 pb-2 border-b backdrop-blur-2xl ${isDark ? 'bg-[#000000]/80 border-white/10' : 'bg-white/80 border-gray-200'}`}>
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-4">
                         <motion.button 
@@ -90,7 +90,7 @@ const MobileNotificationsPage = () => {
                         <div>
                             <h1 className={`text-xl font-black tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>Notifications</h1>
                             {unreadCount > 0 && (
-                                <p className="text-[10px] font-black uppercase tracking-widest text-[#51faaa]">
+                                <p className="text-[10px] font-black uppercase tracking-widest text-[#000000]">
                                     {unreadCount} Unread
                                 </p>
                             )}
@@ -118,7 +118,7 @@ const MobileNotificationsPage = () => {
                         onClick={() => setActiveTab('all')}
                         className={`relative z-10 flex-1 py-2.5 text-xs font-black uppercase tracking-widest transition-colors ${
                             activeTab === 'all' 
-                            ? (isDark ? 'text-white' : 'text-[#0a0c19]') 
+                            ? (isDark ? 'text-white' : 'text-[#000000]') 
                             : (isDark ? 'text-gray-500' : 'text-gray-500')
                         }`}
                     >
@@ -128,7 +128,7 @@ const MobileNotificationsPage = () => {
                         onClick={() => setActiveTab('unread')}
                         className={`relative z-10 flex-1 py-2.5 text-xs font-black uppercase tracking-widest transition-colors ${
                             activeTab === 'unread' 
-                            ? (isDark ? 'text-white' : 'text-[#0a0c19]') 
+                            ? (isDark ? 'text-white' : 'text-[#000000]') 
                             : (isDark ? 'text-gray-500' : 'text-gray-500')
                         }`}
                     >
@@ -152,7 +152,7 @@ const MobileNotificationsPage = () => {
                         <p className={`text-xs mb-4 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Enable push notifications to get instant property alerts.</p>
                         <button 
                             onClick={requestPermission}
-                            className="w-full py-3 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] font-black rounded-xl text-xs uppercase tracking-widest shadow-lg shadow-[#51faaa]/20"
+                            className="w-full py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-black rounded-xl text-xs uppercase tracking-widest shadow-lg shadow-[#000000]/20"
                         >
                             Enable Notifications
                         </button>

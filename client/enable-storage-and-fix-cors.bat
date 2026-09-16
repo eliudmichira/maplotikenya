@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 echo ========================================
 echo   FIREBASE STORAGE + CORS FIX
 echo ========================================
@@ -14,7 +14,7 @@ echo.
 echo Press any key to open Firebase Console...
 pause >nul
 
-start https://console.firebase.google.com/project/dwellmate-285e8/storage
+start https://console.firebase.google.com/project/maploti/storage
 
 echo.
 echo Step 2: After enabling Storage in the console, press any key to continue...
@@ -25,7 +25,7 @@ echo Step 3: Checking if Google Cloud SDK is installed...
 gcloud version >nul 2>&1
 if %errorlevel% neq 0 (
     echo.
-    echo ❌ Google Cloud SDK is not installed!
+    echo âŒ Google Cloud SDK is not installed!
     echo.
     echo Please install it now:
     echo 1. Go to: https://cloud.google.com/sdk/docs/install
@@ -39,7 +39,7 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-echo ✅ Google Cloud SDK is installed
+echo âœ… Google Cloud SDK is installed
 echo.
 
 echo Step 4: Authenticating with Google Cloud...
@@ -48,27 +48,27 @@ gcloud auth login
 
 echo.
 echo Step 5: Setting Firebase project...
-gcloud config set project dwellmate-285e8
+gcloud config set project maploti
 
 echo.
 echo Step 6: Applying CORS configuration...
-gsutil cors set cors.json gs://dwellmate-285e8.firebasestorage.app
+gsutil cors set cors.json gs://maploti.firebasestorage.app
 
 if %errorlevel% equ 0 (
     echo.
-    echo ✅ CORS configuration applied successfully!
+    echo âœ… CORS configuration applied successfully!
     echo.
     echo Step 7: Verifying configuration...
-    gsutil cors get gs://dwellmate-285e8.firebasestorage.app
+    gsutil cors get gs://maploti.firebasestorage.app
     echo.
     echo Step 8: Deploying storage rules...
     firebase deploy --only storage
     echo.
-    echo 🎉 COMPLETE! Your property upload should now work.
+    echo ðŸŽ‰ COMPLETE! Your property upload should now work.
     echo Please refresh your browser and try uploading again.
 ) else (
     echo.
-    echo ❌ Failed to apply CORS configuration
+    echo âŒ Failed to apply CORS configuration
     echo Please check your authentication and try again
 )
 

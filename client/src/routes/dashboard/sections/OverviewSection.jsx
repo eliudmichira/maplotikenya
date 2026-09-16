@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DollarSign, Home, Users, Eye, TrendingUp, Star, Calendar, MapPin, Download, RefreshCw, Filter, MessageCircle } from 'lucide-react';
 import TrendChart from '../components/TrendChart';
 

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import logoImage from '../../../assets/android-chrome-512x512.png';
 import { User, Lock, Mail, Eye, EyeOff, ArrowRight, Building2, Check, Star, Shield, Sparkles, AlertCircle, Loader2, ChevronRight, Zap, Award, TrendingUp, UserCheck, Briefcase, Moon, Sun } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -438,8 +438,8 @@ function ModernLogin() {
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className={`absolute inset-0 opacity-30 ${isDark
-          ? 'bg-[radial-gradient(circle_at_20%_80%,rgba(16,185,129,0.1),transparent_50%),radial-gradient(circle_at_80%_20%,rgba(5,150,105,0.1),transparent_50%)]'
-          : 'bg-[radial-gradient(circle_at_20%_80%,rgba(16,185,129,0.1),transparent_50%),radial-gradient(circle_at_80%_20%,rgba(5,150,105,0.1),transparent_50%)]'
+          ? 'bg-[radial-gradient(circle_at_20%_80%,rgba(251,191,36,0.1),transparent_50%),radial-gradient(circle_at_80%_20%,rgba(245,158,11,0.1),transparent_50%)]'
+          : 'bg-[radial-gradient(circle_at_20%_80%,rgba(251,191,36,0.1),transparent_50%),radial-gradient(circle_at_80%_20%,rgba(245,158,11,0.1),transparent_50%)]'
           }`}></div>
         <div className={`absolute inset-0 ${isDark
           ? 'bg-[url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Ccircle cx="30" cy="30" r="1"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")]'
@@ -479,7 +479,7 @@ function ModernLogin() {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex justify-center mb-6">
-              <img src={logoImage} alt="BumiHouse" className="h-24 w-auto object-contain" />
+              <img src={logoImage} alt="MaplotiKenya" className="h-24 w-auto object-contain" />
             </div>
             <h1 className={`text-4xl md:text-5xl font-bold tracking-tight mb-4 transition-colors duration-700 ease-out ${isDark ? 'text-gray-100' : 'text-gray-900'
               }`}>

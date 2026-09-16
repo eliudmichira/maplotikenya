@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -182,7 +182,7 @@ const EnhancedMobileNavigation = () => {
               to="/"
               onClick={() => handleNavClick(navItems[0])}
               className={`relative flex flex-col items-center justify-center w-16 h-16 rounded-full transition-all duration-300 ${isActive('/')
-                ? 'bg-gradient-to-br from-[#51faaa] via-[#7ff5c2] to-[#dbd5a4] text-[#0a0c19] shadow-[0_8px_32px_rgba(81,250,170,0.3)] ring-2 ring-[#51faaa]/20 backdrop-blur-sm'
+                ? 'bg-gradient-to-br from-[#000000] via-[#7ff5c2] to-[#f0f0f0] text-[#000000] shadow-[0_8px_32px_rgba(251,191,36,0.3)] ring-2 ring-[#000000]/20 backdrop-blur-sm'
                 : isDark
                   ? 'text-gray-400 hover:text-white hover:bg-gradient-to-br hover:from-gray-800/80 hover:to-gray-700/80 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:ring-1 hover:ring-gray-600/50 backdrop-blur-sm'
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gradient-to-br hover:from-gray-100/80 hover:to-gray-200/80 hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:ring-1 hover:ring-gray-300/50 backdrop-blur-sm'
@@ -204,7 +204,7 @@ const EnhancedMobileNavigation = () => {
               to="/properties"
               onClick={() => handleNavClick(navItems[1])}
               className={`relative flex flex-col items-center justify-center w-16 h-16 rounded-full transition-all duration-300 ${isActive('/properties')
-                ? 'bg-gradient-to-br from-[#51faaa] via-[#7ff5c2] to-[#dbd5a4] text-[#0a0c19] shadow-[0_8px_32px_rgba(81,250,170,0.3)] ring-2 ring-[#51faaa]/20 backdrop-blur-sm'
+                ? 'bg-gradient-to-br from-[#000000] via-[#7ff5c2] to-[#f0f0f0] text-[#000000] shadow-[0_8px_32px_rgba(251,191,36,0.3)] ring-2 ring-[#000000]/20 backdrop-blur-sm'
                 : isDark
                   ? 'text-gray-400 hover:text-white hover:bg-gradient-to-br hover:from-gray-800/80 hover:to-gray-700/80 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:ring-1 hover:ring-gray-600/50 backdrop-blur-sm'
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gradient-to-br hover:from-gray-100/80 hover:to-gray-200/80 hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:ring-1 hover:ring-gray-300/50 backdrop-blur-sm'
@@ -226,7 +226,7 @@ const EnhancedMobileNavigation = () => {
               to="/properties/add"
               onClick={() => handleNavClick(navItems[2])}
               className={`relative flex flex-col items-center justify-center w-16 h-16 rounded-full transition-all duration-300 ${isActive('/properties/add')
-                ? 'bg-gradient-to-br from-[#51faaa] via-[#7ff5c2] to-[#dbd5a4] text-[#0a0c19] shadow-[0_8px_32px_rgba(81,250,170,0.3)] ring-2 ring-[#51faaa]/20 backdrop-blur-sm'
+                ? 'bg-gradient-to-br from-[#000000] via-[#7ff5c2] to-[#f0f0f0] text-[#000000] shadow-[0_8px_32px_rgba(251,191,36,0.3)] ring-2 ring-[#000000]/20 backdrop-blur-sm'
                 : isDark
                   ? 'text-gray-400 hover:text-white hover:bg-gradient-to-br hover:from-gray-800/80 hover:to-gray-700/80 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:ring-1 hover:ring-gray-600/50 backdrop-blur-sm'
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gradient-to-br hover:from-gray-100/80 hover:to-gray-200/80 hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:ring-1 hover:ring-gray-300/50 backdrop-blur-sm'
@@ -248,7 +248,7 @@ const EnhancedMobileNavigation = () => {
               to="/dashboard"
               onClick={() => handleNavClick(navItems[3])}
               className={`relative flex flex-col items-center justify-center w-16 h-16 rounded-full transition-all duration-300 ${isActive('/dashboard')
-                ? 'bg-gradient-to-br from-[#51faaa] via-[#7ff5c2] to-[#dbd5a4] text-[#0a0c19] shadow-[0_8px_32px_rgba(81,250,170,0.3)] ring-2 ring-[#51faaa]/20 backdrop-blur-sm'
+                ? 'bg-gradient-to-br from-[#000000] via-[#7ff5c2] to-[#f0f0f0] text-[#000000] shadow-[0_8px_32px_rgba(251,191,36,0.3)] ring-2 ring-[#000000]/20 backdrop-blur-sm'
                 : isDark
                   ? 'text-gray-400 hover:text-white hover:bg-gradient-to-br hover:from-gray-800/80 hover:to-gray-700/80 hover:shadow-[0_8px_32px_rgba(0,0,0,0.3)] hover:ring-1 hover:ring-gray-600/50 backdrop-blur-sm'
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gradient-to-br hover:from-gray-100/80 hover:to-gray-200/80 hover:shadow-[0_8px_32px_rgba(0,0,0,0.1)] hover:ring-1 hover:ring-gray-300/50 backdrop-blur-sm'
@@ -326,7 +326,7 @@ const EnhancedMobileNavigation = () => {
                       placeholder="Search by location, address, or ZIP"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 focus:outline-none focus:border-[#51faaa] transition-all duration-200 ${isDark
+                      className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 focus:outline-none focus:border-[#fbbf24] transition-all duration-200 ${isDark
                         ? 'bg-gray-800/50 border-gray-700/50 text-white placeholder-gray-400'
                         : 'bg-white border-gray-200 text-gray-900 placeholder-gray-500'
                         }`}
@@ -335,7 +335,7 @@ const EnhancedMobileNavigation = () => {
 
                   <motion.button
                     type="submit"
-                    className="w-full py-3 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] rounded-xl font-semibold shadow-lg"
+                    className="w-full py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-xl font-semibold shadow-lg"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -426,8 +426,8 @@ const EnhancedMobileNavigation = () => {
                       transition={{ delay: 0.1 }}
                     >
                       <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] rounded-full flex items-center justify-center">
-                          <User className="w-6 h-6 text-[#0a0c19]" />
+                        <div className="w-12 h-12 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center">
+                          <User className="w-6 h-6 text-[#000000]" />
                         </div>
                         <div className="flex-1">
                           <p className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>
@@ -468,12 +468,12 @@ const EnhancedMobileNavigation = () => {
                             <motion.div
                               key={notification.id}
                               className={`p-3 rounded-lg ${isDark ? 'bg-gray-800/50' : 'bg-gray-100/50'
-                                } ${notification.unread ? 'border-l-4 border-[#51faaa]' : ''}`}
+                                } ${notification.unread ? 'border-l-4 border-[#fbbf24]' : ''}`}
                               initial={{ opacity: 0, x: -20 }}
                               animate={{ opacity: 1, x: 0 }}
                             >
                               <div className="flex items-start space-x-3">
-                                <div className={`w-2 h-2 rounded-full mt-2 ${notification.unread ? 'bg-[#51faaa]' : 'bg-gray-500'
+                                <div className={`w-2 h-2 rounded-full mt-2 ${notification.unread ? 'bg-[#000000]' : 'bg-gray-500'
                                   }`} />
                                 <div className="flex-1">
                                   <p className={`font-medium text-sm ${isDark ? 'text-white' : 'text-gray-900'}`}>
@@ -595,7 +595,7 @@ const EnhancedMobileNavigation = () => {
                   >
                     <Link
                       to="/auth"
-                      className="w-full py-3 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] rounded-xl font-semibold text-center shadow-lg"
+                      className="w-full py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-xl font-semibold text-center shadow-lg"
                     >
                       Login
                     </Link>

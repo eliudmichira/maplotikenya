@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Loader2, FileText, Save } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -57,7 +57,7 @@ const MobileEditAgentBio = () => {
     if (loading) {
         return (
             <div className={`min-h-screen flex items-center justify-center ${isDark ? 'bg-gray-900' : 'bg-gray-50'}`}>
-                <Loader2 className="w-8 h-8 text-[#51faaa] animate-spin" />
+                <Loader2 className="w-8 h-8 text-[#000000] animate-spin" />
             </div>
         );
     }
@@ -70,7 +70,7 @@ const MobileEditAgentBio = () => {
                         <ArrowLeft size={20} />
                     </motion.button>
                     <h1 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Professional Bio</h1>
-                    <button onClick={handleSave} disabled={saving} className="text-[#51faaa] font-semibold disabled:opacity-50">
+                    <button onClick={handleSave} disabled={saving} className="text-[#000000] font-semibold disabled:opacity-50">
                         {saving ? <Loader2 size={20} className="animate-spin inline" /> : 'Save'}
                     </button>
                 </div>
@@ -89,8 +89,8 @@ const MobileEditAgentBio = () => {
                             onChange={(e) => setBio(e.target.value)}
                             rows={15}
                             className={`w-full bg-transparent border-0 border-b py-3 text-[15px] leading-relaxed outline-none transition-colors resize-none ${isDark
-                                    ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#51faaa]'
-                                    : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#51faaa]'
+                                    ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#fbbf24]'
+                                    : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#fbbf24]'
                                 }`}
                             placeholder="Tell potential clients about your expertise, successful deals, and professional background..."
                         />
@@ -103,7 +103,7 @@ const MobileEditAgentBio = () => {
                 <motion.button
                     onClick={handleSave}
                     disabled={saving}
-                    className="w-full py-4 bg-gradient-to-r from-[#51faaa] to-[#45e695] rounded-2xl text-gray-900 font-bold shadow-xl shadow-[#51faaa]/20 flex items-center justify-center gap-2"
+                    className="w-full py-4 bg-gradient-to-r from-[#000000] to-[#45e695] rounded-2xl text-gray-900 font-bold shadow-xl shadow-[#000000]/20 flex items-center justify-center gap-2"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                 >

@@ -60,7 +60,7 @@ function formatPrice(price) {
 
 // Green price-pill marker (divIcon) mirroring the Google Maps look.
 function buildPillIcon(label, { featured = false, selected = false } = {}) {
-  const bg = selected ? (featured ? '#d97706' : '#10b981') : (featured ? '#f59e0b' : '#3dd88a');
+  const bg = selected ? (featured ? '#d97706' : '#000000') : (featured ? '#f59e0b' : '#fbbf24');
   const html = `
     <div style="position: relative; transform: translate(-50%, -100%);">
       <div style="
@@ -216,7 +216,7 @@ const CartoFallbackMap = ({
                     <div style={{ fontSize: 12, color: '#555', marginTop: 2 }}>{address}</div>
                   )}
                   {label && (
-                    <div style={{ color: '#059669', fontWeight: 600, marginTop: 4 }}>{label}</div>
+                    <div style={{ color: '#303030', fontWeight: 600, marginTop: 4 }}>{label}</div>
                   )}
                   {onItemSelect && (
                     <button
@@ -225,8 +225,8 @@ const CartoFallbackMap = ({
                         marginTop: 8,
                         width: '100%',
                         padding: '6px 10px',
-                        background: '#3dd88a',
-                        color: '#0a0c19',
+                        background: '#fbbf24',
+                        color: '#000000',
                         border: 'none',
                         borderRadius: 8,
                         fontWeight: 600,
@@ -260,7 +260,7 @@ const CartoFallbackMap = ({
                     key={opt.value}
                     onClick={() => setMapStyle(opt.value)}
                     className={`px-3 py-2 rounded-xl flex items-center gap-2 text-xs md:text-sm font-medium transition-all duration-300 ${mapStyle === opt.value
-                        ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                        ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                         : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                   >
@@ -273,7 +273,7 @@ const CartoFallbackMap = ({
           )}
 
           {showCountBadge && (
-            <div className="bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] px-5 py-2.5 rounded-2xl shadow-lg flex items-center gap-2.5">
+            <div className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] px-5 py-2.5 rounded-2xl shadow-lg flex items-center gap-2.5">
               <Home className="w-4 h-4" />
               <span className="font-semibold">{count} properties</span>
             </div>

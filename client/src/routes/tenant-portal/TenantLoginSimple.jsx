@@ -1,4 +1,4 @@
-﻿import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Home, Phone, Lock, Shield, ArrowRight, Sparkles, Check, Star, Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react';
 import Logo from '../../components/Logo';
@@ -202,7 +202,7 @@ const TenantLoginPremium = () => {
                 </div>
               </div>
               <div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">BumiHouse</h1>
+                <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">MaplotiKenya</h1>
                 <p className="text-sm text-gray-600 font-medium">Premium Tenant Portal</p>
               </div>
             </div>

@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 echo ========================================
 echo   FIX PROPERTY UPLOAD - CORS ISSUE
 echo ========================================
@@ -21,7 +21,7 @@ echo.
 echo Press any key to open Firebase Console...
 pause >nul
 
-start https://console.firebase.google.com/project/dwellmate-285e8/storage
+start https://console.firebase.google.com/project/maploti/storage
 
 echo.
 echo After enabling Storage in the console, press any key to continue...
@@ -46,7 +46,7 @@ if %errorlevel% neq 0 (
     start https://cloud.google.com/sdk/docs/install
     exit /b 1
 ) else (
-    echo ✅ Google Cloud SDK is already installed
+    echo âœ… Google Cloud SDK is already installed
 )
 
 echo.
@@ -58,21 +58,21 @@ gcloud auth login
 
 echo.
 echo Setting Firebase project...
-gcloud config set project dwellmate-285e8
+gcloud config set project maploti
 
 echo.
 echo Applying CORS configuration...
-gsutil cors set cors.json gs://dwellmate-285e8.firebasestorage.app
+gsutil cors set cors.json gs://maploti.firebasestorage.app
 
 if %errorlevel% equ 0 (
     echo.
-    echo ✅ CORS configuration applied successfully!
+    echo âœ… CORS configuration applied successfully!
     echo.
     echo Step 4: Deploy Storage Rules
     echo ============================
     firebase deploy --only storage
     echo.
-    echo 🎉 COMPLETE! Your property upload should now work.
+    echo ðŸŽ‰ COMPLETE! Your property upload should now work.
     echo.
     echo Next steps:
     echo 1. Clear your browser cache (Ctrl+Shift+Delete)
@@ -80,7 +80,7 @@ if %errorlevel% equ 0 (
     echo 3. Try adding a property again
 ) else (
     echo.
-    echo ❌ Failed to apply CORS configuration
+    echo âŒ Failed to apply CORS configuration
     echo Please check your authentication and try again
 )
 

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <link rel="canonical" href="https://maploti.app/map.html" />
+  <title>Property Map — Maploti</title>
+  <meta name="description" content="Explore every Maploti listing on one interactive map of Kenya. Cluster, filter by budget and bedrooms, and jump straight to any property." />
+  <meta property="og:title" content="Property Map — Maploti" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=10" />
+  <!-- Leaflet + markercluster (web equivalent of the app's flutter_map grid clustering) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
+  <noscript><style>.reveal { opacity: 1; transform: none; }</style></noscript>
+
+  <!-- Firebase (same project as the Maploti app). NOT deferred: the page
+       scripts below depend on `firebase` being defined at parse time. -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23BFFF1A'/%3E%3Ctext x='16' y='23' font-family='Inter,sans-serif' font-weight='900' font-size='19' text-anchor='middle' fill='%23000'%3EM%3C/text%3E%3C/svg%3E" />
+</head>
+<body class="map-page">
+
+  <!-- ══════════════ NAV ══════════════ -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="brand" aria-label="Maploti home">
+        <span class="brand__mark">M</span>
+        <span class="brand__word">MAPLOTI</span>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="listings.html" class="nav__link">Properties</a>
+        <a href="saved.html" class="nav__link">Saved</a>
+        <a href="map.html" class="nav__link" aria-current="page">Map</a>
+        <a href="index.html#how" class="nav__link">How it works</a>
+        <a href="index.html#app" class="nav__link">The App</a>
+      </nav>
+
+      <div class="nav__actions">
+        <a href="login.html" class="btn btn--ghost nav__signin">Sign In</a>
+        <a href="login.html" class="btn btn--accent nav__cta">List a Property</a>
+        <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <a href="listings.html">Properties</a>
+      <a href="saved.html">Saved</a>
+      <a href="map.html">Map</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#app">The App</a>
+      <a href="login.html">Sign In</a>
+      <a href="login.html" class="btn btn--accent btn--block">List a Property</a>
+    </div>
+  </header>
+
+  <main class="map-shell">
+    <!-- ══════════════ FILTER TOOLBAR (matches listings.html) ══════════════ -->
+    <div class="filters" id="mapFilters">
+      <div class="container filters__inner">
+        <div class="seg" role="group" aria-label="Deal type">
+          <button type="button" class="is-active" data-deal="all" aria-pressed="true">All</button>
+          <button type="button" data-deal="sale" aria-pressed="false">For Sale</button>
+          <button type="button" data-deal="rent" aria-pressed="false">For Rent</button>
+        </div>
+
+        <div class="filter-field filter-field--search">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="search" id="mapSearch" placeholder="Search area, title…" aria-label="Search map listings" autocomplete="off" />
+          <button type="button" class="map-search__clear" id="mapSearchClear" aria-label="Clear search" hidden>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+          </button>
+        </div>
+
+        <div class="map-chips" id="mapChips" aria-label="Quick filters">
+          <button type="button" class="map-chip" id="chipPrice">Price</button>
+          <button type="button" class="map-chip" data-bed="1">1 Bed</button>
+          <button type="button" class="map-chip" data-bed="2">2 Bed</button>
+          <button type="button" class="map-chip" data-bed="3">3 Bed</button>
+          <button type="button" class="map-chip" data-bed="4">4+ Bed</button>
+        </div>
+
+        <button type="button" class="btn btn--outline map-filter-btn" id="mapFilterBtn" aria-haspopup="dialog">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+          Price range
+          <span class="map-filter-btn__dot" id="filterDot" hidden></span>
+        </button>
+
+        <button type="button" class="filters__reset" id="mapResetBtn">✕ Reset filters</button>
+      </div>
+    </div>
+
+    <!-- ══════════════ MAP + RESULTS ══════════════ -->
+    <div class="map-layout" id="mapLayout">
+      <!-- Results sidebar (desktop web pattern) -->
+      <aside class="map-sidebar" id="mapSidebar" aria-label="Matching properties">
+        <div class="map-sidebar__bar">
+          <p class="results__count" id="mapCount"><span id="mapCountText">Loading listings…</span></p>
+          <button type="button" class="map-sidebar__toggle" id="sidebarToggle" aria-expanded="true">Hide list</button>
+        </div>
+        <p class="demo-notice" id="mapDemo" hidden>⚠ Live listings are unavailable right now — showing sample data.</p>
+        <div class="map-sidebar__list" id="mapList">
+          <div class="map-pill map-pill--loading" id="mapLoading">
+            <span class="map-spinner" aria-hidden="true"></span> Loading listings…
+          </div>
+        </div>
+      </aside>
+
+      <!-- The map -->
+      <div class="map-stage">
+        <div class="map-canvas" id="mapCanvas" role="application" aria-label="Interactive property map"></div>
+
+        <button type="button" class="map-fab" id="mapLocate" aria-label="Center to my live location" title="Center to my live location">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+        </button>
+
+        <!-- Bottom property card (mobile-friendly quick view) -->
+        <div class="map-sheet" id="mapSheet" hidden aria-live="polite"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ══════════════ FILTER DIALOG (price range + sort) ══════════════ -->
+  <div class="map-sheet-backdrop" id="filterBackdrop" hidden></div>
+  <div class="filter-sheet" id="filterSheet" role="dialog" aria-modal="true" aria-labelledby="filterTitle" hidden>
+    <div class="filter-sheet__grab" aria-hidden="true"></div>
+    <h2 class="filter-sheet__title" id="filterTitle">Map Filters</h2>
+    <p class="filter-sheet__sub">Narrow markers by budget</p>
+
+    <p class="filter-sheet__label">Price range (KES)</p>
+    <div class="filter-sheet__range">
+      <label class="filter-sheet__field">
+        <span class="filter-sheet__prefix">KES</span>
+        <input type="number" id="filterMin" inputmode="numeric" placeholder="Min" aria-label="Minimum price" min="0" step="1" />
+      </label>
+      <span class="filter-sheet__dash" aria-hidden="true">—</span>
+      <label class="filter-sheet__field">
+        <span class="filter-sheet__prefix">KES</span>
+        <input type="number" id="filterMax" inputmode="numeric" placeholder="Max" aria-label="Maximum price" min="0" step="1" />
+      </label>
+    </div>
+
+    <p class="filter-sheet__label">Sort by price</p>
+    <div class="filter-sheet__sorts" role="radiogroup" aria-label="Sort by price">
+      <button type="button" class="map-chip map-chip--sort is-active" data-sortopt="none" role="radio" aria-checked="true">Any</button>
+      <button type="button" class="map-chip map-chip--sort" data-sortopt="lowToHigh" role="radio" aria-checked="false">Cheapest first</button>
+      <button type="button" class="map-chip map-chip--sort" data-sortopt="highToLow" role="radio" aria-checked="false">Priciest first</button>
+    </div>
+
+    <div class="filter-sheet__actions">
+      <button type="button" class="btn btn--outline filter-sheet__reset" id="filterReset">Reset</button>
+      <button type="button" class="btn btn--accent filter-sheet__apply" id="filterApply">Apply Filters</button>
+    </div>
+    <button type="button" class="filter-sheet__locate" id="filterLocate">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+      Center to My Live Location
+    </button>
+  </div>
+
+  <script src="js/firebase.js?v=4"></script>
+  <script src="js/data.js?v=4"></script>
+  <script src="js/user.js?v=4"></script>
+  <script src="js/site.js?v=4"></script>
+  <script src="js/map.js?v=4"></script>
+</body>
+</html>

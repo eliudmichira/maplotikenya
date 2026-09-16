@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { Sentry } from '../lib/sentry';
 
 class ErrorBoundary extends React.Component {
@@ -134,7 +134,7 @@ class ErrorBoundary extends React.Component {
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
-        <div className="min-h-screen flex items-center justify-center bg-[#0a0c19] text-white p-4">
+        <div className="min-h-screen flex items-center justify-center bg-[#000000] text-white p-4">
           <div className="max-w-md mx-auto text-center space-y-6">
             <div className="w-20 h-20 mx-auto rounded-full bg-red-500/20 flex items-center justify-center">
               <svg className="w-10 h-10 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -157,7 +157,7 @@ class ErrorBoundary extends React.Component {
             <div className="space-y-3">
               <button
                 onClick={() => window.location.reload()}
-                className="w-full px-6 py-3 bg-[#51faaa] text-[#0a0c19] font-semibold rounded-xl hover:bg-[#dbd5a4] transition-colors"
+                className="w-full px-6 py-3 bg-[#000000] text-[#000000] font-semibold rounded-xl hover:bg-[#f0f0f0] transition-colors"
               >
                 Refresh Page
               </button>

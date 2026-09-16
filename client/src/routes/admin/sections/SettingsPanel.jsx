@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 import { 
@@ -33,7 +33,7 @@ const SettingsPanel = () => {
     general: {
       siteName: 'Hama Estate',
       siteDescription: 'Your trusted real estate platform in Kenya',
-      siteUrl: 'https://dwellmate-285e8.web.app',
+      siteUrl: 'https://maploti.web.app',
       contactEmail: 'admin@bogani.com',
       contactPhone: '+254 700 123 456',
       timezone: 'Africa/Nairobi',
@@ -60,8 +60,8 @@ const SettingsPanel = () => {
     },
     appearance: {
       theme: 'auto',
-      primaryColor: '#51faaa',
-      secondaryColor: '#8B5CF6',
+      primaryColor: '#000000',
+      secondaryColor: '#505050',
       logoUrl: '/logo.png',
       faviconUrl: '/favicon.png',
       enableDarkMode: true,

@@ -1,6 +1,6 @@
 /**
- * HomesKE blog posts — default / fallback content when Firestore is empty or offline.
- * Admins can manage live posts in Admin → Blog (collection `blogPosts`).
+ * MaplotiKenya blog posts — default / fallback content when Firestore is empty or offline.
+ * Admins can manage live posts in Admin â†’ Blog (collection `blogPosts`).
  * Firestore posts override entries here when the slug matches.
  *
  * Each post needs:

@@ -3,7 +3,7 @@ import MobileNavigation from './MobileNavigation';
 import ErrorBoundary from '../../components/ErrorBoundary';
 
 // Mobile Layout Wrapper with Top and Bottom Navigation
-const MobileLayoutWrapper = ({ children, title = "BumiHouse", subtitle, showNav = true }) => {
+const MobileLayoutWrapper = ({ children, title = "MaplotiKenya", subtitle, showNav = true }) => {
   return (
     <ErrorBoundary>
       <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900" role="main" aria-label={title}>

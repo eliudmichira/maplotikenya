@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Camera, Loader2, User, Building2, Award, MapPin, FileText, CheckCircle, Shield, MessageCircle, ChevronRight, Share2, Edit } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -159,7 +159,7 @@ const MobileEditAgentProfile = () => {
     if (loading) {
         return (
             <div className={`min-h-screen flex items-center justify-center ${isDark ? 'bg-gray-900' : 'bg-gray-50'}`}>
-                <Loader2 className="w-8 h-8 text-[#51faaa] animate-spin" />
+                <Loader2 className="w-8 h-8 text-[#000000] animate-spin" />
             </div>
         );
     }
@@ -172,7 +172,7 @@ const MobileEditAgentProfile = () => {
                         <ArrowLeft size={20} />
                     </motion.button>
                     <h1 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Edit Agent Profile</h1>
-                    <button onClick={handleSave} disabled={saving} className="text-[#51faaa] font-semibold disabled:opacity-50">
+                    <button onClick={handleSave} disabled={saving} className="text-[#000000] font-semibold disabled:opacity-50">
                         {saving ? <Loader2 size={20} className="animate-spin inline" /> : 'Save'}
                     </button>
                 </div>
@@ -184,10 +184,10 @@ const MobileEditAgentProfile = () => {
                 {/* Photo Upload */}
                 <div className="flex flex-col items-center">
                     <label className="relative inline-block">
-                        <div className="w-28 h-28 rounded-full overflow-hidden bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] flex items-center justify-center text-3xl font-bold text-gray-900 ring-4 ring-white/10 shadow-2xl">
+                        <div className="w-28 h-28 rounded-full overflow-hidden bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] flex items-center justify-center text-3xl font-bold text-gray-900 ring-4 ring-white/10 shadow-2xl">
                             {photoSrc ? <img src={photoSrc} alt="" className="w-full h-full object-cover" /> : (displayName?.[0] || currentUser?.email?.[0] || 'A').toUpperCase()}
                         </div>
-                        <span className="absolute bottom-0 right-0 w-9 h-9 rounded-full bg-[#51faaa] text-gray-900 flex items-center justify-center shadow-lg border-2 border-gray-900"><Camera size={18} /></span>
+                        <span className="absolute bottom-0 right-0 w-9 h-9 rounded-full bg-[#000000] text-gray-900 flex items-center justify-center shadow-lg border-2 border-gray-900"><Camera size={18} /></span>
                         <input type="file" accept="image/*" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" onChange={handlePhotoChange} />
                     </label>
                     <p className={`text-sm mt-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Change profile picture</p>
@@ -199,11 +199,11 @@ const MobileEditAgentProfile = () => {
                     </h3>
                     <div>
                         <label className={`block text-[10px] font-semibold uppercase tracking-[0.18em] mb-2 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Full Name</label>
-                        <input type="text" value={displayName} onChange={(e) => setDisplayName(e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#51faaa]' : 'border-gray-200 text-gray-900 focus:border-[#51faaa]'}`} />
+                        <input type="text" value={displayName} onChange={(e) => setDisplayName(e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#fbbf24]' : 'border-gray-200 text-gray-900 focus:border-[#fbbf24]'}`} />
                     </div>
                     <div>
                         <label className={`block text-[10px] font-semibold uppercase tracking-[0.18em] mb-2 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Phone Number</label>
-                        <input type="tel" value={formData.phoneNumber} onChange={(e) => handleInputChange('phoneNumber', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#51faaa]' : 'border-gray-200 text-gray-900 focus:border-[#51faaa]'}`} />
+                        <input type="tel" value={formData.phoneNumber} onChange={(e) => handleInputChange('phoneNumber', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#fbbf24]' : 'border-gray-200 text-gray-900 focus:border-[#fbbf24]'}`} />
                     </div>
                 </div>
 
@@ -213,24 +213,24 @@ const MobileEditAgentProfile = () => {
                     </h3>
                     <div>
                         <label className={`block text-[10px] font-semibold uppercase tracking-[0.18em] mb-2 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Professional Title (e.g. Senior Agent)</label>
-                        <input type="text" value={formData.professionalTitle} onChange={(e) => handleInputChange('professionalTitle', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#51faaa]' : 'border-gray-200 text-gray-900 focus:border-[#51faaa]'}`} placeholder="e.g. Luxury Property Specialist" />
+                        <input type="text" value={formData.professionalTitle} onChange={(e) => handleInputChange('professionalTitle', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#fbbf24]' : 'border-gray-200 text-gray-900 focus:border-[#fbbf24]'}`} placeholder="e.g. Luxury Property Specialist" />
                     </div>
                     <div>
                         <label className={`block text-[10px] font-semibold uppercase tracking-[0.18em] mb-2 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Company / Agency</label>
-                        <input type="text" value={formData.company} onChange={(e) => handleInputChange('company', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#51faaa]' : 'border-gray-200 text-gray-900 focus:border-[#51faaa]'}`} />
+                        <input type="text" value={formData.company} onChange={(e) => handleInputChange('company', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#fbbf24]' : 'border-gray-200 text-gray-900 focus:border-[#fbbf24]'}`} />
                     </div>
                     <div>
                         <label className={`block text-[10px] font-semibold uppercase tracking-[0.18em] mb-2 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>License Number</label>
-                        <input type="text" value={formData.licenseNumber} onChange={(e) => handleInputChange('licenseNumber', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#51faaa]' : 'border-gray-200 text-gray-900 focus:border-[#51faaa]'}`} />
+                        <input type="text" value={formData.licenseNumber} onChange={(e) => handleInputChange('licenseNumber', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#fbbf24]' : 'border-gray-200 text-gray-900 focus:border-[#fbbf24]'}`} />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className={`block text-[10px] font-semibold uppercase tracking-[0.18em] mb-2 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Experience (Years)</label>
-                            <input type="number" value={formData.yearsOfExperience} onChange={(e) => handleInputChange('yearsOfExperience', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#51faaa]' : 'border-gray-200 text-gray-900 focus:border-[#51faaa]'}`} />
+                            <input type="number" value={formData.yearsOfExperience} onChange={(e) => handleInputChange('yearsOfExperience', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#fbbf24]' : 'border-gray-200 text-gray-900 focus:border-[#fbbf24]'}`} />
                         </div>
                         <div>
                             <label className={`block text-[10px] font-semibold uppercase tracking-[0.18em] mb-2 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>County of Operation</label>
-                            <select value={formData.countyOfOperation} onChange={(e) => handleInputChange('countyOfOperation', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#51faaa]' : 'border-gray-200 text-gray-900 focus:border-[#51faaa]'}`}>
+                            <select value={formData.countyOfOperation} onChange={(e) => handleInputChange('countyOfOperation', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#fbbf24]' : 'border-gray-200 text-gray-900 focus:border-[#fbbf24]'}`}>
                                 <option value="">Select County</option>
                                 {kenyanCounties.map(c => <option key={c} value={c}>{c}</option>)}
                             </select>
@@ -238,14 +238,14 @@ const MobileEditAgentProfile = () => {
                     </div>
                     <div>
                         <label className={`block text-[10px] font-semibold uppercase tracking-[0.18em] mb-2 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Specialization</label>
-                        <select value={formData.specialization} onChange={(e) => handleInputChange('specialization', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#51faaa]' : 'border-gray-200 text-gray-900 focus:border-[#51faaa]'}`}>
+                        <select value={formData.specialization} onChange={(e) => handleInputChange('specialization', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#fbbf24]' : 'border-gray-200 text-gray-900 focus:border-[#fbbf24]'}`}>
                             <option value="">Select Specialization</option>
                             {specializations.map(s => <option key={s} value={s}>{s}</option>)}
                         </select>
                     </div>
                     <div>
                         <label className={`block text-[10px] font-semibold uppercase tracking-[0.18em] mb-2 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>Service Areas (comma separated)</label>
-                        <input type="text" value={formData.serviceAreas} onChange={(e) => handleInputChange('serviceAreas', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#51faaa]' : 'border-gray-200 text-gray-900 focus:border-[#51faaa]'}`} placeholder="e.g. Westlands, Kilimani, Lavington" />
+                        <input type="text" value={formData.serviceAreas} onChange={(e) => handleInputChange('serviceAreas', e.target.value)} className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${isDark ? 'border-white/10 text-white focus:border-[#fbbf24]' : 'border-gray-200 text-gray-900 focus:border-[#fbbf24]'}`} placeholder="e.g. Westlands, Kilimani, Lavington" />
                     </div>
                 </div>
 

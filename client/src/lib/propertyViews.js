@@ -4,7 +4,7 @@ import { db } from './firebase';
 // Track property view in database
 export const incrementPropertyView = async (propertyId) => {
   try {
-    const propertyRef = doc(db, 'properties', propertyId);
+    const propertyRef = doc(db, 'listings', propertyId);
     
     // Increment the views count
     await updateDoc(propertyRef, {
@@ -25,7 +25,7 @@ export const incrementPropertyView = async (propertyId) => {
 // Get property view count
 export const getPropertyViews = async (propertyId) => {
   try {
-    const propertyRef = doc(db, 'properties', propertyId);
+    const propertyRef = doc(db, 'listings', propertyId);
     const propertySnap = await getDoc(propertyRef);
     
     if (propertySnap.exists()) {
@@ -42,7 +42,7 @@ export const getPropertyViews = async (propertyId) => {
 export const getTotalViews = async () => {
   try {
     const { collection, getDocs } = await import('firebase/firestore');
-    const propertiesSnap = await getDocs(collection(db, 'properties'));
+    const propertiesSnap = await getDocs(collection(db, 'listings'));
     
     let totalViews = 0;
     propertiesSnap.forEach(doc => {

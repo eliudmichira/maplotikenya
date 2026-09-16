@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { collection, getDocs, updateDoc, doc, query, orderBy, deleteDoc } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 import {
@@ -43,7 +43,7 @@ const PropertyModeration = () => {
   useEffect(() => {
     const loadProperties = async () => {
       try {
-        const q = query(collection(db, 'properties'), orderBy('createdAt', 'desc'));
+        const q = query(collection(db, 'listings'), orderBy('createdAt', 'desc'));
         const snapshot = await getDocs(q);
         const rows = snapshot.docs.map((d) => {
           const data = d.data();
@@ -108,7 +108,7 @@ const PropertyModeration = () => {
 
   const handleApprove = async (propertyId) => {
     try {
-      await updateDoc(doc(db, 'properties', propertyId), { status: 'approved', rejectionReason: '' });
+      await updatedoc(doc(db, 'listings', propertyId), { status: 'approved', rejectionReason: '' });
       setProperties(properties.map(property => property.id === propertyId ? { ...property, status: 'approved', rejectionReason: '' } : property));
     } catch (e) {
       console.error('Error approving property:', e);
@@ -118,7 +118,7 @@ const PropertyModeration = () => {
   const handleReject = async (propertyId) => {
     if (!rejectionReason.trim()) return;
     try {
-      await updateDoc(doc(db, 'properties', propertyId), { status: 'rejected', rejectionReason });
+      await updatedoc(doc(db, 'listings', propertyId), { status: 'rejected', rejectionReason });
       setProperties(properties.map(property => property.id === propertyId ? { ...property, status: 'rejected', rejectionReason } : property));
     } catch (e) {
       console.error('Error rejecting property:', e);
@@ -131,7 +131,7 @@ const PropertyModeration = () => {
 
   const handleDelete = async (propertyId) => {
     try {
-      await deleteDoc(doc(db, 'properties', propertyId));
+      await deletedoc(doc(db, 'listings', propertyId));
       setProperties(properties.filter(property => property.id !== propertyId));
       setShowDeleteModal(false);
       setPropertyToDelete(null);
@@ -144,7 +144,7 @@ const PropertyModeration = () => {
     if (selectedProperties.length === 0) return;
 
     try {
-      await Promise.all(selectedProperties.map(id => deleteDoc(doc(db, 'properties', id))));
+      await Promise.all(selectedProperties.map(id => deletedoc(doc(db, 'listings', id))));
       setProperties(properties.filter(property => !selectedProperties.includes(property.id)));
     } catch (e) {
       console.error('Error performing bulk delete:', e);
@@ -158,10 +158,10 @@ const PropertyModeration = () => {
 
     try {
       if (action === 'approve') {
-        await Promise.all(selectedProperties.map(id => updateDoc(doc(db, 'properties', id), { status: 'approved', rejectionReason: '' })));
+        await Promise.all(selectedProperties.map(id => updatedoc(doc(db, 'listings', id), { status: 'approved', rejectionReason: '' })));
         setProperties(properties.map(property => selectedProperties.includes(property.id) ? { ...property, status: 'approved', rejectionReason: '' } : property));
       } else if (action === 'reject') {
-        await Promise.all(selectedProperties.map(id => updateDoc(doc(db, 'properties', id), { status: 'rejected', rejectionReason: 'Bulk rejection' })));
+        await Promise.all(selectedProperties.map(id => updatedoc(doc(db, 'listings', id), { status: 'rejected', rejectionReason: 'Bulk rejection' })));
         setProperties(properties.map(property => selectedProperties.includes(property.id) ? { ...property, status: 'rejected', rejectionReason: 'Bulk rejection' } : property));
       } else if (action === 'delete') {
         await handleBulkDelete();

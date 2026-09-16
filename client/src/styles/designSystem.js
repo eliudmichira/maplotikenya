@@ -1,23 +1,23 @@
-﻿// Enterprise-level Design System
+// Enterprise-level Design System
 export const designTokens = {
   // Brand Colors (Google Material Design 3 inspired)
   colors: {
     primary: {
-      50: '#f0fdf7',
-      100: '#dcfce7',
-      200: '#bbf7d0',
-      300: '#86efb8',
-      400: '#51faaa',
-      500: '#51faaa',
-      600: '#2dd284',
-      700: '#1fb372',
-      800: '#15803d',
-      900: '#0f5132'
+      50: '#f8f8f8',
+      100: '#f8f8f8',
+      200: '#f0f0f0',
+      300: '#a3a3a3',
+      400: '#000000',
+      500: '#000000',
+      600: '#303030',
+      700: '#0e1311',
+      800: '#0e1311',
+      900: '#0e1311'
     },
     secondary: {
       50: '#fefdf8',
       100: '#fefbf3',
-      200: '#dbd5a4',
+      200: '#f0f0f0',
       300: '#c9c285',
       400: '#b7af66',
       500: '#a59c47'
@@ -38,9 +38,9 @@ export const designTokens = {
     },
     semantic: {
       success: {
-        light: '#dcfce7',
-        base: '#16a34a',
-        dark: '#15803d'
+        light: '#f8f8f8',
+        base: '#303030',
+        dark: '#0e1311'
       },
       warning: {
         light: '#fef3c7',
@@ -53,9 +53,9 @@ export const designTokens = {
         dark: '#b91c1c'
       },
       info: {
-        light: '#dcfce7',
-        base: '#2dd284',
-        dark: '#1fb372'
+        light: '#f8f8f8',
+        base: '#303030',
+        dark: '#0e1311'
       }
     }
   },
@@ -151,8 +151,8 @@ export const designTokens = {
     '2xl': '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
     inner: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)',
     // Brand shadows
-    primary: '0 10px 40px -10px rgba(59, 130, 246, 0.3)',
-    secondary: '0 10px 40px -10px rgba(219, 213, 164, 0.3)',
+    primary: '0 10px 40px -10px rgba(251, 191, 36, 0.3)',
+    secondary: '0 10px 40px -10px rgba(251, 191, 36, 0.3)',
     glass: '0 8px 32px 0 rgba(31, 38, 135, 0.37)'
   },
 

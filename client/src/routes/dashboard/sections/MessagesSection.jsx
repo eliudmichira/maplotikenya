@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { messagesAPI } from '../../../lib/firebaseAPI';
 import { MessageCircle, User, Calendar, Phone, Mail, Star, Check, X, Reply, Archive, Flag, Loader2 } from 'lucide-react';
 

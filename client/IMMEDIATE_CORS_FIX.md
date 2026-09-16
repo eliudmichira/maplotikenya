@@ -1,9 +1,9 @@
-# 🚨 IMMEDIATE CORS FIX - Step by Step
+﻿# ðŸš¨ IMMEDIATE CORS FIX - Step by Step
 
 ## The Problem
 Your Firebase Storage bucket doesn't have CORS configuration, which is blocking image uploads from your web application.
 
-## 🎯 SOLUTION 1: Install Google Cloud SDK (Recommended)
+## ðŸŽ¯ SOLUTION 1: Install Google Cloud SDK (Recommended)
 
 ### Step 1: Download and Install Google Cloud SDK
 1. **Download**: Go to https://cloud.google.com/sdk/docs/install
@@ -19,25 +19,25 @@ Open a new terminal and run these commands:
 gcloud auth login
 
 # Set your project
-gcloud config set project dwellmate-285e8
+gcloud config set project maploti
 
 # Apply CORS configuration
-gsutil cors set cors.json gs://dwellmate-285e8.firebasestorage.app
+gsutil cors set cors.json gs://maploti.firebasestorage.app
 
 # Verify it worked
-gsutil cors get gs://dwellmate-285e8.firebasestorage.app
+gsutil cors get gs://maploti.firebasestorage.app
 ```
 
-## 🎯 SOLUTION 2: Use Firebase Console (Alternative)
+## ðŸŽ¯ SOLUTION 2: Use Firebase Console (Alternative)
 
 If you can't install Google Cloud SDK:
 
-1. **Go to Firebase Console**: https://console.firebase.google.com/project/dwellmate-285e8/storage
+1. **Go to Firebase Console**: https://console.firebase.google.com/project/maploti/storage
 2. **Click "Get Started"** to set up Firebase Storage
 3. **Go to Rules tab** and ensure rules allow authenticated uploads
 4. **Contact Firebase Support** to request CORS configuration
 
-## 🎯 SOLUTION 3: Manual Browser Fix (Temporary)
+## ðŸŽ¯ SOLUTION 3: Manual Browser Fix (Temporary)
 
 For immediate testing, you can:
 
@@ -48,19 +48,19 @@ For immediate testing, you can:
 chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security --disable-features=VizDisplayCompositor
 ```
 
-⚠️ **Warning**: Only use this for testing, not production!
+âš ï¸ **Warning**: Only use this for testing, not production!
 
-## 🎯 SOLUTION 4: Alternative Upload Method
+## ðŸŽ¯ SOLUTION 4: Alternative Upload Method
 
 If CORS continues to be an issue, we can modify the code to use a different upload method.
 
-## ✅ After Applying Any Solution
+## âœ… After Applying Any Solution
 
 1. **Clear browser cache** (Ctrl+Shift+Delete)
 2. **Refresh your application**
 3. **Try uploading a property again**
 
-## 📞 Need Help?
+## ðŸ“ž Need Help?
 
 If none of these solutions work, please:
 1. Try Solution 1 first (Google Cloud SDK)

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Search, MapPin, Clock, X, TrendingUp } from 'lucide-react';
 import BottomSheet from '../ui/BottomSheet';
 import countyData from '../../assets/data/kenya-counties.json';

@@ -20,9 +20,9 @@ const countyData = [
 
 const firebaseConfig = {
     apiKey: process.env.VITE_FIREBASE_API_KEY || "YOUR_FIREBASE_API_KEY",
-    authDomain: "homeske.firebaseapp.com",
-    projectId: "homeske",
-    storageBucket: "homeske.firebasestorage.app",
+    authDomain: "MaplotiKenya.firebaseapp.com",
+    projectId: "MaplotiKenya",
+    storageBucket: "MaplotiKenya.firebasestorage.app",
     messagingSenderId: "1020344751483",
     appId: "1:1020344751483:web:69b0ad87673613d75699de",
     measurementId: "G-VQNF1ZPH1K"
@@ -58,10 +58,10 @@ function getCountyFromCoords(lat, lng) {
 }
 
 async function backfill() {
-    console.log('🚀 Starting Geolocation Backfill (Authenticated)...');
+    console.log('ðŸš€ Starting Geolocation Backfill (Authenticated)...');
     try {
         await signInWithEmailAndPassword(auth, process.env.FIREBASE_ADMIN_EMAIL || "YOUR_ADMIN_EMAIL", process.env.FIREBASE_ADMIN_PASSWORD || "YOUR_ADMIN_PASSWORD");
-        console.log("✅ Authenticated as Admin.");
+        console.log("âœ… Authenticated as Admin.");
 
         const snap = await getDocs(collection(db, 'properties'));
         console.log(`Found ${snap.size} properties to process.`);
@@ -86,12 +86,12 @@ async function backfill() {
                 });
                 updatedCount++;
             } else {
-                console.warn(`⚠️ Skipping [${data.title}]: No valid coordinates found.`);
+                console.warn(`âš ï¸ Skipping [${data.title}]: No valid coordinates found.`);
             }
         }
-        console.log(`✅ Backfill complete. Updated ${updatedCount} properties.`);
+        console.log(`âœ… Backfill complete. Updated ${updatedCount} properties.`);
     } catch (e) {
-        console.error('❌ Backfill failed:', e.message);
+        console.error('âŒ Backfill failed:', e.message);
     }
     process.exit(0);
 }

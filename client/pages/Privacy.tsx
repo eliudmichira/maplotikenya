@@ -6,17 +6,17 @@ const Privacy: React.FC = () => {
   const { isDark } = useTheme();
 
   return (
-    <section className={`py-16 ${isDark ? 'bg-[#0a0c19]' : 'bg-white'}`}>
+    <section className={`py-16 ${isDark ? 'bg-[#000000]' : 'bg-white'}`}>
       <div className="max-w-5xl mx-auto px-6 lg:px-8">
         <div className="flex items-center gap-3 mb-6">
-          <Shield className="w-6 h-6 text-[#51faaa]" />
+          <Shield className="w-6 h-6 text-[#000000]" />
           <h1 className={`text-3xl md:text-4xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Privacy Policy</h1>
         </div>
         <p className={`${isDark ? 'text-white/70' : 'text-gray-600'} mb-8`}>
           Your privacy matters. This policy explains what information we collect, how we use it, and your rights.
         </p>
 
-        <div className={`rounded-2xl p-6 ${isDark ? 'bg-[#10121e] border border-white/10' : 'bg-gray-50 border border-gray-200'}`}>
+        <div className={`rounded-2xl p-6 ${isDark ? 'bg-[#0e1311] border border-white/10' : 'bg-gray-50 border border-gray-200'}`}>
           <h2 className={`text-xl font-semibold mb-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>Information We Collect</h2>
           <ul className={`${isDark ? 'text-white/70' : 'text-gray-700'} list-disc pl-5 space-y-2`}>
             <li>Account details (name, email) when you register</li>
@@ -25,14 +25,14 @@ const Privacy: React.FC = () => {
           </ul>
         </div>
 
-        <div className={`rounded-2xl p-6 mt-6 ${isDark ? 'bg-[#10121e] border border-white/10' : 'bg-gray-50 border border-gray-200'}`}>
+        <div className={`rounded-2xl p-6 mt-6 ${isDark ? 'bg-[#0e1311] border border-white/10' : 'bg-gray-50 border border-gray-200'}`}>
           <h2 className={`text-xl font-semibold mb-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>How We Use Data</h2>
           <p className={`${isDark ? 'text-white/70' : 'text-gray-700'}`}>
             We use data to personalise recommendations, secure your account, and improve platform performance.
           </p>
         </div>
 
-        <div className={`rounded-2xl p-6 mt-6 ${isDark ? 'bg-[#10121e] border border-white/10' : 'bg-gray-50 border border-gray-200'}`}>
+        <div className={`rounded-2xl p-6 mt-6 ${isDark ? 'bg-[#0e1311] border border-white/10' : 'bg-gray-50 border border-gray-200'}`}>
           <h2 className={`text-xl font-semibold mb-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>Your Rights</h2>
           <ul className={`${isDark ? 'text-white/70' : 'text-gray-700'} list-disc pl-5 space-y-2`}>
             <li>Access, correct, or delete your data</li>

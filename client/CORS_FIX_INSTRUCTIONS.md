@@ -1,10 +1,10 @@
-# Firebase Storage CORS Fix Instructions
+﻿# Firebase Storage CORS Fix Instructions
 
 ## Problem
 You're experiencing a CORS (Cross-Origin Resource Sharing) error when trying to upload images to Firebase Storage:
 
 ```
-Access to XMLHttpRequest at 'https://firebasestorage.googleapis.com/v0/b/dwellmate-285e8.firebasestorage.app/o?name=properties%2F...' from origin 'https://dwellmate-285e8.web.app' has been blocked by CORS policy
+Access to XMLHttpRequest at 'https://firebasestorage.googleapis.com/v0/b/maploti.firebasestorage.app/o?name=properties%2F...' from origin 'https://maploti.web.app' has been blocked by CORS policy
 ```
 
 This happens because your Firebase Storage bucket doesn't have the proper CORS configuration to allow requests from your web application domain.
@@ -51,23 +51,23 @@ gcloud auth login
 
 #### Step 3: Set Your Firebase Project
 ```bash
-gcloud config set project dwellmate-285e8
+gcloud config set project maploti
 ```
 
 #### Step 4: Apply CORS Configuration
 ```bash
-gsutil cors set cors.json gs://dwellmate-285e8.firebasestorage.app
+gsutil cors set cors.json gs://maploti.firebasestorage.app
 ```
 
 #### Step 5: Verify Configuration
 ```bash
-gsutil cors get gs://dwellmate-285e8.firebasestorage.app
+gsutil cors get gs://maploti.firebasestorage.app
 ```
 
 ## What This Fixes
 
 The CORS configuration allows requests from:
-- `https://dwellmate-285e8.web.app` (your production domain)
+- `https://maploti.web.app` (your production domain)
 - `http://localhost:3000` (local development)
 - `http://localhost:5173` (Vite dev server)
 - `http://127.0.0.1:3000` (alternative local development)
@@ -89,11 +89,11 @@ The CORS configuration allows requests from:
 ### If you get authentication errors:
 - Make sure you're logged in with the correct Google account
 - Try running `gcloud auth login` again
-- Check that you have permissions for the dwellmate-285e8 project
+- Check that you have permissions for the maploti project
 
 ### If you get permission errors:
 - Make sure you're using an account that has access to the Firebase project
-- Check that the project ID is correct (dwellmate-285e8)
+- Check that the project ID is correct (maploti)
 
 ### If the CORS configuration doesn't take effect:
 - Wait a few minutes for the changes to propagate

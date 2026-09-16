@@ -1,4 +1,4 @@
-import { initializeApp, getApps } from 'firebase/app';
+﻿import { initializeApp, getApps } from 'firebase/app';
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signInWithCredential, sendEmailVerification, updateProfile as firebaseUpdateProfile } from 'firebase/auth';
 import { getFirestore, initializeFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
@@ -21,17 +21,17 @@ try {
   if (getApps().length === 0) {
     app = initializeApp(firebaseConfig);
     if (import.meta.env.DEV) {
-      console.log('🔥 Firebase initialized successfully');
+      console.log('ðŸ”¥ Firebase initialized successfully');
     }
   } else {
     app = getApps()[0];
     if (import.meta.env.DEV) {
-      console.log('🔥 Firebase app already initialized');
+      console.log('ðŸ”¥ Firebase app already initialized');
     }
   }
 } catch (error) {
   if (import.meta.env.DEV) {
-    console.error('❌ Firebase initialization failed:', error);
+    console.error('âŒ Firebase initialization failed:', error);
   }
   throw error;
 }
@@ -50,11 +50,11 @@ try {
   storage = getStorage(app);
   functions = getFunctions(app);
   if (import.meta.env.DEV) {
-    console.log('🔥 Firebase services initialized successfully');
+    console.log('ðŸ”¥ Firebase services initialized successfully');
   }
 } catch (error) {
   if (import.meta.env.DEV) {
-    console.error('❌ Firebase services initialization failed:', error);
+    console.error('âŒ Firebase services initialization failed:', error);
   }
   throw error;
 }
@@ -98,7 +98,7 @@ export const signUpWithEmail = async (email, password) => {
     const user = userCredential.user;
     await sendEmailVerification(user);
     if (import.meta.env.DEV) {
-      console.log("✅ Verification email sent to:", user.email);
+      console.log("âœ… Verification email sent to:", user.email);
     }
     return { success: true, user };
   } catch (error) {
@@ -179,52 +179,21 @@ export const onAuthStateChange = (callback) => {
   return onAuthStateChanged(auth, callback);
 };
 
-// Test Firebase connection
+// Test Firebase connection (lightweight - no watch listeners)
 export const testFirebaseConnection = async () => {
   try {
-    if (import.meta.env.DEV) {
-      console.log('🧪 Testing Firebase connection...');
-    }
-
-    // Test Firestore connection
-    let testDoc;
-    try {
-      testDoc = await import('firebase/firestore').then(({ doc, getDoc }) =>
-        getDoc(doc(db, 'test', 'connection'))
-      );
-    } catch (firestoreError) {
-      if (import.meta.env.DEV) {
-        console.warn('⚠️ Initial Firestore test failed, trying properties fallback...', firestoreError.message);
-      }
-      // Fallback to reading a known collection
-      testDoc = await import('firebase/firestore').then(({ collection, query, limit, getDocs }) =>
-        getDocs(query(collection(db, 'properties'), limit(1)))
-      );
+    // Use auth.currentUser check (free, no Firestore reads needed)
+    // and verify db instance is initialized
+    if (!db || !auth || !storage) {
+      return { success: false, error: 'Firebase services not initialized' };
     }
 
     if (import.meta.env.DEV) {
-      console.log('✅ Firestore connection successful');
+      console.log('Firebase services ready (auth, firestore, storage)');
     }
 
-    // Test Auth connection
-    const authState = auth.currentUser;
-    if (import.meta.env.DEV) {
-      console.log('✅ Auth service connection successful');
-    }
-
-    // Test Storage connection
-    const storageRef = await import('firebase/storage').then(({ ref }) =>
-      ref(storage, 'test/connection')
-    );
-    if (import.meta.env.DEV) {
-      console.log('✅ Storage connection successful');
-    }
-
-    return { success: true, message: 'All Firebase services connected successfully' };
+    return { success: true, message: 'Firebase services initialized' };
   } catch (error) {
-    if (import.meta.env.DEV) {
-      console.error('❌ Firebase connection test failed:', error);
-    }
     return { success: false, error: error.message };
   }
 };

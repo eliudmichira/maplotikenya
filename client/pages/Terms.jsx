@@ -5,7 +5,7 @@ import { useTheme } from '../src/context/ThemeContext';
 const Terms = ({ embedded = false }) => {
   const { isDark } = useTheme();
   return (
-    <section className={`${embedded ? 'p-0 bg-transparent' : `pt-40 pb-0 min-h-screen ${isDark ? 'bg-[#0a0c19]' : 'bg-white'}`}`}>
+    <section className={`${embedded ? 'p-0 bg-transparent' : `pt-40 pb-0 min-h-screen ${isDark ? 'bg-[#000000]' : 'bg-white'}`}`}>
       <div className={`max-w-3xl mx-auto ${embedded ? '' : 'px-6'}`}>
         <h1 className={`text-4xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Terms of Service</h1>
         <p className={`${isDark ? 'text-white/70' : 'text-gray-700'} mb-8`}>

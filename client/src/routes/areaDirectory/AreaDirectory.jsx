@@ -28,17 +28,17 @@ const AreaDirectory = () => {
   };
 
   return (
-    <div className={`min-h-screen transition-colors duration-500 ${isDark ? 'bg-[#0a0c19]' : 'bg-gray-50'}`}>
+    <div className={`min-h-screen transition-colors duration-500 ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
       <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16 md:py-20">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5 text-xs font-semibold tracking-wide uppercase bg-[#51faaa]/10 text-[#51faaa] border border-[#51faaa]/20">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5 text-xs font-semibold tracking-wide uppercase bg-[#000000]/10 text-[#000000] border border-[#fbbf24]/20">
             <MapPin className="w-3.5 h-3.5" />
             Area Directory
           </div>
           <h1 className={`text-4xl md:text-5xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
             Explore{' '}
-            <span className="bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent">
               Every Area
             </span>
           </h1>
@@ -60,8 +60,8 @@ const AreaDirectory = () => {
               placeholder="Search areas, e.g. Westlands or Kitengela…"
               className={`w-full pl-12 pr-10 py-3.5 rounded-2xl text-sm outline-none transition-all border ${
                 isDark
-                  ? 'bg-[#10121e] border-gray-700/60 focus:border-[#51faaa]/50 focus:shadow-lg focus:shadow-[#51faaa]/10'
-                  : 'bg-white border-gray-200 focus:border-[#51faaa]/60 focus:shadow-lg focus:shadow-[#51faaa]/10'
+                  ? 'bg-[#0e1311] border-gray-700/60 focus:border-[#fbbf24]/50 focus:shadow-lg focus:shadow-[#000000]/10'
+                  : 'bg-white border-gray-200 focus:border-[#fbbf24]/60 focus:shadow-lg focus:shadow-[#000000]/10'
               }`}
             />
             {query && (
@@ -76,7 +76,7 @@ const AreaDirectory = () => {
           </div>
 
           <div className={`flex rounded-2xl p-1 text-xs font-semibold border ${
-            isDark ? 'bg-[#10121e] border-gray-700/60' : 'bg-white border-gray-200'
+            isDark ? 'bg-[#0e1311] border-gray-700/60' : 'bg-white border-gray-200'
           }`}>
             {[
               { value: 'count', label: 'Most listings' },
@@ -87,7 +87,7 @@ const AreaDirectory = () => {
                 onClick={() => setSort(opt.value)}
                 className={`px-4 py-2.5 rounded-xl transition-all ${
                   sort === opt.value
-                    ? 'bg-[#51faaa] text-[#0a0c19] shadow'
+                    ? 'bg-[#000000] text-[#000000] shadow'
                     : `${isDark ? 'text-gray-300 hover:text-white' : 'text-gray-600 hover:text-gray-900'}`
                 }`}
               >
@@ -110,8 +110,8 @@ const AreaDirectory = () => {
               <button
                 key={area.name}
                 onClick={() => handleAreaClick(area.name)}
-                className={`group text-left rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#51faaa]/10 focus:outline-none focus:ring-2 focus:ring-[#51faaa]/50 ${
-                  isDark ? 'bg-[#10121e]' : 'bg-white'
+                className={`group text-left rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#000000]/10 focus:outline-none focus:ring-2 focus:ring-[#000000]/50 ${
+                  isDark ? 'bg-[#0e1311]' : 'bg-white'
                 }`}
               >
                 <div className="relative aspect-[4/3] overflow-hidden bg-gray-200 dark:bg-gray-800">
@@ -123,7 +123,7 @@ const AreaDirectory = () => {
                 </div>
                 <div className={`flex items-center justify-between px-3 pt-3 pb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                   <span className="text-base md:text-lg font-semibold">{area.name}</span>
-                  <ArrowRight className="w-4 h-4 text-[#51faaa] opacity-0 -translate-x-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
+                  <ArrowRight className="w-4 h-4 text-[#000000] opacity-0 -translate-x-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" />
                 </div>
               </button>
             ))}

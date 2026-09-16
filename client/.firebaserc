@@ -1,13 +1,13 @@
 {
   "projects": {
-    "default": "homeske",
-    "development": "homeske"
+    "default": "maploti",
+    "development": "maploti"
   },
   "targets": {
-    "homeske": {
+    "maploti": {
       "hosting": {
         "main": [
-          "homeske"
+          "maploti"
         ]
       }
     }

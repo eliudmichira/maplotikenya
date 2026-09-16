@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Building2, 
   Users, 
@@ -180,9 +180,9 @@ const ApartmentVacancyDisplay = ({ property, onVacancyUpdate, isEditable = false
   }
 
   return (
-    <div className={`${isDark ? 'bg-[#10121e] border-[rgba(81,250,170,0.2)]' : 'bg-white border-gray-200'} rounded-2xl border shadow-lg transition-colors duration-300`}>
+    <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200'} rounded-2xl border shadow-lg transition-colors duration-300`}>
       {/* Header */}
-      <div className={`p-6 border-b ${isDark ? 'border-[rgba(81,250,170,0.1)]' : 'border-gray-200'}`}>
+      <div className={`p-6 border-b ${isDark ? 'border-[rgba(251,191,36,0.1)]' : 'border-gray-200'}`}>
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className={`p-2 rounded-lg ${vacancyStatus.bgColor}`}>
@@ -205,7 +205,7 @@ const ApartmentVacancyDisplay = ({ property, onVacancyUpdate, isEditable = false
                   <button
                     onClick={handleSave}
                     disabled={isUpdating}
-                    className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] rounded-lg font-semibold text-sm transition-all hover:shadow-lg disabled:opacity-50"
+                    className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-lg font-semibold text-sm transition-all hover:shadow-lg disabled:opacity-50"
                   >
                     <Save className="w-4 h-4" />
                     <span>{isUpdating ? 'Saving...' : 'Save'}</span>
@@ -313,7 +313,7 @@ const ApartmentVacancyDisplay = ({ property, onVacancyUpdate, isEditable = false
                       value={unit.type}
                       onChange={(e) => updateUnitType(index, 'type', e.target.value)}
                       placeholder="Type (e.g., Studio, 1BR)"
-                      className={`px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#51faaa] ${
+                      className={`px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#000000] ${
                         isDark 
                           ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                           : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
@@ -324,7 +324,7 @@ const ApartmentVacancyDisplay = ({ property, onVacancyUpdate, isEditable = false
                       value={unit.bedrooms}
                       onChange={(e) => updateUnitType(index, 'bedrooms', parseInt(e.target.value))}
                       placeholder="Beds"
-                      className={`px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#51faaa] ${
+                      className={`px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#000000] ${
                         isDark 
                           ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                           : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
@@ -335,7 +335,7 @@ const ApartmentVacancyDisplay = ({ property, onVacancyUpdate, isEditable = false
                       value={unit.bathrooms}
                       onChange={(e) => updateUnitType(index, 'bathrooms', parseFloat(e.target.value))}
                       placeholder="Baths"
-                      className={`px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#51faaa] ${
+                      className={`px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#000000] ${
                         isDark 
                           ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                           : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
@@ -346,7 +346,7 @@ const ApartmentVacancyDisplay = ({ property, onVacancyUpdate, isEditable = false
                       value={unit.area}
                       onChange={(e) => updateUnitType(index, 'area', parseInt(e.target.value))}
                       placeholder="Sq Ft"
-                      className={`px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#51faaa] ${
+                      className={`px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#000000] ${
                         isDark 
                           ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                           : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
@@ -357,7 +357,7 @@ const ApartmentVacancyDisplay = ({ property, onVacancyUpdate, isEditable = false
                       value={unit.price}
                       onChange={(e) => updateUnitType(index, 'price', parseInt(e.target.value))}
                       placeholder="Price"
-                      className={`px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#51faaa] ${
+                      className={`px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#000000] ${
                         isDark 
                           ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                           : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
@@ -369,7 +369,7 @@ const ApartmentVacancyDisplay = ({ property, onVacancyUpdate, isEditable = false
                         value={unit.available}
                         onChange={(e) => updateUnitType(index, 'available', parseInt(e.target.value))}
                         placeholder="Available"
-                        className={`px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#51faaa] ${
+                        className={`px-3 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#000000] ${
                           isDark 
                             ? 'bg-gray-700 border-gray-600 text-white placeholder-gray-400'
                             : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'
@@ -477,7 +477,7 @@ const ApartmentVacancyDisplay = ({ property, onVacancyUpdate, isEditable = false
         {/* Call to Action */}
         <div className="flex space-x-3">
           {vacancyData.availableUnits > 0 ? (
-            <button className="flex-1 flex items-center justify-center space-x-2 py-3 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] rounded-lg font-semibold text-sm transition-all hover:shadow-lg">
+            <button className="flex-1 flex items-center justify-center space-x-2 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-lg font-semibold text-sm transition-all hover:shadow-lg">
               <CheckCircle className="w-4 h-4" />
               <span>Apply Now</span>
             </button>

@@ -79,8 +79,8 @@ const formatPricePill = (price) => {
 
 const buildPricePillSvg = (label, { featured = false, selected = false } = {}) => {
     const bg = selected
-        ? (featured ? '#d97706' : '#10b981')
-        : (featured ? '#f59e0b' : '#3dd88a');
+        ? (featured ? '#d97706' : '#000000')
+        : (featured ? '#f59e0b' : '#fbbf24');
     const ring = selected ? '#ffffff' : 'rgba(255,255,255,0.85)';
     const ringW = selected ? 2.5 : 1.25;
     const scale = selected ? 1.1 : 1;
@@ -112,7 +112,7 @@ const buildPricePillSvg = (label, { featured = false, selected = false } = {}) =
 
 const buildClusterSvg = (count) => {
     const size = count < 10 ? 44 : count < 50 ? 54 : 64;
-    const fill = '#3dd88a';
+    const fill = '#fbbf24';
     const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='${size}' height='${size}' viewBox='0 0 ${size} ${size}'>
         <circle cx='${size / 2}' cy='${size / 2}' r='${size / 2 - 4}' fill='${fill}' fill-opacity='0.25'/>
         <circle cx='${size / 2}' cy='${size / 2}' r='${size / 2 - 8}' fill='${fill}' stroke='#ffffff' stroke-width='3'/>
@@ -500,7 +500,7 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
                         </p>
                         <button
                             onClick={() => window.location.reload()}
-                            className="px-6 py-3 bg-[#51faaa] text-[#0a0c19] rounded-lg hover:bg-[#45e595] transition-colors font-medium"
+                            className="px-6 py-3 bg-[#000000] text-[#000000] rounded-lg hover:bg-[#45e595] transition-colors font-medium"
                         >
                             Refresh Page
                         </button>
@@ -618,9 +618,9 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
                                     options={{
                                         drawingControl: false,
                                         polygonOptions: {
-                                            fillColor: '#51faaa',
+                                            fillColor: '#000000',
                                             fillOpacity: 0.1,
-                                            strokeColor: '#51faaa',
+                                            strokeColor: '#000000',
                                             strokeWeight: 2,
                                             clickable: false,
                                             editable: true,
@@ -661,7 +661,7 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
                                         </div>
                                         <button
                                             onClick={() => navigate(`/property/${selectedProperty.id}`)}
-                                            className="w-full px-3 py-1.5 bg-[#3dd88a] hover:bg-[#10b981] text-white rounded-lg transition-colors text-xs font-semibold"
+                                            className="w-full px-3 py-1.5 bg-[#fbbf24] hover:bg-[#000000] text-white rounded-lg transition-colors text-xs font-semibold"
                                         >
                                             View Details
                                         </button>
@@ -696,7 +696,7 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
                     <button
                         onClick={() => setDrawingMode(!drawingMode)}
                         className={`p-3 rounded-xl transition-all duration-300 ${drawingMode
-                            ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                            ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                             : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200'
                             }`}
                         title="Draw boundary"
@@ -721,7 +721,7 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
                     <button
                         onClick={() => setShowSchools(!showSchools)}
                         className={`p-3 rounded-xl transition-all duration-300 ${showSchools
-                            ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                            ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                             : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200'
                             }`}
                         title="Schools"
@@ -731,7 +731,7 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
                     <button
                         onClick={() => setShowTransit(!showTransit)}
                         className={`p-3 rounded-xl transition-all duration-300 mt-1 ${showTransit
-                            ? 'bg-[#dbd5a4] text-[#0a0c19] shadow-lg shadow-[#dbd5a4]/20'
+                            ? 'bg-[#f0f0f0] text-[#000000] shadow-lg shadow-[#f0f0f0]/20'
                             : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200'
                             }`}
                         title="Transit"
@@ -753,7 +753,7 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
                             key={theme.value}
                             onClick={() => setMapTheme(theme.value)}
                             className={`px-3 py-2 rounded-xl flex items-center gap-2 text-xs md:text-sm font-medium transition-all duration-300 ${mapTheme === theme.value
-                                ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                                ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                                 : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
                                 }`}
                         >
@@ -765,14 +765,14 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
             </div>
 
             {/* Property Count Badge */}
-            <div className="absolute bottom-4 left-4 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] px-6 py-3 rounded-2xl shadow-lg flex items-center gap-3">
+            <div className="absolute bottom-4 left-4 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] px-6 py-3 rounded-2xl shadow-lg flex items-center gap-3">
                 <Home className="w-5 h-5" />
                 <span className="font-semibold">{propertyData.length} properties</span>
             </div>
 
             {/* Drawing Mode Indicator */}
             {drawingMode && (
-                <div className="absolute bottom-4 right-4 bg-[#51faaa] text-[#0a0c19] px-4 py-2 rounded-xl shadow-lg">
+                <div className="absolute bottom-4 right-4 bg-[#000000] text-[#000000] px-4 py-2 rounded-xl shadow-lg">
                     <div className="flex items-center gap-2">
                         <Map className="w-4 h-4" />
                         <span className="text-sm font-medium">Click to draw boundary</span>

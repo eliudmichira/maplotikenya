@@ -5,7 +5,7 @@
  Usage:
    node server/scripts/copyFirestore.js \
      --srcCred=./makao-648bd-firebase-adminsdk-fbsvc-c899785576.json \
-     --destCred=./dwellmate-285e8-firebase-adminsdk.json \
+     --destCred=./maploti-firebase-adminsdk.json \
      --collections=admin,agents,conversations,inquiries,pageViews,properties,users
 
  Notes:
@@ -115,7 +115,7 @@ async function copyCollections({ srcDb, destDb, collections }) {
       await batch.commit();
       console.log(`Committed final ${writesInBatch} writes for ${basePath}.`);
     }
-    console.log(`✅ Completed copying ${copied} documents (including nested) for '${basePath}'.`);
+    console.log(`âœ… Completed copying ${copied} documents (including nested) for '${basePath}'.`);
   }
 }
 
@@ -123,7 +123,7 @@ async function copyCollections({ srcDb, destDb, collections }) {
   try {
     const args = parseArgs();
     const srcCred = args.srcCred || './makao-648bd-firebase-adminsdk-fbsvc-c899785576.json';
-    const destCred = args.destCred || './dwellmate-285e8-firebase-adminsdk.json';
+    const destCred = args.destCred || './maploti-firebase-adminsdk.json';
     const collectionsArg = args.collections || 'admin,agents,conversations,inquiries,pageViews,properties,users';
     const collections = collectionsArg.split(',').map(s => s.trim()).filter(Boolean);
 
@@ -142,9 +142,9 @@ async function copyCollections({ srcDb, destDb, collections }) {
       srcApp.delete(),
       destApp.delete()
     ]);
-    console.log('\n🎉 Firestore copy completed.');
+    console.log('\nðŸŽ‰ Firestore copy completed.');
   } catch (err) {
-    console.error('❌ Copy failed:', err?.message || err);
+    console.error('âŒ Copy failed:', err?.message || err);
     process.exitCode = 1;
   }
 })();

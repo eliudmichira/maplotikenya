@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Loader2, Share2, MessageCircle, Linkedin, Facebook, Save } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -70,7 +70,7 @@ const MobileEditAgentSocial = () => {
     if (loading) {
         return (
             <div className={`min-h-screen flex items-center justify-center ${isDark ? 'bg-gray-900' : 'bg-gray-50'}`}>
-                <Loader2 className="w-8 h-8 text-[#51faaa] animate-spin" />
+                <Loader2 className="w-8 h-8 text-[#000000] animate-spin" />
             </div>
         );
     }
@@ -83,7 +83,7 @@ const MobileEditAgentSocial = () => {
                         <ArrowLeft size={20} />
                     </motion.button>
                     <h1 className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>Social & Contact</h1>
-                    <button onClick={handleSave} disabled={saving} className="text-[#51faaa] font-semibold disabled:opacity-50">
+                    <button onClick={handleSave} disabled={saving} className="text-[#000000] font-semibold disabled:opacity-50">
                         {saving ? <Loader2 size={20} className="animate-spin inline" /> : 'Save'}
                     </button>
                 </div>
@@ -109,8 +109,8 @@ const MobileEditAgentSocial = () => {
                                     value={formData.whatsappNumber}
                                     onChange={(e) => handleInputChange('whatsappNumber', e.target.value)}
                                     className={`w-full bg-transparent border-0 border-b pl-8 pr-2 py-3 text-[15px] outline-none transition-colors ${isDark
-                                            ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#51faaa]'
-                                            : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#51faaa]'
+                                            ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#fbbf24]'
+                                            : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#fbbf24]'
                                         }`}
                                     placeholder="e.g. +254 7..."
                                 />
@@ -128,8 +128,8 @@ const MobileEditAgentSocial = () => {
                                     value={formData.linkedinUrl}
                                     onChange={(e) => handleInputChange('linkedinUrl', e.target.value)}
                                     className={`w-full bg-transparent border-0 border-b pl-8 pr-2 py-3 text-[15px] outline-none transition-colors ${isDark
-                                            ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#51faaa]'
-                                            : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#51faaa]'
+                                            ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#fbbf24]'
+                                            : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#fbbf24]'
                                         }`}
                                     placeholder="https://linkedin.com/in/..."
                                 />
@@ -147,8 +147,8 @@ const MobileEditAgentSocial = () => {
                                     value={formData.facebookUrl}
                                     onChange={(e) => handleInputChange('facebookUrl', e.target.value)}
                                     className={`w-full bg-transparent border-0 border-b pl-8 pr-2 py-3 text-[15px] outline-none transition-colors ${isDark
-                                            ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#51faaa]'
-                                            : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#51faaa]'
+                                            ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#fbbf24]'
+                                            : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#fbbf24]'
                                         }`}
                                     placeholder="https://facebook.com/..."
                                 />
@@ -160,7 +160,7 @@ const MobileEditAgentSocial = () => {
                 <motion.button
                     onClick={handleSave}
                     disabled={saving}
-                    className="w-full py-4 bg-gradient-to-r from-[#51faaa] to-[#45e695] rounded-2xl text-gray-900 font-bold shadow-xl shadow-[#51faaa]/20 flex items-center justify-center gap-2"
+                    className="w-full py-4 bg-gradient-to-r from-[#000000] to-[#45e695] rounded-2xl text-gray-900 font-bold shadow-xl shadow-[#000000]/20 flex items-center justify-center gap-2"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                 >

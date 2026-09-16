@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+﻿import React, { useEffect } from 'react'
 import { propertiesAPI } from '../lib/firebaseAPI'
 import { useQuery } from "@tanstack/react-query";
 
@@ -6,26 +6,18 @@ export const useProperties = (params = {}) => {
     const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ["allProperties", params],
         queryFn: () => propertiesAPI.getAll(params),
-        retry: 3,
-        retryDelay: 1000,
-        staleTime: 5 * 60 * 1000, // 5 minutes
-        gcTime: 10 * 60 * 1000, // 10 minutes (formerly cacheTime)
+        retry: 2,
+        retryDelay: 1500,
+        staleTime: 10 * 60 * 1000, // 10 minutes - listings don't change every second
+        gcTime: 20 * 60 * 1000,    // 20 minutes in cache
         refetchOnWindowFocus: false,
-        refetchOnMount: true,
+        refetchOnMount: false,      // Don't re-fetch if data is still fresh in cache
         refetchOnReconnect: false,
     });
 
-    // Enhanced error logging
+    // Only log errors - not on every successful render (was spamming the console)
     if (isError && import.meta.env.DEV) {
-        console.error('🚨 useProperties error:', isError);
-    }
-
-    if (data && import.meta.env.DEV) {
-        console.log('📊 Properties data loaded:', {
-            hasData: !!data,
-            propertiesCount: data.properties?.length || 0,
-            pagination: data.pagination
-        });
+        console.error('useProperties error:', isError);
     }
 
     return {
@@ -40,10 +32,13 @@ export const useProperty = (id) => {
     const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ['property', id],
         queryFn: () => propertiesAPI.getById(id),
-        //  enabled: !!id,
-        refetchOnWindowsFocus: false,
+        enabled: !!id,
+        staleTime: 10 * 60 * 1000,
+        gcTime: 20 * 60 * 1000,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
     });
-    // console.log(data)
+
     return {
         data,
         isLoading,
@@ -57,7 +52,11 @@ export const useFeaturedProperties = (limit = 6) => {
     const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ['featuredProperties', limit],
         queryFn: () => propertiesAPI.getFeatured(limit),
-        refetchOnWindowsFocus: false,
+        staleTime: 10 * 60 * 1000, // 10 minutes
+        gcTime: 20 * 60 * 1000,
+        refetchOnWindowFocus: false,
+        refetchOnMount: false,
+        refetchOnReconnect: false,
     });
 
     return {

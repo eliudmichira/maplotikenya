@@ -1,5 +1,5 @@
 /**
- * Delete all properties with source === 'jiji' from homeske.
+ * Delete all properties with source === 'jiji' from MAPLOTIKENYA.
  *   node scripts/deleteJijiListings.js          # dry-run (shows count, doesn't delete)
  *   CONFIRM=1 node scripts/deleteJijiListings.js  # actually delete
  */

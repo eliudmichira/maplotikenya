@@ -44,7 +44,7 @@ const useHapticFeedback = () => {
 // Main Mobile Layout Component
 export const PropertyMobileLayout = ({
   children,
-  title = "BumiHouse",
+  title = "MaplotiKenya",
   subtitle,
   showBackButton = false,
   showSearchButton = false,

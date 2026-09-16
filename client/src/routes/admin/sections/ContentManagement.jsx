@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { collection, getDocs, updateDoc, doc, query, where, orderBy } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 import {
@@ -45,7 +45,7 @@ const ContentManagement = () => {
   useEffect(() => {
     const load = async () => {
       try {
-        const qAll = query(collection(db, 'properties'), orderBy('createdAt', 'desc'));
+        const qAll = query(collection(db, 'listings'), orderBy('createdAt', 'desc'));
         const snapAll = await getDocs(qAll);
         const all = snapAll.docs.map((d) => {
           const data = d.data();
@@ -88,7 +88,7 @@ const ContentManagement = () => {
   const handleAddToFeatured = async (propertyId) => {
     const nextOrder = Math.max(...featuredProperties.map(p => p.featuredOrder || 0), 0) + 1;
     try {
-      await updateDoc(doc(db, 'properties', propertyId), { featured: true, featuredOrder: nextOrder });
+      await updatedoc(doc(db, 'listings', propertyId), { featured: true, featuredOrder: nextOrder });
       setAllProperties(list => list.map(p => p.id === propertyId ? { ...p, featured: true, featuredOrder: nextOrder } : p));
       const added = allProperties.find(p => p.id === propertyId);
       if (added) {
@@ -103,7 +103,7 @@ const ContentManagement = () => {
 
   const handleRemoveFromFeatured = async (propertyId) => {
     try {
-      await updateDoc(doc(db, 'properties', propertyId), { featured: false, featuredOrder: null });
+      await updatedoc(doc(db, 'listings', propertyId), { featured: false, featuredOrder: null });
       setAllProperties(list => list.map(p => p.id === propertyId ? { ...p, featured: false, featuredOrder: null } : p));
       setFeaturedProperties(prev => prev.filter(p => p.id !== propertyId));
     } catch (e) {
@@ -113,7 +113,7 @@ const ContentManagement = () => {
 
   const handleReorderFeatured = async (propertyId, newOrder) => {
     try {
-      await updateDoc(doc(db, 'properties', propertyId), { featuredOrder: newOrder });
+      await updatedoc(doc(db, 'listings', propertyId), { featuredOrder: newOrder });
       setFeaturedProperties(prev => prev.map(p => p.id === propertyId ? { ...p, featuredOrder: newOrder } : p).sort((a, b) => (a.featuredOrder || 999) - (b.featuredOrder || 999)));
       setAllProperties(list => list.map(p => p.id === propertyId ? { ...p, featuredOrder: newOrder } : p));
     } catch (e) {

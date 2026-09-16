@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, MapPin, Home, DollarSign, Filter, X, Sparkles } from 'lucide-react';
 import { useDebounce } from '../../hooks/useDebounce';
@@ -117,7 +117,7 @@ const SmartSearch = ({
       <motion.div
         className={`relative bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-2xl border transition-all duration-300 ${
           isExpanded 
-            ? 'border-primary-400 shadow-[0_0_30px_rgba(81,250,170,0.15)]' 
+            ? 'border-primary-400 shadow-[0_0_30px_rgba(251,191,36,0.15)]' 
             : 'border-gray-200 dark:border-gray-700 shadow-lg'
         }`}
         animate={{

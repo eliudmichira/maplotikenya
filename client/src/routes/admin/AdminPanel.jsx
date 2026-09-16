@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { collection, getDocs, query, where, Timestamp } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 import { useAuth } from '../../context/AuthContext';
@@ -83,7 +83,7 @@ const AdminPanel = () => {
         const [recentSnap, allUsersSnap, propsSnap] = await Promise.all([
           getDocs(recentQuery),
           getDocs(collection(db, 'users')),
-          getDocs(collection(db, 'properties'))
+          getDocs(collection(db, 'listings'))
         ]);
 
         const users = allUsersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -223,7 +223,7 @@ const AdminPanel = () => {
         </div>
       )}
 
-      {/* Fixed BumiHouse logo - visible on desktop */}
+      {/* Fixed MaplotiKenya logo - visible on desktop */}
       <div className="hidden lg:block fixed top-6 left-6 z-50">
         <button
           onClick={() => navigate('/')}
@@ -231,8 +231,8 @@ const AdminPanel = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12" />
           <div className="relative z-10">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#51faaa] to-[#4fd69c] p-1">
-              <img src="/logo.png" alt="BumiHouse" className="w-full h-full rounded-full object-cover" />
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#000000] to-[#4fd69c] p-1">
+              <img src="/logo.png" alt="MaplotiKenya" className="w-full h-full rounded-full object-cover" />
             </div>
           </div>
         </button>
@@ -254,8 +254,8 @@ const AdminPanel = () => {
               </button>
 
               {/* Mobile-visible Logo */}
-              <div className="lg:hidden w-10 h-10 rounded-full bg-gradient-to-br from-[#51faaa] to-[#4fd69c] p-1">
-                <img src="/logo.png" alt="BumiHouse" className="w-full h-full rounded-full object-cover" />
+              <div className="lg:hidden w-10 h-10 rounded-full bg-gradient-to-br from-[#000000] to-[#4fd69c] p-1">
+                <img src="/logo.png" alt="MaplotiKenya" className="w-full h-full rounded-full object-cover" />
               </div>
 
               <div>

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Menu, X, Search, User, LogOut, Sun, Moon, Settings, Heart, Home, MessageCircle, ChevronDown, Shield, BarChart3, Building2, FileText, Users, Crown } from "lucide-react";
@@ -176,7 +176,7 @@ const Navbar = () => {
     <motion.header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${isDark
         ? isScrolled
-          ? "bg-[#0a0c19]/95 shadow-[0_8px_32px_rgba(0,0,0,0.4)] border-b border-[rgba(81,250,170,0.15)]"
+          ? "bg-[#000000]/95 shadow-[0_8px_32px_rgba(0,0,0,0.4)] border-b border-[rgba(251,191,36,0.15)]"
           : "bg-transparent"
         : isScrolled
           ? "bg-white/95 shadow-[0_8px_32px_rgba(0,0,0,0.1)] border-b border-gray-200/50"
@@ -238,7 +238,7 @@ const Navbar = () => {
                 >
                   <Search
                     className={`w-5 h-5 transition-colors duration-300 ${isSearchFocused
-                      ? (isDark ? "text-[#51faaa]" : "text-[#51faaa]")
+                      ? (isDark ? "text-[#000000]" : "text-[#000000]")
                       : (isDark ? "text-white/60" : "text-gray-400")
                       }`}
                   />
@@ -249,9 +249,9 @@ const Navbar = () => {
                   onChange={(e) => handleSearchChange(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit()}
                   placeholder={`Search properties in ${typedText}${typedText.length < 1 ? '' : '…'}`}
-                  className={`w-full pl-12 pr-6 py-3.5 rounded-full focus:outline-none focus:ring-2 focus:ring-[#51faaa]/20 focus:border-[#51faaa]/30 transition-all duration-300 hover:shadow-lg ${isDark
+                  className={`w-full pl-12 pr-6 py-3.5 rounded-full focus:outline-none focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/30 transition-all duration-300 hover:shadow-lg ${isDark
                     ? "bg-white/5 border border-white/10 text-white placeholder-white/60 hover:bg-white/10 hover:border-white/20"
-                    : "bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 hover:bg-white hover:border-gray-300 hover:shadow-[#51faaa]/10"
+                    : "bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 hover:bg-white hover:border-gray-300 hover:shadow-[#000000]/10"
                     }`}
                   onFocus={() => setIsSearchFocused(true)}
                   onBlur={() => setIsSearchFocused(false)}
@@ -261,7 +261,7 @@ const Navbar = () => {
                 {showSuggestions && searchSuggestions.length > 0 && (
                   <motion.div
                     className={`absolute top-full left-0 right-0 mt-2 rounded-xl shadow-xl border backdrop-blur-xl ${isDark
-                      ? 'bg-[#0a0c19]/95 border-white/10'
+                      ? 'bg-[#000000]/95 border-white/10'
                       : 'bg-white/95 border-gray-200'
                       }`}
                     initial={{ opacity: 0, y: -10, scale: 0.95 }}
@@ -273,10 +273,10 @@ const Navbar = () => {
                       <motion.button
                         key={index}
                         onClick={() => handleSuggestionClick(suggestion)}
-                        className={`w-full px-4 py-3 text-left transition-all duration-200 ${isDark ? 'text-white hover:text-[#51faaa]' : 'text-gray-700 hover:text-[#51faaa]'
+                        className={`w-full px-4 py-3 text-left transition-all duration-200 ${isDark ? 'text-white hover:text-[#000000]' : 'text-gray-700 hover:text-[#000000]'
                           } ${index === 0 ? 'rounded-t-xl' : ''} ${index === searchSuggestions.length - 1 ? 'rounded-b-xl' : ''}`}
                         whileHover={{
-                          backgroundColor: isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(16, 185, 129, 0.1)',
+                          backgroundColor: isDark ? 'rgba(251, 191, 36, 0.1)' : 'rgba(251, 191, 36, 0.1)',
                           x: 4
                         }}
                         transition={{ duration: 0.2 }}
@@ -314,7 +314,7 @@ const Navbar = () => {
                   <Link
                     to={item.to}
                     className={`font-medium transition-all duration-300 relative group ${isDark
-                      ? "text-white/80 hover:text-white"
+                      ? "text-white hover:text-white"
                       : "text-gray-600 hover:text-gray-900"
                       }`}
                   >
@@ -325,18 +325,18 @@ const Navbar = () => {
                       {item.label}
                     </motion.span>
                     <motion.span
-                      className="absolute -bottom-1 left-0 h-0.5 bg-[#51faaa]"
+                      className="absolute -bottom-1 left-0 h-0.5 bg-[#000000]"
                       initial={{ width: 0 }}
                       whileHover={{ width: "100%" }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     />
                     {/* Subtle glow effect on hover */}
                     <motion.div
-                      className="absolute -bottom-1 left-0 h-0.5 bg-[#51faaa] opacity-0"
+                      className="absolute -bottom-1 left-0 h-0.5 bg-[#000000] opacity-0"
                       whileHover={{
                         width: "100%",
                         opacity: 0.3,
-                        boxShadow: "0 0 8px rgba(59, 130, 246, 0.5)"
+                        boxShadow: "0 0 8px rgba(251, 191, 36, 0.5)"
                       }}
                       transition={{ duration: 0.3 }}
                     />
@@ -409,7 +409,7 @@ const Navbar = () => {
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 >
                   {/* User Avatar */}
-                  <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-[#51faaa]/30 group-hover:border-[#51faaa] transition-colors">
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-[#fbbf24]/30 group-hover:border-[#fbbf24] transition-colors">
                     {/* Enhanced animated ring border with brand colors */}
                     <motion.div
                       className="absolute -inset-1 rounded-full"
@@ -422,7 +422,7 @@ const Navbar = () => {
                         ease: "linear"
                       }}
                       style={{
-                        background: "conic-gradient(from 0deg, #51faaa, #dbd5a4, #51faaa)",
+                        background: "conic-gradient(from 0deg, #000000, #f0f0f0, #000000)",
                         mask: "radial-gradient(circle, transparent 55%, black 72%)",
                         WebkitMask: "radial-gradient(circle, transparent 55%, black 72%)"
                       }}
@@ -434,9 +434,9 @@ const Navbar = () => {
                       style={{ background: "transparent" }}
                       animate={{
                         boxShadow: [
-                          "0 0 8px rgba(59, 130, 246, 0.4), 0 0 16px rgba(219, 213, 164, 0.3), 0 0 24px rgba(59, 130, 246, 0.2)",
-                          "0 0 10px rgba(219, 213, 164, 0.4), 0 0 20px rgba(59, 130, 246, 0.3), 0 0 30px rgba(219, 213, 164, 0.2)",
-                          "0 0 8px rgba(59, 130, 246, 0.4), 0 0 16px rgba(219, 213, 164, 0.3), 0 0 24px rgba(59, 130, 246, 0.2)"
+                          "0 0 8px rgba(251, 191, 36, 0.4), 0 0 16px rgba(251, 191, 36, 0.3), 0 0 24px rgba(251, 191, 36, 0.2)",
+                          "0 0 10px rgba(251, 191, 36, 0.4), 0 0 20px rgba(251, 191, 36, 0.3), 0 0 30px rgba(251, 191, 36, 0.2)",
+                          "0 0 8px rgba(251, 191, 36, 0.4), 0 0 16px rgba(251, 191, 36, 0.3), 0 0 24px rgba(251, 191, 36, 0.2)"
                         ]
                       }}
                       transition={{
@@ -455,7 +455,7 @@ const Navbar = () => {
                           draggable={false}
                         />
                       ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] flex items-center justify-center">
+                        <div className="w-full h-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] flex items-center justify-center">
                           <span className="text-[#111] font-bold text-lg">
                             {currentUser.displayName ? currentUser.displayName.charAt(0).toUpperCase() : currentUser.email.charAt(0).toUpperCase()}
                           </span>
@@ -489,7 +489,7 @@ const Navbar = () => {
                     {/* User Header */}
                     <div className="p-4 border-b border-gray-200 dark:border-gray-700">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#51faaa]/30">
+                        <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#fbbf24]/30">
                           {currentUser.photoURL ? (
                             <img
                               src={currentUser.photoURL}
@@ -497,7 +497,7 @@ const Navbar = () => {
                               className="w-full h-full object-cover"
                             />
                           ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] flex items-center justify-center">
+                            <div className="w-full h-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] flex items-center justify-center">
                               <span className="text-[#111] font-bold text-lg">
                                 {currentUser.displayName ? currentUser.displayName.charAt(0).toUpperCase() : currentUser.email.charAt(0).toUpperCase()}
                               </span>
@@ -718,7 +718,7 @@ const Navbar = () => {
                 >
                   <Link
                     to="/login"
-                    className={`${isDark ? "text-white/80" : "text-gray-600"} hover:text-[#51faaa] transition-colors duration-300`}
+                    className={`${isDark ? "text-white" : "text-gray-600"} hover:text-[#000000] transition-colors duration-300`}
                   >
                     Sign In
                   </Link>
@@ -733,7 +733,7 @@ const Navbar = () => {
                 >
                   <Link
                     to="/register"
-                    className="px-5 py-2 bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all duration-300 relative overflow-hidden block"
+                    className="px-5 py-2 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all duration-300 relative overflow-hidden block"
                   >
                     {/* Shimmer effect */}
                     <motion.div
@@ -766,7 +766,7 @@ const Navbar = () => {
                 onChange={(e) => handleSearchChange(e.target.value, true)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit(null, true)}
                 placeholder="Search properties, locations..."
-                className={`w-full pl-12 pr-6 py-3.5 rounded-full focus:outline-none focus:ring-2 focus:ring-[#51faaa]/20 focus:border-[#51faaa]/30 transition-all ${isDark
+                className={`w-full pl-12 pr-6 py-3.5 rounded-full focus:outline-none focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/30 transition-all ${isDark
                   ? "bg-white/5 border border-white/10 text-white placeholder-white/60"
                   : "bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500"
                   }`}
@@ -775,14 +775,14 @@ const Navbar = () => {
               {/* Mobile Search Suggestions Dropdown */}
               {showSuggestions && searchSuggestions.length > 0 && (
                 <div className={`absolute top-full left-0 right-0 mt-2 rounded-xl shadow-xl border transition-all duration-300 z-50 ${isDark
-                  ? 'bg-[#0a0c19] border-white/10'
+                  ? 'bg-[#000000] border-white/10'
                   : 'bg-white border-gray-200'
                   }`}>
                   {searchSuggestions.map((suggestion, index) => (
                     <button
                       key={index}
                       onClick={() => handleSuggestionClick(suggestion, true)}
-                      className={`w-full px-4 py-3 text-left hover:bg-[#51faaa]/10 transition-colors ${isDark ? 'text-white hover:text-[#51faaa]' : 'text-gray-700 hover:text-[#51faaa]'
+                      className={`w-full px-4 py-3 text-left hover:bg-[#000000]/10 transition-colors ${isDark ? 'text-white hover:text-[#000000]' : 'text-gray-700 hover:text-[#000000]'
                         } ${index === 0 ? 'rounded-t-xl' : ''} ${index === searchSuggestions.length - 1 ? 'rounded-b-xl' : ''}`}
                     >
                       <div className="flex items-center gap-3">
@@ -803,7 +803,7 @@ const Navbar = () => {
                   to={item.to}
                   onClick={() => setIsMenuOpen(false)}
                   className={`block font-medium transition-colors ${isDark
-                    ? "text-white/80 hover:text-white"
+                    ? "text-white hover:text-white"
                     : "text-gray-600 hover:text-gray-900"
                     }`}
                 >
@@ -816,7 +816,7 @@ const Navbar = () => {
             {currentUser ? (
               <div className="space-y-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
-                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#51faaa]/30">
+                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#fbbf24]/30">
                     {currentUser.photoURL ? (
                       <img
                         src={currentUser.photoURL}
@@ -824,7 +824,7 @@ const Navbar = () => {
                         className="w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] flex items-center justify-center">
+                      <div className="w-full h-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] flex items-center justify-center">
                         <span className="text-[#111] font-bold text-lg">
                           {currentUser.displayName ? currentUser.displayName.charAt(0).toUpperCase() : currentUser.email.charAt(0).toUpperCase()}
                         </span>
@@ -1010,14 +1010,14 @@ const Navbar = () => {
                 <Link
                   to="/desktop/login"
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block font-medium ${isDark ? "text-white/80" : "text-gray-600"} hover:text-[#51faaa]`}
+                  className={`block font-medium ${isDark ? "text-white" : "text-gray-600"} hover:text-[#000000]`}
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/desktop/register"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block w-full text-center px-5 py-3 bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
+                  className="block w-full text-center px-5 py-3 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
                 >
                   Get Started
                 </Link>

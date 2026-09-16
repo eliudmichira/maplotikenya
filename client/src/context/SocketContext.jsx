@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+﻿import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import { Capacitor } from '@capacitor/core';
 

@@ -1,6 +1,8 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
+  ChevronLeft,
+  ChevronRight,
   Heart,
   Share2,
   MapPin,
@@ -148,7 +150,7 @@ const EnhancedPropertyCard = ({ property, onFavoriteToggle, isFavorite, onVacanc
               }}
               className="absolute left-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
             >
-              <span className="text-sm">‹</span>
+              <ChevronLeft className="w-4 h-4" />
             </button>
             <button
               onClick={(e) => {
@@ -157,7 +159,7 @@ const EnhancedPropertyCard = ({ property, onFavoriteToggle, isFavorite, onVacanc
               }}
               className="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 bg-black/50 hover:bg-black/70 text-white rounded-full flex items-center justify-center transition-all opacity-0 group-hover:opacity-100"
             >
-              <span className="text-sm">›</span>
+              <ChevronRight className="w-4 h-4" />
             </button>
           </>
         )}
@@ -314,7 +316,7 @@ const EnhancedPropertyCard = ({ property, onFavoriteToggle, isFavorite, onVacanc
         <div className="flex space-x-2">
           <Link
             to={`/property/${property.id}`}
-            className="flex-1 flex items-center justify-center space-x-2 py-3 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] rounded-xl font-semibold transition-all hover:shadow-lg"
+            className="flex-1 flex items-center justify-center space-x-2 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-xl font-semibold transition-all hover:shadow-lg"
           >
             <Eye className="w-4 h-4" />
             <span>View Details</span>

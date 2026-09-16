@@ -1,10 +1,10 @@
-apply plugin: 'com.android.application'
+﻿apply plugin: 'com.android.application'
 
 android {
-    namespace = "com.homeske.app"
+    namespace = "ke.maploti.maploti"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.homeske.app"
+        applicationId "ke.maploti.maploti"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 6
@@ -20,7 +20,7 @@ android {
         release {
             storeFile file(RELEASE_STORE_FILE)
             // Passwords come from env vars (set in CI or locally before a release build).
-            // The gradle.properties values are empty placeholders — never commit real passwords.
+            // The gradle.properties values are empty placeholders â€” never commit real passwords.
             storePassword System.getenv('RELEASE_STORE_PASSWORD') ?: RELEASE_STORE_PASSWORD
             keyAlias RELEASE_KEY_ALIAS
             keyPassword System.getenv('RELEASE_KEY_PASSWORD') ?: RELEASE_KEY_PASSWORD

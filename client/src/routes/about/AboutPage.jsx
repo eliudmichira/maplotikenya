@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { 
   Shield, Zap, Globe, ArrowRight, Check, Users, Award, 
@@ -93,15 +93,15 @@ const AboutPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-emerald-100 to-emerald-50 dark:from-[#0a0c19] dark:via-[#0e1320] dark:to-[#0a0c19]">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-emerald-100 to-emerald-50 dark:from-[#000000] dark:via-[#0e1320] dark:to-[#000000]">
       {/* Main Navbar */}
       <Navbar />
 
       {/* Hero Section */}
       <section ref={heroRef} className="relative overflow-hidden min-h-[calc(100vh-80px)] pt-32 pb-16 flex items-center">
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-[#dbd5a4]/15"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-[#f0f0f0]/15"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,theme(colors.emerald.500/20),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(219,213,164,0.25),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(251,191,36,0.25),transparent_50%)]"></div>
         
         <div className="relative max-w-7xl mx-auto px-6">
           <div className={`text-center transition-all duration-1000 ${
@@ -109,7 +109,7 @@ const AboutPage = () => {
           }`}>
             <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-full border border-white/20 dark:border-gray-700/20 mb-8">
               <Sparkles className="w-5 h-5 text-emerald-600" />
-              <span className="text-sm font-semibold bg-gradient-to-r from-emerald-500 to-[#dbd5a4] bg-clip-text text-transparent">
+              <span className="text-sm font-semibold bg-gradient-to-r from-emerald-500 to-[#f0f0f0] bg-clip-text text-transparent">
                 Kenya's #1 Real Estate Platform
               </span>
             </div>
@@ -117,7 +117,7 @@ const AboutPage = () => {
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-8">
               <span className="text-slate-900 dark:text-white">Revolutionizing</span>
               <br />
-              <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-[#dbd5a4] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-emerald-500 via-teal-500 to-[#f0f0f0] bg-clip-text text-transparent">
                 Real Estate in Kenya
               </span>
             </h1>
@@ -130,7 +130,7 @@ const AboutPage = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12">
               <button 
                 onClick={handleStartSearching}
-                className="group px-8 py-4 bg-gradient-to-r from-emerald-500 to-[#dbd5a4] text-[#111] font-semibold rounded-2xl hover:shadow-2xl hover:shadow-emerald-500/25 transform hover:scale-105 transition-all duration-300 flex items-center gap-3"
+                className="group px-8 py-4 bg-gradient-to-r from-emerald-500 to-[#f0f0f0] text-[#111] font-semibold rounded-2xl hover:shadow-2xl hover:shadow-emerald-500/25 transform hover:scale-105 transition-all duration-300 flex items-center gap-3"
               >
                 <Building2 className="w-5 h-5" />
                 Explore Properties
@@ -165,9 +165,9 @@ const AboutPage = () => {
                     style={{ transitionDelay: `${index * 120}ms` }}
                   >
                     <div className="relative rounded-2xl p-6 bg-white/70 dark:bg-gray-800/60 border border-white/20 dark:border-gray-700/30 backdrop-blur-xl">
-                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-[#dbd5a4]/10"></div>
+                      <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-500/10 to-[#f0f0f0]/10"></div>
                       <div className="relative flex flex-col items-center">
-                        <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-r from-emerald-500 to-[#dbd5a4] mb-3">
+                        <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl bg-gradient-to-r from-emerald-500 to-[#f0f0f0] mb-3">
                           <stat.icon className="w-7 h-7 text-white" />
                         </div>
                         <div className="text-3xl font-bold text-slate-900 dark:text-white">{stat.value}</div>
@@ -281,7 +281,7 @@ const AboutPage = () => {
         {/* Security Section */}
         <section id="security" className={`${activeSection === 'security' ? 'block' : 'hidden'}`}>
           <div className="text-center mb-16">
-            <div className="w-20 h-20 bg-gradient-to-r from-emerald-500 to-[#dbd5a4] rounded-full flex items-center justify-center mx-auto mb-8">
+            <div className="w-20 h-20 bg-gradient-to-r from-emerald-500 to-[#f0f0f0] rounded-full flex items-center justify-center mx-auto mb-8">
               <Shield className="w-10 h-10 text-white" />
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
@@ -322,7 +322,7 @@ const AboutPage = () => {
                 }
               ].map((feature, index) => (
                 <div key={index} className="flex items-start gap-6 group">
-                  <div className={`w-16 h-16 bg-gradient-to-r from-emerald-500 to-[#dbd5a4] rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-16 h-16 bg-gradient-to-r from-emerald-500 to-[#f0f0f0] rounded-2xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300`}>
                     <feature.icon className="w-8 h-8 text-white" />
                   </div>
                   <div>
@@ -334,7 +334,7 @@ const AboutPage = () => {
             </div>
 
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-[#dbd5a4] rounded-3xl blur-xl opacity-20"></div>
+              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 to-[#f0f0f0] rounded-3xl blur-xl opacity-20"></div>
               <div className="relative bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-2xl border border-white/20 dark:border-gray-700/20">
                 <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-8">Advanced Security Features</h3>
                 <div className="space-y-4">
@@ -364,7 +364,7 @@ const AboutPage = () => {
         {/* Technology Section */}
         <section id="technology" ref={featuresRef} className={`${activeSection === 'technology' ? 'block' : 'hidden'}`}>
           <div className="text-center mb-16">
-            <div className="w-20 h-20 bg-gradient-to-r from-emerald-500 to-[#dbd5a4] rounded-full flex items-center justify-center mx-auto mb-8">
+            <div className="w-20 h-20 bg-gradient-to-r from-emerald-500 to-[#f0f0f0] rounded-full flex items-center justify-center mx-auto mb-8">
               <Zap className="w-10 h-10 text-white" />
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
@@ -406,7 +406,7 @@ const AboutPage = () => {
               >
                 <div className="relative bg-white dark:bg-gray-800 rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 border border-white/20 dark:border-gray-700/20 hover:-translate-y-2">
                   <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-emerald-500/10 to-purple-500/10 rounded-full blur-3xl"></div>
-                  <div className={`w-16 h-16 bg-gradient-to-r from-emerald-500 to-[#dbd5a4] rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`w-16 h-16 bg-gradient-to-r from-emerald-500 to-[#f0f0f0] rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
                     <tech.icon className="w-8 h-8 text-white" />
                   </div>
                   <h3 className="text-2xl font-bold text-slate-900 dark:text-white mb-4">{tech.title}</h3>
@@ -416,7 +416,7 @@ const AboutPage = () => {
             ))}
           </div>
 
-          <div className="bg-gradient-to-r from-emerald-500 to-[#dbd5a4] rounded-3xl p-12 text-[#111]">
+          <div className="bg-gradient-to-r from-emerald-500 to-[#f0f0f0] rounded-3xl p-12 text-[#111]">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h3 className="text-3xl font-bold mb-6">Smart Features Powered by AI</h3>
@@ -456,7 +456,7 @@ const AboutPage = () => {
         {/* Kenya-wide Reach Section */}
         <section id="reach" className={`${activeSection === 'reach' ? 'block' : 'hidden'}`}>
           <div className="text-center mb-16">
-            <div className="w-20 h-20 bg-gradient-to-r from-emerald-500 to-[#dbd5a4] rounded-full flex items-center justify-center mx-auto mb-8">
+            <div className="w-20 h-20 bg-gradient-to-r from-emerald-500 to-[#f0f0f0] rounded-full flex items-center justify-center mx-auto mb-8">
               <Globe className="w-10 h-10 text-white" />
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6">
@@ -555,9 +555,9 @@ const AboutPage = () => {
 
       {/* Enhanced CTA Section */}
       <section className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 via-teal-500 to-[#dbd5a4]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(81,250,170,0.12),transparent_50%)]"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(219,213,164,0.18),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-500 via-teal-500 to-[#f0f0f0]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(251,191,36,0.12),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(251,191,36,0.18),transparent_50%)]"></div>
         
         <div className="relative max-w-5xl mx-auto text-center text-white px-6">
           <div className="inline-flex items-center gap-2 px-6 py-3 bg-white/20 backdrop-blur-md rounded-full mb-8">

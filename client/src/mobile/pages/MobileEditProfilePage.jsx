@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Camera, Loader2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -69,9 +69,9 @@ const MobileEditProfilePage = () => {
     const photoSrc = photoPreview || currentUser?.photoURL || currentUser?.avatar;
 
     return (
-        <div className={`min-h-screen ${isDark ? 'bg-[#0a0c19]' : 'bg-gray-50'}`}>
+        <div className={`min-h-screen ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
             {/* Premium Header */}
-            <div className={`sticky top-0 z-30 px-4 py-4 border-b backdrop-blur-2xl ${isDark ? 'bg-[#0a0c19]/80 border-white/10' : 'bg-white/80 border-gray-200'}`}>
+            <div className={`sticky top-0 z-30 px-4 py-4 border-b backdrop-blur-2xl ${isDark ? 'bg-[#000000]/80 border-white/10' : 'bg-white/80 border-gray-200'}`}>
                 <div className="flex items-center justify-between">
                     <motion.button 
                         onClick={() => navigate(-1)} 
@@ -84,7 +84,7 @@ const MobileEditProfilePage = () => {
                     <button 
                         onClick={handleSave} 
                         disabled={saving} 
-                        className="px-4 py-1.5 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] font-bold rounded-full disabled:opacity-50 text-sm shadow-lg shadow-[#51faaa]/20"
+                        className="px-4 py-1.5 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-bold rounded-full disabled:opacity-50 text-sm shadow-lg shadow-[#000000]/20"
                     >
                         {saving ? <Loader2 size={18} className="animate-spin" /> : 'Save'}
                     </button>
@@ -109,7 +109,7 @@ const MobileEditProfilePage = () => {
                         whileHover={{ scale: 1.05 }}
                         transition={{ type: 'spring', stiffness: 300 }}
                     >
-                        <div className="w-32 h-32 rounded-full overflow-hidden p-1 bg-gradient-to-br from-[#51faaa] via-[#45e695] to-[#dbd5a4] shadow-2xl">
+                        <div className="w-32 h-32 rounded-full overflow-hidden p-1 bg-gradient-to-br from-[#000000] via-[#45e695] to-[#f0f0f0] shadow-2xl">
                             <div className={`w-full h-full rounded-full overflow-hidden flex items-center justify-center text-4xl font-black ${isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
                                 {photoSrc ? (
                                     <img src={photoSrc} alt="" className="w-full h-full object-cover" />
@@ -119,7 +119,7 @@ const MobileEditProfilePage = () => {
                             </div>
                         </div>
                         <motion.span 
-                            className="absolute bottom-1 right-1 w-10 h-10 rounded-full bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] flex items-center justify-center shadow-xl border-4 border-[#0a0c19]"
+                            className="absolute bottom-1 right-1 w-10 h-10 rounded-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#000000] flex items-center justify-center shadow-xl border-4 border-[#fbbf24]"
                             whileHover={{ rotate: 15 }}
                         >
                             <Camera size={20} />
@@ -140,8 +140,8 @@ const MobileEditProfilePage = () => {
                             placeholder="Enter your name"
                             className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${
                                 isDark
-                                ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#51faaa]'
-                                : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#51faaa]'
+                                ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#fbbf24]'
+                                : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#fbbf24]'
                             }`}
                         />
                     </div>
@@ -156,7 +156,7 @@ const MobileEditProfilePage = () => {
                 </div>
 
                 <p className={`text-[12px] leading-relaxed ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>
-                    Your display name is visible to agents and other users. Use your real name to build trust within the BumiHouse community.
+                    Your display name is visible to agents and other users. Use your real name to build trust within the MaplotiKenya community.
                 </p>
             </div>
         </div>

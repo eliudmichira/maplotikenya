@@ -155,7 +155,7 @@ const MobileDashboard = () => {
           </p>
           <button
             onClick={() => navigate('/auth')}
-            className="px-6 py-2 bg-[#51faaa] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
+            className="px-6 py-2 bg-[#000000] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
           >
             Go to Login
           </button>
@@ -179,7 +179,7 @@ const MobileDashboard = () => {
           </p>
           <button
             onClick={() => refetch()}
-            className="px-6 py-2 bg-[#51faaa] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors flex items-center gap-2 mx-auto"
+            className="px-6 py-2 bg-[#000000] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors flex items-center gap-2 mx-auto"
           >
             <RefreshCw className="w-4 h-4" />
             Try Again
@@ -217,7 +217,7 @@ const MobileDashboard = () => {
       {/* User Info */}
       <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-4">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-[#51faaa] rounded-full flex items-center justify-center">
+          <div className="w-12 h-12 bg-[#000000] rounded-full flex items-center justify-center">
             <span className="text-lg font-bold text-[#111]">
               {currentUser.email?.charAt(0).toUpperCase()}
             </span>
@@ -247,7 +247,7 @@ const MobileDashboard = () => {
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium transition-colors ${
                 activeTab === tab.id
-                  ? 'text-[#51faaa] border-b-2 border-[#51faaa]'
+                  ? 'text-[#000000] border-b-2 border-[#fbbf24]'
                   : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
               }`}
             >
@@ -265,8 +265,8 @@ const MobileDashboard = () => {
             {/* Stats Cards */}
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700">
-                <div className="flex items-center justify-center w-12 h-12 bg-[#51faaa]/20 rounded-lg mx-auto mb-3">
-                  <Building className="w-6 h-6 text-[#51faaa]" />
+                <div className="flex items-center justify-center w-12 h-12 bg-[#000000]/20 rounded-lg mx-auto mb-3">
+                  <Building className="w-6 h-6 text-[#000000]" />
                 </div>
                 <div className="text-2xl font-bold text-gray-900 dark:text-white text-center">
                   {properties.length}
@@ -315,7 +315,7 @@ const MobileDashboard = () => {
                           <p className="text-gray-600 dark:text-gray-400 text-xs mb-2">
                             {getPropertyLocation(property)}
                           </p>
-                          <div className="text-[#51faaa] font-bold text-sm">
+                          <div className="text-[#000000] font-bold text-sm">
                             {formatPrice(property.price)}
                           </div>
                         </div>
@@ -341,7 +341,7 @@ const MobileDashboard = () => {
               <div className="grid grid-cols-2 gap-3">
                 <button
                   onClick={() => navigate('/search')}
-                  className="flex items-center gap-3 p-4 bg-[#51faaa] text-[#111] rounded-xl font-medium hover:bg-[#45e695] transition-colors"
+                  className="flex items-center gap-3 p-4 bg-[#000000] text-[#111] rounded-xl font-medium hover:bg-[#45e695] transition-colors"
                 >
                   <Search className="w-5 h-5" />
                   Search Properties
@@ -363,7 +363,7 @@ const MobileDashboard = () => {
           <div className="p-4">
             {isLoading ? (
               <div className="flex items-center justify-center py-20">
-                <Loader2 className="w-8 h-8 text-[#51faaa] animate-spin" />
+                <Loader2 className="w-8 h-8 text-[#000000] animate-spin" />
               </div>
             ) : properties.length > 0 ? (
               <div className="space-y-4">
@@ -386,7 +386,7 @@ const MobileDashboard = () => {
                         <p className="text-gray-600 dark:text-gray-400 text-xs mb-2">
                           {getPropertyLocation(property)}
                         </p>
-                        <div className="text-[#51faaa] font-bold text-sm mb-2">
+                        <div className="text-[#000000] font-bold text-sm mb-2">
                           {formatPrice(property.price)}
                         </div>
                         <div className="flex items-center gap-3 text-xs text-gray-600 dark:text-gray-400">
@@ -416,7 +416,7 @@ const MobileDashboard = () => {
                 </p>
                 <button
                   onClick={() => navigate('/search')}
-                  className="px-6 py-2 bg-[#51faaa] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
+                  className="px-6 py-2 bg-[#000000] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
                 >
                   Browse Properties
                 </button>
@@ -455,12 +455,12 @@ const MobileDashboard = () => {
                         <p className="text-gray-600 dark:text-gray-400 text-xs mb-2">
                           {getPropertyLocation(property)}
                         </p>
-                        <div className="text-[#51faaa] font-bold text-sm mb-2">
+                        <div className="text-[#000000] font-bold text-sm mb-2">
                           {formatPrice(property.price)}
                         </div>
                         <button
                           onClick={() => handlePropertyClick(property.id)}
-                          className="w-full bg-[#51faaa] text-[#111] py-2 rounded-lg text-xs font-medium hover:bg-[#45e695] transition-colors"
+                          className="w-full bg-[#000000] text-[#111] py-2 rounded-lg text-xs font-medium hover:bg-[#45e695] transition-colors"
                         >
                           View Details
                         </button>
@@ -477,7 +477,7 @@ const MobileDashboard = () => {
                 </p>
                 <button
                   onClick={() => navigate('/search')}
-                  className="px-6 py-2 bg-[#51faaa] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
+                  className="px-6 py-2 bg-[#000000] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
                 >
                   Discover Properties
                 </button>
@@ -556,7 +556,7 @@ const MobileDashboard = () => {
         <div className="flex items-center justify-around">
           <button
             onClick={() => navigate('/')}
-            className="flex flex-col items-center gap-1 p-2 text-gray-600 dark:text-gray-400 hover:text-[#51faaa] transition-colors"
+            className="flex flex-col items-center gap-1 p-2 text-gray-600 dark:text-gray-400 hover:text-[#000000] transition-colors"
           >
             <Home className="w-5 h-5" />
             <span className="text-xs">Home</span>
@@ -564,7 +564,7 @@ const MobileDashboard = () => {
           
           <button
             onClick={() => navigate('/search')}
-            className="flex flex-col items-center gap-1 p-2 text-gray-600 dark:text-gray-400 hover:text-[#51faaa] transition-colors"
+            className="flex flex-col items-center gap-1 p-2 text-gray-600 dark:text-gray-400 hover:text-[#000000] transition-colors"
           >
             <Search className="w-5 h-5" />
             <span className="text-xs">Search</span>
@@ -572,7 +572,7 @@ const MobileDashboard = () => {
           
           <button
             onClick={() => navigate('/dashboard')}
-            className="flex flex-col items-center gap-1 p-2 text-[#51faaa]"
+            className="flex flex-col items-center gap-1 p-2 text-[#000000]"
           >
             <User className="w-5 h-5" />
             <span className="text-xs">Profile</span>

@@ -75,7 +75,7 @@ const MobilePropertyCard = ({ property, onViewDetails, onToggleFavorite, isFavor
         {status && (
           <div className="absolute top-3 left-3">
             <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-black/50 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-[0.12em] rounded-full ring-1 ring-white/15">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#51faaa]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#000000]" />
               {status}
             </span>
           </div>
@@ -121,13 +121,13 @@ const MobilePropertyCard = ({ property, onViewDetails, onToggleFavorite, isFavor
 
         <div className={`mt-3 pt-3 border-t flex items-center gap-4 text-[12px] font-medium ${isDark ? 'border-white/5 text-gray-400' : 'border-gray-100 text-gray-600'}`}>
           {property.bedrooms != null && (
-            <span className="flex items-center gap-1.5"><Bed className="w-3.5 h-3.5 text-[#51faaa]" />{property.bedrooms} bd</span>
+            <span className="flex items-center gap-1.5"><Bed className="w-3.5 h-3.5 text-[#000000]" />{property.bedrooms} bd</span>
           )}
           {property.bathrooms != null && (
-            <span className="flex items-center gap-1.5"><Bath className="w-3.5 h-3.5 text-[#51faaa]" />{property.bathrooms} ba</span>
+            <span className="flex items-center gap-1.5"><Bath className="w-3.5 h-3.5 text-[#000000]" />{property.bathrooms} ba</span>
           )}
           {property.area && (
-            <span className="flex items-center gap-1.5"><Square className="w-3.5 h-3.5 text-[#51faaa]" />{property.area.toLocaleString()} sqft</span>
+            <span className="flex items-center gap-1.5"><Square className="w-3.5 h-3.5 text-[#000000]" />{property.area.toLocaleString()} sqft</span>
           )}
         </div>
 
@@ -136,7 +136,7 @@ const MobilePropertyCard = ({ property, onViewDetails, onToggleFavorite, isFavor
             e.stopPropagation();
             onViewDetails(property);
           }}
-          className="mt-4 w-full h-11 rounded-xl bg-[#51faaa] text-[#0a0c19] text-[13px] font-semibold tracking-wide flex items-center justify-center gap-1.5 shadow-sm shadow-[#51faaa]/20 active:scale-[0.98] transition-transform"
+          className="mt-4 w-full h-11 rounded-xl bg-[#000000] text-[#000000] text-[13px] font-semibold tracking-wide flex items-center justify-center gap-1.5 shadow-sm shadow-[#000000]/20 active:scale-[0.98] transition-transform"
         >
           View details
           <ArrowRight className="w-4 h-4" />
@@ -305,7 +305,7 @@ const MobilePropertyList = () => {
       <MobilePage title="Properties" showSearchButton={true}>
         <div className="flex items-center justify-center min-h-[40vh]">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-8 h-8 border-2 border-[#51faaa] border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-2 border-[#fbbf24] border-t-transparent rounded-full animate-spin" />
             <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>Loading properties...</p>
           </div>
         </div>
@@ -356,7 +356,7 @@ const MobilePropertyList = () => {
                 placeholder="Search location or address"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full pl-9 pr-3 h-10 rounded-lg text-[13px] focus:outline-none focus:ring-1 focus:ring-[#51faaa] ${isDark
+                className={`w-full pl-9 pr-3 h-10 rounded-lg text-[13px] focus:outline-none focus:ring-1 focus:ring-[#000000] ${isDark
                   ? 'bg-gray-800/60 border border-white/10 text-white placeholder-gray-500'
                   : 'bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400'
                   }`}
@@ -365,7 +365,7 @@ const MobilePropertyList = () => {
             <button
               onClick={() => setShowFilters(true)}
               className={`h-10 px-3 rounded-lg shrink-0 flex items-center justify-center gap-1.5 text-[13px] font-medium relative ${Object.values(filters).some(f => f !== '' && f !== false)
-                ? 'bg-[#51faaa] text-[#0a0c19]'
+                ? 'bg-[#000000] text-[#000000]'
                 : isDark
                   ? 'bg-gray-800/60 border border-white/10 text-gray-300'
                   : 'bg-gray-50 border border-gray-200 text-gray-700'
@@ -385,7 +385,7 @@ const MobilePropertyList = () => {
                   key={filter.value || 'all'}
                   onClick={() => setFilters(prev => ({ ...prev, status: filter.value }))}
                   className={`shrink-0 px-4 py-1.5 rounded-full text-[12px] font-medium border transition-colors ${isActive
-                    ? 'bg-[#51faaa] border-[#51faaa] text-[#0a0c19]'
+                    ? 'bg-[#000000] border-[#fbbf24] text-[#000000]'
                     : isDark
                       ? 'bg-transparent border-white/10 text-gray-400'
                       : 'bg-transparent border-gray-200 text-gray-600'
@@ -510,14 +510,14 @@ const MobilePropertyList = () => {
                         placeholder="Min (KES)"
                         value={filters.minPrice}
                         onChange={(e) => setFilters(prev => ({ ...prev, minPrice: e.target.value }))}
-                        className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#51faaa]/40 ${isDark ? 'bg-gray-800 border border-gray-700 text-white placeholder-gray-500' : 'bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400'}`}
+                        className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#000000]/40 ${isDark ? 'bg-gray-800 border border-gray-700 text-white placeholder-gray-500' : 'bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400'}`}
                       />
                       <input
                         type="number"
                         placeholder="Max (KES)"
                         value={filters.maxPrice}
                         onChange={(e) => setFilters(prev => ({ ...prev, maxPrice: e.target.value }))}
-                        className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#51faaa]/40 ${isDark ? 'bg-gray-800 border border-gray-700 text-white placeholder-gray-500' : 'bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400'}`}
+                        className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#000000]/40 ${isDark ? 'bg-gray-800 border border-gray-700 text-white placeholder-gray-500' : 'bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-400'}`}
                       />
                     </div>
                   </div>
@@ -529,7 +529,7 @@ const MobilePropertyList = () => {
                       <select
                         value={filters.minBedrooms}
                         onChange={(e) => setFilters(prev => ({ ...prev, minBedrooms: e.target.value }))}
-                        className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#51faaa]/40 ${isDark ? 'bg-gray-800 border border-gray-700 text-white' : 'bg-gray-50 border border-gray-200 text-gray-900'}`}
+                        className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#000000]/40 ${isDark ? 'bg-gray-800 border border-gray-700 text-white' : 'bg-gray-50 border border-gray-200 text-gray-900'}`}
                       >
                         <option value="">Any</option>
                         {[1, 2, 3, 4, 5, 6].map(num => (
@@ -542,7 +542,7 @@ const MobilePropertyList = () => {
                       <select
                         value={filters.minBathrooms}
                         onChange={(e) => setFilters(prev => ({ ...prev, minBathrooms: e.target.value }))}
-                        className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#51faaa]/40 ${isDark ? 'bg-gray-800 border border-gray-700 text-white' : 'bg-gray-50 border border-gray-200 text-gray-900'}`}
+                        className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#000000]/40 ${isDark ? 'bg-gray-800 border border-gray-700 text-white' : 'bg-gray-50 border border-gray-200 text-gray-900'}`}
                       >
                         <option value="">Any</option>
                         {[1, 2, 3, 4, 5].map(num => (
@@ -558,7 +558,7 @@ const MobilePropertyList = () => {
                     <select
                       value={filters.propertyType}
                       onChange={(e) => setFilters(prev => ({ ...prev, propertyType: e.target.value }))}
-                      className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#51faaa]/40 ${isDark ? 'bg-gray-800 border border-gray-700 text-white' : 'bg-gray-50 border border-gray-200 text-gray-900'}`}
+                      className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#000000]/40 ${isDark ? 'bg-gray-800 border border-gray-700 text-white' : 'bg-gray-50 border border-gray-200 text-gray-900'}`}
                     >
                       <option value="">All types</option>
                       <option value="apartment">Apartment</option>
@@ -575,7 +575,7 @@ const MobilePropertyList = () => {
                     <select
                       value={filters.status}
                       onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-                      className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#51faaa]/40 ${isDark ? 'bg-gray-800 border border-gray-700 text-white' : 'bg-gray-50 border border-gray-200 text-gray-900'}`}
+                      className={`w-full px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#000000]/40 ${isDark ? 'bg-gray-800 border border-gray-700 text-white' : 'bg-gray-50 border border-gray-200 text-gray-900'}`}
                     >
                       <option value="">All status</option>
                       <option value="for-sale">For Sale</option>
@@ -604,7 +604,7 @@ const MobilePropertyList = () => {
                     </motion.button>
                     <button
                       onClick={() => setShowFilters(false)}
-                      className="flex-1 px-4 py-3.5 bg-[#51faaa] rounded-xl text-[#0a0c19] text-[14px] font-semibold active:opacity-90"
+                      className="flex-1 px-4 py-3.5 bg-[#000000] rounded-xl text-[#000000] text-[14px] font-semibold active:opacity-90"
                     >
                       Apply filters
                     </button>

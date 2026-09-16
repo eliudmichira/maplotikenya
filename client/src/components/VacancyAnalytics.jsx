@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -344,7 +344,7 @@ const VacancyAnalytics = ({ properties = [] }) => {
             <div key={index} className="flex-1 flex flex-col items-center">
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-t">
                 <div 
-                  className="bg-gradient-to-t from-[#51faaa] to-[#dbd5a4] rounded-t transition-all duration-300"
+                  className="bg-gradient-to-t from-[#fbbf24] to-[#f59e0b] rounded-t transition-all duration-300"
                   style={{ height: `${data.occupancy}%` }}
                 />
               </div>
@@ -357,7 +357,7 @@ const VacancyAnalytics = ({ properties = [] }) => {
         
         <div className="flex items-center justify-center space-x-6 mt-4">
           <div className="flex items-center space-x-2">
-            <div className="w-3 h-3 bg-[#51faaa] rounded-full" />
+            <div className="w-3 h-3 bg-[#000000] rounded-full" />
             <span className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
               Occupancy Rate
             </span>

@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <link rel="canonical" href="https://maploti.app/terms.html" />
+  <title>Terms of Service — Maploti</title>
+  <meta name="description" content="The terms that govern your use of the Maploti property platform — the website and mobile app." />
+  <meta property="og:title" content="Terms of Service — Maploti" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=10" />
+  <noscript><style>.reveal { opacity: 1; transform: none; }</style></noscript>
+
+  <!-- Firebase (same project as the Maploti app). NOT deferred: the page
+       scripts below depend on `firebase` being defined at parse time. -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23BFFF1A'/%3E%3Ctext x='16' y='23' font-family='Inter,sans-serif' font-weight='900' font-size='19' text-anchor='middle' fill='%23000'%3EM%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+
+  <!-- ══════════════ NAV ══════════════ -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="brand" aria-label="Maploti home">
+        <span class="brand__mark">M</span>
+        <span class="brand__word">MAPLOTI</span>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="listings.html" class="nav__link">Properties</a>
+        <a href="saved.html" class="nav__link">Saved</a>
+        <a href="map.html" class="nav__link">Map</a>
+        <a href="index.html#how" class="nav__link">How it works</a>
+        <a href="index.html#app" class="nav__link">The App</a>
+      </nav>
+
+      <div class="nav__actions">
+        <a href="login.html" class="btn btn--ghost nav__signin">Sign In</a>
+        <a href="login.html" class="btn btn--accent nav__cta">List a Property</a>
+        <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <a href="listings.html">Properties</a>
+      <a href="saved.html">Saved</a>
+      <a href="map.html">Map</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#app">The App</a>
+      <a href="login.html">Sign In</a>
+      <a href="login.html" class="btn btn--accent btn--block">List a Property</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- ══════════════ PAGE HEAD ══════════════ -->
+    <section class="page page--tight">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <svg viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+          <span class="is-current">Terms of Service</span>
+        </nav>
+
+        <div class="page__head reveal">
+          <p class="eyebrow">Legal</p>
+          <h1 class="display" style="font-size:clamp(32px,4.6vw,56px)">Terms of Service</h1>
+          <p class="page__sub">The terms that govern your use of the Maploti platform — the website and the mobile app.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ TERMS ══════════════ -->
+    <section class="legal">
+      <div class="container legal__inner reveal">
+        <p class="legal__meta mono">Last updated: 7 August 2026</p>
+
+        <div class="legal__block">
+          <h2>1. Agreement to terms</h2>
+          <p>By accessing or using Maploti ("the platform"), you agree to be bound by these Terms of Service. If you do not agree with any part of these terms, please do not use the platform. The platform is operated by Maploti, Nairobi, Kenya.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>2. Who may use the platform</h2>
+          <p>The platform is available to individuals aged 18 years and over. By creating an account or publishing a listing you confirm that you are at least 18 and that the information you provide is accurate and complete. You are responsible for keeping your login credentials secure.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>3. Our service</h2>
+          <p>Maploti connects property seekers with owners and agents. We help you browse listings, save favourites, and contact sellers directly. Listings are published by owners and agents themselves; while we review and moderate content, we do not guarantee the accuracy, completeness or availability of any listing.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>4. Your account</h2>
+          <ul>
+            <li>You may only hold one account and must provide truthful information.</li>
+            <li>You are responsible for all activity under your account. Notify us immediately of any unauthorised use.</li>
+            <li>We may suspend or close accounts that breach these terms or that publish misleading, fraudulent or prohibited content.</li>
+          </ul>
+        </div>
+
+        <div class="legal__block">
+          <h2>5. Publishing listings</h2>
+          <ul>
+            <li>You must own the property or have the owner's written authority to list it.</li>
+            <li>Photos must be genuine and current. No watermarks, logos or contact details embedded in images unless they are yours.</li>
+            <li>Prices and specifications must be accurate and not intended to mislead.</li>
+            <li>You grant Maploti a non-exclusive licence to display, store and promote the content you submit, for as long as the listing is live.</li>
+            <li>We reserve the right to remove any listing that breaches these terms or our listing guidelines.</li>
+          </ul>
+        </div>
+
+        <div class="legal__block">
+          <h2>6. Prohibited content</h2>
+          <p>You may not post content that is illegal, fraudulent, discriminatory, defamatory, infringing on others' rights, or that contains malware or scrapes other users' data. We take reasonable steps to keep the platform safe but cannot monitor every submission.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>7. Transactions are between you and the seller</h2>
+          <p>Maploti is a listing and contact platform — it is not a party to any sale, lease or agency agreement. All negotiations, payments, inspections and legal transfers happen directly between you and the owner or agent. You agree to conduct proper due diligence (including title verification) before transacting, and Maploti accepts no liability for outcomes of such transactions.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>8. Intellectual property</h2>
+          <p>The Maploti name, logo, design and code are our property or that of our licensors. You may not copy, modify, distribute or reverse-engineer the platform except where the law expressly permits.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>9. Limitation of liability</h2>
+          <p>The platform is provided "as is" and "as available". To the maximum extent permitted by law, Maploti shall not be liable for any indirect, incidental or consequential loss, or for any loss arising from your use of (or inability to use) the platform, reliance on any listing, or dealings with other users. Nothing in these terms limits liability that cannot be limited by law.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>10. Termination</h2>
+          <p>You may stop using the platform at any time and delete your account from your profile. We may suspend or terminate access where you breach these terms. Sections that by their nature should survive termination (including 7, 8, 9 and 11) will continue to apply.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>11. Governing law</h2>
+          <p>These terms are governed by the laws of the Republic of Kenya. Any disputes will be subject to the exclusive jurisdiction of the courts of Kenya.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>12. Changes to these terms</h2>
+          <p>We may revise these terms from time to time. Material changes will be announced on the platform and the "Last updated" date above will reflect the latest version. Continued use of the platform after changes means you accept the revised terms.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>13. Contact</h2>
+          <p>Questions about these terms? Email <a href="mailto:hello@maploti.app">hello@maploti.app</a> or write to Maploti, Nairobi, Kenya.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="index.html" class="brand">
+            <span class="brand__mark">M</span>
+            <span class="brand__word">MAPLOTI</span>
+          </a>
+          <p class="footer__tag">Find, save and list properties across Kenya.</p>
+          <div class="footer__socials">
+            <a href="#" aria-label="X / Twitter">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L1.6 2H8l4.4 5.9L18.9 2Zm-1.1 18h1.7L7.1 3.9H5.3L17.8 20Z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M14 8.5V6.8c0-.8.2-1.3 1.3-1.3H17V2.1h-2.6C11.4 2.1 10 3.7 10 6.4v2.1H8V12h2v9h4v-9h2.7l.3-3.5h-3Z"/></svg>
+            </a>
+            <a href="#" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M23 7.5s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.4-1C16.7 4 12 4 12 4s-4.7 0-7.7.2c-.5.1-1.5.1-2.4 1-.7.7-.9 2.3-.9 2.3S.8 9.4.8 11.3v1.4c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.6 1 1.9.2 7.5.2 7.5.2s4.7 0 7.7-.3c.5-.1 1.5-.1 2.4-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8v-1.4c0-1.8-.2-3.7-.2-3.7ZM9.7 15.4V8.6l6.2 3.4-6.2 3.4Z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <h4>Product</h4>
+          <a href="listings.html">Properties</a>
+          <a href="map.html">Map</a>
+          <a href="index.html#app">The App</a>
+          <a href="login.html">List a property</a>
+        </div>
+        <div class="footer__col">
+          <h4>Company</h4>
+          <a href="index.html#how">About Maploti</a>
+          <a href="index.html#app">Get the app</a>
+          <a href="mailto:hello@maploti.app">Contact</a>
+        </div>
+        <div class="footer__col">
+          <h4>Legal</h4>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html" aria-current="page">Terms of Service</a>
+          <a href="cookies.html">Cookie Policy</a>
+        </div>
+      </div>
+
+      <div class="footer__bar">
+        <span>© 2026 Maploti · Nairobi, Kenya</span>
+        <span class="footer__made">Made in Kenya 🇰🇪</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/firebase.js?v=4"></script>
+  <script src="js/data.js?v=4"></script>
+  <script src="js/user.js?v=4"></script>
+  <script src="js/site.js?v=4"></script>
+</body>
+</html>

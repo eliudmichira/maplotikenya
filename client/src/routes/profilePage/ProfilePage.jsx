@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   User, Mail, LogOut, Plus, Heart, Settings, MessageCircle, Building2, Star,
@@ -189,7 +189,7 @@ const ProfilePage = () => {
       title: "First Listing",
       description: "Created your first property listing",
       icon: Home,
-      color: "from-[#51faaa] to-[#dbd5a4]",
+      color: "from-[#fbbf24] to-[#f59e0b]",
       unlocked: userStats.listings > 0
     },
     {
@@ -205,7 +205,7 @@ const ProfilePage = () => {
       title: "Active User",
       description: "Logged in for 7 consecutive days",
       icon: Zap,
-      color: "from-[#dbd5a4] to-yellow-500",
+      color: "from-[#f0f0f0] to-yellow-500",
       unlocked: false
     },
     {
@@ -213,7 +213,7 @@ const ProfilePage = () => {
       title: "Social Butterfly",
       description: "Connected social media accounts",
       icon: Users,
-      color: "from-[#29df99] to-[#51faaa]",
+      color: "from-[#29df99] to-[#000000]",
       unlocked: !!(currentUser?.social?.instagram || currentUser?.social?.twitter || currentUser?.social?.linkedin)
     }
   ];
@@ -226,8 +226,8 @@ const ProfilePage = () => {
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-all duration-500 pt-20">
       {/* Animated Background */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#51faaa]/10 dark:bg-[#51faaa]/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#dbd5a4]/10 dark:bg-[#dbd5a4]/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#000000]/10 dark:bg-[#000000]/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#f0f0f0]/10 dark:bg-[#f0f0f0]/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
       </div>
 
       {/* Content */}
@@ -246,12 +246,12 @@ const ProfilePage = () => {
                       className="w-32 h-32 rounded-full object-cover border-4 border-white dark:border-gray-700 shadow-xl group-hover:scale-105 transition-transform duration-300"
                     />
                     <Link to="/profile/update">
-                      <button className="absolute bottom-2 right-2 w-10 h-10 bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] rounded-full flex items-center justify-center shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 text-gray-900 ring-2 ring-white dark:ring-gray-800">
+                      <button className="absolute bottom-2 right-2 w-10 h-10 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center shadow-xl opacity-0 group-hover:opacity-100 transition-all duration-300 text-gray-900 ring-2 ring-white dark:ring-gray-800">
                         <Camera className="w-5 h-5" />
                       </button>
                     </Link>
                     {currentUser?.verified && (
-                      <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-[#51faaa] to-[#45e695] rounded-full flex items-center justify-center shadow-lg text-gray-900 border-2 border-white dark:border-gray-800">
+                      <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-[#000000] to-[#45e695] rounded-full flex items-center justify-center shadow-lg text-gray-900 border-2 border-white dark:border-gray-800">
                         <CheckCircle className="w-5 h-5" />
                       </div>
                     )}
@@ -263,7 +263,7 @@ const ProfilePage = () => {
                         {currentUser?.name || currentUser?.username || 'User'}
                       </h1>
                       {currentUser?.role === 'premium' && (
-                        <span className="px-3 py-1 bg-gradient-to-r from-[#51faaa]/30 to-[#45e695]/30 border border-[#51faaa]/40 text-[#0a0c19] dark:text-[#51faaa] text-xs font-bold rounded-full flex items-center gap-1 shadow-sm backdrop-blur-sm">
+                        <span className="px-3 py-1 bg-gradient-to-r from-[#000000]/30 to-[#45e695]/30 border border-[#fbbf24]/40 text-[#000000] dark:text-[#000000] text-xs font-bold rounded-full flex items-center gap-1 shadow-sm backdrop-blur-sm">
                           <Award className="w-3 h-3" />
                           PREMIUM
                         </span>
@@ -300,14 +300,14 @@ const ProfilePage = () => {
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-3">
                   <Link to={isAgent ? "/profile/edit/agent" : "/profile/edit"}>
-                    <button className="flex items-center gap-2 bg-gradient-to-r from-[#51faaa] to-[#45e695] text-gray-900 font-bold py-2.5 px-5 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                    <button className="flex items-center gap-2 bg-gradient-to-r from-[#000000] to-[#45e695] text-gray-900 font-bold py-2.5 px-5 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300">
                       <Settings className="w-4 h-4" />
                       {isAgent ? 'Edit Agent Profile' : 'Edit Profile'}
                     </button>
                   </Link>
                   <button
                     onClick={() => setShowShareModal(true)}
-                    className="flex items-center gap-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-bold py-2.5 px-5 rounded-xl hover:shadow-lg hover:border-[#51faaa] dark:hover:border-[#51faaa] transition-all duration-300"
+                    className="flex items-center gap-2 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 font-bold py-2.5 px-5 rounded-xl hover:shadow-lg hover:border-[#fbbf24] dark:hover:border-[#fbbf24] transition-all duration-300"
                   >
                     <Share2 className="w-4 h-4" />
                     Share Profile
@@ -325,14 +325,14 @@ const ProfilePage = () => {
               {/* Stats Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-4 lg:w-64">
                 {isAgent && (
-                  <div className="bg-[#51faaa]/10 rounded-2xl p-4 text-center hover:scale-105 transition-transform duration-300 border border-[#51faaa]/20 shadow-sm">
-                    <Building2 className="w-6 h-6 mx-auto mb-1 text-[#51faaa]" />
+                  <div className="bg-[#000000]/10 rounded-2xl p-4 text-center hover:scale-105 transition-transform duration-300 border border-[#fbbf24]/20 shadow-sm">
+                    <Building2 className="w-6 h-6 mx-auto mb-1 text-[#000000]" />
                     <p className="text-2xl font-black text-gray-800 dark:text-white">{userStats.listings}</p>
                     <p className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-wider font-semibold">Listings</p>
                   </div>
                 )}
-                <div className="bg-[#dbd5a4]/10 rounded-2xl p-4 text-center hover:scale-105 transition-transform duration-300 border border-[#dbd5a4]/20 shadow-sm">
-                  <Heart className="w-6 h-6 mx-auto mb-1 text-[#dbd5a4]" />
+                <div className="bg-[#f0f0f0]/10 rounded-2xl p-4 text-center hover:scale-105 transition-transform duration-300 border border-[#f0f0f0]/20 shadow-sm">
+                  <Heart className="w-6 h-6 mx-auto mb-1 text-[#f0f0f0]" />
                   <p className="text-2xl font-black text-gray-800 dark:text-white">{userStats.saved}</p>
                   <p className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-wider font-semibold">Saved</p>
                 </div>
@@ -361,7 +361,7 @@ const ProfilePage = () => {
               </div>
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2 overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] rounded-full transition-all duration-1000 relative overflow-hidden"
+                  className="h-full bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-full transition-all duration-1000 relative overflow-hidden"
                   style={{ width: `${profileCompletion}%` }}
                 >
                   <div className="absolute inset-0 bg-white/30 animate-shimmer"></div>
@@ -383,7 +383,7 @@ const ProfilePage = () => {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold whitespace-nowrap transition-all duration-300 ${activeTab === tab.id
-                    ? 'bg-gradient-to-r from-[#51faaa] via-[#45e695] to-[#dbd5a4] text-gray-900 shadow-xl shadow-[#51faaa]/30'
+                    ? 'bg-gradient-to-r from-[#000000] via-[#45e695] to-[#f0f0f0] text-gray-900 shadow-xl shadow-[#000000]/30'
                     : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80'
                     }`}
                 >
@@ -459,7 +459,7 @@ const ProfilePage = () => {
                           key={activity.id}
                           className="flex items-start gap-4 p-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all duration-300 group"
                         >
-                          <div className="w-10 h-10 bg-gradient-to-br from-[#51faaa] to-[#45e695] rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+                          <div className="w-10 h-10 bg-gradient-to-br from-[#000000] to-[#45e695] rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
                             <Activity className="w-5 h-5 text-gray-900" />
                           </div>
                           <div className="flex-1">
@@ -488,20 +488,20 @@ const ProfilePage = () => {
                   <div className="space-y-3">
                     {isAgent && (
                       <Link to="/add-property" className="block">
-                        <button className="w-full flex items-center gap-3 p-3 bg-gradient-to-r from-[#51faaa] to-[#45e695] text-gray-900 font-bold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                        <button className="w-full flex items-center gap-3 p-3 bg-gradient-to-r from-[#000000] to-[#45e695] text-gray-900 font-bold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300">
                           <Plus className="w-5 h-5 text-gray-900" />
                           Create New Listing
                         </button>
                       </Link>
                     )}
                     <Link to="/desktop/properties" className="block">
-                      <button className="w-full flex items-center gap-3 p-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl hover:border-[#51faaa] dark:hover:border-[#51faaa] hover:shadow-lg transition-all duration-300 text-gray-700 dark:text-gray-200 font-bold">
+                      <button className="w-full flex items-center gap-3 p-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl hover:border-[#fbbf24] dark:hover:border-[#fbbf24] hover:shadow-lg transition-all duration-300 text-gray-700 dark:text-gray-200 font-bold">
                         <Search className="w-5 h-5" />
                         Browse Properties
                       </button>
                     </Link>
                     {isAgent && (
-                      <button className="w-full flex items-center gap-3 p-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl hover:border-[#51faaa] dark:hover:border-[#51faaa] hover:shadow-lg transition-all duration-300 text-gray-700 dark:text-gray-200 font-bold">
+                      <button className="w-full flex items-center gap-3 p-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-xl hover:border-[#fbbf24] dark:hover:border-[#fbbf24] hover:shadow-lg transition-all duration-300 text-gray-700 dark:text-gray-200 font-bold">
                         <FileText className="w-5 h-5" />
                         Generate Report
                       </button>
@@ -562,7 +562,7 @@ const ProfilePage = () => {
                 </h2>
                 <div className="flex gap-3">
                   <Link to="/add-property">
-                    <button className="flex items-center gap-2 bg-gradient-to-r from-[#51faaa] to-[#45e695] text-gray-900 font-bold py-2 px-4 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                    <button className="flex items-center gap-2 bg-gradient-to-r from-[#000000] to-[#45e695] text-gray-900 font-bold py-2 px-4 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300">
                       <Plus className="w-4 h-4" />
                       Add New
                     </button>
@@ -823,14 +823,14 @@ const ProfilePage = () => {
 function EmptyState({ title, description, icon: Icon, actionText, actionLink }) {
   return (
     <div className="text-center py-12">
-      <div className="w-16 h-16 bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm pb-[1px] pr-[1px]">
+      <div className="w-16 h-16 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm pb-[1px] pr-[1px]">
         <Icon className="w-8 h-8 text-gray-900 drop-shadow-sm" />
       </div>
       <h3 className="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">{title}</h3>
       <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md mx-auto">{description}</p>
       {actionText && actionLink && (
         <Link to={actionLink}>
-          <button className="bg-gradient-to-br from-[#51faaa] to-[#45e695] text-gray-900 px-6 py-3 rounded-xl font-bold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+          <button className="bg-gradient-to-br from-[#000000] to-[#45e695] text-gray-900 px-6 py-3 rounded-xl font-bold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
             {actionText}
           </button>
         </Link>

@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Moon, Sun, Bell, Mail, Shield, ChevronRight, Lock, Trash2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -45,7 +45,7 @@ const MobileSettingsPage = () => {
                 <button 
                     onClick={onClick}
                     className={`relative w-14 h-8 rounded-full transition-all duration-500 ${
-                        value ? 'bg-gradient-to-r from-[#51faaa] to-[#dbd5a4]' : (isDark ? 'bg-white/10' : 'bg-gray-200')
+                        value ? 'bg-gradient-to-r from-[#fbbf24] to-[#f59e0b]' : (isDark ? 'bg-white/10' : 'bg-gray-200')
                     }`}
                 >
                     <motion.div 
@@ -61,9 +61,9 @@ const MobileSettingsPage = () => {
     );
 
     return (
-        <div className={`min-h-screen pb-32 ${isDark ? 'bg-[#0a0c19]' : 'bg-gray-50'}`}>
+        <div className={`min-h-screen pb-32 ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
             {/* Header */}
-            <div className={`sticky top-0 z-30 px-4 py-4 border-b backdrop-blur-2xl ${isDark ? 'bg-[#0a0c19]/80 border-white/10' : 'bg-white/80 border-gray-200'}`}>
+            <div className={`sticky top-0 z-30 px-4 py-4 border-b backdrop-blur-2xl ${isDark ? 'bg-[#000000]/80 border-white/10' : 'bg-white/80 border-gray-200'}`}>
                 <div className="flex items-center gap-4">
                     <motion.button 
                         onClick={() => navigate(-1)} 
@@ -149,7 +149,7 @@ const MobileSettingsPage = () => {
                         <span className="font-bold">Delete Account</span>
                     </motion.button>
                     <p className="text-[10px] text-center mt-4 text-gray-500 font-medium">
-                        BumiHouse v2.4.0 • Built with ❤️ in Kenya
+                        MaplotiKenya v2.4.0 • Built with ❤️ in Kenya
                     </p>
                 </div>
             </div>

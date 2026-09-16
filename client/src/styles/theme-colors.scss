@@ -1,4 +1,4 @@
-﻿// Complete Theme Color System for Hama Estate
+// Complete Theme Color System for Hama Estate
 // This file defines all colors used throughout the site
 
 // ===================================
@@ -11,30 +11,30 @@ $primary-colors: (
   'dark-surface': #1f2937, // gray-800
   'dark-elevated': #374151, // gray-700
   'dark-overlay': #4b5563, // gray-600
-  'emerald-50': #f0fdf7,
-  'emerald-100': #dcfce7,
-  'emerald-200': #bbf7d0,
-  'emerald-300': #86efb8,
-  'emerald-400': #51faaa,
-  'emerald-500': #51faaa,
-  'emerald-600': #2dd284,
-  'emerald-700': #1fb372,
-  'emerald-800': #15803d,
-  'emerald-900': #0f5132,
+  'emerald-50': #f8f8f8,
+  'emerald-100': #f8f8f8,
+  'emerald-200': #f0f0f0,
+  'emerald-300': #a3a3a3,
+  'emerald-400': #000000,
+  'emerald-500': #000000,
+  'emerald-600': #303030,
+  'emerald-700': #0e1311,
+  'emerald-800': #0e1311,
+  'emerald-900': #0e1311,
 );
 
 // Secondary Colors - Purple/Violet Branding
 $secondary-colors: (
-  'purple-50': #f5f3ff,
-  'purple-100': #ede9fe,
-  'purple-200': #ddd6fe,
-  'purple-300': #c4b5fd,
-  'purple-400': #a78bfa,
-  'purple-500': #8b5cf6,
-  'purple-600': #7c3aed,
-  'purple-700': #6d28d9,
-  'purple-800': #5b21b6,
-  'purple-900': #4c1d95,
+  'purple-50': #f8f8f8,
+  'purple-100': #f0f0f0,
+  'purple-200': #e2e2e2,
+  'purple-300': #c8c8c8,
+  'purple-400': #a3a3a3,
+  'purple-500': #505050,
+  'purple-600': #303030,
+  'purple-700': #1a1a1a,
+  'purple-800': #0e1311,
+  'purple-900': #000000,
 );
 
 // Neutral Colors - Standardized Gray Scale
@@ -53,10 +53,10 @@ $neutral-colors: (
 
 // Status Colors
 $status-colors: (
-  'success': #51faaa,
+  'success': #000000,
   'warning': #f59e0b,
   'error': #ef4444,
-  'info': #51faaa,
+  'info': #000000,
 );
 
 // ===================================
@@ -135,22 +135,22 @@ $card-styles: (
 // Buttons
 $button-styles: (
   'primary': (
-    'bg': linear-gradient(135deg, #51faaa 0%, #dbd5a4 100%),
+    'bg': linear-gradient(135deg, #000000 0%, #f0f0f0 100%),
     'text': #ffffff,
-    'border': rgba(59, 130, 246, 0.4),
-    'hover-bg': linear-gradient(135deg, #2dd284 0%, #a59c47 100%),
+    'border': rgba(251, 191, 36, 0.4),
+    'hover-bg': linear-gradient(135deg, #303030 0%, #a59c47 100%),
   ),
   'secondary': (
     'bg': rgba(55, 65, 81, 0.3), // gray-700 with opacity
     'text': map-get($primary-colors, 'emerald-500'),
-    'border': rgba(59, 130, 246, 0.4),
+    'border': rgba(251, 191, 36, 0.4),
     'hover-bg': rgba(55, 65, 81, 0.5), // gray-700 with opacity
   ),
   'purple': (
-    'bg': linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%),
+    'bg': linear-gradient(135deg, #303030 0%, #505050 100%),
     'text': #ffffff,
     'border': rgba(167, 139, 250, 0.4),
-    'hover-bg': linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%),
+    'hover-bg': linear-gradient(135deg, #1a1a1a 0%, #303030 100%),
   )
 );
 
@@ -164,7 +164,7 @@ $button-styles: (
   border: 1px solid rgba(55, 65, 81, 0.3); // gray-700 with opacity
   box-shadow: 
     0 8px 32px 0 rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 0 rgba(59, 130, 246, 0.1);
+    inset 0 1px 0 0 rgba(251, 191, 36, 0.1);
 }
 
 @mixin glassmorphism-light {

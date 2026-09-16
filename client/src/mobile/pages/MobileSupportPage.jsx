@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, MessageCircle, Mail, ChevronRight, Calendar, ShieldCheck, CreditCard, ChevronDown, Phone, CheckCircle } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
@@ -17,7 +17,7 @@ const MobileSupportPage = () => {
         },
         { 
             q: "Is my payment information secure?", 
-            a: "Absolutely. BumiHouse uses industry-standard SSL encryption and secure payment gateways (MPESA & Cards) to ensure your data is always protected.",
+            a: "Absolutely. MaplotiKenya uses industry-standard SSL encryption and secure payment gateways (MPESA & Cards) to ensure your data is always protected.",
             icon: ShieldCheck
         },
         { 
@@ -56,9 +56,9 @@ const MobileSupportPage = () => {
     );
 
     return (
-        <div className={`min-h-screen pb-32 ${isDark ? 'bg-[#0a0c19]' : 'bg-gray-50'}`}>
+        <div className={`min-h-screen pb-32 ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
             {/* Header */}
-            <div className={`sticky top-0 z-30 px-4 py-4 border-b backdrop-blur-2xl ${isDark ? 'bg-[#0a0c19]/80 border-white/10' : 'bg-white/80 border-gray-200'}`}>
+            <div className={`sticky top-0 z-30 px-4 py-4 border-b backdrop-blur-2xl ${isDark ? 'bg-[#000000]/80 border-white/10' : 'bg-white/80 border-gray-200'}`}>
                 <div className="flex items-center gap-4">
                     <motion.button 
                         onClick={() => navigate(-1)} 
@@ -97,7 +97,7 @@ const MobileSupportPage = () => {
                                 >
                                     <div className="flex items-center gap-4">
                                         <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isDark ? 'bg-white/5' : 'bg-gray-50'}`}>
-                                            <faq.icon size={18} className="text-[#51faaa]" />
+                                            <faq.icon size={18} className="text-[#000000]" />
                                         </div>
                                         <span className={`text-sm font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{faq.q}</span>
                                     </div>
@@ -142,8 +142,8 @@ const MobileSupportPage = () => {
                         <ContactButton 
                             icon={Mail} 
                             label="Email Support" 
-                            subtitle="support@bumihouse.com"
-                            onClick={() => window.location.href = 'mailto:support@bumihouse.com'} 
+                            subtitle="support@maplotikenya.com"
+                            onClick={() => window.location.href = 'mailto:support@maplotikenya.com'} 
                             color="purple"
                         />
                         <ContactButton 

@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { Heart, Share, MessageCircle, X } from 'lucide-react';
 import { PropertyMobileCard } from './PropertyMobileNav';

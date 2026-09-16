@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <link rel="canonical" href="https://maploti.app/" />
+  <title>Maploti — Find, Save &amp; List Properties Across Kenya</title>
+  <meta name="description" content="Maploti is Kenya's premium property platform. Discover verified apartments, houses, plots and villas on an interactive map. Save favourites, connect with agents directly on WhatsApp." />
+  <meta property="og:title" content="Maploti — Find, Save &amp; List Properties Across Kenya" />
+  <meta property="og:description" content="Verified listings. Interactive map. Direct agent contact. Your next home is on the map." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=10" />
+  <noscript><style>.reveal { opacity: 1; transform: none; }</style></noscript>
+
+  <!-- Firebase (same project as the Maploti app). NOT deferred: the page
+       scripts below depend on `firebase` being defined at parse time. -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23BFFF1A'/%3E%3Ctext x='16' y='23' font-family='Inter,sans-serif' font-weight='900' font-size='19' text-anchor='middle' fill='%23000'%3EM%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+
+  <!-- ══════════════ NAV ══════════════ -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="#top" class="brand" aria-label="Maploti home">
+        <span class="brand__mark">M</span>
+        <span class="brand__word">MAPLOTI</span>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#properties" class="nav__link">Properties</a>
+        <a href="saved.html" class="nav__link">Saved</a>
+        <a href="#features" class="nav__link">Features</a>
+        <a href="map.html" class="nav__link">Map</a>
+        <a href="#how" class="nav__link">How it works</a>
+        <a href="#app" class="nav__link">The App</a>
+      </nav>
+
+      <div class="nav__actions">
+        <a href="login.html" class="btn btn--ghost nav__signin">Sign In</a>
+        <a href="login.html" class="btn btn--accent nav__cta">List a Property</a>
+        <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <a href="#properties">Properties</a>
+      <a href="saved.html">Saved</a>
+      <a href="#features">Features</a>
+      <a href="map.html">Map</a>
+      <a href="#how">How it works</a>
+      <a href="#app">The App</a>
+      <a href="login.html">Sign In</a>
+      <a href="login.html" class="btn btn--accent btn--block">List a Property</a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- ══════════════ HERO ══════════════ -->
+    <section class="hero">
+      <div class="hero__glow hero__glow--1"></div>
+      <div class="hero__glow hero__glow--2"></div>
+      <div class="container hero__grid">
+        <div class="hero__copy reveal">
+          <p class="eyebrow hero__eyebrow"><span class="live-dot" aria-hidden="true"></span> Kenya's Property Platform</p>
+          <h1 class="display hero__display">
+            Your next home<br />
+            is <span class="display__accent">on the map</span>
+          </h1>
+          <p class="hero__sub">
+            Discover verified apartments, houses, plots and villas across Nairobi, Mombasa
+            and the surrounding counties. Browse the interactive map, save your favourites,
+            and talk to owners directly — no middlemen, no noise.
+          </p>
+          <div class="hero__ctas">
+            <a href="listings.html" class="btn btn--accent btn--lg">Explore Properties
+              <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </a>
+            <a href="login.html" class="btn btn--outline btn--lg">List Your Property</a>
+          </div>
+
+          <!-- Hero search: deep-links into listings.html with filters pre-applied -->
+          <form class="hero__search" id="heroSearch" action="listings.html" method="get" role="search">
+            <div class="hs__toggle" role="group" aria-label="Sale or rent">
+              <button type="button" class="hs__seg is-active" data-hs-deal="sale" aria-pressed="true">For Sale</button>
+              <button type="button" class="hs__seg" data-hs-deal="rent" aria-pressed="false">For Rent</button>
+            </div>
+            <label class="hs__field hs__field--loc" for="hsQ">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              <input type="search" name="q" id="hsQ" placeholder="Area, estate or county — e.g. Westlands" autocomplete="off" />
+            </label>
+            <label class="hs__field" for="hsPrice">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              <select name="price" id="hsPrice" aria-label="Maximum price">
+                <option value="">Any budget</option>
+                <optgroup label="For Sale">
+                  <option value="5000000">≤ KES 5M</option>
+                  <option value="10000000">≤ KES 10M</option>
+                  <option value="25000000">≤ KES 25M</option>
+                  <option value="50000000">≤ KES 50M</option>
+                  <option value="120000000">≤ KES 120M</option>
+                </optgroup>
+                <optgroup label="For Rent">
+                  <option value="30000">≤ KES 30K/mo</option>
+                  <option value="60000">≤ KES 60K/mo</option>
+                  <option value="100000">≤ KES 100K/mo</option>
+                  <option value="200000">≤ KES 200K/mo</option>
+                </optgroup>
+              </select>
+            </label>
+            <button type="submit" class="btn btn--accent hs__submit">Search
+              <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </button>
+            <input type="hidden" name="deal" id="hsDeal" value="sale" />
+          </form>
+
+          <div class="hero__stats">
+            <div class="stat">
+              <span class="stat__num" id="statTopAreas">—</span>
+              <span class="stat__label">Top areas</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num" id="heroListings" data-count="765" data-suffix="+">765+</span>
+              <span class="stat__label">Live listings</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num" id="statAreas">—</span>
+              <span class="stat__label">Neighbourhoods</span>
+            </div>
+            <div class="stat">
+              <span class="stat__num" id="statMedian">KES —</span>
+              <span class="stat__label">Median sale price</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Hero visual: floating property card + map chip ── -->
+        <div class="hero__visual reveal reveal--delay">
+          <div class="hero-card" id="heroShowcase">
+            <div class="hero-card__slides" id="heroSlides">
+              <!-- Static fallback: replaced by live listings when loaded -->
+              <div class="hero-slide is-active">
+                <div class="hero-card__img">
+                  <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1200&auto=format&fit=crop" alt="Modern villa in Karen, Nairobi" loading="eager" />
+                  <div class="hero-card__shade"></div>
+                  <span class="tag tag--price">KES 48,500,000</span>
+                  <span class="tag tag--sale">FOR SALE</span>
+                </div>
+                <div class="hero-card__body">
+                  <div class="hero-card__title">Sunset Ridge Villa</div>
+                  <div class="hero-card__loc">
+                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Karen, Nairobi
+                  </div>
+                  <div class="hero-card__stats">
+                    <span>🛏 5 Beds</span>
+                    <span>🛁 6 Baths</span>
+                    <span>▦ 780 m²</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-deck">
+            <a class="float-chip float-chip--map" href="map.html" aria-label="Open the live map">
+              <span class="float-chip__icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 20 3 17V4l6 3 6-3 6 3v13l-6-3-6 3Z"/><path d="M9 7v13M15 4v13"/></svg>
+              </span>
+              <span class="float-chip__text">
+                <span class="float-chip__title" id="chipListings">Live listings</span>
+                <span class="float-chip__sub" id="chipAreas">Westlands · Kilimani · Karen</span>
+              </span>
+            </a>
+
+            <div class="hero-card__controls" id="heroControls" hidden>
+              <button type="button" class="hero-card__arrow" id="heroPrev" aria-label="Previous property">
+                <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg>
+              </button>
+              <div class="hero-card__dots" id="heroDots" aria-label="Featured properties"></div>
+              <button type="button" class="hero-card__arrow" id="heroNext" aria-label="Next property">
+                <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg>
+              </button>
+            </div>
+
+            <a class="float-chip float-chip--wa" href="listings.html" aria-label="Contact owners directly">
+              <span class="float-chip__icon float-chip__icon--wa">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.4-3c-.3-.4 0-.5.1-.7l.4-.5c.1-.2.2-.3.3-.5v-.5c0-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.5 1 2.6c.1.2 1.8 2.7 4.3 3.8.6.3 1.1.4 1.4.5.6.2 1.1.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2l-.4-.2Z"/></svg>
+              </span>
+              <span class="float-chip__text">
+                <span class="float-chip__title">Chat with the agent</span>
+                <span class="float-chip__sub">Instant WhatsApp contact</span>
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ TRUST STRIP ══════════════ -->
+    <section class="trust" aria-label="Why trust Maploti">
+      <div class="container trust__grid">
+        <div class="trust__item reveal">
+          <span class="trust__ic">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg>
+          </span>
+          <div>
+            <strong>0% viewing fees</strong>
+            <span>No hidden charges — ever</span>
+          </div>
+        </div>
+        <div class="trust__item reveal reveal--delay-1">
+          <span class="trust__ic">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2 9.6 6.6 4.5 7.2 7 11l-.8 5.1L12 14l5.8 2.1L17 11l2.5-3.8-5.1-.6L12 2Z"/></svg>
+          </span>
+          <div>
+            <strong>No fake listings</strong>
+            <span>Real photos, real owners</span>
+          </div>
+        </div>
+        <div class="trust__item reveal reveal--delay-2">
+          <span class="trust__ic">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/><path d="M8.5 9.5h7M8.5 13h4.5"/></svg>
+          </span>
+          <div>
+            <strong>Direct owner contact</strong>
+            <span>WhatsApp or call in one tap</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ BROWSE BY TYPE ══════════════ -->
+    <section class="section" id="types">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">Browse</p>
+          <h2 class="heading">Find your kind<br />of place</h2>
+        </div>
+        <div class="type-tiles" id="typeTiles">
+          <!-- Filled with real type counts when Firestore loads -->
+          <a class="type-tile reveal" data-type="Apartment" href="listings.html?type=Apartment">
+            <span class="type-tile__ic">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-4h6v4M9 10h.01M15 10h.01M9 14h.01M15 14h.01"/></svg>
+            </span>
+            <strong class="type-tile__name">Apartments</strong>
+            <span class="type-tile__count">Loading…</span>
+          </a>
+          <a class="type-tile reveal reveal--delay-1" data-type="House" href="listings.html?type=House">
+            <span class="type-tile__ic">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5M5 10v10h14V10M9 20v-6h6v6"/></svg>
+            </span>
+            <strong class="type-tile__name">Houses</strong>
+            <span class="type-tile__count">Loading…</span>
+          </a>
+          <a class="type-tile reveal reveal--delay-2" data-type="Villa" href="listings.html?type=Villa">
+            <span class="type-tile__ic">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M6 21V10l6-4 6 4v11M6 21h12M9 10h.01M15 10h.01M9 14h.01M15 14h.01M9 18h.01M15 18h.01"/></svg>
+            </span>
+            <strong class="type-tile__name">Villas</strong>
+            <span class="type-tile__count">Loading…</span>
+          </a>
+          <a class="type-tile reveal reveal--delay-3" data-type="Plot" href="listings.html?type=Plot">
+            <span class="type-tile__ic">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V4l16-1v18M4 9h16M9 21v-5h6v5"/></svg>
+            </span>
+            <strong class="type-tile__name">Plots &amp; Land</strong>
+            <span class="type-tile__count">Loading…</span>
+          </a>
+          <a class="type-tile reveal reveal--delay-4" data-type="Commercial" href="listings.html?type=Commercial">
+            <span class="type-tile__ic">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M5 21V5a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v16M9 8h6M9 12h6M9 16h6"/></svg>
+            </span>
+            <strong class="type-tile__name">Commercial</strong>
+            <span class="type-tile__count">Loading…</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ MARQUEE ══════════════ -->
+    <div class="marquee" role="region" aria-label="Popular areas">
+      <div class="marquee__track">
+        <div class="marquee__group">
+          <a href="listings.html?q=Karen">Karen</a><i aria-hidden="true">✦</i><a href="listings.html?q=Westlands">Westlands</a><i aria-hidden="true">✦</i><a href="listings.html?q=Kilimani">Kilimani</a><i aria-hidden="true">✦</i><a href="listings.html?q=Nyali">Nyali</a><i aria-hidden="true">✦</i><a href="listings.html?q=Diani">Diani</a><i aria-hidden="true">✦</i><a href="listings.html?q=Eldoret">Eldoret</a><i aria-hidden="true">✦</i><a href="listings.html?q=Kisumu">Kisumu</a><i aria-hidden="true">✦</i><a href="listings.html?q=Nakuru">Nakuru</a><i aria-hidden="true">✦</i><a href="listings.html?q=Thika">Thika</a><i aria-hidden="true">✦</i><a href="listings.html?q=Ruaka">Ruaka</a><i aria-hidden="true">✦</i><a href="listings.html?q=Kitengela">Kitengela</a><i aria-hidden="true">✦</i><a href="listings.html?q=Juja">Juja</a><i aria-hidden="true">✦</i><a href="listings.html?q=Limuru">Limuru</a><i aria-hidden="true">✦</i><a href="listings.html?q=Nairobi%20CBD">Nairobi CBD</a><i aria-hidden="true">✦</i>
+        </div>
+        <div class="marquee__group" aria-hidden="true">
+          <a tabindex="-1" href="listings.html?q=Karen">Karen</a><i>✦</i><a tabindex="-1" href="listings.html?q=Westlands">Westlands</a><i>✦</i><a tabindex="-1" href="listings.html?q=Kilimani">Kilimani</a><i>✦</i><a tabindex="-1" href="listings.html?q=Nyali">Nyali</a><i>✦</i><a tabindex="-1" href="listings.html?q=Diani">Diani</a><i>✦</i><a tabindex="-1" href="listings.html?q=Eldoret">Eldoret</a><i>✦</i><a tabindex="-1" href="listings.html?q=Kisumu">Kisumu</a><i>✦</i><a tabindex="-1" href="listings.html?q=Nakuru">Nakuru</a><i>✦</i><a tabindex="-1" href="listings.html?q=Thika">Thika</a><i>✦</i><a tabindex="-1" href="listings.html?q=Ruaka">Ruaka</a><i>✦</i><a tabindex="-1" href="listings.html?q=Kitengela">Kitengela</a><i>✦</i><a tabindex="-1" href="listings.html?q=Juja">Juja</a><i>✦</i><a tabindex="-1" href="listings.html?q=Limuru">Limuru</a><i>✦</i><a tabindex="-1" href="listings.html?q=Nairobi%20CBD">Nairobi CBD</a><i>✦</i>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ FEATURED PROPERTIES ══════════════ -->
+    <section class="section" id="properties">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">Featured</p>
+          <h2 class="heading">Handpicked properties<br />from across Kenya</h2>
+          <a href="listings.html" class="section__seeall">See all listings
+            <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          </a>
+        </div>
+
+        <!-- Filled with the top 4 real listings when Firestore loads;
+             these static cards are the offline / no-JS fallback only. -->
+        <div class="props" id="featuredGrid">
+          <article class="prop reveal">
+            <div class="prop__img">
+              <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=900&auto=format&fit=crop" alt="Sunset Ridge Villa" loading="lazy" />
+              <span class="tag tag--price">KES 48,500,000</span>
+              <span class="tag tag--sale">FOR SALE</span>
+              <button class="prop__fav" aria-label="Save property">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg>
+              </button>
+            </div>
+            <div class="prop__body">
+              <h3 class="prop__title">Sunset Ridge Villa</h3>
+              <p class="prop__loc">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                Karen, Nairobi
+              </p>
+              <div class="prop__specs">
+                <span>🛏 5</span><span>🛁 6</span><span>▦ 780 m²</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop reveal reveal--delay-1">
+            <div class="prop__img">
+              <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=900&auto=format&fit=crop" alt="Westlands Sky Apartment" loading="lazy" />
+              <span class="tag tag--price">KES 95,000<span class="tag__per">/mo</span></span>
+              <span class="tag tag--rent">FOR RENT</span>
+              <button class="prop__fav" aria-label="Save property">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg>
+              </button>
+            </div>
+            <div class="prop__body">
+              <h3 class="prop__title">Westlands Sky Apartment</h3>
+              <p class="prop__loc">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                Westlands, Nairobi
+              </p>
+              <div class="prop__specs">
+                <span>🛏 2</span><span>🛁 2</span><span>▦ 120 m²</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop reveal reveal--delay-2">
+            <div class="prop__img">
+              <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=900&auto=format&fit=crop" alt="Nyali Beachfront Plot" loading="lazy" />
+              <span class="tag tag--price">KES 12,000,000</span>
+              <span class="tag tag--sale">FOR SALE</span>
+              <button class="prop__fav" aria-label="Save property">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg>
+              </button>
+            </div>
+            <div class="prop__body">
+              <h3 class="prop__title">Nyali Beachfront Plot</h3>
+              <p class="prop__loc">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                Nyali, Mombasa
+              </p>
+              <div class="prop__specs">
+                <span>▦ 1,012 m²</span><span class="prop__specs-muted">Beachfront title deed</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="prop reveal reveal--delay-3">
+            <div class="prop__img">
+              <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=900&auto=format&fit=crop" alt="Golf View Estate House" loading="lazy" />
+              <span class="tag tag--price">KES 6,200,000</span>
+              <span class="tag tag--sale">FOR SALE</span>
+              <button class="prop__fav" aria-label="Save property">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg>
+              </button>
+            </div>
+            <div class="prop__body">
+              <h3 class="prop__title">Golf View Estate House</h3>
+              <p class="prop__loc">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                Eldoret, Uasin Gishu
+              </p>
+              <div class="prop__specs">
+                <span>🛏 4</span><span>🛁 3</span><span>▦ 260 m²</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ FEATURES ══════════════ -->
+    <section class="section section--soft" id="features">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">Why Maploti</p>
+          <h2 class="heading">Built for the way<br />Kenya finds property</h2>
+        </div>
+
+        <div class="features">
+          <article class="feature reveal">
+            <span class="feature__icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 20 3 17V4l6 3 6-3 6 3v13l-6-3-6 3Z"/><path d="M9 7v13M15 4v13"/></svg>
+            </span>
+            <h3 class="feature__title">Interactive map</h3>
+            <p class="feature__text">Drop a pin, zoom to any county, and see every listing plotted in real time. Boundaries, hotspots and neighbourhood vibes at a glance.</p>
+            <a href="map.html" class="feature__link">Open the map →</a>
+          </article>
+
+          <article class="feature reveal reveal--delay-1">
+            <span class="feature__icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/><path d="M8 11h6M11 8v6"/></svg>
+            </span>
+            <h3 class="feature__title">Smart search</h3>
+            <p class="feature__text">Filter by county, area, property type, rent or buy, and budget. Refine by bedrooms, parking and size — zero guesswork.</p>
+            <a href="listings.html" class="feature__link">Try a search →</a>
+          </article>
+
+          <article class="feature reveal reveal--delay-2">
+            <span class="feature__icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/></svg>
+            </span>
+            <h3 class="feature__title">Save &amp; track</h3>
+            <p class="feature__text">Heart the ones you love and keep them in one place. Popular listings show live view counts so you move before anyone else.</p>
+            <a href="#app" class="feature__link">See the app →</a>
+          </article>
+
+          <article class="feature reveal reveal--delay-3">
+            <span class="feature__icon">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/><path d="M8.5 9.5h7M8.5 13h4.5"/></svg>
+            </span>
+            <h3 class="feature__title">Direct agent contact</h3>
+            <p class="feature__text">Every listing links straight to the owner or agent. Call or WhatsApp in one tap — no forms, no waitlists, no hidden fees.</p>
+            <a href="login.html" class="feature__link">Get started →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ MAP SHOWCASE ══════════════ -->
+    <section class="section" id="map">
+      <div class="container map__grid">
+        <div class="map__panel reveal">
+          <div class="map__frame">
+            <div class="map__topbar">
+              <span class="map__dot map__dot--r"></span><span class="map__dot map__dot--y"></span><span class="map__dot map__dot--g"></span>
+              <span class="map__url">maploti.app/map</span>
+            </div>
+            <div class="map__canvas" id="mapShowcase">
+              <div class="map__gridlines"></div>
+              <div class="map__road map__road--1"></div>
+              <div class="map__road map__road--2"></div>
+              <div class="map__road map__road--3"></div>
+              <div class="map__river"></div>
+              <!-- Static fallback pins: replaced with real county hotspots
+                   when live listings load. -->
+              <div class="map__pin map__pin--1"><i></i><span class="map__tooltip">Karen · KES 48.5M</span></div>
+              <div class="map__pin map__pin--2"><i></i><span class="map__tooltip">Westlands · KES 95K/mo</span></div>
+              <div class="map__pin map__pin--3"><i></i><span class="map__tooltip">Kilimani · KES 62K/mo</span></div>
+              <div class="map__pin map__pin--4"><i></i><span class="map__tooltip">Lavington · KES 38M</span></div>
+              <div class="map__pin map__pin--5"><i></i><span class="map__tooltip">Runda · KES 120M</span></div>
+              <div class="map__zoom map__zoom--in" aria-hidden="true">+</div>
+              <div class="map__zoom map__zoom--out" aria-hidden="true">−</div>
+              <div class="map__badge" id="mapBadge">● Live listings</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="map__copy reveal reveal--delay-1">
+          <p class="eyebrow">Map View</p>
+          <h2 class="heading">Every listing.<br />One map. Zero guesswork.</h2>
+          <p class="map__text">
+            Switch between list and map anytime. Clusters show the hotspots, pins open full
+            listings, and the live counter keeps you honest about how hot a neighbourhood really is.
+          </p>
+          <ul class="map__points">
+            <li>
+              <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 10 3 3 7-7"/></svg>
+              Live clustering across every neighbourhood
+            </li>
+            <li>
+              <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 10 3 3 7-7"/></svg>
+              Pin → full listing with photos &amp; specs
+            </li>
+            <li>
+              <svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 10 3 3 7-7"/></svg>
+              Instant WhatsApp contact from any pin
+            </li>
+          </ul>
+          <a href="map.html" class="btn btn--accent">Explore the Map</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ HOW IT WORKS ══════════════ -->
+    <section class="section section--soft" id="how">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">How it works</p>
+          <h2 class="heading">From search to keys<br />in three steps</h2>
+        </div>
+
+        <div class="steps">
+          <article class="step reveal">
+            <span class="step__num mono">01</span>
+            <h3 class="step__title">Explore</h3>
+            <p class="step__text">Search by location, type or budget. Filter by bedrooms, parking and size until the list feels right.</p>
+          </article>
+          <article class="step reveal reveal--delay-1">
+            <span class="step__num mono">02</span>
+            <h3 class="step__title">Verify</h3>
+            <p class="step__text">Every listing carries real photos, exact specs and a verified owner profile. What you see is what you get.</p>
+          </article>
+          <article class="step reveal reveal--delay-2">
+            <span class="step__num mono">03</span>
+            <h3 class="step__title">Connect</h3>
+            <p class="step__text">Call or WhatsApp the agent directly from the listing. Arrange a visit and close the deal — on your terms.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ TESTIMONIALS ══════════════ -->
+    <section class="section" id="voices">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">Voices</p>
+          <h2 class="heading">Loved by renters<br />and owners alike</h2>
+        </div>
+
+        <!-- ⚠ SAMPLE REVIEWS — replace these three cards with real
+             customer testimonials (name, neighbourhood, quote) before
+             launch. Never ship fabricated reviews. -->
+        <div class="testi">
+          <article class="testi__card reveal">
+            <div class="testi__stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi__quote">
+              “Found a two-bedroom in Kilimani within a day. The WhatsApp contact
+              meant I talked straight to the owner — no agents, no viewing fees.”
+            </p>
+            <div class="testi__who">
+              <span class="testi__avatar">AW</span>
+              <div>
+                <div class="testi__name">Amina Wanjiru</div>
+                <div class="testi__meta">Rented in Kilimani, Nairobi</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="testi__card reveal reveal--delay-1">
+            <div class="testi__stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi__quote">
+              “I listed my plot on a Tuesday and had three serious buyers by Friday.
+              The live map put it in front of people who were actually looking.”
+            </p>
+            <div class="testi__who">
+              <span class="testi__avatar">JO</span>
+              <div>
+                <div class="testi__name">John Otieno</div>
+                <div class="testi__meta">Sold land in Syokimau</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="testi__card reveal reveal--delay-2">
+            <div class="testi__stars" aria-label="5 out of 5 stars">★★★★★</div>
+            <p class="testi__quote">
+              “The photos matched the house exactly. No fake listings, no middlemen.
+              This is how house-hunting should work in Kenya.”
+            </p>
+            <div class="testi__who">
+              <span class="testi__avatar">GM</span>
+              <div>
+                <div class="testi__name">Grace Muthoni</div>
+                <div class="testi__meta">Bought a house in Ruiru</div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ FAQ ══════════════ -->
+    <section class="section section--soft" id="faq">
+      <div class="container">
+        <div class="section__head reveal">
+          <p class="eyebrow">FAQ</p>
+          <h2 class="heading">Common questions,<br />straight answers</h2>
+        </div>
+
+        <div class="faq reveal">
+          <details>
+            <summary>Is Maploti really free to use?</summary>
+            <p>Yes. Browsing, searching, saving favourites and contacting owners or agents costs nothing. There are no viewing fees, no hidden charges and no subscriptions for buyers and renters.</p>
+          </details>
+          <details>
+            <summary>How do I know a listing is genuine?</summary>
+            <p>Every listing shows real photos, exact specs and the owner or agent behind it. Verified listings carry a badge, and because you contact the seller directly on WhatsApp or phone, you can confirm everything before you visit.</p>
+          </details>
+          <details>
+            <summary>How do I contact the owner or agent?</summary>
+            <p>Open any listing and tap Call or WhatsApp — it goes straight to the person who listed it. No forms, no waiting, no middlemen passing your details around.</p>
+          </details>
+          <details>
+            <summary>How do I list my own property?</summary>
+            <p>Create a free account, then publish straight to the map — photos, price, location and specs in minutes. Your listing goes live instantly on the website and the mobile app.</p>
+          </details>
+          <details>
+            <summary>Do you charge owners or agents?</summary>
+            <p>Listing a property on Maploti is free. We may introduce optional promotional features in future, but the core platform stays free for everyone.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ APP SHOWCASE ══════════════ -->
+    <section class="section" id="app">
+      <div class="container app__grid">
+        <div class="app__copy reveal">
+          <p class="eyebrow">The App</p>
+          <h2 class="heading">Your pocket<br />property agent</h2>
+          <p class="app__text">
+            The full Maploti experience lives in your pocket — a five-tab app built for speed:
+            Home, Search, Map, Saved and Profile. Browse, filter, heart and connect on the go.
+          </p>
+
+          <div class="app__tabs" role="list">
+            <div class="app__tab" role="listitem">
+              <span class="app__tab-ic">⌂</span>
+              <div><strong>Home</strong><span>Featured &amp; recent picks</span></div>
+            </div>
+            <div class="app__tab" role="listitem">
+              <span class="app__tab-ic">⌕</span>
+              <div><strong>Search</strong><span>Deep filters, instant results</span></div>
+            </div>
+            <div class="app__tab" role="listitem">
+              <span class="app__tab-ic">◈</span>
+              <div><strong>Map</strong><span>Pins across all counties</span></div>
+            </div>
+            <div class="app__tab" role="listitem">
+              <span class="app__tab-ic">♥</span>
+              <div><strong>Saved</strong><span>Your shortlist, synced</span></div>
+            </div>
+            <div class="app__tab" role="listitem">
+              <span class="app__tab-ic">●</span>
+              <div><strong>Profile</strong><span>Your listings &amp; activity</span></div>
+            </div>
+          </div>
+
+          <p class="app__note">
+            Download the Maploti app for the full five-tab experience — Home, Search, Map, Saved &amp; Profile.
+          </p>
+        </div>
+
+        <div class="phone reveal reveal--delay-1" aria-hidden="true">
+          <div class="phone__frame">
+            <div class="phone__notch"></div>
+            <div class="phone__screen">
+              <div class="ph-status">
+                <span>9:41</span>
+                <span class="ph-status__icons">▂▄▆ ▮</span>
+              </div>
+
+              <div class="ph-appbar">
+                <span class="ph-logo">M</span>
+                <span class="ph-brand">MAPLOTI</span>
+                <span class="ph-avatar">J</span>
+              </div>
+
+              <div class="ph-search">
+                <span>⌕</span> Search by location, area…
+                <span class="ph-search__tune">≡</span>
+              </div>
+
+              <div class="ph-chips">
+                <span class="ph-chip ph-chip--on">All</span>
+                <span class="ph-chip">Apartments</span>
+                <span class="ph-chip">Houses</span>
+                <span class="ph-chip">Plots</span>
+                <span class="ph-chip">Villas</span>
+              </div>
+
+              <p class="ph-eyebrow">Featured</p>
+
+              <!-- Static fallback cards: replaced with real featured
+                   listings when live data loads. -->
+              <div class="ph-cards" id="phoneCards">
+                <div class="ph-card">
+                  <div class="ph-card__img">
+                    <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=600&auto=format&fit=crop" alt="" />
+                    <span class="ph-card__price">KES 48.5M</span>
+                    <span class="ph-card__badge">FOR SALE</span>
+                  </div>
+                  <div class="ph-card__body">
+                    <p class="ph-card__title">Sunset Ridge Villa</p>
+                    <p class="ph-card__loc">▣ Karen, Nairobi</p>
+                    <p class="ph-card__specs">🛏 5&ensp;🛁 6&ensp;▦ 780</p>
+                  </div>
+                </div>
+                <div class="ph-card">
+                  <div class="ph-card__img">
+                    <img src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?q=80&w=600&auto=format&fit=crop" alt="" />
+                    <span class="ph-card__price">KES 95K/mo</span>
+                    <span class="ph-card__badge ph-card__badge--rent">FOR RENT</span>
+                  </div>
+                  <div class="ph-card__body">
+                    <p class="ph-card__title">Westlands Sky Apartment</p>
+                    <p class="ph-card__loc">▣ Westlands, Nairobi</p>
+                    <p class="ph-card__specs">🛏 2&ensp;🛁 2&ensp;▦ 120</p>
+                  </div>
+                </div>
+              </div>
+
+              <p class="ph-eyebrow">Recent Listings</p>
+
+              <div class="ph-tabs">
+                <span class="ph-tab ph-tab--on">⌂ Home</span>
+                <span class="ph-tab">⌕ Search</span>
+                <span class="ph-tab">◈ Map</span>
+                <span class="ph-tab">♥ Saved</span>
+                <span class="ph-tab">● Me</span>
+              </div>
+            </div>
+          </div>
+          <p class="phone__caption mono">maploti.app — Home screen</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ CTA ══════════════ -->
+    <section class="cta" id="cta">
+      <div class="cta__glow"></div>
+      <div class="container cta__inner reveal">
+        <p class="eyebrow">Ready when you are</p>
+        <h2 class="display display--cta">Your plot<br />awaits</h2>
+        <p class="cta__sub">
+          Whether you're hunting for your first apartment or listing your own land —
+          Maploti puts the whole country at your fingertips.
+        </p>
+        <div class="cta__btns">
+          <a href="listings.html" class="btn btn--accent btn--lg">Browse Properties</a>
+          <a href="login.html" class="btn btn--outline btn--lg">List Your Property</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="#top" class="brand">
+            <span class="brand__mark">M</span>
+            <span class="brand__word">MAPLOTI</span>
+          </a>
+          <p class="footer__tag">Find, save and list properties across Kenya.</p>
+          <div class="footer__socials">
+            <a href="#" aria-label="X / Twitter">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L1.6 2H8l4.4 5.9L18.9 2Zm-1.1 18h1.7L7.1 3.9H5.3L17.8 20Z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M14 8.5V6.8c0-.8.2-1.3 1.3-1.3H17V2.1h-2.6C11.4 2.1 10 3.7 10 6.4v2.1H8V12h2v9h4v-9h2.7l.3-3.5h-3Z"/></svg>
+            </a>
+            <a href="#" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M23 7.5s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.4-1C16.7 4 12 4 12 4s-4.7 0-7.7.2c-.5.1-1.5.1-2.4 1-.7.7-.9 2.3-.9 2.3S.8 9.4.8 11.3v1.4c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.6 1 1.9.2 7.5.2 7.5.2s4.7 0 7.7-.3c.5-.1 1.5-.1 2.4-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8v-1.4c0-1.8-.2-3.7-.2-3.7ZM9.7 15.4V8.6l6.2 3.4-6.2 3.4Z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <h4>Product</h4>
+          <a href="listings.html">Properties</a>
+          <a href="map.html">Map</a>
+          <a href="index.html#app">The App</a>
+          <a href="login.html">List a property</a>
+        </div>
+        <div class="footer__col">
+          <h4>Company</h4>
+          <a href="#how">About Maploti</a>
+          <a href="#app">Get the app</a>
+          <a href="mailto:hello@maploti.app">Contact</a>
+        </div>
+        <div class="footer__col">
+          <h4>Legal</h4>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="cookies.html">Cookie Policy</a>
+        </div>
+      </div>
+
+      <div class="footer__bar">
+        <span>© 2026 Maploti · Nairobi, Kenya</span>
+        <span class="footer__made">Made in Kenya 🇰🇪</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/firebase.js?v=4"></script>
+  <script src="js/data.js?v=4"></script>
+  <script src="js/user.js?v=4"></script>
+  <script src="js/site.js?v=4"></script>
+  <script src="js/main.js?v=4"></script>
+</body>
+</html>

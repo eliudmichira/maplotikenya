@@ -57,10 +57,10 @@ const HomeMobile = () => {
   ];
 
   const propertyTypes = [
-    { icon: <Building className="w-5 h-5" />, name: "Apartments", count: "2,500+", color: "from-[#51faaa] to-[#45e695]", path: "/search?type=apartment" },
-    { icon: <Home className="w-5 h-5" />, name: "Houses", count: "1,800+", color: "from-[#51faaa] to-[#3dd88a]", path: "/search?type=house" },
-    { icon: <Building className="w-5 h-5" />, name: "Villas", count: "500+", color: "from-[#51faaa] to-[#35ca7f]", path: "/search?type=villa" },
-    { icon: <TreePine className="w-5 h-5" />, name: "Land", count: "200+", color: "from-[#51faaa] to-[#2dbc74]", path: "/search?type=land" }
+    { icon: <Building className="w-5 h-5" />, name: "Apartments", count: "2,500+", color: "from-[#000000] to-[#45e695]", path: "/search?type=apartment" },
+    { icon: <Home className="w-5 h-5" />, name: "Houses", count: "1,800+", color: "from-[#000000] to-[#fbbf24]", path: "/search?type=house" },
+    { icon: <Building className="w-5 h-5" />, name: "Villas", count: "500+", color: "from-[#000000] to-[#35ca7f]", path: "/search?type=villa" },
+    { icon: <TreePine className="w-5 h-5" />, name: "Land", count: "200+", color: "from-[#000000] to-[#2dbc74]", path: "/search?type=land" }
   ];
 
   const handleSearch = () => {
@@ -159,7 +159,7 @@ const HomeMobile = () => {
           </p>
           <button
             onClick={() => refetchFeatured()}
-            className="px-6 py-2 bg-[#51faaa] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors flex items-center gap-2 mx-auto"
+            className="px-6 py-2 bg-[#000000] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors flex items-center gap-2 mx-auto"
           >
             <RefreshCw className="w-4 h-4" />
             Try Again
@@ -187,11 +187,11 @@ const HomeMobile = () => {
       >
         <div className="flex items-center justify-between px-4 py-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-[#51faaa] to-[#45e695] rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#000000] to-[#45e695] rounded-xl flex items-center justify-center shadow-lg">
               <Home className="w-6 h-6 text-[#111]" />
             </div>
             <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-[#51faaa] via-[#45e695] to-[#3dd88a] bg-clip-text text-transparent">
+              <h1 className="text-xl font-bold bg-gradient-to-r from-[#000000] via-[#45e695] to-[#fbbf24] bg-clip-text text-transparent">
               RentBuyKenya
             </h1>
               <p className="text-xs text-gray-300">
@@ -223,11 +223,11 @@ const HomeMobile = () => {
               whileTap={{ scale: 0.9 }}
             >
               {currentUser ? (
-                <div className="relative w-12 h-12 rounded-full transition-all duration-300 bg-gradient-to-br from-[#51faaa] via-[#45e695] to-[#3dd88a] shadow-lg shadow-[#51faaa]/20">
+                <div className="relative w-12 h-12 rounded-full transition-all duration-300 bg-gradient-to-br from-[#000000] via-[#45e695] to-[#fbbf24] shadow-lg shadow-[#000000]/20">
                   <div className="absolute -inset-1 rounded-full pointer-events-none opacity-80" style={{background: "transparent", border: "1.5px solid rgba(0, 0, 0, 0.25)"}}></div>
-                  <div className="absolute inset-2 bg-gradient-to-br from-[#51faaa] via-[#45e695] to-[#3dd88a] rounded-full"></div>
-                  <div className="absolute inset-2 bg-gradient-to-br from-[#51faaa] via-[#45e695] to-[#3dd88a] rounded-full"></div>
-                  <div className="absolute inset-3 bg-gradient-to-br from-[#51faaa] via-[#45e695] to-[#3dd88a] rounded-full opacity-60"></div>
+                  <div className="absolute inset-2 bg-gradient-to-br from-[#000000] via-[#45e695] to-[#fbbf24] rounded-full"></div>
+                  <div className="absolute inset-2 bg-gradient-to-br from-[#000000] via-[#45e695] to-[#fbbf24] rounded-full"></div>
+                  <div className="absolute inset-3 bg-gradient-to-br from-[#000000] via-[#45e695] to-[#fbbf24] rounded-full opacity-60"></div>
                   <div className="relative z-10 flex items-center justify-center w-full h-full text-white">
                     <span className="text-lg font-bold text-[#111]">
                       {currentUser.email?.charAt(0).toUpperCase()}
@@ -243,7 +243,7 @@ const HomeMobile = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-[#51faaa] to-[#45e695] px-4 py-8">
+      <section className="bg-gradient-to-br from-[#000000] to-[#45e695] px-4 py-8">
         <div className="text-center text-white">
           <h2 className="text-2xl font-bold mb-2">Find Your Perfect Home in Kenya</h2>
           <p className="text-lg mb-6 opacity-90">
@@ -260,7 +260,7 @@ const HomeMobile = () => {
                   placeholder="Location"
                   value={searchData.location}
                   onChange={(e) => setSearchData(prev => ({ ...prev, location: e.target.value }))}
-                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                 />
               </div>
               
@@ -268,7 +268,7 @@ const HomeMobile = () => {
                 <select
                   value={searchData.propertyType}
                   onChange={(e) => setSearchData(prev => ({ ...prev, propertyType: e.target.value }))}
-                  className="px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                  className="px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                 >
                   <option value="">Property Type</option>
                   <option value="apartment">Apartment</option>
@@ -280,7 +280,7 @@ const HomeMobile = () => {
                 <select
                   value={searchData.priceRange}
                   onChange={(e) => setSearchData(prev => ({ ...prev, priceRange: e.target.value }))}
-                  className="px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                  className="px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                 >
                   <option value="">Price Range</option>
                   <option value="0-50000">Under Ksh 50,000</option>
@@ -317,7 +317,7 @@ const HomeMobile = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center border border-gray-200 dark:border-gray-700"
             >
-              <div className="flex items-center justify-center w-12 h-12 bg-[#51faaa] rounded-lg mx-auto mb-3">
+              <div className="flex items-center justify-center w-12 h-12 bg-[#000000] rounded-lg mx-auto mb-3">
                 {stat.icon}
               </div>
               <div className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
@@ -354,7 +354,7 @@ const HomeMobile = () => {
               <div className="font-semibold text-gray-900 dark:text-white mb-1">
                 {type.name}
               </div>
-              <div className="text-sm text-[#51faaa] font-medium">
+              <div className="text-sm text-[#000000] font-medium">
                 {type.count}
               </div>
             </motion.button>
@@ -370,7 +370,7 @@ const HomeMobile = () => {
           </h3>
           <button
             onClick={() => navigate('/search')}
-            className="text-[#51faaa] font-medium flex items-center gap-1 hover:underline"
+            className="text-[#000000] font-medium flex items-center gap-1 hover:underline"
           >
             View All
             <ChevronRight className="w-4 h-4" />
@@ -379,7 +379,7 @@ const HomeMobile = () => {
         
         {featuredLoading ? (
           <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-8 h-8 text-[#51faaa] animate-spin" />
+            <Loader2 className="w-8 h-8 text-[#000000] animate-spin" />
           </div>
         ) : featuredProperties.length > 0 ? (
           <div className="space-y-4">
@@ -423,7 +423,7 @@ const HomeMobile = () => {
                     </div>
                     
                     <div className="flex items-center justify-between mb-2">
-                      <div className="text-base font-bold text-[#51faaa]">
+                      <div className="text-base font-bold text-[#000000]">
                         {formatPrice(property.price)}
                       </div>
                       {property.rating && (
@@ -454,7 +454,7 @@ const HomeMobile = () => {
                     <div className="flex gap-2">
                       <button 
                         onClick={() => handleFeaturedPropertyClick(property.id)}
-                        className="flex-1 bg-[#51faaa] text-[#111] py-2 rounded-lg text-xs font-medium hover:bg-[#45e695] transition-colors"
+                        className="flex-1 bg-[#000000] text-[#111] py-2 rounded-lg text-xs font-medium hover:bg-[#45e695] transition-colors"
                       >
                         View Details
                       </button>
@@ -481,7 +481,7 @@ const HomeMobile = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="px-4 py-8 bg-gradient-to-r from-[#51faaa] to-[#45e695]">
+      <section className="px-4 py-8 bg-gradient-to-r from-[#000000] to-[#45e695]">
         <div className="text-center text-white">
           <h3 className="text-xl font-bold mb-3">Ready to Find Your Dream Home?</h3>
           <p className="mb-6 opacity-90">Start your journey today</p>
@@ -525,11 +525,11 @@ const HomeMobile = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <div className="relative w-12 h-12 rounded-full transition-all duration-300 bg-gradient-to-br from-[#51faaa] via-[#45e695] to-[#3dd88a] shadow-lg shadow-[#51faaa]/20">
+            <div className="relative w-12 h-12 rounded-full transition-all duration-300 bg-gradient-to-br from-[#000000] via-[#45e695] to-[#fbbf24] shadow-lg shadow-[#000000]/20">
               <div className="absolute -inset-1 rounded-full pointer-events-none opacity-80" style={{background: "transparent", border: "1.5px solid rgba(0, 0, 0, 0.25)"}}></div>
-              <div className="absolute inset-2 bg-gradient-to-br from-[#51faaa] via-[#45e695] to-[#3dd88a] rounded-full"></div>
-              <div className="absolute inset-2 bg-gradient-to-br from-[#51faaa] via-[#45e695] to-[#3dd88a] rounded-full"></div>
-              <div className="absolute inset-3 bg-gradient-to-br from-[#51faaa] via-[#45e695] to-[#3dd88a] rounded-full opacity-60"></div>
+              <div className="absolute inset-2 bg-gradient-to-br from-[#000000] via-[#45e695] to-[#fbbf24] rounded-full"></div>
+              <div className="absolute inset-2 bg-gradient-to-br from-[#000000] via-[#45e695] to-[#fbbf24] rounded-full"></div>
+              <div className="absolute inset-3 bg-gradient-to-br from-[#000000] via-[#45e695] to-[#fbbf24] rounded-full opacity-60"></div>
               <div className="relative z-10 flex items-center justify-center w-full h-full text-white">
                 <Home className="w-6 h-6" />
               </div>
@@ -568,14 +568,14 @@ const HomeMobile = () => {
                 className="absolute inset-0 rounded-full"
                 animate={{
                   background: [
-                    "linear-gradient(45deg, #51faaa, #45e695, #3dd88a, #35ca7f)",
-                    "linear-gradient(90deg, #45e695, #3dd88a, #35ca7f, #51faaa)",
-                    "linear-gradient(135deg, #3dd88a, #35ca7f, #51faaa, #45e695)",
-                    "linear-gradient(180deg, #35ca7f, #51faaa, #45e695, #3dd88a)",
-                    "linear-gradient(225deg, #51faaa, #45e695, #3dd88a, #35ca7f)",
-                    "linear-gradient(270deg, #45e695, #3dd88a, #35ca7f, #51faaa)",
-                    "linear-gradient(315deg, #3dd88a, #35ca7f, #51faaa, #45e695)",
-                    "linear-gradient(360deg, #35ca7f, #51faaa, #45e695, #3dd88a)"
+                    "linear-gradient(45deg, #000000, #45e695, #fbbf24, #35ca7f)",
+                    "linear-gradient(90deg, #45e695, #fbbf24, #35ca7f, #000000)",
+                    "linear-gradient(135deg, #fbbf24, #35ca7f, #000000, #45e695)",
+                    "linear-gradient(180deg, #35ca7f, #000000, #45e695, #fbbf24)",
+                    "linear-gradient(225deg, #000000, #45e695, #fbbf24, #35ca7f)",
+                    "linear-gradient(270deg, #45e695, #fbbf24, #35ca7f, #000000)",
+                    "linear-gradient(315deg, #fbbf24, #35ca7f, #000000, #45e695)",
+                    "linear-gradient(360deg, #35ca7f, #000000, #45e695, #fbbf24)"
                   ]
                 }}
                 transition={{
@@ -597,7 +597,7 @@ const HomeMobile = () => {
                   ease: "linear"
                 }}
                 style={{
-                  background: "conic-gradient(from 0deg, #51faaa, #45e695, #51faaa)",
+                  background: "conic-gradient(from 0deg, #000000, #45e695, #000000)",
                   mask: "radial-gradient(circle, transparent 60%, black 70%)",
                   WebkitMask: "radial-gradient(circle, transparent 60%, black 70%)"
                 }}
@@ -608,9 +608,9 @@ const HomeMobile = () => {
                 className="absolute -inset-2 rounded-full pointer-events-none opacity-80"
                 animate={{
                   boxShadow: [
-                    "0 0 15px rgba(81, 250, 170, 0.5), 0 0 30px rgba(69, 230, 149, 0.35), 0 0 45px rgba(61, 216, 138, 0.25)",
+                    "0 0 15px rgba(251, 191, 36, 0.5), 0 0 30px rgba(69, 230, 149, 0.35), 0 0 45px rgba(61, 216, 138, 0.25)",
                     "0 0 18px rgba(69, 230, 149, 0.5), 0 0 36px rgba(61, 216, 138, 0.35), 0 0 54px rgba(53, 202, 127, 0.25)",
-                    "0 0 15px rgba(81, 250, 170, 0.5), 0 0 30px rgba(69, 230, 149, 0.35), 0 0 45px rgba(61, 216, 138, 0.25)"
+                    "0 0 15px rgba(251, 191, 36, 0.5), 0 0 30px rgba(69, 230, 149, 0.35), 0 0 45px rgba(61, 216, 138, 0.25)"
                   ]
                 }}
                 transition={{

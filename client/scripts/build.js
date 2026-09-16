@@ -4,11 +4,11 @@ import path from 'path';
 
 const environment = process.env.NODE_ENV || 'production';
 
-console.log(`🚀 Building for ${environment} environment...`);
+console.log(`ðŸš€ Building for ${environment} environment...`);
 
 // Clean previous build
 if (fs.existsSync('dist')) {
-  console.log('🧹 Cleaning previous build...');
+  console.log('ðŸ§¹ Cleaning previous build...');
   fs.rmSync('dist', { recursive: true, force: true });
 }
 
@@ -16,9 +16,9 @@ if (fs.existsSync('dist')) {
 process.env.NODE_ENV = environment;
 
 // Load environment variables
-const envFile = fs.existsSync('.env.production') ? '.env.production' : 'env-dwellmate-updated';
+const envFile = fs.existsSync('.env.production') ? '.env.production' : 'env-MaplotiKenya-updated';
 if (fs.existsSync(envFile)) {
-  console.log('📋 Loading environment variables from', envFile);
+  console.log('ðŸ“‹ Loading environment variables from', envFile);
   const envContent = fs.readFileSync(envFile, 'utf8');
   const envLines = envContent.split('\n');
 
@@ -29,12 +29,12 @@ if (fs.existsSync(envFile)) {
       if (key && valueParts.length > 0) {
         const value = valueParts.join('=');
         process.env[key] = value;
-        console.log(`✅ Set ${key}=${value.substring(0, 20)}...`);
+        console.log(`âœ… Set ${key}=${value.substring(0, 20)}...`);
       }
     }
   });
 } else {
-  console.log('⚠️ Environment file not found, using defaults');
+  console.log('âš ï¸ Environment file not found, using defaults');
 }
 
 // Set production API URL and ensure all required env vars are set
@@ -56,35 +56,35 @@ if (environment === 'production') {
 
   const missingVars = requiredEnvVars.filter(key => !process.env[key]);
   if (missingVars.length > 0) {
-    console.error('❌ Missing required environment variables:', missingVars);
+    console.error('âŒ Missing required environment variables:', missingVars);
     console.error('Please ensure all VITE_ variables are set in your environment');
     process.exit(1);
   }
 
-  console.log('✅ All required environment variables are present');
+  console.log('âœ… All required environment variables are present');
 }
 
 try {
   // Build the application
-  console.log('📦 Building application...');
+  console.log('ðŸ“¦ Building application...');
   execSync('npm run build', { stdio: 'inherit' });
 
   // Copy environment-specific files
   if (environment === 'production') {
-    console.log('📋 Copying production files...');
+    console.log('ðŸ“‹ Copying production files...');
     if (fs.existsSync('public/_redirects')) {
       fs.copyFileSync('public/_redirects', 'dist/_redirects');
     }
   }
 
-  console.log('✅ Build completed successfully!');
-  console.log('📁 Build output: dist/');
+  console.log('âœ… Build completed successfully!');
+  console.log('ðŸ“ Build output: dist/');
 
   // Show build stats
   const stats = fs.statSync('dist');
-  console.log(`📊 Build size: ${(stats.size / 1024 / 1024).toFixed(2)} MB`);
+  console.log(`ðŸ“Š Build size: ${(stats.size / 1024 / 1024).toFixed(2)} MB`);
 
 } catch (error) {
-  console.error('❌ Build failed:', error.message);
+  console.error('âŒ Build failed:', error.message);
   process.exit(1);
 }

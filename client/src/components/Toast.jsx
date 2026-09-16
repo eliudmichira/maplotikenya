@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Check, AlertCircle, X, Info } from 'lucide-react';
 import { createRoot } from 'react-dom/client';
 

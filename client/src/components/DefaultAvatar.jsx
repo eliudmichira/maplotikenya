@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { useTheme } from '../context/ThemeContext';
 
 const DefaultAvatar = ({ 
@@ -28,15 +28,15 @@ const DefaultAvatar = ({
 
   // Generate a consistent color based on name
   const getColorFromName = (name) => {
-    if (!name) return 'from-[#51faaa] to-[#dbd5a4]';
+    if (!name) return 'from-[#fbbf24] to-[#f59e0b]';
     
     const colors = [
-      'from-[#51faaa] to-[#dbd5a4]',
-      'from-[#dbd5a4] to-[#51faaa]',
-      'from-[#51faaa] to-[#45e595]',
-      'from-[#45e595] to-[#51faaa]',
-      'from-[#dbd5a4] to-[#45e595]',
-      'from-[#45e595] to-[#dbd5a4]'
+      'from-[#fbbf24] to-[#f59e0b]',
+      'from-[#fbbf24] to-[#f59e0b]',
+      'from-[#000000] to-[#45e595]',
+      'from-[#45e595] to-[#000000]',
+      'from-[#f0f0f0] to-[#45e595]',
+      'from-[#45e595] to-[#f0f0f0]'
     ];
     
     const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
@@ -53,18 +53,18 @@ const DefaultAvatar = ({
         rounded-full 
         bg-gradient-to-br ${gradientClass}
         flex items-center justify-center 
-        font-bold text-[#0a0c19]
+        font-bold text-[#000000]
         shadow-lg
         animate-pulse
         border-2 border-white/20
-        ${isDark ? 'border-[#51faaa]/20' : 'border-gray-200'}
+        ${isDark ? 'border-[#fbbf24]/20' : 'border-gray-200'}
       `}>
         {initials}
       </div>
       
       {showVerification && (
-        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#51faaa] rounded-full flex items-center justify-center border-2 border-white shadow-lg">
-          <svg className="w-3 h-3 text-[#0a0c19]" fill="currentColor" viewBox="0 0 20 20">
+        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#000000] rounded-full flex items-center justify-center border-2 border-white shadow-lg">
+          <svg className="w-3 h-3 text-[#000000]" fill="currentColor" viewBox="0 0 20 20">
             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
           </svg>
         </div>

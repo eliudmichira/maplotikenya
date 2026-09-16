@@ -1,13 +1,13 @@
-@echo off
+﻿@echo off
 echo ========================================
 echo   FINAL CORS FIX FOR PROPERTY UPLOADS
 echo ========================================
 echo.
 
 echo Status Check:
-echo ✅ Firebase Storage: ENABLED
-echo ✅ Storage Rules: DEPLOYED
-echo 🔄 CORS Configuration: NEEDS TO BE APPLIED
+echo âœ… Firebase Storage: ENABLED
+echo âœ… Storage Rules: DEPLOYED
+echo ðŸ”„ CORS Configuration: NEEDS TO BE APPLIED
 echo.
 
 echo Step 1: Install Google Cloud SDK
@@ -28,7 +28,7 @@ if %errorlevel% neq 0 (
     start https://cloud.google.com/sdk/docs/install
     exit /b 1
 ) else (
-    echo ✅ Google Cloud SDK is installed
+    echo âœ… Google Cloud SDK is installed
 )
 
 echo.
@@ -41,26 +41,26 @@ gcloud auth login
 echo.
 echo Step 3: Set Firebase Project
 echo ============================
-gcloud config set project dwellmate-285e8
+gcloud config set project maploti
 
 echo.
 echo Step 4: Apply CORS Configuration
 echo ================================
 echo.
 echo Applying CORS configuration to Firebase Storage...
-gsutil cors set cors.json gs://dwellmate-285e8.firebasestorage.app
+gsutil cors set cors.json gs://maploti.firebasestorage.app
 
 if %errorlevel% equ 0 (
     echo.
-    echo ✅ CORS configuration applied successfully!
+    echo âœ… CORS configuration applied successfully!
     echo.
     echo Step 5: Verify CORS Configuration
     echo ==================================
     echo.
     echo Current CORS configuration:
-    gsutil cors get gs://dwellmate-285e8.firebasestorage.app
+    gsutil cors get gs://maploti.firebasestorage.app
     echo.
-    echo 🎉 COMPLETE! Your property upload should now work.
+    echo ðŸŽ‰ COMPLETE! Your property upload should now work.
     echo.
     echo Next steps:
     echo 1. Clear your browser cache (Ctrl+Shift+Delete)
@@ -70,7 +70,7 @@ if %errorlevel% equ 0 (
     echo The CORS error should be completely resolved!
 ) else (
     echo.
-    echo ❌ Failed to apply CORS configuration
+    echo âŒ Failed to apply CORS configuration
     echo.
     echo Troubleshooting:
     echo 1. Make sure you're authenticated: gcloud auth list

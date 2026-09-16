@@ -14,7 +14,7 @@ export const reviewsAPI = {
     // Add a new review
     async addReview(propertyId, reviewData) {
         try {
-            const reviewsRef = collection(db, 'properties', propertyId, 'reviews');
+            const reviewsRef = collection(db, 'listings', propertyId, 'reviews');
             const docRef = await addDoc(reviewsRef, {
                 ...reviewData,
                 createdAt: new Date().toISOString(),
@@ -30,7 +30,7 @@ export const reviewsAPI = {
     // Get all reviews for a property
     async getReviews(propertyId) {
         try {
-            const reviewsRef = collection(db, 'properties', propertyId, 'reviews');
+            const reviewsRef = collection(db, 'listings', propertyId, 'reviews');
             const q = query(reviewsRef, orderBy('createdAt', 'desc'));
             const snapshot = await getDocs(q);
             return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
@@ -43,7 +43,7 @@ export const reviewsAPI = {
     // Mark review as helpful
     async markHelpful(propertyId, reviewId) {
         try {
-            const reviewRef = doc(db, 'properties', propertyId, 'reviews', reviewId);
+            const reviewRef = doc(db, 'listings', propertyId, 'reviews', reviewId);
             await updateDoc(reviewRef, {
                 helpful: increment(1)
             });

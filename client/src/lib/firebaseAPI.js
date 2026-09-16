@@ -1,4 +1,4 @@
-import {
+﻿import {
   collection,
   doc,
   getDocs,
@@ -26,7 +26,7 @@ import {
 import { db, storage } from './firebase';
 import { getCountyFromCoords, getGeohash } from '../utils/locationUtils';
 
-// Dev-only logger — keeps the production console clean. console.error/warn are left intact.
+// Dev-only logger â€” keeps the production console clean. console.error/warn are left intact.
 const devLog = (...args) => { if (import.meta.env.DEV) console.log(...args); };
 
 // Properties API
@@ -34,11 +34,11 @@ export const propertiesAPI = {
   // Get all properties with pagination and filters
   getAll: async (params = {}) => {
     try {
-      devLog('🏠 Fetching properties from Firestore...');
+      devLog('ðŸ  Fetching properties from Firestore...');
 
       const {
         page = 1,
-        limit: pageSize = 500,
+        limit: pageSize = 50,
         propertyType,
         minPrice,
         maxPrice,
@@ -50,7 +50,7 @@ export const propertiesAPI = {
         sortOrder = 'desc'
       } = params;
 
-      let q = collection(db, 'properties');
+      let q = collection(db, 'listings');
       const constraints = [];
 
       // Add filters
@@ -66,7 +66,7 @@ export const propertiesAPI = {
       if (bedrooms) {
         constraints.push(where('bedrooms', '>=', bedrooms));
       }
-      // Avoid combining county + geohash range — that requires a composite
+      // Avoid combining county + geohash range â€” that requires a composite
       // Firestore index. If both are present, query only by county and filter
       // geohash client-side after the docs come back.
       const geohashPrefix = geohash ? geohash.substring(0, 5) : null;
@@ -83,18 +83,18 @@ export const propertiesAPI = {
         constraints.push(where('location.city', '==', location));
       }
 
-      // Add pagination — skip orderBy to avoid excluding docs without createdAt
+      // Add pagination â€” skip orderBy to avoid excluding docs without createdAt
       constraints.push(limit(pageSize));
 
       let querySnapshot = await getDocs(query(q, ...constraints));
 
       // If very few results and no filters applied, retry without any constraints (get all)
       if (querySnapshot.size < 5 && constraints.length === 1) {
-        querySnapshot = await getDocs(collection(db, 'properties'));
+        querySnapshot = await getDocs(collection(db, 'listings'));
       }
       const properties = [];
 
-      devLog('📊 Firestore query result:', {
+      devLog('ðŸ“Š Firestore query result:', {
         size: querySnapshot.size,
         empty: querySnapshot.empty,
         hasDocs: querySnapshot.docs.length > 0
@@ -118,7 +118,7 @@ export const propertiesAPI = {
             properties.splice(i, 1);
           }
         }
-        devLog(`📍 Geohash filtered client-side: ${before} → ${properties.length}`);
+        devLog(`ðŸ“ Geohash filtered client-side: ${before} â†’ ${properties.length}`);
       }
 
       // Sort manually if orderBy failed
@@ -130,7 +130,7 @@ export const propertiesAPI = {
         });
       }
 
-      devLog('✅ Properties fetched successfully:', {
+      devLog('âœ… Properties fetched successfully:', {
         count: properties.length,
         firstProperty: properties[0] ? properties[0].title || properties[0].name : 'No properties'
       });
@@ -145,8 +145,8 @@ export const propertiesAPI = {
         }
       };
     } catch (error) {
-      console.error('❌ Error fetching properties:', error);
-      console.error('🔍 Error details:', {
+      console.error('âŒ Error fetching properties:', error);
+      console.error('ðŸ” Error details:', {
         code: error.code,
         message: error.message,
         stack: error.stack
@@ -154,11 +154,11 @@ export const propertiesAPI = {
 
       // Fallback: try without any constraints if the above fails
       try {
-        devLog('🔄 Trying fallback query without any constraints...');
-        const querySnapshot = await getDocs(collection(db, 'properties'));
+        devLog('ðŸ”„ Trying fallback query without any constraints...');
+        const querySnapshot = await getDocs(collection(db, 'listings'));
         const properties = [];
 
-        devLog('📊 Fallback query result:', {
+        devLog('ðŸ“Š Fallback query result:', {
           size: querySnapshot.size,
           empty: querySnapshot.empty
         });
@@ -178,7 +178,7 @@ export const propertiesAPI = {
           return bTime - aTime;
         });
 
-        devLog('✅ Fallback query successful:', {
+        devLog('âœ… Fallback query successful:', {
           count: properties.length
         });
 
@@ -192,10 +192,10 @@ export const propertiesAPI = {
           }
         };
       } catch (fallbackError) {
-        console.error('❌ Fallback query also failed:', fallbackError);
+        console.error('âŒ Fallback query also failed:', fallbackError);
 
         // Return empty result instead of throwing to prevent app crash
-        devLog('🔄 Returning empty properties array to prevent app crash');
+        devLog('ðŸ”„ Returning empty properties array to prevent app crash');
         return {
           properties: [],
           pagination: {
@@ -218,7 +218,7 @@ export const propertiesAPI = {
       let properties = [];
       try {
         const q = query(
-          collection(db, 'properties'),
+          collection(db, 'listings'),
           where('featured', '==', true),
           limit(limitCount)
         );
@@ -254,7 +254,7 @@ export const propertiesAPI = {
         try {
           // Fetch extra to cover any overlap with the featured set before deduping.
           const fallbackQuery = query(
-            collection(db, 'properties'),
+            collection(db, 'listings'),
             limit(limitCount + properties.length)
           );
 
@@ -264,7 +264,7 @@ export const propertiesAPI = {
         } catch (fallbackError) {
           devLog('Fallback query failed, trying basic collection query:', fallbackError.message);
           // Last resort: get all properties without any query constraints
-          const allSnapshot = await getDocs(collection(db, 'properties'));
+          const allSnapshot = await getDocs(collection(db, 'listings'));
           devLog('Basic collection query result:', allSnapshot.size, 'documents found');
           addUntilFull(allSnapshot);
         }
@@ -301,7 +301,7 @@ export const propertiesAPI = {
   // Get property by ID
   getById: async (id) => {
     try {
-      const docRef = doc(db, 'properties', id);
+      const docRef = doc(db, 'listings', id);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -339,7 +339,7 @@ export const propertiesAPI = {
         }
       }
 
-      const docRef = await addDoc(collection(db, 'properties'), {
+      const docRef = await addDoc(collection(db, 'listings'), {
         ...enrichedData,
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp()
@@ -376,7 +376,7 @@ export const propertiesAPI = {
         }
       }
 
-      const docRef = doc(db, 'properties', id);
+      const docRef = doc(db, 'listings', id);
       await updateDoc(docRef, {
         ...enrichedData,
         updatedAt: serverTimestamp()
@@ -392,7 +392,7 @@ export const propertiesAPI = {
   // Delete property
   delete: async (id) => {
     try {
-      await deleteDoc(doc(db, 'properties', id));
+      await deletedoc(doc(db, 'listings', id));
       return { success: true };
     } catch (error) {
       console.error('Error deleting property:', error);
@@ -404,7 +404,7 @@ export const propertiesAPI = {
   search: async (searchTerm) => {
     try {
       const q = query(
-        collection(db, 'properties'),
+        collection(db, 'listings'),
         where('title', '>=', searchTerm),
         where('title', '<=', searchTerm + '\uf8ff')
       );
@@ -544,18 +544,18 @@ export const storageAPI = {
         cacheControl: 'public, max-age=31536000'
       };
 
-      devLog('🔄 Uploading image to path:', path);
-      devLog('📁 File details:', { name: file.name, size: file.size, type: file.type });
+      devLog('ðŸ”„ Uploading image to path:', path);
+      devLog('ðŸ“ File details:', { name: file.name, size: file.size, type: file.type });
 
       const snapshot = await uploadBytes(storageRef, file, metadata);
-      devLog('✅ Upload successful, getting download URL...');
+      devLog('âœ… Upload successful, getting download URL...');
 
       const downloadURL = await getDownloadURL(snapshot.ref);
-      devLog('🔗 Download URL obtained:', downloadURL);
+      devLog('ðŸ”— Download URL obtained:', downloadURL);
 
       return downloadURL;
     } catch (error) {
-      console.error('❌ Error uploading image:', error);
+      console.error('âŒ Error uploading image:', error);
 
       // Provide more specific error messages
       if (error.code === 'storage/unauthorized') {
@@ -765,7 +765,7 @@ export const messagesAPI = {
           let property = null;
           const [userDoc, propertyDoc] = await Promise.all([
             otherParticipantId ? getDoc(doc(db, 'users', otherParticipantId)).catch(() => null) : null,
-            data.propertyId ? getDoc(doc(db, 'properties', data.propertyId)).catch(() => null) : null
+            data.propertyId ? getdoc(doc(db, 'listings', data.propertyId)).catch(() => null) : null
           ]);
           if (userDoc?.exists()) user = { id: userDoc.id, ...userDoc.data() };
           if (propertyDoc?.exists()) property = { id: propertyDoc.id, ...propertyDoc.data() };
@@ -800,7 +800,7 @@ export const messagesAPI = {
         const otherParticipantId = data.participants?.find(id => id !== userId);
         const [userDoc, propertyDoc] = await Promise.all([
           otherParticipantId ? getDoc(doc(db, 'users', otherParticipantId)).catch(() => null) : null,
-          data.propertyId ? getDoc(doc(db, 'properties', data.propertyId)).catch(() => null) : null
+          data.propertyId ? getdoc(doc(db, 'listings', data.propertyId)).catch(() => null) : null
         ]);
         const user = userDoc?.exists() ? { id: userDoc.id, ...userDoc.data() } : null;
         const property = propertyDoc?.exists() ? { id: propertyDoc.id, ...propertyDoc.data() } : null;
@@ -970,7 +970,7 @@ export const accountDashboardAPI = {
     try {
       // Prioritize the direct userId lookup as it's the modern standard
       const q = query(
-        collection(db, 'properties'),
+        collection(db, 'listings'),
         where('userId', '==', userId),
         orderBy('createdAt', 'desc')
       );
@@ -980,7 +980,7 @@ export const accountDashboardAPI = {
         querySnapshot = await getDocs(q);
       } catch (err) {
         // Fallback to non-ordered if index is missing
-        const qFall = query(collection(db, 'properties'), where('userId', '==', userId));
+        const qFall = query(collection(db, 'listings'), where('userId', '==', userId));
         querySnapshot = await getDocs(qFall);
       }
 
@@ -989,7 +989,7 @@ export const accountDashboardAPI = {
 
       // If nothing found by userId, check legacy agent.id field
       if (properties.length === 0) {
-        const qLegacy = query(collection(db, 'properties'), where('agent.id', '==', userId));
+        const qLegacy = query(collection(db, 'listings'), where('agent.id', '==', userId));
         const legacySnap = await getDocs(qLegacy);
         legacySnap.forEach(doc => properties.push({ id: doc.id, ...doc.data() }));
       }
@@ -1232,7 +1232,7 @@ export const accountDashboardAPI = {
 
       // Fetch full property details for each ID
       const propertyDocs = await Promise.all(
-        propertyIds.map(id => getDoc(doc(db, 'properties', id)))
+        propertyIds.map(id => getdoc(doc(db, 'listings', id)))
       );
 
       return propertyDocs
@@ -1247,7 +1247,7 @@ export const accountDashboardAPI = {
   // Get recommended properties for user
   getRecommendedProperties: async (userId) => {
     try {
-      const q = query(collection(db, 'properties'), limit(6));
+      const q = query(collection(db, 'listings'), limit(6));
       const snapshot = await getDocs(q);
       return snapshot.docs.map(doc => ({
         id: doc.id,
@@ -1334,8 +1334,8 @@ export const trialAPI = {
   // Create a new trial signup
   create: async (formData) => {
     try {
-      devLog('🔥 Creating trial signup with Firebase...');
-      devLog('📝 Form data received:', formData);
+      devLog('ðŸ”¥ Creating trial signup with Firebase...');
+      devLog('ðŸ“ Form data received:', formData);
 
       // Generate trial ID and credentials
       const trialId = `trial_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -1356,10 +1356,10 @@ export const trialAPI = {
       };
 
       // Save to Firestore
-      devLog('💾 Saving trial data to Firestore:', trialData);
+      devLog('ðŸ’¾ Saving trial data to Firestore:', trialData);
       const docRef = await addDoc(collection(db, 'trialSignups'), trialData);
-      devLog('✅ Trial signup created with Firestore ID:', docRef.id);
-      devLog('🔑 Generated credentials - Trial ID:', trialId, 'Password:', tempPassword);
+      devLog('âœ… Trial signup created with Firestore ID:', docRef.id);
+      devLog('ðŸ”‘ Generated credentials - Trial ID:', trialId, 'Password:', tempPassword);
 
       // Trigger email sending (this will be handled by Firebase Functions)
       await addDoc(collection(db, 'emailQueue'), {
@@ -1412,7 +1412,7 @@ export const trialAPI = {
         timestamp: serverTimestamp()
       });
 
-      devLog('✅ Trial signup process completed successfully');
+      devLog('âœ… Trial signup process completed successfully');
 
       return {
         success: true,
@@ -1422,7 +1422,7 @@ export const trialAPI = {
       };
 
     } catch (error) {
-      console.error('❌ Error creating trial signup:', error);
+      console.error('âŒ Error creating trial signup:', error);
       throw error;
     }
   },
@@ -1452,7 +1452,7 @@ export const trialAPI = {
       };
 
     } catch (error) {
-      console.error('❌ Error getting trial status:', error);
+      console.error('âŒ Error getting trial status:', error);
       throw error;
     }
   },
@@ -1477,7 +1477,7 @@ export const trialAPI = {
 
       return trials;
     } catch (error) {
-      console.error('❌ Error getting all trials:', error);
+      console.error('âŒ Error getting all trials:', error);
       throw error;
     }
   }

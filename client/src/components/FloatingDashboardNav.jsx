@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
@@ -108,7 +108,7 @@ const FloatingDashboardNav = ({ variant = 'dashboard' }) => {
         }}
         animate={{
           boxShadow: isOpen
-            ? "0 25px 50px -12px rgba(59, 130, 246, 0.25)"
+            ? "0 25px 50px -12px rgba(251, 191, 36, 0.25)"
             : "0 20px 25px -5px rgba(0, 0, 0, 0.1)"
         }}
       >
@@ -129,14 +129,14 @@ const FloatingDashboardNav = ({ variant = 'dashboard' }) => {
         {/* User Avatar */}
         <div className="relative z-10">
           <motion.div
-            className="w-10 h-10 rounded-full bg-gradient-to-br from-[#51faaa] to-[#4fd69c] p-0.5"
+            className="w-10 h-10 rounded-full bg-gradient-to-br from-[#000000] to-[#4fd69c] p-0.5"
             animate={{
               rotate: isOpen ? 15 : 0
             }}
             transition={{ duration: 0.3, type: "spring" }}
           >
             <img
-              src={currentUser?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser?.name || 'User')}&background=51faaa&color=0a0c19`}
+              src={currentUser?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser?.name || 'User')}&background=00b4d8&color=0a0c19`}
               alt={currentUser?.name || 'User'}
               className="w-full h-full rounded-full object-cover"
             />
@@ -164,7 +164,7 @@ const FloatingDashboardNav = ({ variant = 'dashboard' }) => {
           transition={{ duration: 0.3, type: "spring" }}
           className="relative z-10"
         >
-          <ChevronDown className="w-4 h-4 transition-colors duration-300 group-hover:text-[#51faaa]" />
+          <ChevronDown className="w-4 h-4 transition-colors duration-300 group-hover:text-[#000000]" />
         </motion.div>
       </motion.button>
 
@@ -202,13 +202,13 @@ const FloatingDashboardNav = ({ variant = 'dashboard' }) => {
             }}
           >
             {/* Elegant Header */}
-            <div className={`p-6 bg-gradient-to-r from-[#51faaa]/10 to-[#4fd69c]/10 ${isDark ? 'border-b border-gray-700/30' : 'border-b border-gray-200/30'
+            <div className={`p-6 bg-gradient-to-r from-[#000000]/10 to-[#4fd69c]/10 ${isDark ? 'border-b border-gray-700/30' : 'border-b border-gray-200/30'
               }`}>
               <div className="flex items-center gap-4">
                 <div className="relative">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#51faaa] to-[#4fd69c] p-0.5">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#000000] to-[#4fd69c] p-0.5">
                     <img
-                      src={currentUser?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser?.name || 'User')}&background=51faaa&color=0a0c19`}
+                      src={currentUser?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser?.name || 'User')}&background=00b4d8&color=0a0c19`}
                       alt={currentUser?.name || 'User'}
                       className="w-full h-full rounded-full object-cover"
                     />
@@ -265,7 +265,7 @@ const FloatingDashboardNav = ({ variant = 'dashboard' }) => {
                     scale: 1.02,
                     backgroundColor: item.highlight
                       ? (isDark ? 'rgba(168, 85, 247, 0.1)' : 'rgba(168, 85, 247, 0.05)')
-                      : (isDark ? 'rgba(59, 130, 246, 0.1)' : 'rgba(59, 130, 246, 0.05)'),
+                      : (isDark ? 'rgba(251, 191, 36, 0.1)' : 'rgba(251, 191, 36, 0.05)'),
                     transition: { duration: 0.2 }
                   }}
                   whileTap={{
@@ -285,10 +285,10 @@ const FloatingDashboardNav = ({ variant = 'dashboard' }) => {
                     className={`p-2 rounded-xl relative z-10 ${item.highlight
                         ? item.label === 'Admin Panel'
                           ? 'bg-gradient-to-br from-purple-500 to-purple-600 text-white'
-                          : 'bg-gradient-to-br from-[#51faaa] to-[#4fd69c] text-[#0a0c19]'
+                          : 'bg-gradient-to-br from-[#000000] to-[#4fd69c] text-[#000000]'
                         : isDark
-                          ? 'bg-gray-700/50 group-hover:bg-[#51faaa]/20'
-                          : 'bg-gray-100 group-hover:bg-[#51faaa]/20'
+                          ? 'bg-gray-700/50 group-hover:bg-[#000000]/20'
+                          : 'bg-gray-100 group-hover:bg-[#000000]/20'
                       }`}
                     whileHover={{
                       rotate: 5,

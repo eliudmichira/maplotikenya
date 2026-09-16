@@ -1,0 +1,27 @@
+{
+  "rules": {
+    "presence": {
+      "$uid": {
+        // Anyone can read presence (to show online indicators)
+        ".read": true,
+        // Only the owning user can write their own presence
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "saves": {
+      "$uid": {
+        // Only the owning user can read/write their saves
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "events": {
+      "$uid": {
+        // Only the owning user can read their events
+        ".read": "auth != null && auth.uid === $uid",
+        // Any authenticated user can push an event to someone (e.g. inquiry)
+        ".write": "auth != null"
+      }
+    }
+  }
+}

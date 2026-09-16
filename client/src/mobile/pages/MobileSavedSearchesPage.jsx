@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowLeft, Search, MapPin, Trash2 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -53,7 +53,7 @@ const MobileSavedSearchesPage = () => {
                         </div>
                         <p className={`font-bold text-lg mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>No saved searches</p>
                         <p className={`text-sm mb-6 max-w-xs text-center ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>When you search on the Properties page, you can save searches here for quick access.</p>
-                        <motion.button onClick={() => navigate('/properties')} className="px-6 py-3 bg-gradient-to-r from-[#51faaa] to-[#45e695] rounded-2xl text-gray-900 font-bold" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>Browse Properties</motion.button>
+                        <motion.button onClick={() => navigate('/properties')} className="px-6 py-3 bg-gradient-to-r from-[#000000] to-[#45e695] rounded-2xl text-gray-900 font-bold" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>Browse Properties</motion.button>
                     </motion.div>
                 ) : (
                     savedSearches.map((search, i) => (
@@ -61,7 +61,7 @@ const MobileSavedSearchesPage = () => {
                             <div className="flex items-start justify-between gap-3">
                                 <button onClick={() => handleRunSearch(search)} className="flex-1 text-left">
                                     <div className="flex items-center gap-2 mb-1">
-                                        {search.location && <><MapPin size={14} className="text-[#51faaa]" /><span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>{search.location}</span></>}
+                                        {search.location && <><MapPin size={14} className="text-[#000000]" /><span className={`font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>{search.location}</span></>}
                                     </div>
                                     <div className={`flex flex-wrap gap-2 text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
                                         {search.minPrice && <span>From {new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', maximumFractionDigits: 0 }).format(search.minPrice)}</span>}

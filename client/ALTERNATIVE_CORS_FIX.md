@@ -1,9 +1,9 @@
-# Alternative CORS Fix Methods
+﻿# Alternative CORS Fix Methods
 
 ## Method 1: Firebase Console (If Google Cloud SDK doesn't work)
 
 1. Go to [Firebase Console](https://console.firebase.google.com/)
-2. Select your project: `dwellmate-285e8`
+2. Select your project: `maploti`
 3. Go to **Storage** in the left sidebar
 4. Click on **Rules** tab
 5. Make sure your storage rules allow authenticated users to upload:
@@ -26,14 +26,14 @@ If CORS continues to be an issue, we can modify the upload to use Firebase Admin
 
 ## Method 3: Check Firebase Project Settings
 
-1. Go to Firebase Console → Project Settings
-2. Check if your domain `dwellmate-285e8.web.app` is listed in authorized domains
+1. Go to Firebase Console â†’ Project Settings
+2. Check if your domain `maploti.web.app` is listed in authorized domains
 3. If not, add it to the authorized domains list
 
 ## Method 4: Verify Storage Bucket Name
 
 Make sure you're using the correct bucket name. Check your Firebase config:
-- Current bucket: `dwellmate-285e8.firebasestorage.app`
-- Alternative bucket: `dwellmate-285e8.appspot.com`
+- Current bucket: `maploti.firebasestorage.app`
+- Alternative bucket: `maploti.appspot.com`
 
 Try both bucket names in the gsutil command if one doesn't work.

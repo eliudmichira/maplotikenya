@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import logoImage from '../../../assets/android-chrome-512x512.png';
 import { useTheme } from '../../context/ThemeContext';
@@ -64,7 +64,7 @@ const AnimatedBackground = React.memo(({ isDark, showGradients }) => (
                 <div
                     className="absolute w-[500px] h-[500px] rounded-full opacity-20 blur-3xl"
                     style={{
-                        background: 'radial-gradient(circle, #2dd284 0%, transparent 70%)',
+                        background: 'radial-gradient(circle, #303030 0%, transparent 70%)',
                         top: '-15%',
                         right: '-10%',
                         animation: 'float 8s ease-in-out infinite'
@@ -74,7 +74,7 @@ const AnimatedBackground = React.memo(({ isDark, showGradients }) => (
                 <div
                     className="absolute w-[400px] h-[400px] rounded-full opacity-15 blur-3xl"
                     style={{
-                        background: 'radial-gradient(circle, #51faaa 0%, transparent 70%)',
+                        background: 'radial-gradient(circle, #000000 0%, transparent 70%)',
                         bottom: '-10%',
                         left: '-15%',
                         animation: 'float 10s ease-in-out infinite reverse'
@@ -93,7 +93,7 @@ const AnimatedBackground = React.memo(({ isDark, showGradients }) => (
     </div>
 ));
 
-const MobileLayoutWrapper = ({ children, title = "BumiHouse", subtitle, showNav = true }) => {
+const MobileLayoutWrapper = ({ children, title = "MaplotiKenya", subtitle, showNav = true }) => {
     const { isDark, toggleTheme } = useTheme();
     const navigate = useNavigate();
 
@@ -385,7 +385,7 @@ const MobileAuth = () => {
                     <h1 className={`text-2xl lg:text-3xl font-bold mb-1 lg:mb-2 ${isDark ? 'text-white' : 'text-black'}`}>
                         {showForgotPassword
                             ? 'Reset Password'
-                            : (isSignUp ? 'Create your account' : 'Sign in to BumiHouse')
+                            : (isSignUp ? 'Create your account' : 'Sign in to MaplotiKenya')
                         }
                     </h1>
                     <p className={`${isDark ? 'text-white/40' : 'text-black/60'} text-sm mt-2 max-w-[80%] mx-auto`}>
@@ -564,19 +564,20 @@ const MobileAuth = () => {
                         <button
                             type="submit"
                             disabled={isLoading || !email || !password || (isSignUp && (!confirmPassword || password !== confirmPassword || !acceptedTerms))}
-                            className="w-full py-4 px-6 font-bold text-[15px] lg:text-base text-white rounded-full border-0 outline-none cursor-pointer transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
+                            className="w-full py-4 px-6 font-bold text-[15px] lg:text-base rounded-full border-0 outline-none cursor-pointer transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-2"
                             style={{
-                                background: 'linear-gradient(180deg, #51faaa 0%, #51faaa 50%, #2dd284 100%)', // Emerald gradient
-                                boxShadow: `0px 8px 20px ${isDark ? 'rgba(16, 185, 129, 0.3)' : 'rgba(16, 185, 129, 0.4)'}, inset 0px 1px 0px rgba(255, 255, 255, 0.4)`
+                                background: 'linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%)',
+                                color: '#0e1311',
+                                boxShadow: `0px 8px 20px ${isDark ? 'rgba(251, 191, 36, 0.35)' : 'rgba(251, 191, 36, 0.45)'}, inset 0px 1px 0px rgba(255, 255, 255, 0.55)`
                             }}
                             onMouseEnter={(e) => {
                                 if (!e.currentTarget.disabled) {
-                                    e.currentTarget.style.boxShadow = '0px 0px 0px 2px #ffffff, 0px 12px 25px rgba(0, 0, 0, 0.5)';
+                                    e.currentTarget.style.boxShadow = '0px 12px 28px rgba(251, 191, 36, 0.55), inset 0px 1px 0px rgba(255, 255, 255, 0.65)';
                                     e.currentTarget.style.transform = 'translateY(-2px)';
                                 }
                             }}
                             onMouseLeave={(e) => {
-                                e.currentTarget.style.boxShadow = '0px 8px 20px rgba(0, 0, 0, 0.4), inset 0px 1px 0px rgba(255, 255, 255, 0.1)';
+                                e.currentTarget.style.boxShadow = `0px 8px 20px ${isDark ? 'rgba(251, 191, 36, 0.35)' : 'rgba(251, 191, 36, 0.45)'}, inset 0px 1px 0px rgba(255, 255, 255, 0.55)`;
                                 e.currentTarget.style.transform = 'translateY(0)';
                             }}
                         >
@@ -604,10 +605,11 @@ const MobileAuth = () => {
                         <button
                             type="submit"
                             disabled={isLoading || !resetEmail}
-                            className="w-full py-4 px-4 font-bold text-[15px] lg:text-base text-white rounded-xl border-0 outline-none cursor-pointer transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full py-4 px-4 font-bold text-[15px] lg:text-base rounded-full border-0 outline-none cursor-pointer transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                             style={{
-                                background: 'linear-gradient(180deg, #51faaa 0%, #51faaa 50%, #2dd284 100%)', // Emerald gradient
-                                boxShadow: `0px 8px 20px ${isDark ? 'rgba(16, 185, 129, 0.3)' : 'rgba(16, 185, 129, 0.4)'}, inset 0px 1px 0px rgba(255, 255, 255, 0.4)`
+                                background: 'linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%)',
+                                color: '#0e1311',
+                                boxShadow: `0px 8px 20px ${isDark ? 'rgba(251, 191, 36, 0.35)' : 'rgba(251, 191, 36, 0.45)'}, inset 0px 1px 0px rgba(255, 255, 255, 0.55)`
                             }}
                         >
                             {isLoading ? <Loader2 size={16} className="animate-spin-smooth mx-auto" /> : 'Send Reset Link'}
@@ -677,8 +679,8 @@ const MobileAuth = () => {
 
 // SVG Illustration Component
 const AuthIllustration = ({ mode, isDark, onToggleTheme }) => {
-    const primaryColor = isDark ? "#51faaa" : "#51faaa"; // Emerald-400 : Emerald-500
-    const secondaryColor = isDark ? "#064e3b" : "#d1fae5"; // Emerald-900 : Emerald-100
+    const primaryColor = isDark ? "#000000" : "#000000"; // Emerald-400 : Emerald-500
+    const secondaryColor = isDark ? "#000000" : "#f8f8f8"; // Emerald-900 : Emerald-100
     const accentColor = isDark ? "#fbbf24" : "#f59e0b"; // Amber-400 : Amber-500
 
     const springConfig = { type: "spring", stiffness: 300, damping: 30 };
@@ -739,13 +741,13 @@ const AuthIllustration = ({ mode, isDark, onToggleTheme }) => {
                     <motion.rect
                         x="85" y="80" width="20" height="20" rx="1"
                         animate={{
-                            fill: isDark ? '#51faaa' : '#f4f4f5',
-                            stroke: isDark ? '#51faaa' : primaryColor,
+                            fill: isDark ? '#000000' : '#f4f4f5',
+                            stroke: isDark ? '#000000' : primaryColor,
                         }}
                         transition={springConfig}
                         strokeWidth="2"
                     />
-                    <path d="M95 80V100M85 90H105" stroke={isDark ? "#064e3b" : primaryColor} strokeWidth="1" opacity="0.5" />
+                    <path d="M95 80V100M85 90H105" stroke={isDark ? "#000000" : primaryColor} strokeWidth="1" opacity="0.5" />
 
                     {/* Celestial Body Toggle */}
                     {renderCelestialBody()}
@@ -762,7 +764,7 @@ const AuthIllustration = ({ mode, isDark, onToggleTheme }) => {
     }
 
     if (mode === 'register') {
-        const joinColor = isDark ? "#51faaa" : "#2dd284";
+        const joinColor = isDark ? "#000000" : "#303030";
         return (
             <div className="w-full h-44 relative flex items-center justify-center mb-4 overflow-hidden">
                 <motion.div

@@ -272,7 +272,7 @@ const InventorySection: React.FC = () => {
                   color: '#F9FAFB'
                 }} 
               />
-              <Bar dataKey="inbound" fill="#10B981" name="Inbound" />
+              <Bar dataKey="inbound" fill="#000000" name="Inbound" />
               <Bar dataKey="outbound" fill="#EF4444" name="Outbound" />
             </BarChart>
           </ResponsiveContainer>

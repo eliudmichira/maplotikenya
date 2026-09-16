@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     Search, MapPin, DollarSign, Home, Award, Users, Building2, Star, Shield, Sparkles,
     ChevronRight, Check, TrendingUp, Clock, Phone, Mail, MessageCircle, Play,
@@ -290,7 +290,7 @@ const HomePage = () => {
                         style={{
                             background: isDark
                                 ? 'radial-gradient(circle, rgba(34,211,238,0.15) 0%, transparent 70%)'
-                                : 'radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%)',
+                                : 'radial-gradient(circle, rgba(251,191,36,0.1) 0%, transparent 70%)',
                             transform: `translateY(${parallaxOffset * 0.5}px)`,
                             filter: 'blur(40px)'
                         }}
@@ -364,9 +364,9 @@ const HomePage = () => {
                                             />
                                             <defs>
                                                 <linearGradient id="gradient-underline" x1="0%" y1="0%" x2="100%" y2="0%">
-                                                    <stop offset="0%" stopColor="#51faaa" />
-                                                    <stop offset="50%" stopColor="#dbd5a4" />
-                                                    <stop offset="100%" stopColor="#8B5CF6" />
+                                                    <stop offset="0%" stopColor="#000000" />
+                                                    <stop offset="50%" stopColor="#f0f0f0" />
+                                                    <stop offset="100%" stopColor="#505050" />
                                                 </linearGradient>
                                             </defs>
                                         </svg>

@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -521,7 +521,7 @@ const EnhancedMobilePropertyCard = ({
             className="flex items-center space-x-2 pt-2 border-t border-gray-200 dark:border-gray-700"
           >
             <div className="w-8 h-8 bg-gradient-to-r from-[#4066ff]/100 to-[#40f2ff]/100 rounded-full flex items-center justify-center">
-              <span className="text-xs font-semibold text-[#0a0c19]">
+              <span className="text-xs font-semibold text-[#000000]">
                 {property.agent.name?.charAt(0) || 'A'}
               </span>
             </div>
@@ -548,7 +548,7 @@ const EnhancedMobilePropertyCard = ({
         >
           <motion.button
             onClick={handleContact}
-            className="flex-1 bg-gradient-to-r from-[#4066ff]/100 to-[#40f2ff]/100 text-[#0a0c19] py-2 rounded-xl font-semibold text-sm"
+            className="flex-1 bg-gradient-to-r from-[#4066ff]/100 to-[#40f2ff]/100 text-[#000000] py-2 rounded-xl font-semibold text-sm"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >

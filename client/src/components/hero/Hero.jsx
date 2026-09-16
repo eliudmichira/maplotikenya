@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useMemo, useState, useCallback } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Search, MapPin, Home, TrendingUp, ChevronDown, Award, Newspaper, Building2, Users } from 'lucide-react';
@@ -281,15 +281,15 @@ const Hero = () => {
       },
       color: {
         value: isDark ? [
-          "#51faaa",
-          "#dbd5a4",
-          "#4285f4",
-          "#34A853"
+          "#000000",
+          "#f0f0f0",
+          "#505050",
+          "#a3a3a3"
         ] : [
-          "#51faaa",
-          "#2dd284",
-          "#1fb372",
-          "#065f46"
+          "#000000",
+          "#303030",
+          "#0e1311",
+          "#0e1311"
         ],
         animation: {
           h: {
@@ -616,8 +616,8 @@ const Hero = () => {
 
   return (
     <section className={`relative min-h-screen flex items-center justify-center overflow-hidden transition-colors duration-500 ${isDark
-      ? 'bg-gradient-to-b from-[#0a0c19] via-[#0f1419] to-[#1a1f2e]'
-      : 'bg-gradient-to-b from-[#f0fdf4] via-[#ecfdf5] to-[#d1fae5]'
+      ? 'bg-gradient-to-b from-[#000000] via-[#0f1419] to-[#1a1f2e]'
+      : 'bg-gradient-to-b from-[#f0fdf4] via-[#f8f8f8] to-[#f8f8f8]'
       }`}>
       {/* Particle System Background */}
       <div className="absolute inset-0 z-0">
@@ -634,7 +634,7 @@ const Hero = () => {
         />
         {/* Fallback gradient while image loads */}
         {!imageLoaded && (
-          <div className="absolute inset-0 bg-gradient-to-br from-[#0a0c19] via-[#1a1f2e] to-[#2d3748]" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#1a1f2e] to-[#2d3748]" />
         )}
         <div className={`absolute inset-0 transition-colors duration-500 ${isDark
           ? 'bg-black/50'
@@ -666,8 +666,8 @@ const Hero = () => {
           {/* Enhanced Trust Badge */}
           <motion.div
             className={`inline-flex items-center gap-2 px-8 py-4 backdrop-blur-2xl rounded-full mb-6 border shadow-2xl transition-all duration-500 ${isDark
-              ? 'bg-[#1a1b2e]/30 border-[rgba(255,255,255,0.1)] shadow-[#51faaa]/5 hover:shadow-[#51faaa]/10'
-              : 'bg-white/30 border-[rgba(0,0,0,0.1)] shadow-[#51faaa]/5 hover:shadow-[#51faaa]/10'
+              ? 'bg-[#1a1b2e]/30 border-[rgba(255,255,255,0.1)] shadow-[#000000]/5 hover:shadow-[#000000]/10'
+              : 'bg-white/30 border-[rgba(0,0,0,0.1)] shadow-[#000000]/5 hover:shadow-[#000000]/10'
               }`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -676,7 +676,7 @@ const Hero = () => {
             whileTap={{ scale: 0.98 }}
           >
             {/* <motion.div
-              className={`w-2 h-2 rounded-full shadow-lg transition-colors duration-500 ${isDark ? 'bg-[#51faaa] shadow-[#51faaa]/50' : 'bg-[#51faaa] shadow-[#51faaa]/50'
+              className={`w-2 h-2 rounded-full shadow-lg transition-colors duration-500 ${isDark ? 'bg-[#000000] shadow-[#000000]/50' : 'bg-[#000000] shadow-[#000000]/50'
                 }`}
               animate={{
                 scale: [1, 1.2, 1],
@@ -711,14 +711,12 @@ const Hero = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="bg-gradient-to-l 
-              from-emerald-500 via-secondary-300 to-green-500 bg-clip-text text-transparent
-              "
+              className="text-white dark:text-white"
             >
               Find Your Perfect
             </motion.span>
             <motion.span
-              className="block bg-gradient-to-r from-orange-600 to-yellow-500 bg-clip-text text-transparent mt-2"
+              className="block mt-2 hero-highlight"
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
@@ -766,15 +764,15 @@ const Hero = () => {
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <MapPin className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#51faaa] group-focus-within:text-[#dbd5a4]' : 'text-[#51faaa] group-focus-within:text-[#2dd284]'
+                    <MapPin className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#000000] group-focus-within:text-[#f0f0f0]' : 'text-[#000000] group-focus-within:text-[#303030]'
                       }`} />
                   </motion.div>
                   <select
                     value={searchForm.location}
                     onChange={(e) => handleSearchChange('location', e.target.value)}
                     className={`w-full pl-12 pr-10 py-4 backdrop-blur-2xl border rounded-2xl font-medium focus:outline-none appearance-none cursor-pointer transition-all duration-300 hover:shadow-lg ${isDark
-                      ? 'bg-[#0a0c19]/30 border-[rgba(255,255,255,0.2)] text-white focus:ring-2 focus:ring-[#51faaa]/20 focus:border-[#51faaa]/50 hover:border-[#51faaa]/30 hover:bg-[#0a0c19]/40 hover:shadow-[#51faaa]/10'
-                      : 'bg-white/40 border-[rgba(0,0,0,0.1)] text-gray-900 focus:ring-2 focus:ring-[#51faaa]/20 focus:border-[#51faaa]/50 hover:border-[#51faaa]/30 hover:bg-white/50 hover:shadow-[#51faaa]/10'
+                      ? 'bg-[#000000]/30 border-[rgba(255,255,255,0.2)] text-white focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/50 hover:border-[#fbbf24]/30 hover:bg-[#000000]/40 hover:shadow-[#000000]/10'
+                      : 'bg-white/40 border-[rgba(0,0,0,0.1)] text-gray-900 focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/50 hover:border-[#fbbf24]/30 hover:bg-white/50 hover:shadow-[#000000]/10'
                       }`}
                   >
                     <option value="">Select location</option>
@@ -808,15 +806,15 @@ const Hero = () => {
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <Home className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#51faaa] group-focus-within:text-[#dbd5a4]' : 'text-[#51faaa] group-focus-within:text-[#2dd284]'
+                    <Home className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#000000] group-focus-within:text-[#f0f0f0]' : 'text-[#000000] group-focus-within:text-[#303030]'
                       }`} />
                   </motion.div>
                   <select
                     value={searchForm.propertyType}
                     onChange={(e) => handleSearchChange('propertyType', e.target.value)}
                     className={`w-full pl-12 pr-10 py-4 backdrop-blur-2xl border rounded-2xl font-medium focus:outline-none appearance-none cursor-pointer transition-all duration-300 hover:shadow-lg ${isDark
-                      ? 'bg-[#0a0c19]/30 border-[rgba(255,255,255,0.2)] text-white focus:ring-2 focus:ring-[#51faaa]/20 focus:border-[#51faaa]/50 hover:border-[#51faaa]/30 hover:bg-[#0a0c19]/40 hover:shadow-[#51faaa]/10'
-                      : 'bg-white/40 border-[rgba(0,0,0,0.1)] text-gray-900 focus:ring-2 focus:ring-[#51faaa]/20 focus:border-[#51faaa]/50 hover:border-[#51faaa]/30 hover:bg-white/50 hover:shadow-[#51faaa]/10'
+                      ? 'bg-[#000000]/30 border-[rgba(255,255,255,0.2)] text-white focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/50 hover:border-[#fbbf24]/30 hover:bg-[#000000]/40 hover:shadow-[#000000]/10'
+                      : 'bg-white/40 border-[rgba(0,0,0,0.1)] text-gray-900 focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/50 hover:border-[#fbbf24]/30 hover:bg-white/50 hover:shadow-[#000000]/10'
                       }`}
                   >
                     <option value="">Select type</option>
@@ -846,15 +844,15 @@ const Hero = () => {
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <TrendingUp className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#51faaa] group-focus-within:text-[#dbd5a4]' : 'text-[#51faaa] group-focus-within:text-[#2dd284]'
+                    <TrendingUp className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#000000] group-focus-within:text-[#f0f0f0]' : 'text-[#000000] group-focus-within:text-[#303030]'
                       }`} />
                   </motion.div>
                   <select
                     value={searchForm.priceRange}
                     onChange={(e) => handleSearchChange('priceRange', e.target.value)}
                     className={`w-full pl-12 pr-10 py-4 backdrop-blur-2xl border rounded-2xl font-medium focus:outline-none appearance-none cursor-pointer transition-all duration-300 hover:shadow-lg ${isDark
-                      ? 'bg-[#0a0c19]/30 border-[rgba(255,255,255,0.2)] text-white focus:ring-2 focus:ring-[#51faaa]/20 focus:border-[#51faaa]/50 hover:border-[#51faaa]/30 hover:bg-[#0a0c19]/40 hover:shadow-[#51faaa]/10'
-                      : 'bg-white/40 border-[rgba(0,0,0,0.1)] text-gray-900 focus:ring-2 focus:ring-[#51faaa]/20 focus:border-[#51faaa]/50 hover:border-[#51faaa]/30 hover:bg-white/50 hover:shadow-[#51faaa]/10'
+                      ? 'bg-[#000000]/30 border-[rgba(255,255,255,0.2)] text-white focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/50 hover:border-[#fbbf24]/30 hover:bg-[#000000]/40 hover:shadow-[#000000]/10'
+                      : 'bg-white/40 border-[rgba(0,0,0,0.1)] text-gray-900 focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/50 hover:border-[#fbbf24]/30 hover:bg-white/50 hover:shadow-[#000000]/10'
                       }`}
                   >
                     <option value="">Select range (KSh)</option>
@@ -877,11 +875,11 @@ const Hero = () => {
               >
                 <motion.button
                   onClick={handleSearchSubmit}
-                  className="w-full bg-gradient-to-br from-[#51faaa] to-[#2dd284] text-white font-bold py-4 px-6 rounded-full flex items-center justify-center gap-3 text-base shadow-xl shadow-[#51faaa]/30 relative overflow-hidden"
+                  className="w-full bg-gradient-to-br from-[#000000] to-[#303030] text-white font-bold py-4 px-6 rounded-full flex items-center justify-center gap-3 text-base shadow-xl shadow-[#000000]/30 relative overflow-hidden"
                   whileHover={{
                     scale: 1.05,
                     y: -2,
-                    boxShadow: "0 20px 40px rgba(16, 185, 129, 0.4)"
+                    boxShadow: "0 20px 40px rgba(251, 191, 36, 0.4)"
                   }}
                   whileTap={{ scale: 0.98 }}
                   transition={{ duration: 0.2 }}
@@ -928,7 +926,7 @@ const Hero = () => {
                 {/* <Home className="w-5 h-5 text-emerald-500" /> */}
               </motion.div>
               <motion.div
-                className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-[#dbd5a4] to-[#51faaa] bg-clip-text text-transparent mb-1"
+                className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent mb-1"
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.2 }}
               >
@@ -949,10 +947,10 @@ const Hero = () => {
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.2 }}
               >
-                {/* <MapPin className="w-5 h-5 text-[#51faaa]" /> */}
+                {/* <MapPin className="w-5 h-5 text-[#000000]" /> */}
               </motion.div>
               <motion.div
-                className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-[#51faaa] to-[#2dd284] bg-clip-text text-transparent mb-1"
+                className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-[#000000] to-[#303030] bg-clip-text text-transparent mb-1"
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.2 }}
               >
@@ -973,10 +971,10 @@ const Hero = () => {
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.2 }}
               >
-                {/* <Users className="w-5 h-5 text-[#51faaa]" /> */}
+                {/* <Users className="w-5 h-5 text-[#000000]" /> */}
               </motion.div>
               <motion.div
-                className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-[#51faaa] to-[#2dd284] bg-clip-text text-transparent mb-1"
+                className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-[#000000] to-[#303030] bg-clip-text text-transparent mb-1"
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.2 }}
               >
@@ -997,10 +995,10 @@ const Hero = () => {
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.2 }}
               >
-                {/* <TrendingUp className="w-5 h-5 text-[#51faaa]" /> */}
+                {/* <TrendingUp className="w-5 h-5 text-[#000000]" /> */}
               </motion.div>
               <motion.div
-                className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-[#51faaa] to-[#2dd284] bg-clip-text text-transparent mb-1"
+                className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-[#000000] to-[#303030] bg-clip-text text-transparent mb-1"
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.2 }}
               >
@@ -1024,7 +1022,7 @@ const Hero = () => {
             >
               <Link
                 to="/desktop/properties"
-                className="px-8 py-3 bg-gradient-to-br from-[#51faaa] to-[#2dd284] text-white font-bold rounded-full shadow-lg shadow-[#51faaa]/25 text-lg relative overflow-hidden block"
+                className="px-8 py-3 bg-gradient-to-br from-[#000000] to-[#303030] text-white font-bold rounded-full shadow-lg shadow-[#000000]/25 text-lg relative overflow-hidden block"
               >
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
@@ -1042,12 +1040,12 @@ const Hero = () => {
               <Link
                 to="/desktop/register"
                 className={`px-8 py-3 border-2 font-bold rounded-full transition-all duration-300 text-lg relative overflow-hidden block ${isDark
-                  ? 'border-[rgba(81,250,170,0.4)] text-[#51faaa] hover:bg-[rgba(81,250,170,0.1)] hover:border-[#51faaa]'
-                  : 'border-[rgba(16,185,129,0.4)] text-[#51faaa] hover:bg-[rgba(16,185,129,0.1)] hover:border-[#51faaa]'
+                  ? 'border-[rgba(251,191,36,0.4)] text-[#000000] hover:bg-[rgba(251,191,36,0.1)] hover:border-[#fbbf24]'
+                  : 'border-[rgba(251,191,36,0.4)] text-[#000000] hover:bg-[rgba(251,191,36,0.1)] hover:border-[#fbbf24]'
                   }`}
               >
                 <motion.div
-                  className={`absolute inset-0 bg-gradient-to-r from-transparent via-current/10 to-transparent -skew-x-12 ${isDark ? 'text-[#51faaa]' : 'text-[#51faaa]'
+                  className={`absolute inset-0 bg-gradient-to-r from-transparent via-current/10 to-transparent -skew-x-12 ${isDark ? 'text-[#000000]' : 'text-[#000000]'
                     }`}
                   initial={{ x: '-100%' }}
                   whileHover={{ x: '100%' }}

@@ -1,13 +1,13 @@
-# 🔥 COMPLETE CORS SOLUTION FOR FIREBASE STORAGE
+﻿# ðŸ”¥ COMPLETE CORS SOLUTION FOR FIREBASE STORAGE
 
-## 🚨 IMMEDIATE ACTION REQUIRED
+## ðŸš¨ IMMEDIATE ACTION REQUIRED
 
 Your property upload is failing due to CORS (Cross-Origin Resource Sharing) issues. Here's the complete solution:
 
-## 📋 STEP 1: Enable Firebase Storage (REQUIRED FIRST)
+## ðŸ“‹ STEP 1: Enable Firebase Storage (REQUIRED FIRST)
 
 ### Option A: Using Firebase Console (Easiest)
-1. **Go to**: https://console.firebase.google.com/project/dwellmate-285e8/storage
+1. **Go to**: https://console.firebase.google.com/project/maploti/storage
 2. **Click "Get Started"**
 3. **Choose "Start in test mode"** (for now)
 4. **Select a location** (choose the closest to your users)
@@ -16,11 +16,11 @@ Your property upload is failing due to CORS (Cross-Origin Resource Sharing) issu
 ### Option B: Using Firebase CLI
 ```bash
 firebase projects:list
-firebase use dwellmate-285e8
+firebase use maploti
 firebase init storage
 ```
 
-## 📋 STEP 2: Install Google Cloud SDK (REQUIRED FOR CORS)
+## ðŸ“‹ STEP 2: Install Google Cloud SDK (REQUIRED FOR CORS)
 
 ### Download and Install:
 1. **Download**: https://cloud.google.com/sdk/docs/install
@@ -33,29 +33,29 @@ firebase init storage
 gcloud auth login
 
 # Set project
-gcloud config set project dwellmate-285e8
+gcloud config set project maploti
 
 # Apply CORS configuration
-gsutil cors set cors.json gs://dwellmate-285e8.firebasestorage.app
+gsutil cors set cors.json gs://maploti.firebasestorage.app
 
 # Verify
-gsutil cors get gs://dwellmate-285e8.firebasestorage.app
+gsutil cors get gs://maploti.firebasestorage.app
 ```
 
-## 📋 STEP 3: Deploy Storage Rules
+## ðŸ“‹ STEP 3: Deploy Storage Rules
 
 ```bash
 # Deploy the storage rules
 firebase deploy --only storage
 ```
 
-## 📋 STEP 4: Test the Fix
+## ðŸ“‹ STEP 4: Test the Fix
 
 1. **Clear browser cache** (Ctrl+Shift+Delete)
 2. **Refresh your application**
 3. **Try uploading a property**
 
-## 🎯 ALTERNATIVE: Quick Test Without CORS Fix
+## ðŸŽ¯ ALTERNATIVE: Quick Test Without CORS Fix
 
 If you want to test immediately without fixing CORS:
 
@@ -71,11 +71,11 @@ chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security --disa
 3. **Set to**: `false`
 4. **Restart Firefox**
 
-## 🔧 TROUBLESHOOTING
+## ðŸ”§ TROUBLESHOOTING
 
 ### If CORS still fails:
-1. **Check bucket name**: Try `gs://dwellmate-285e8.appspot.com` instead
-2. **Verify domain**: Make sure `https://dwellmate-285e8.web.app` is in CORS config
+1. **Check bucket name**: Try `gs://maploti.appspot.com` instead
+2. **Verify domain**: Make sure `https://maploti.web.app` is in CORS config
 3. **Clear cache**: Hard refresh (Ctrl+F5)
 
 ### If Google Cloud SDK fails:
@@ -83,14 +83,14 @@ chrome.exe --user-data-dir="C:/Chrome dev session" --disable-web-security --disa
 2. **Check project**: `gcloud config get-value project`
 3. **Re-authenticate**: `gcloud auth login`
 
-## ✅ SUCCESS INDICATORS
+## âœ… SUCCESS INDICATORS
 
 You'll know it's working when:
-- ✅ No CORS errors in browser console
-- ✅ Images upload successfully
-- ✅ Property creation completes without errors
+- âœ… No CORS errors in browser console
+- âœ… Images upload successfully
+- âœ… Property creation completes without errors
 
-## 🆘 EMERGENCY CONTACT
+## ðŸ†˜ EMERGENCY CONTACT
 
 If nothing works:
 1. **Try the Chrome disabled security method** (Method 1 above)
@@ -99,7 +99,7 @@ If nothing works:
 
 ---
 
-## 🎯 RECOMMENDED ORDER:
+## ðŸŽ¯ RECOMMENDED ORDER:
 
 1. **Enable Firebase Storage** (Step 1)
 2. **Install Google Cloud SDK** (Step 2)

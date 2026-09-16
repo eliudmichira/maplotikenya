@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef, useCallback, memo } from 'react';
+﻿import React, { useState, useEffect, useMemo, useRef, useCallback, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
     Search, LayoutGrid, Layers, Locate, X, Bed, Bath, Square, ChevronRight, Heart, MapPin, CheckCircle,
@@ -44,7 +44,7 @@ const HomeScreen = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredProperties, setFilteredProperties] = useState([]);
 
-    // Always fetch the full dataset — location-based ranking is done client-side
+    // Always fetch the full dataset â€” location-based ranking is done client-side
     // via the scoring engine in finalFilteredProperties. Passing county/geohash to
     // Firestore caused 0 results because seeded properties don't have those fields.
     const discoveryParams = useMemo(() => ({ limit: 500 }), []);
@@ -182,7 +182,7 @@ const HomeScreen = () => {
         return null;
     };
 
-    // ✅ CONSOLIDATED FILTERING & SCORING ENGINE
+    // âœ… CONSOLIDATED FILTERING & SCORING ENGINE
     const finalFilteredProperties = useMemo(() => {
         const sourceProperties = propertiesWithCoords.length > 0 ? propertiesWithCoords : properties;
         if (!sourceProperties.length) return [];
@@ -257,7 +257,7 @@ const HomeScreen = () => {
     // Sync legacy filteredProperties state only when the array content actually
     // changes (by length + id signature). Without this guard, every chunked
     // geocode update produced a new array ref and forced a setState cascade
-    // (propertyMarkers → MapView → fitBounds) on every batch, eventually
+    // (propertyMarkers â†’ MapView â†’ fitBounds) on every batch, eventually
     // tripping React's "Maximum update depth exceeded" safety net.
     const lastSyncedSigRef = useRef('');
     useEffect(() => {
@@ -365,7 +365,7 @@ const HomeScreen = () => {
                             const geo = await geocodeAddress(addressStr, abortController.signal);
                             if (geo) {
                                 if (import.meta.env.DEV) {
-                                    console.log(`✅ Geocoded "${property.title || property.name}":`, geo);
+                                    console.log(`âœ… Geocoded "${property.title || property.name}":`, geo);
                                 }
                                 return { ...property, latitude: geo.lat, longitude: geo.lng };
                             }
@@ -382,7 +382,7 @@ const HomeScreen = () => {
                         const fallbackLng = 36.8219 + (Math.sin(angle) * radius);
 
                         if (import.meta.env.DEV) {
-                            console.log(`⚠️ Using fallback coordinates for "${property.title || property.name}"`);
+                            console.log(`âš ï¸ Using fallback coordinates for "${property.title || property.name}"`);
                         }
                         return { ...property, latitude: fallbackLat, longitude: fallbackLng };
                     })
@@ -423,7 +423,7 @@ const HomeScreen = () => {
         return new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(price);
     };
 
-    // ✅ FIXED: Simplified marker creation matching List Page approach
+    // âœ… FIXED: Simplified marker creation matching List Page approach
     const propertyMarkers = useMemo(() => {
         // Use properties with coordinates (geocoded if needed)
         const sourceProperties = filteredProperties.length > 0
@@ -437,15 +437,7 @@ const HomeScreen = () => {
         const markers = sourceProperties.map((p) => {
             const position = getNormalizedLatLng(p);
             if (!position) {
-                // Debug: log properties without coordinates
-                if (import.meta.env.DEV) {
-                    console.log('⚠️ Property without valid coordinates:', {
-                        id: p.id,
-                        title: p.title || p.name,
-                        lat: p.latitude ?? p.lat ?? p.location?.lat,
-                        lng: p.longitude ?? p.lng ?? p.location?.lng
-                    });
-                }
+                // Silently skip - no coordinates
                 return null;
             }
 
@@ -480,8 +472,8 @@ const HomeScreen = () => {
             };
         }).filter(Boolean);
 
-        // Debug logging removed — was firing every chunked geocode update
-        // (5, 10, 15, … up to 246+) and contributed to CLS via repeated
+        // Debug logging removed â€” was firing every chunked geocode update
+        // (5, 10, 15, â€¦ up to 246+) and contributed to CLS via repeated
         // marker prop churn driving GoogleMap fitBounds passes.
 
         return markers;
@@ -674,10 +666,10 @@ const HomeScreen = () => {
         }
     }, [currentLocation]);
 
-    // (Debug effect that logged on every marker recompute removed — it was
+    // (Debug effect that logged on every marker recompute removed â€” it was
     // firing dozens of times during chunked geocoding.)
 
-    // Stable marker array for <MapView> — without this we re-created the
+    // Stable marker array for <MapView> â€” without this we re-created the
     // markers prop on every parent render, causing GoogleMap to re-fit and
     // shift layout (CLS) repeatedly.
     const mapMarkers = useMemo(() => {
@@ -711,8 +703,8 @@ const HomeScreen = () => {
                             try {
                                 // Debug: Log when map loads with markers
                                 if (import.meta.env.DEV) {
-                                    console.log('🗺️ HomeScreen Map loaded with', propertyMarkers.length, 'property markers');
-                                    console.log('📍 Markers array:', propertyMarkers.slice(0, 3));
+                                    console.log('ðŸ—ºï¸ HomeScreen Map loaded with', propertyMarkers.length, 'property markers');
+                                    console.log('ðŸ“ Markers array:', propertyMarkers.slice(0, 3));
                                 }
                             } catch (error) {
                                 if (import.meta.env.DEV) {
@@ -779,7 +771,7 @@ const HomeScreen = () => {
                                 setMapCenter(centerCoords);
 
                                 if (import.meta.env.DEV) {
-                                    console.log(`🔍 Found ${inRadius.length} properties within ${(radius / 1000).toFixed(1)}km radius`);
+                                    console.log(`ðŸ” Found ${inRadius.length} properties within ${(radius / 1000).toFixed(1)}km radius`);
                                 }
 
                                 setIsDrawingMode(false);
@@ -810,11 +802,11 @@ const HomeScreen = () => {
                             hapticFeedback(ImpactStyle.Light);
                             setShowFilters(!showFilters);
                         }}
-                        className={`relative h-12 w-12 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl shadow-lg rounded-full flex items-center justify-center border border-white/20 dark:border-gray-700 hover:bg-white transition-all duration-300 active:scale-95 ${(activeFilterCount > 0 || showFilters) ? 'ring-2 ring-[#51faaa] ring-offset-2 dark:ring-offset-gray-900 shadow-[#51faaa]/20' : ''}`}
+                        className={`relative h-12 w-12 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl shadow-lg rounded-full flex items-center justify-center border border-white/20 dark:border-gray-700 hover:bg-white transition-all duration-300 active:scale-95 ${(activeFilterCount > 0 || showFilters) ? 'ring-2 ring-[#000000] ring-offset-2 dark:ring-offset-gray-900 shadow-[#000000]/20' : ''}`}
                     >
-                        <SlidersHorizontal className={(activeFilterCount > 0 || showFilters) ? "text-[#51faaa]" : "text-gray-500"} size={20} />
+                        <SlidersHorizontal className={(activeFilterCount > 0 || showFilters) ? "text-[#000000]" : "text-gray-500"} size={20} />
                         {activeFilterCount > 0 && (
-                            <span className="absolute -top-1 -right-1 bg-[#51faaa] text-gray-900 text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-white dark:border-gray-800 shadow-md">
+                            <span className="absolute -top-1 -right-1 bg-[#000000] text-gray-900 text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center border-2 border-white dark:border-gray-800 shadow-md">
                                 {activeFilterCount}
                             </span>
                         )}
@@ -864,7 +856,7 @@ const HomeScreen = () => {
                             setShowFilters(true);
                         }}
                         className={`flex-shrink-0 px-3 py-1.5 rounded-full border text-[11px] font-bold transition-all flex items-center gap-1.5 ${filters.minPrice || filters.maxPrice
-                            ? 'bg-[#51faaa] border-[#51faaa] text-gray-900 shadow-md scale-105'
+                            ? 'bg-[#000000] border-[#fbbf24] text-gray-900 shadow-md scale-105'
                             : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 shadow-sm hover:border-gray-300'
                             }`}
                     >
@@ -884,7 +876,7 @@ const HomeScreen = () => {
                                 }));
                             }}
                             className={`flex-shrink-0 px-3 py-1.5 rounded-full border text-[11px] font-bold transition-all flex items-center gap-1.5 ${filters.minBedrooms === num.toString()
-                                ? 'bg-[#51faaa] border-[#51faaa] text-gray-900 shadow-md scale-105'
+                                ? 'bg-[#000000] border-[#fbbf24] text-gray-900 shadow-md scale-105'
                                 : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 shadow-sm hover:border-gray-300'
                                 }`}
                         >
@@ -906,7 +898,7 @@ const HomeScreen = () => {
                                 setFilters(prev => ({ ...prev, [attr.key]: !prev[attr.key] }));
                             }}
                             className={`flex-shrink-0 px-3 py-1.5 rounded-full border text-[11px] font-bold transition-all flex items-center gap-1.5 ${filters[attr.key]
-                                ? 'bg-[#51faaa] border-[#51faaa] text-gray-900 shadow-md scale-105'
+                                ? 'bg-[#000000] border-[#fbbf24] text-gray-900 shadow-md scale-105'
                                 : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 shadow-sm hover:border-gray-300'
                                 }`}
                         >
@@ -927,7 +919,7 @@ const HomeScreen = () => {
                                 }));
                             }}
                             className={`flex-shrink-0 px-3 py-1.5 rounded-full border text-[11px] font-bold transition-all flex items-center gap-1.5 ${filters.propertyType.toLowerCase() === type.toLowerCase()
-                                ? 'bg-[#51faaa] border-[#51faaa] text-gray-900 shadow-md scale-105'
+                                ? 'bg-[#000000] border-[#fbbf24] text-gray-900 shadow-md scale-105'
                                 : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 shadow-sm hover:border-gray-300'
                                 }`}
                         >
@@ -1011,7 +1003,7 @@ const HomeScreen = () => {
                                                     <div className="absolute top-0 left-0 right-0 p-1.5 flex justify-between items-start bg-gradient-to-b from-black/60 to-transparent">
                                                         <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md uppercase tracking-wide ${(property.status?.toLowerCase().includes('rent'))
                                                             ? 'bg-emerald-500/90 text-white'
-                                                            : 'bg-[#51faaa]/90 text-[#0a0c19]'
+                                                            : 'bg-[#000000]/90 text-[#000000]'
                                                             }`}>
                                                             {(property.status?.toLowerCase().includes('rent')) ? 'Rent' : 'Sale'}
                                                         </span>
@@ -1069,7 +1061,7 @@ const HomeScreen = () => {
                                                             )}
                                                             {property.area > 0 && (
                                                                 <span className="flex items-center gap-1 truncate max-w-[60px]">
-                                                                    {/* <Square size={12} className="text-[#51faaa]" /> {property.area} */}
+                                                                    {/* <Square size={12} className="text-[#000000]" /> {property.area} */}
                                                                 </span>
                                                             )}
                                                         </div>
@@ -1094,7 +1086,7 @@ const HomeScreen = () => {
                     <FloatingActionButton
                         icon={Pencil}
                         variant="secondary"
-                        className={isDrawingMode ? "!bg-[#51faaa] !text-[#111] !border-[#51faaa] shadow-xl" : "shadow-lg"}
+                        className={isDrawingMode ? "!bg-[#000000] !text-[#111] !border-[#fbbf24] shadow-xl" : "shadow-lg"}
                         onClick={() => {
                             hapticFeedback(ImpactStyle.Light);
                             if (!isDrawingMode) {
@@ -1198,10 +1190,10 @@ const HomeScreen = () => {
                             <div className="p-6">
                                 <div className="flex items-center justify-between mb-6">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-1 h-6 bg-gradient-to-b from-[#51faaa] to-[#dbd5a4] rounded-full" />
+                                        <div className="w-1 h-6 bg-gradient-to-b from-[#fbbf24] to-[#f59e0b] rounded-full" />
                                         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Filters</h2>
                                         {activeFilterCount > 0 && (
-                                            <span className="px-2 py-1 bg-[#51faaa] text-[#111] text-xs font-bold rounded-full">
+                                            <span className="px-2 py-1 bg-[#000000] text-[#111] text-xs font-bold rounded-full">
                                                 {activeFilterCount}
                                             </span>
                                         )}
@@ -1226,14 +1218,14 @@ const HomeScreen = () => {
                                                 placeholder="Min Price"
                                                 value={filters.minPrice}
                                                 onChange={(e) => setFilters(prev => ({ ...prev, minPrice: e.target.value }))}
-                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-[#51faaa]"
+                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-[#fbbf24]"
                                             />
                                             <input
                                                 type="number"
                                                 placeholder="Max Price"
                                                 value={filters.maxPrice}
                                                 onChange={(e) => setFilters(prev => ({ ...prev, maxPrice: e.target.value }))}
-                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-[#51faaa]"
+                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-[#fbbf24]"
                                             />
                                         </div>
                                     </div>
@@ -1245,7 +1237,7 @@ const HomeScreen = () => {
                                             <select
                                                 value={filters.minBedrooms}
                                                 onChange={(e) => setFilters(prev => ({ ...prev, minBedrooms: e.target.value }))}
-                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-[#51faaa]"
+                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-[#fbbf24]"
                                             >
                                                 <option value="">Any</option>
                                                 {[1, 2, 3, 4, 5, 6].map(num => (
@@ -1258,7 +1250,7 @@ const HomeScreen = () => {
                                             <select
                                                 value={filters.minBathrooms}
                                                 onChange={(e) => setFilters(prev => ({ ...prev, minBathrooms: e.target.value }))}
-                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-[#51faaa]"
+                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-[#fbbf24]"
                                             >
                                                 <option value="">Any</option>
                                                 {[1, 2, 3, 4, 5].map(num => (
@@ -1274,7 +1266,7 @@ const HomeScreen = () => {
                                         <select
                                             value={filters.propertyType}
                                             onChange={(e) => setFilters(prev => ({ ...prev, propertyType: e.target.value }))}
-                                            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-[#51faaa]"
+                                            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-[#fbbf24]"
                                         >
                                             <option value="">All Types</option>
                                             <option value="apartment">Apartment</option>
@@ -1290,7 +1282,7 @@ const HomeScreen = () => {
                                         <select
                                             value={filters.status}
                                             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-                                            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-[#51faaa]"
+                                            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-[#fbbf24]"
                                         >
                                             <option value="">All Status</option>
                                             <option value="for-sale">For Sale</option>
@@ -1310,7 +1302,7 @@ const HomeScreen = () => {
                                         </motion.button>
                                         <motion.button
                                             onClick={() => setShowFilters(false)}
-                                            className="flex-1 px-4 py-3 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#111] rounded-xl font-bold shadow-lg hover:shadow-xl transition-all"
+                                            className="flex-1 px-4 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-bold shadow-lg hover:shadow-xl transition-all"
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
                                         >
@@ -1352,7 +1344,7 @@ const HomeScreen = () => {
                     background: rgba(17, 24, 39, 0.9) !important;
                     padding: 4px 8px !important;
                     border-radius: 12px !important;
-                    border: 2px solid #51faaa !important;
+                    border: 2px solid #000000 !important;
                     font-weight: bold !important;
                     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
                 }

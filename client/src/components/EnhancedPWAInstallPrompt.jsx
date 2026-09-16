@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Download, 
@@ -273,7 +273,7 @@ const EnhancedPWAInstallPrompt = () => {
         >
           <div className={`relative p-4 rounded-t-2xl shadow-2xl ${
             isDark 
-              ? 'bg-gradient-to-br from-gray-900 to-gray-800 border-t border-[#51faaa]/20' 
+              ? 'bg-gradient-to-br from-gray-900 to-gray-800 border-t border-[#fbbf24]/20' 
               : 'bg-gradient-to-br from-white to-gray-50 border-t border-gray-200'
           }`}>
             {/* Success State */}
@@ -308,7 +308,7 @@ const EnhancedPWAInstallPrompt = () => {
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    className="w-16 h-16 border-4 border-[#51faaa] border-t-transparent rounded-full mx-auto mb-4"
+                    className="w-16 h-16 border-4 border-[#fbbf24] border-t-transparent rounded-full mx-auto mb-4"
                   />
                   <h3 className="text-lg font-bold text-white mb-2">Installing...</h3>
                   <p className="text-gray-300 text-sm">Please wait while we set up your app</p>
@@ -326,15 +326,15 @@ const EnhancedPWAInstallPrompt = () => {
                       <motion.div
                         animate={{ 
                           boxShadow: [
-                            "0 0 20px rgba(59, 130, 246, 0.3)",
-                            "0 0 40px rgba(59, 130, 246, 0.1)",
-                            "0 0 20px rgba(59, 130, 246, 0.3)"
+                            "0 0 20px rgba(251, 191, 36, 0.3)",
+                            "0 0 40px rgba(251, 191, 36, 0.1)",
+                            "0 0 20px rgba(251, 191, 36, 0.3)"
                           ]
                         }}
                         transition={{ duration: 2, repeat: Infinity }}
-                        className="w-12 h-12 bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] rounded-xl flex items-center justify-center"
+                        className="w-12 h-12 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-xl flex items-center justify-center"
                       >
-                        <Download className="w-6 h-6 text-[#0a0c19]" />
+                        <Download className="w-6 h-6 text-[#000000]" />
                       </motion.div>
                       <div>
                         <h3 className="text-lg font-bold text-white">Install App</h3>
@@ -372,7 +372,7 @@ const EnhancedPWAInstallPrompt = () => {
                           }`}
                         >
                           <screen.icon className={`w-6 h-6 mx-auto mb-1 ${
-                            isDark ? 'text-[#51faaa]' : 'text-[#51faaa]'
+                            isDark ? 'text-[#000000]' : 'text-[#000000]'
                           }`} />
                           <p className="text-xs font-medium text-white">{screen.title}</p>
                         </motion.div>
@@ -386,7 +386,7 @@ const EnhancedPWAInstallPrompt = () => {
                       onClick={handleLearnMore}
                       className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
                         showFeatures
-                          ? 'bg-[#51faaa] text-[#0a0c19]'
+                          ? 'bg-[#000000] text-[#000000]'
                           : isDark
                             ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -400,7 +400,7 @@ const EnhancedPWAInstallPrompt = () => {
                       onClick={handleShowBenefits}
                       className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
                         showBenefits
-                          ? 'bg-[#51faaa] text-[#0a0c19]'
+                          ? 'bg-[#000000] text-[#000000]'
                           : isDark
                             ? 'bg-gray-800 text-gray-300 hover:bg-gray-700'
                             : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
@@ -434,7 +434,7 @@ const EnhancedPWAInstallPrompt = () => {
                               }`}
                             >
                               <feature.icon className={`w-5 h-5 mb-2 ${
-                                isDark ? 'text-[#51faaa]' : 'text-[#51faaa]'
+                                isDark ? 'text-[#000000]' : 'text-[#000000]'
                               }`} />
                               <h4 className="text-sm font-semibold text-white mb-1">{feature.title}</h4>
                               <p className="text-xs text-gray-300">{feature.description}</p>
@@ -464,7 +464,7 @@ const EnhancedPWAInstallPrompt = () => {
                               }`}
                             >
                               <benefit.icon className={`w-5 h-5 mb-2 ${
-                                isDark ? 'text-[#51faaa]' : 'text-[#51faaa]'
+                                isDark ? 'text-[#000000]' : 'text-[#000000]'
                               }`} />
                               <h4 className="text-sm font-semibold text-white mb-1">{benefit.title}</h4>
                               <p className="text-xs text-gray-300">{benefit.description}</p>
@@ -479,7 +479,7 @@ const EnhancedPWAInstallPrompt = () => {
                   <div className="flex space-x-3">
                     <motion.button
                       onClick={handleInstall}
-                      className="flex-1 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] py-3 rounded-xl font-semibold shadow-lg flex items-center justify-center space-x-2"
+                      className="flex-1 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] py-3 rounded-xl font-semibold shadow-lg flex items-center justify-center space-x-2"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >

@@ -2,14 +2,14 @@ import admin from 'firebase-admin';
 import fs from 'fs';
 
 // Path to the service account key for the destination project
-const destCredPath = './creds/dest.json'; // dwellmate-285e8
+const destCredPath = './creds/dest.json'; // maploti
 
-console.log('🔧 Starting image URL update process...');
+console.log('ðŸ”§ Starting image URL update process...');
 
 // Check if service account file exists
 if (!fs.existsSync(destCredPath)) {
-  console.error('❌ Service account file not found at:', destCredPath);
-  console.log('💡 Please ensure you have the dwellmate-285e8 service account JSON file at:', destCredPath);
+  console.error('âŒ Service account file not found at:', destCredPath);
+  console.log('ðŸ’¡ Please ensure you have the maploti service account JSON file at:', destCredPath);
   process.exit(1);
 }
 
@@ -20,7 +20,7 @@ try {
   // Normalize private_key
   destServiceAccount.private_key = destServiceAccount.private_key.replace(/\\n/g, '\n');
 } catch (error) {
-  console.error('❌ Error reading service account file:', error.message);
+  console.error('âŒ Error reading service account file:', error.message);
   process.exit(1);
 }
 
@@ -32,17 +32,17 @@ const destDb = destApp.firestore();
 
 async function updateImageUrls() {
   try {
-    console.log('\n🔍 Fetching properties collection...');
+    console.log('\nðŸ” Fetching properties collection...');
     
     const propertiesRef = destDb.collection('properties');
     const snapshot = await propertiesRef.get();
     
     if (snapshot.empty) {
-      console.log('📝 No properties found in the collection.');
+      console.log('ðŸ“ No properties found in the collection.');
       return;
     }
     
-    console.log(`📋 Found ${snapshot.size} properties to update`);
+    console.log(`ðŸ“‹ Found ${snapshot.size} properties to update`);
     
     const batch = destDb.batch();
     let updateCount = 0;
@@ -56,7 +56,7 @@ async function updateImageUrls() {
       
       // Update single image field
       if (data.image && typeof data.image === 'string' && data.image.includes('makao-648bd')) {
-        updates.image = data.image.replace('makao-648bd.firebasestorage.app', 'dwellmate-285e8.firebasestorage.app');
+        updates.image = data.image.replace('makao-648bd.firebasestorage.app', 'maploti.firebasestorage.app');
         needsUpdate = true;
       }
       
@@ -64,7 +64,7 @@ async function updateImageUrls() {
       if (data.images && Array.isArray(data.images)) {
         const updatedImages = data.images.map(img => {
           if (typeof img === 'string' && img.includes('makao-648bd')) {
-            return img.replace('makao-648bd.firebasestorage.app', 'dwellmate-285e8.firebasestorage.app');
+            return img.replace('makao-648bd.firebasestorage.app', 'maploti.firebasestorage.app');
           }
           return img;
         });
@@ -81,7 +81,7 @@ async function updateImageUrls() {
       if (data.photos && Array.isArray(data.photos)) {
         const updatedPhotos = data.photos.map(photo => {
           if (typeof photo === 'string' && photo.includes('makao-648bd')) {
-            return photo.replace('makao-648bd.firebasestorage.app', 'dwellmate-285e8.firebasestorage.app');
+            return photo.replace('makao-648bd.firebasestorage.app', 'maploti.firebasestorage.app');
           }
           return photo;
         });
@@ -97,7 +97,7 @@ async function updateImageUrls() {
       if (data.gallery && Array.isArray(data.gallery)) {
         const updatedGallery = data.gallery.map(img => {
           if (typeof img === 'string' && img.includes('makao-648bd')) {
-            return img.replace('makao-648bd.firebasestorage.app', 'dwellmate-285e8.firebasestorage.app');
+            return img.replace('makao-648bd.firebasestorage.app', 'maploti.firebasestorage.app');
           }
           return img;
         });
@@ -112,14 +112,14 @@ async function updateImageUrls() {
       if (needsUpdate) {
         batch.update(docRef, updates);
         updateCount++;
-        console.log(`📝 Queued update for property: ${data.title || data.name || doc.id}`);
+        console.log(`ðŸ“ Queued update for property: ${data.title || data.name || doc.id}`);
       }
       
       processedCount++;
       
       // Commit in batches of 500
       if (updateCount > 0 && updateCount % 500 === 0) {
-        console.log(`💾 Committing batch of ${updateCount % 500 || 500} updates...`);
+        console.log(`ðŸ’¾ Committing batch of ${updateCount % 500 || 500} updates...`);
         await batch.commit();
         // Start a new batch
         batch = destDb.batch();
@@ -128,17 +128,17 @@ async function updateImageUrls() {
     
     // Commit any remaining updates
     if (updateCount % 500 !== 0) {
-      console.log(`💾 Committing final batch of ${updateCount % 500} updates...`);
+      console.log(`ðŸ’¾ Committing final batch of ${updateCount % 500} updates...`);
       await batch.commit();
     }
     
-    console.log(`\n✅ Image URL update completed!`);
-    console.log(`📊 Processed ${processedCount} properties`);
-    console.log(`🔄 Updated ${updateCount} properties with new image URLs`);
-    console.log(`🎯 Changed storage bucket: makao-648bd → dwellmate-285e8`);
+    console.log(`\nâœ… Image URL update completed!`);
+    console.log(`ðŸ“Š Processed ${processedCount} properties`);
+    console.log(`ðŸ”„ Updated ${updateCount} properties with new image URLs`);
+    console.log(`ðŸŽ¯ Changed storage bucket: makao-648bd â†’ maploti`);
     
   } catch (error) {
-    console.error('❌ Error updating image URLs:', error);
+    console.error('âŒ Error updating image URLs:', error);
     throw error;
   }
 }
@@ -146,10 +146,10 @@ async function updateImageUrls() {
 // Run the update
 updateImageUrls()
   .then(() => {
-    console.log('\n🎉 Image URL update process completed successfully!');
+    console.log('\nðŸŽ‰ Image URL update process completed successfully!');
     process.exit(0);
   })
   .catch((error) => {
-    console.error('\n💥 Image URL update process failed:', error);
+    console.error('\nðŸ’¥ Image URL update process failed:', error);
     process.exit(1);
   });

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <link rel="canonical" href="https://maploti.app/privacy.html" />
+  <title>Privacy Policy — Maploti</title>
+  <meta name="description" content="How Maploti collects, uses and protects your personal data across the website and mobile app." />
+  <meta property="og:title" content="Privacy Policy — Maploti" />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css?v=10" />
+  <noscript><style>.reveal { opacity: 1; transform: none; }</style></noscript>
+
+  <!-- Firebase (same project as the Maploti app). NOT deferred: the page
+       scripts below depend on `firebase` being defined at parse time. -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23BFFF1A'/%3E%3Ctext x='16' y='23' font-family='Inter,sans-serif' font-weight='900' font-size='19' text-anchor='middle' fill='%23000'%3EM%3C/text%3E%3C/svg%3E" />
+</head>
+<body>
+
+  <!-- ══════════════ NAV ══════════════ -->
+  <header class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="brand" aria-label="Maploti home">
+        <span class="brand__mark">M</span>
+        <span class="brand__word">MAPLOTI</span>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="listings.html" class="nav__link">Properties</a>
+        <a href="saved.html" class="nav__link">Saved</a>
+        <a href="map.html" class="nav__link">Map</a>
+        <a href="index.html#how" class="nav__link">How it works</a>
+        <a href="index.html#app" class="nav__link">The App</a>
+      </nav>
+
+      <div class="nav__actions">
+        <a href="login.html" class="btn btn--ghost nav__signin">Sign In</a>
+        <a href="login.html" class="btn btn--accent nav__cta">List a Property</a>
+        <button class="nav__burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+    <div class="nav__mobile" id="navMobile">
+      <a href="listings.html">Properties</a>
+      <a href="saved.html">Saved</a>
+      <a href="map.html">Map</a>
+      <a href="index.html#how">How it works</a>
+      <a href="index.html#app">The App</a>
+      <a href="login.html">Sign In</a>
+      <a href="login.html" class="btn btn--accent btn--block">List a Property</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- ══════════════ PAGE HEAD ══════════════ -->
+    <section class="page page--tight">
+      <div class="container">
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+          <a href="index.html">Home</a>
+          <svg viewBox="0 0 16 16" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg>
+          <span class="is-current">Privacy Policy</span>
+        </nav>
+
+        <div class="page__head reveal">
+          <p class="eyebrow">Legal</p>
+          <h1 class="display" style="font-size:clamp(32px,4.6vw,56px)">Privacy Policy</h1>
+          <p class="page__sub">How Maploti collects, uses and protects your personal data — across the website and the mobile app.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ POLICY ══════════════ -->
+    <section class="legal">
+      <div class="container legal__inner reveal">
+        <p class="legal__meta mono">Last updated: 7 August 2026</p>
+
+        <div class="legal__block">
+          <h2>1. Introduction</h2>
+          <p>Maploti ("we", "us", "our") operates the property platform available at maploti.app and as a mobile application for Android and iOS. This Privacy Policy explains what personal data we collect, why we collect it, and the choices you have over it. It applies to everyone who browses the platform, creates an account, saves properties or publishes listings.</p>
+          <p>We are committed to protecting your privacy and handle your data in line with the <strong>Kenya Data Protection Act, 2019</strong> and applicable international standards.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>2. Information we collect</h2>
+          <ul>
+            <li><strong>Account details</strong> — your name, email address, phone number and profile photo when you register or sign in.</li>
+            <li><strong>Saved properties</strong> — the listings you heart or save, so they sync across your devices.</li>
+            <li><strong>Listings you publish</strong> — property details, photos, prices and location you choose to submit.</li>
+            <li><strong>Location</strong> — only if you grant location permission (for example to centre the map on you). We never collect background location.</li>
+            <li><strong>Usage data</strong> — pages you visit, searches you run and how you interact with the platform, used to improve the service.</li>
+            <li><strong>Device &amp; technical data</strong> — browser or app version, device type and IP address, for security and performance.</li>
+          </ul>
+        </div>
+
+        <div class="legal__block">
+          <h2>3. How we use your information</h2>
+          <ul>
+            <li>To provide, maintain and secure your account and saved-properties feature.</li>
+            <li>To publish and manage listings you create, and to connect you with agents and buyers.</li>
+            <li>To respond to your requests and provide customer support.</li>
+            <li>To measure usage, fix bugs and improve the platform.</li>
+            <li>To send you essential service communications (not marketing, unless you opt in).</li>
+          </ul>
+        </div>
+
+        <div class="legal__block">
+          <h2>4. How we share your information</h2>
+          <ul>
+            <li><strong>Agents &amp; sellers</strong> — when you publish a listing, your contact details are shown to prospective buyers as you intend.</li>
+            <li><strong>Service providers</strong> — trusted partners who run the service for us, including Google (Firebase authentication, Firestore database, Cloud Storage) and mapping providers. They only process data on our instructions.</li>
+            <li><strong>Legal compliance</strong> — we may disclose data where the law requires it or to protect the rights, safety and property of Maploti, our users or the public.</li>
+          </ul>
+          <p>We never sell your personal data to third parties.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>5. Data retention</h2>
+          <p>We keep your account and listing data for as long as your account is active or as needed to provide the service, meet legal obligations, resolve disputes and enforce our agreements. You can ask us to delete your account and data at any time — see section 7.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>6. Security</h2>
+          <p>We use industry-standard safeguards — encrypted connections (HTTPS), secure authentication and access controls on our databases — to protect your data. No method of transmission over the internet is 100% secure, but we work hard to protect your information and review our practices regularly.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>7. Your rights</h2>
+          <p>Under the Kenya Data Protection Act and similar laws, you have the right to:</p>
+          <ul>
+            <li>Access the personal data we hold about you.</li>
+            <li>Correct inaccurate or incomplete data.</li>
+            <li>Request deletion of your data and account.</li>
+            <li>Object to or restrict certain processing.</li>
+            <li>Request a copy of your data in a portable format.</li>
+          </ul>
+          <p>To exercise any of these rights, email us at <a href="mailto:hello@maploti.app">hello@maploti.app</a> and we will respond within 30 days.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>8. Children's privacy</h2>
+          <p>The platform is intended for users aged 18 and over. We do not knowingly collect personal data from children. If you believe a child has provided us with data, contact us and we will delete it.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>9. Changes to this policy</h2>
+          <p>We may update this policy from time to time. Material changes will be announced on the platform, and the "Last updated" date above will always reflect the latest version. Continued use of the platform after changes means you accept the revised policy.</p>
+        </div>
+
+        <div class="legal__block">
+          <h2>10. Contact us</h2>
+          <p>Questions about this policy or your data? Email <a href="mailto:hello@maploti.app">hello@maploti.app</a> or write to Maploti, Nairobi, Kenya.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ══════════════ FOOTER ══════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <a href="index.html" class="brand">
+            <span class="brand__mark">M</span>
+            <span class="brand__word">MAPLOTI</span>
+          </a>
+          <p class="footer__tag">Find, save and list properties across Kenya.</p>
+          <div class="footer__socials">
+            <a href="#" aria-label="X / Twitter">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-6.8 7.8L23.2 22h-6.3l-4.9-6.4L6.4 22H3.3l7.3-8.3L1.6 2H8l4.4 5.9L18.9 2Zm-1.1 18h1.7L7.1 3.9H5.3L17.8 20Z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+            </a>
+            <a href="#" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M14 8.5V6.8c0-.8.2-1.3 1.3-1.3H17V2.1h-2.6C11.4 2.1 10 3.7 10 6.4v2.1H8V12h2v9h4v-9h2.7l.3-3.5h-3Z"/></svg>
+            </a>
+            <a href="#" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M23 7.5s-.2-1.6-.9-2.3c-.9-.9-1.9-.9-2.4-1C16.7 4 12 4 12 4s-4.7 0-7.7.2c-.5.1-1.5.1-2.4 1-.7.7-.9 2.3-.9 2.3S.8 9.4.8 11.3v1.4c0 1.9.2 3.8.2 3.8s.2 1.6.9 2.3c.9.9 2 .9 2.6 1 1.9.2 7.5.2 7.5.2s4.7 0 7.7-.3c.5-.1 1.5-.1 2.4-1 .7-.7.9-2.3.9-2.3s.2-1.9.2-3.8v-1.4c0-1.8-.2-3.7-.2-3.7ZM9.7 15.4V8.6l6.2 3.4-6.2 3.4Z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer__col">
+          <h4>Product</h4>
+          <a href="listings.html">Properties</a>
+          <a href="map.html">Map</a>
+          <a href="index.html#app">The App</a>
+          <a href="login.html">List a property</a>
+        </div>
+        <div class="footer__col">
+          <h4>Company</h4>
+          <a href="index.html#how">About Maploti</a>
+          <a href="index.html#app">Get the app</a>
+          <a href="mailto:hello@maploti.app">Contact</a>
+        </div>
+        <div class="footer__col">
+          <h4>Legal</h4>
+          <a href="privacy.html" aria-current="page">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="cookies.html">Cookie Policy</a>
+        </div>
+      </div>
+
+      <div class="footer__bar">
+        <span>© 2026 Maploti · Nairobi, Kenya</span>
+        <span class="footer__made">Made in Kenya 🇰🇪</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/firebase.js?v=4"></script>
+  <script src="js/data.js?v=4"></script>
+  <script src="js/user.js?v=4"></script>
+  <script src="js/site.js?v=4"></script>
+</body>
+</html>

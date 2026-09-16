@@ -1,4 +1,4 @@
-﻿import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 const GoogleLevelButton = ({ 
@@ -25,8 +25,8 @@ const GoogleLevelButton = ({
   
   const variants = {
     primary: {
-      base: "bg-gradient-to-r from-[#51faaa] to-[#2dd284] text-white",
-      hover: "from-[#2dd284] to-[#51faaa] shadow-[0_8px_32px_rgba(81,250,170,0.3)]",
+      base: "bg-gradient-to-r from-[#000000] to-[#303030] text-white",
+      hover: "from-[#303030] to-[#000000] shadow-[0_8px_32px_rgba(251,191,36,0.3)]",
       active: "scale-[0.98]"
     },
     secondary: {
@@ -88,7 +88,7 @@ const GoogleLevelButton = ({
         animate={{
           opacity: isHovered ? 1 : 0,
           background: variant === 'primary' 
-            ? 'linear-gradient(135deg, rgba(81,250,170,0.2), rgba(63,214,147,0.2))'
+            ? 'linear-gradient(135deg, rgba(251,191,36,0.2), rgba(63,214,147,0.2))'
             : 'linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05))'
         }}
         transition={{ duration: 0.3 }}

@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -212,7 +212,7 @@ const PropertyManagement = () => {
               >
                 <ArrowLeft className="w-5 h-5" />
               </button>
-              <div className="w-10 h-10 bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-xl flex items-center justify-center">
                 <Building2 className="w-6 h-6 text-[#111]" />
               </div>
               <div>
@@ -228,7 +228,7 @@ const PropertyManagement = () => {
               onClick={() => setShowAddForm(true)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#111] px-4 py-2 rounded-xl font-medium hover:shadow-lg transition-all flex items-center space-x-2"
+              className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] px-4 py-2 rounded-xl font-medium hover:shadow-lg transition-all flex items-center space-x-2"
             >
               <Plus className="w-4 h-4" />
               <span>Add Property</span>
@@ -377,7 +377,7 @@ const PropertyManagement = () => {
 
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-lg font-bold text-[#51faaa]">KSh {property.monthlyRent.toLocaleString()}</p>
+                    <p className="text-lg font-bold text-[#000000]">KSh {property.monthlyRent.toLocaleString()}</p>
                     <p className="text-xs text-gray-600 dark:text-gray-400">per month</p>
                   </div>
                   <div className="text-right">
@@ -642,7 +642,7 @@ const PropertyManagement = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
+                  className="px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
                 >
                   Add Property
                 </button>
@@ -827,7 +827,7 @@ const PropertyManagement = () => {
                 </button>
                 <button
                   type="submit"
-                  className="px-6 py-3 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
+                  className="px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
                 >
                   Update Property
                 </button>

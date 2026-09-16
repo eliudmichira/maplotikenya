@@ -1,4 +1,4 @@
-﻿import React, { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
 import logoPadded from '../assets/logo_padded.png';
 
@@ -26,24 +26,24 @@ const Logo = ({
     if (glow === 'subtle') {
       return isDark
         ? {
-          textShadow: '0 0 8px rgba(81,250,170,0.4), 0 0 16px rgba(81,250,170,0.2), 0 0 24px rgba(81,250,170,0.1)',
-          filter: 'drop-shadow(0 0 4px rgba(81,250,170,0.3))'
+          textShadow: '0 0 8px rgba(251,191,36,0.4), 0 0 16px rgba(251,191,36,0.2), 0 0 24px rgba(251,191,36,0.1)',
+          filter: 'drop-shadow(0 0 4px rgba(251,191,36,0.3))'
         }
         : {
-          textShadow: '0 0 4px rgba(81,250,170,0.3), 0 0 8px rgba(81,250,170,0.2)',
-          filter: 'drop-shadow(0 0 2px rgba(81,250,170,0.2))'
+          textShadow: '0 0 4px rgba(251,191,36,0.3), 0 0 8px rgba(251,191,36,0.2)',
+          filter: 'drop-shadow(0 0 2px rgba(251,191,36,0.2))'
         };
     }
 
     if (glow === 'strong') {
       return isDark
         ? {
-          textShadow: '0 0 12px rgba(81,250,170,0.6), 0 0 24px rgba(81,250,170,0.4), 0 0 36px rgba(81,250,170,0.2)',
-          filter: 'drop-shadow(0 0 8px rgba(81,250,170,0.5))'
+          textShadow: '0 0 12px rgba(251,191,36,0.6), 0 0 24px rgba(251,191,36,0.4), 0 0 36px rgba(251,191,36,0.2)',
+          filter: 'drop-shadow(0 0 8px rgba(251,191,36,0.5))'
         }
         : {
-          textShadow: '0 0 8px rgba(81,250,170,0.5), 0 0 16px rgba(81,250,170,0.3)',
-          filter: 'drop-shadow(0 0 4px rgba(81,250,170,0.4))'
+          textShadow: '0 0 8px rgba(251,191,36,0.5), 0 0 16px rgba(251,191,36,0.3)',
+          filter: 'drop-shadow(0 0 4px rgba(251,191,36,0.4))'
         };
     }
 
@@ -52,8 +52,8 @@ const Logo = ({
 
   // Enhanced Kenya flag gradient with premium styling
   const kenyaGradient = useMemo(() => {
-    const brandGreenStart = '#16a34a';
-    const brandGreenEnd = '#22c55e';
+    const brandGreenStart = '#303030';
+    const brandGreenEnd = '#000000';
     const flagRed = '#c1121f';
     const flagWhite = '#ffffff';
     const flagBlack = '#000000';
@@ -101,7 +101,7 @@ const Logo = ({
         ${flagWhite} 13%, ${flagWhite} 18%,
         ${flagRed} 19%, ${flagRed} 78%,
         ${flagWhite} 79%, ${flagWhite} 84%,
-        #007a33 85%, #007a33 100%
+        #0e1311 85%, #0e1311 100%
       )`,
       WebkitBackgroundClip: 'text',
       WebkitTextFillColor: 'transparent',
@@ -154,17 +154,17 @@ const Logo = ({
         style={glowStyle}
         {...pulseAnimation}
       >
-        <span className={`font-bold tracking-tight sm:hidden ${baseColor}`}>BH</span>
+        <span className={`font-bold tracking-tight sm:hidden ${baseColor}`}>MK</span>
         <span className="hidden sm:inline-flex items-baseline gap-1 sm:gap-1.5">
           {variant === 'segmented' ? (
             <>
               <span
                 className="font-bold tracking-tight green-glow-text"
                 style={{
-                  background: `linear-gradient(90deg, #2dd284 0%, #51faaa 100%)`,
+                  background: `linear-gradient(90deg, #303030 0%, #000000 100%)`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  textShadow: isDark ? '0 0 20px rgba(81,250,170,0.6), 0 0 40px rgba(81,250,170,0.3)' : '0 0 15px rgba(81,250,170,0.4)',
+                  textShadow: isDark ? '0 0 20px rgba(251,191,36,0.6), 0 0 40px rgba(251,191,36,0.3)' : '0 0 15px rgba(251,191,36,0.4)',
                 }}
               >
                 Bumi
@@ -172,7 +172,7 @@ const Logo = ({
               <span
                 className="font-semibold tracking-tight"
                 style={{
-                  background: 'linear-gradient(90deg, #c1121f 0%, #e63946 50%, #16a34a 100%)',
+                  background: 'linear-gradient(90deg, #c1121f 0%, #e63946 50%, #303030 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                 }}
@@ -185,14 +185,14 @@ const Logo = ({
               className="font-bold tracking-tight kenya-gradient-text"
               style={kenyaGradient}
             >
-              BumiHouse
+              MaplotiKenya
             </span>
           ) : variant === 'greenGlow' ? (
             <>
-              <span className={`font-bold tracking-tight ${baseColor}`}>Bumi</span>
-              <span className={`font-semibold tracking-tight ${isDark ? 'text-white/90' : 'text-gray-800'}`}>House</span>
+              <span className={`font-bold tracking-tight ${baseColor}`}>Maploti</span>
+              <span className={`font-semibold tracking-tight ${isDark ? 'text-white/90' : 'text-gray-800'}`}>Kenya</span>
               <span className="font-bold tracking-tight green-glow-text" style={{
-                background: `linear-gradient(90deg, #16a34a 0%, #22c55e 100%)`,
+                background: `linear-gradient(90deg, #303030 0%, #000000 100%)`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
               }}> House</span>
@@ -207,12 +207,12 @@ const Logo = ({
                     #ffffff 16%, #ffffff 25%,
                     #c1121f 26%, #c1121f 75%,
                     #ffffff 76%, #ffffff 85%,
-                    #2dd284 86%, #51faaa 100%
+                    #303030 86%, #000000 100%
                   )`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundSize: '200% auto',
-                  textShadow: isDark ? '0 0 20px rgba(81,250,170,0.3)' : '0 0 10px rgba(81,250,170,0.2)',
+                  textShadow: isDark ? '0 0 20px rgba(251,191,36,0.3)' : '0 0 10px rgba(251,191,36,0.2)',
                 }}
               >
                 Bumi
@@ -223,12 +223,12 @@ const Logo = ({
                   background: `linear-gradient(135deg,
                     #c1121f 0%, #c1121f 20%,
                     #ffffff 21%, #ffffff 30%,
-                    #16a34a 31%, #22c55e 100%
+                    #303030 31%, #000000 100%
                   )`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundSize: '200% auto',
-                  textShadow: isDark ? '0 0 20px rgba(81,250,170,0.3)' : '0 0 10px rgba(81,250,170,0.2)',
+                  textShadow: isDark ? '0 0 20px rgba(251,191,36,0.3)' : '0 0 10px rgba(251,191,36,0.2)',
                 }}
               >
                 House
@@ -249,13 +249,13 @@ const Logo = ({
                     #ffffff 11%, #ffffff 20%,
                     #c1121f 21%, #c1121f 80%,
                     #ffffff 81%, #ffffff 90%,
-                    #2dd284 91%, #51faaa 100%
+                    #303030 91%, #000000 100%
                   )`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundSize: '200% auto',
-                  textShadow: isDark ? '0 0 25px rgba(81,250,170,0.4), 0 0 50px rgba(81,250,170,0.2)' : '0 0 15px rgba(81,250,170,0.3)',
-                  filter: 'drop-shadow(0 0 10px rgba(81,250,170,0.3))',
+                  textShadow: isDark ? '0 0 25px rgba(251,191,36,0.4), 0 0 50px rgba(251,191,36,0.2)' : '0 0 15px rgba(251,191,36,0.3)',
+                  filter: 'drop-shadow(0 0 10px rgba(251,191,36,0.3))',
                 }}
               >
                 Bumi
@@ -266,20 +266,20 @@ const Logo = ({
                   background: `linear-gradient(135deg,
                     #c1121f 0%, #c1121f 15%,
                     #ffffff 16%, #ffffff 25%,
-                    #16a34a 26%, #22c55e 100%
+                    #303030 26%, #000000 100%
                   )`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundSize: '200% auto',
-                  textShadow: isDark ? '0 0 25px rgba(81,250,170,0.4), 0 0 50px rgba(81,250,170,0.2)' : '0 0 15px rgba(81,250,170,0.3)',
-                  filter: 'drop-shadow(0 0 10px rgba(81,250,170,0.3))',
+                  textShadow: isDark ? '0 0 25px rgba(251,191,36,0.4), 0 0 50px rgba(251,191,36,0.2)' : '0 0 15px rgba(251,191,36,0.3)',
+                  filter: 'drop-shadow(0 0 10px rgba(251,191,36,0.3))',
                 }}
               >
                 House
               </span>
             </motion.div>
           ) : (
-            <span className={`font-bold tracking-tight ${baseColor}`}>BumiHouse</span>
+            <span className={`font-bold tracking-tight ${baseColor}`}>MaplotiKenya</span>
           )}
         </span>
       </motion.div>
@@ -292,17 +292,17 @@ const Logo = ({
       style={glowStyle}
       {...pulseAnimation}
     >
-      <span className={`font-bold tracking-tight sm:hidden ${baseColor}`}>BH</span>
+      <span className={`font-bold tracking-tight sm:hidden ${baseColor}`}>MK</span>
       <span className="hidden sm:inline-flex items-baseline gap-1 sm:gap-1.5">
         {variant === 'segmented' ? (
           <>
             <span
               className="font-bold tracking-tight green-glow-text"
               style={{
-                background: `linear-gradient(90deg, #16a34a 0%, #22c55e 100%)`,
+                background: `linear-gradient(90deg, #303030 0%, #000000 100%)`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                textShadow: isDark ? '0 0 20px rgba(81,250,170,0.6), 0 0 40px rgba(81,250,170,0.3)' : '0 0 15px rgba(81,250,170,0.4)',
+                textShadow: isDark ? '0 0 20px rgba(251,191,36,0.6), 0 0 40px rgba(251,191,36,0.3)' : '0 0 15px rgba(251,191,36,0.4)',
               }}
             >
               Bumi
@@ -315,7 +315,7 @@ const Logo = ({
                   #ffffff 13%, #ffffff 18%,
                   #c1121f 19%, #c1121f 78%,
                   #ffffff 79%, #ffffff 84%,
-                  #16a34a 85%, #22c55e 100%
+                  #303030 85%, #000000 100%
                 )`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -331,14 +331,14 @@ const Logo = ({
             className="font-bold tracking-tight kenya-gradient-text"
             style={kenyaGradient}
           >
-            BumiHouse
+            MaplotiKenya
           </span>
         ) : variant === 'greenGlow' ? (
           <>
-            <span className={`font-bold tracking-tight ${baseColor}`}>Bumi</span>
-            <span className={`font-semibold tracking-tight ${isDark ? 'text-white/90' : 'text-gray-800'}`}>House</span>
+            <span className={`font-bold tracking-tight ${baseColor}`}>Maploti</span>
+            <span className={`font-semibold tracking-tight ${isDark ? 'text-white/90' : 'text-gray-800'}`}>Kenya</span>
             <span className="font-bold tracking-tight green-glow-text" style={{
-              background: `linear-gradient(90deg, #16a34a 0%, #22c55e 100%)`,
+              background: `linear-gradient(90deg, #303030 0%, #000000 100%)`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}></span>
@@ -353,12 +353,12 @@ const Logo = ({
                   #ffffff 16%, #ffffff 25%,
                   #c1121f 26%, #c1121f 75%,
                   #ffffff 76%, #ffffff 85%,
-                  #16a34a 86%, #22c55e 100%
+                  #303030 86%, #000000 100%
                 )`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundSize: '200% auto',
-                textShadow: isDark ? '0 0 20px rgba(81,250,170,0.3)' : '0 0 10px rgba(81,250,170,0.2)',
+                textShadow: isDark ? '0 0 20px rgba(251,191,36,0.3)' : '0 0 10px rgba(251,191,36,0.2)',
               }}
             >
               Bumi
@@ -369,12 +369,12 @@ const Logo = ({
                 background: `linear-gradient(135deg,
                   #c1121f 0%, #c1121f 20%,
                   #ffffff 21%, #ffffff 30%,
-                  #16a34a 31%, #22c55e 100%
+                  #303030 31%, #000000 100%
                 )`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundSize: '200% auto',
-                textShadow: isDark ? '0 0 20px rgba(81,250,170,0.3)' : '0 0 10px rgba(81,250,170,0.2)',
+                textShadow: isDark ? '0 0 20px rgba(251,191,36,0.3)' : '0 0 10px rgba(251,191,36,0.2)',
               }}
             >
               House
@@ -395,13 +395,13 @@ const Logo = ({
                   #ffffff 11%, #ffffff 20%,
                   #c1121f 21%, #c1121f 80%,
                   #ffffff 81%, #ffffff 90%,
-                  #16a34a 91%, #22c55e 100%
+                  #303030 91%, #000000 100%
                 )`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundSize: '200% auto',
-                textShadow: isDark ? '0 0 25px rgba(81,250,170,0.4), 0 0 50px rgba(81,250,170,0.2)' : '0 0 15px rgba(81,250,170,0.3)',
-                filter: 'drop-shadow(0 0 10px rgba(81,250,170,0.3))',
+                textShadow: isDark ? '0 0 25px rgba(251,191,36,0.4), 0 0 50px rgba(251,191,36,0.2)' : '0 0 15px rgba(251,191,36,0.3)',
+                filter: 'drop-shadow(0 0 10px rgba(251,191,36,0.3))',
               }}
             >
               Bumi
@@ -412,13 +412,13 @@ const Logo = ({
                 background: `linear-gradient(135deg,
                   #c1121f 0%, #c1121f 15%,
                   #ffffff 16%, #ffffff 25%,
-                  #16a34a 26%, #22c55e 100%
+                  #303030 26%, #000000 100%
                 )`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundSize: '200% auto',
-                textShadow: isDark ? '0 0 25px rgba(81,250,170,0.4), 0 0 50px rgba(81,250,170,0.2)' : '0 0 15px rgba(81,250,170,0.3)',
-                filter: 'drop-shadow(0 0 10px rgba(81,250,170,0.3))',
+                textShadow: isDark ? '0 0 25px rgba(251,191,36,0.4), 0 0 50px rgba(251,191,36,0.2)' : '0 0 15px rgba(251,191,36,0.3)',
+                filter: 'drop-shadow(0 0 10px rgba(251,191,36,0.3))',
               }}
             >
               House
@@ -427,13 +427,13 @@ const Logo = ({
         ) : variant === 'image' ? (
           <img
             src={logoPadded}
-            alt="BumiHouse"
+            alt="MaplotiKenya"
             className={`h-12 w-auto object-contain ${className}`}
           />
         ) : variant === 'wordmark' ? (
-          <span className={`font-bold tracking-tight ${baseColor}`}>BumiHouse</span>
+          <span className={`font-bold tracking-tight ${baseColor}`}>MaplotiKenya</span>
         ) : (
-          <span className={`font-bold tracking-tight ${baseColor}`}>BumiHouse</span>
+          <span className={`font-bold tracking-tight ${baseColor}`}>MaplotiKenya</span>
         )}
       </span>
     </motion.div >
@@ -471,19 +471,19 @@ if (typeof document !== 'undefined') {
     
     @keyframes logoGlow {
       0%, 100% {
-        filter: drop-shadow(0 0 4px rgba(81,250,170,0.3)) drop-shadow(0 0 8px rgba(81,250,170,0.1));
+        filter: drop-shadow(0 0 4px rgba(251,191,36,0.3)) drop-shadow(0 0 8px rgba(251,191,36,0.1));
       }
       50% {
-        filter: drop-shadow(0 0 8px rgba(81,250,170,0.6)) drop-shadow(0 0 16px rgba(81,250,170,0.3));
+        filter: drop-shadow(0 0 8px rgba(251,191,36,0.6)) drop-shadow(0 0 16px rgba(251,191,36,0.3));
       }
     }
     
     @keyframes greenGlow {
       0%, 100% {
-        filter: drop-shadow(0 0 6px rgba(81,250,170,0.4)) drop-shadow(0 0 12px rgba(81,250,170,0.2)) drop-shadow(0 0 24px rgba(81,250,170,0.1));
+        filter: drop-shadow(0 0 6px rgba(251,191,36,0.4)) drop-shadow(0 0 12px rgba(251,191,36,0.2)) drop-shadow(0 0 24px rgba(251,191,36,0.1));
       }
       50% {
-        filter: drop-shadow(0 0 10px rgba(81,250,170,0.7)) drop-shadow(0 0 20px rgba(81,250,170,0.4)) drop-shadow(0 0 40px rgba(81,250,170,0.2));
+        filter: drop-shadow(0 0 10px rgba(251,191,36,0.7)) drop-shadow(0 0 20px rgba(251,191,36,0.4)) drop-shadow(0 0 40px rgba(251,191,36,0.2));
       }
     }
     

@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import {
   Home,
@@ -37,7 +37,7 @@ export const PropertyMobileNavItem = ({
         flex flex-col items-center justify-center w-16 h-16 rounded-xl
         transition-all duration-200 relative
         ${active
-          ? 'bg-gradient-to-br from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] shadow-lg shadow-[#51faaa]/30'
+          ? 'bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#000000] shadow-lg shadow-[#000000]/30'
           : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
         }
       `}
@@ -89,14 +89,14 @@ export const PropertyCenterActionButton = ({
           className="absolute inset-0 rounded-full"
           animate={{
             background: [
-              "linear-gradient(45deg, #51faaa, #dbd5a4, #51faaa, #dbd5a4)",
-              "linear-gradient(90deg, #dbd5a4, #51faaa, #dbd5a4, #51faaa)",
-              "linear-gradient(135deg, #51faaa, #dbd5a4, #51faaa, #dbd5a4)",
-              "linear-gradient(180deg, #dbd5a4, #51faaa, #dbd5a4, #51faaa)",
-              "linear-gradient(225deg, #51faaa, #dbd5a4, #51faaa, #dbd5a4)",
-              "linear-gradient(270deg, #dbd5a4, #51faaa, #dbd5a4, #51faaa)",
-              "linear-gradient(315deg, #51faaa, #dbd5a4, #51faaa, #dbd5a4)",
-              "linear-gradient(360deg, #dbd5a4, #51faaa, #dbd5a4, #51faaa)"
+              "linear-gradient(45deg, #000000, #f0f0f0, #000000, #f0f0f0)",
+              "linear-gradient(90deg, #f0f0f0, #000000, #f0f0f0, #000000)",
+              "linear-gradient(135deg, #000000, #f0f0f0, #000000, #f0f0f0)",
+              "linear-gradient(180deg, #f0f0f0, #000000, #f0f0f0, #000000)",
+              "linear-gradient(225deg, #000000, #f0f0f0, #000000, #f0f0f0)",
+              "linear-gradient(270deg, #f0f0f0, #000000, #f0f0f0, #000000)",
+              "linear-gradient(315deg, #000000, #f0f0f0, #000000, #f0f0f0)",
+              "linear-gradient(360deg, #f0f0f0, #000000, #f0f0f0, #000000)"
             ]
           }}
           transition={{
@@ -118,7 +118,7 @@ export const PropertyCenterActionButton = ({
             ease: "linear"
           }}
           style={{
-            background: "conic-gradient(from 0deg, #51faaa, #dbd5a4, #51faaa)",
+            background: "conic-gradient(from 0deg, #000000, #f0f0f0, #000000)",
             mask: "radial-gradient(circle, transparent 60%, black 70%)",
             WebkitMask: "radial-gradient(circle, transparent 60%, black 70%)"
           }}
@@ -129,9 +129,9 @@ export const PropertyCenterActionButton = ({
           className="absolute -inset-2 rounded-full pointer-events-none opacity-80"
           animate={{
             boxShadow: [
-              "0 0 15px rgba(59, 130, 246, 0.5), 0 0 30px rgba(219, 213, 164, 0.35), 0 0 45px rgba(59, 130, 246, 0.25)",
-              "0 0 18px rgba(219, 213, 164, 0.5), 0 0 36px rgba(59, 130, 246, 0.35), 0 0 54px rgba(219, 213, 164, 0.25)",
-              "0 0 15px rgba(59, 130, 246, 0.5), 0 0 30px rgba(219, 213, 164, 0.35), 0 0 45px rgba(59, 130, 246, 0.25)"
+              "0 0 15px rgba(251, 191, 36, 0.5), 0 0 30px rgba(251, 191, 36, 0.35), 0 0 45px rgba(251, 191, 36, 0.25)",
+              "0 0 18px rgba(251, 191, 36, 0.5), 0 0 36px rgba(251, 191, 36, 0.35), 0 0 54px rgba(251, 191, 36, 0.25)",
+              "0 0 15px rgba(251, 191, 36, 0.5), 0 0 30px rgba(251, 191, 36, 0.35), 0 0 45px rgba(251, 191, 36, 0.25)"
             ]
           }}
           transition={{
@@ -400,9 +400,9 @@ export const PropertyMobileButton = ({
   const { isDark } = useTheme();
 
   const variantClasses = {
-    primary: 'bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] hover:shadow-lg',
+    primary: 'bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] hover:shadow-lg',
     secondary: isDark ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-gray-200 text-gray-900 hover:bg-gray-300',
-    outline: 'border-2 border-[#51faaa] text-[#51faaa] hover:bg-[#51faaa] hover:text-[#0a0c19]',
+    outline: 'border-2 border-[#fbbf24] text-[#000000] hover:bg-[#000000] hover:text-[#000000]',
     ghost: isDark ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100',
     danger: 'bg-red-500 text-white hover:bg-red-600'
   };

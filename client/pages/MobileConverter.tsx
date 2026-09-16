@@ -1043,7 +1043,7 @@ const ProfileContent: React.FC<ProfileContentProps> = ({
             className="flex-1 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 rounded-2xl p-6 flex flex-col items-center justify-center space-y-3 hover:shadow-2xl transition-all duration-300 backdrop-blur-sm border border-white/10 shadow-xl"
             whileHover={{ 
               scale: 1.05,
-              boxShadow: "0 25px 50px -12px rgba(59, 130, 246, 0.4)"
+              boxShadow: "0 25px 50px -12px rgba(251, 191, 36, 0.4)"
             }}
             whileTap={{ scale: 0.98 }}
           >

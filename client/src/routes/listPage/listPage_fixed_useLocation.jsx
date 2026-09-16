@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+﻿import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   GoogleMap as GoogleMapComponent,
@@ -77,13 +77,13 @@ const AIStatusBar = ({ propertyCount, searchQuery, isAIShowingProperties }) => {
       onClick={(e) => { e.stopPropagation(); window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }}
     >
       <div className={`w-6 h-6 rounded-full flex items-center justify-center ${isAIShowingProperties ? 'bg-gradient-to-r from-[#4066ff]/10 to-[#4066ff]/10' : 'bg-gray-100 dark:bg-gray-700'}`}>
-        <Sparkles className={`w-3 h-3 ${isAIShowingProperties ? 'text-[#0a0c19]' : 'text-gray-600 dark:text-gray-300'}`} />
+        <Sparkles className={`w-3 h-3 ${isAIShowingProperties ? 'text-[#000000]' : 'text-gray-600 dark:text-gray-300'}`} />
       </div>
       <span className="text-sm font-semibold text-gray-900 dark:text-white">
         {propertyCount.toLocaleString()} properties
       </span>
       {searchQuery && (
-        <span className="hidden sm:inline text-xs text-gray-600 dark:text-gray-400">• "{searchQuery}"</span>
+        <span className="hidden sm:inline text-xs text-gray-600 dark:text-gray-400">Ã¢â‚¬Â¢ "{searchQuery}"</span>
       )}
     </motion.button>
   );
@@ -116,10 +116,10 @@ if (import.meta.env.DEV) {
   console.log('All env vars (filtered):', Object.keys(import.meta.env || {}));
 } else {
   // Production debugging - minimal but informative
-  console.log('🗺️ Maps API Key loaded:', HAS_GOOGLE_MAPS_KEY ? 'Yes' : 'No');
-  console.log('🌍 Environment:', import.meta.env.MODE);
-  console.log('🔗 API URL:', import.meta.env.VITE_API_URL);
-  console.log('🔑 Maps Key (first 10 chars):', GOOGLE_MAPS_API_KEY ? GOOGLE_MAPS_API_KEY.substring(0, 10) + '...' : 'MISSING');
+  console.log('Ã°Å¸â€”ÂºÃ¯Â¸Â Maps API Key loaded:', HAS_GOOGLE_MAPS_KEY ? 'Yes' : 'No');
+  console.log('Ã°Å¸Å’Â Environment:', import.meta.env.MODE);
+  console.log('Ã°Å¸â€â€” API URL:', import.meta.env.VITE_API_URL);
+  console.log('Ã°Å¸â€â€˜ Maps Key (first 10 chars):', GOOGLE_MAPS_API_KEY ? GOOGLE_MAPS_API_KEY.substring(0, 10) + '...' : 'MISSING');
 }
 
 // Default map center (Nairobi, Kenya)
@@ -331,22 +331,22 @@ function QuickViewModal({ property, isOpen, onClose, onFavoriteToggle, isFavorit
               {/* Property Stats */}
               <div className="grid grid-cols-4 gap-3">
                 <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <Bed className="h-5 w-5 mx-auto mb-1 text-[#51faaa]" />
+                  <Bed className="h-5 w-5 mx-auto mb-1 text-[#000000]" />
                   <p className="text-xs text-gray-600 dark:text-gray-400">Bedrooms</p>
                   <p className="text-lg font-bold text-gray-900 dark:text-white">{property?.bedrooms || 'N/A'}</p>
                 </div>
                 <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <Bath className="h-5 w-5 mx-auto mb-1 text-[#51faaa]" />
+                  <Bath className="h-5 w-5 mx-auto mb-1 text-[#000000]" />
                   <p className="text-xs text-gray-600 dark:text-gray-400">Bathrooms</p>
                   <p className="text-lg font-bold text-gray-900 dark:text-white">{property?.bathrooms || 'N/A'}</p>
                 </div>
                 <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <Square className="h-5 w-5 mx-auto mb-1 text-[#51faaa]" />
+                  <Square className="h-5 w-5 mx-auto mb-1 text-[#000000]" />
                   <p className="text-xs text-gray-600 dark:text-gray-400">Area</p>
-                  <p className="text-lg font-bold text-gray-900 dark:text-white">{property?.area ? `${property.area}m²` : 'N/A'}</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">{property?.area ? `${property.area}mÃ‚Â²` : 'N/A'}</p>
                 </div>
                 <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                  <Home className="h-5 w-5 mx-auto mb-1 text-[#51faaa]" />
+                  <Home className="h-5 w-5 mx-auto mb-1 text-[#000000]" />
                   <p className="text-xs text-gray-600 dark:text-gray-400">Type</p>
                   <p className="text-lg font-bold text-gray-900 dark:text-white">{property?.property_type || 'N/A'}</p>
                 </div>
@@ -357,7 +357,7 @@ function QuickViewModal({ property, isOpen, onClose, onFavoriteToggle, isFavorit
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Description</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                   {property?.description ||
-                    `This ${property?.property_type?.toLowerCase() || 'property'} features ${property?.bedrooms || 'N/A'} bedrooms and ${property?.bathrooms || 'N/A'} bathrooms. ${property?.area ? `With ${property.area}m² of living space, ` : ''}this property offers modern amenities and thoughtful design.`
+                    `This ${property?.property_type?.toLowerCase() || 'property'} features ${property?.bedrooms || 'N/A'} bedrooms and ${property?.bathrooms || 'N/A'} bathrooms. ${property?.area ? `With ${property.area}mÃ‚Â² of living space, ` : ''}this property offers modern amenities and thoughtful design.`
                   }
                 </p>
               </div>
@@ -372,14 +372,14 @@ function QuickViewModal({ property, isOpen, onClose, onFavoriteToggle, isFavorit
                       placeholder="Full Name"
                       value={contactForm.name}
                       onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-                      className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                      className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                     />
                     <input
                       type="email"
                       placeholder="Email Address"
                       value={contactForm.email}
                       onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-                      className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                      className="px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                     />
                   </div>
                   <input
@@ -387,18 +387,18 @@ function QuickViewModal({ property, isOpen, onClose, onFavoriteToggle, isFavorit
                     placeholder="Phone Number"
                     value={contactForm.phone}
                     onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#51faaa] focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#000000] focus:border-transparent"
                   />
                   <textarea
                     placeholder="I am interested in this property. Please contact me."
                     value={contactForm.message}
                     onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
                     rows={3}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#51faaa] focus:border-transparent resize-none"
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:ring-2 focus:ring-[#000000] focus:border-transparent resize-none"
                   />
                   <button
                     onClick={handleContactSubmit}
-                    className="w-full px-4 py-2 bg-[#51faaa] text-[#0a0c19] font-semibold rounded-lg hover:bg-[#45e695] transition-colors text-sm"
+                    className="w-full px-4 py-2 bg-[#000000] text-[#000000] font-semibold rounded-lg hover:bg-[#45e695] transition-colors text-sm"
                   >
                     Send Message
                   </button>
@@ -411,7 +411,7 @@ function QuickViewModal({ property, isOpen, onClose, onFavoriteToggle, isFavorit
           <div className="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex flex-col sm:flex-row gap-3 justify-between">
             <button
               onClick={() => navigate(`/property/${property.id}`)}
-              className="px-6 py-2 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] font-semibold rounded-lg hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+              className="px-6 py-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-semibold rounded-lg hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
             >
               View Full Details
               <ArrowRight className="w-4 h-4" />
@@ -448,12 +448,12 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
         if (data) {
           setInsights({ ...data, counts: { homes: propertyCount } });
         } else {
-          // Gemini unavailable — show nothing, no error
+          // Gemini unavailable â€” show nothing, no error
           setInsights(null);
         }
       } catch (e) {
         if (!active) return;
-        // Silently fail — don't show error to user
+        // Silently fail â€” don't show error to user
         setInsights(null);
       } finally {
         if (active) setLoading(false);
@@ -470,13 +470,13 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
 
   return (
     <div className={`rounded-xl p-2 md:p-2.5 mb-2 border backdrop-blur-xl transition-colors duration-500 ${isDark
-      ? 'bg-gradient-to-br from-[#0a0c19] via-[#10121e] to-[#0a0c19] border-[#51faaa]/20'
+      ? 'bg-gradient-to-br from-[#000000] via-[#0e1311] to-[#000000] border-[#fbbf24]/20'
       : 'bg-gradient-to-br from-gray-50 via-white to-gray-50 border-gray-200'
       }`}>
       <div className="flex items-center justify-between mb-1 md:mb-1.5">
         <h3 className={`text-sm md:text-base font-bold flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-          <div className="w-7 h-7 md:w-8 md:h-8 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] rounded-lg flex items-center justify-center shadow-lg shadow-[#51faaa]/20">
-            <TrendingUp className="h-3.5 w-3.5 md:h-4 md:w-4 text-[#0a0c19]" />
+          <div className="w-7 h-7 md:w-8 md:h-8 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-lg flex items-center justify-center shadow-lg shadow-[#000000]/20">
+            <TrendingUp className="h-3.5 w-3.5 md:h-4 md:w-4 text-[#000000]" />
           </div>
           {location} Market Insights
         </h3>
@@ -495,7 +495,7 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
       </div>
 
       {loading && (
-        <p className={isDark ? 'text-white/70' : 'text-gray-700'}>Generating local market data…</p>
+        <p className={isDark ? 'text-white/70' : 'text-gray-700'}>Generating local market dataÃ¢â‚¬Â¦</p>
       )}
 
       {!loading && insights && (
@@ -504,10 +504,10 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
             <p className={`mb-2 md:mb-3 text-[12px] md:text-[13px] leading-relaxed ${isDark ? 'text-white/80' : 'text-gray-700'}`}>{insights.summary}</p>
           )}
           <div className="grid grid-cols-2 md:grid-cols-3 gap-1.5 md:gap-1.5">
-            <div className={`backdrop-blur-sm rounded-lg p-2.5 md:p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-[#10121e]/80 border-[#51faaa]/10' : 'bg-white/80 border-gray-200'
+            <div className={`backdrop-blur-sm rounded-lg p-2.5 md:p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-[#0e1311]/80 border-[#fbbf24]/10' : 'bg-white/80 border-gray-200'
               }`}>
               <div className="flex items-center gap-1 mb-1">
-                <Home className="w-3 h-3 md:w-3.5 md:h-3.5 text-[#51faaa]" />
+                <Home className="w-3 h-3 md:w-3.5 md:h-3.5 text-[#000000]" />
                 <p className={`text-[10px] md:text-[11px] font-medium ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Average Rent</p>
               </div>
               {rent?.avg_range?.min != null && rent?.avg_range?.max != null ? (
@@ -515,7 +515,7 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
                   {formatKes(rent?.avg_range?.min)} - {formatKes(rent?.avg_range?.max)}
                 </p>
               ) : (
-                <p className={`text-[12px] md:text-[13px] ${isDark ? 'text-white/60' : 'text-gray-500'}`}>—</p>
+                <p className={`text-[12px] md:text-[13px] ${isDark ? 'text-white/60' : 'text-gray-500'}`}>â€”</p>
               )}
               {expanded && (
                 <div className={`text-[10px] md:text-[11px] mt-1 ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>
@@ -535,10 +535,10 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
               )}
             </div>
 
-            <div className={`backdrop-blur-sm rounded-lg p-2.5 md:p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-[#10121e]/80 border-[#51faaa]/10' : 'bg-white/80 border-gray-200'
+            <div className={`backdrop-blur-sm rounded-lg p-2.5 md:p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-[#0e1311]/80 border-[#fbbf24]/10' : 'bg-white/80 border-gray-200'
               }`}>
               <div className="flex items-center gap-1 mb-1">
-                <DollarSign className="w-3 h-3 md:w-3.5 md:h-3.5 text-[#51faaa]" />
+                <DollarSign className="w-3 h-3 md:w-3.5 md:h-3.5 text-[#000000]" />
                 <p className={`text-[10px] md:text-[11px] font-medium ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Plot Prices</p>
               </div>
 
@@ -557,7 +557,7 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
                 );
 
                 if (availableSizes.length === 0) {
-                  return <p className={`text-[12px] md:text-[13px] ${isDark ? 'text-white/60' : 'text-gray-500'}`}>—</p>;
+                  return <p className={`text-[12px] md:text-[13px] ${isDark ? 'text-white/60' : 'text-gray-500'}`}>â€”</p>;
                 }
 
                 // Calculate overall range from all available sizes
@@ -589,7 +589,7 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
                 return (
                   <div>
                     <p className={`text-[12px] md:text-[13px] font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                      {minPrice !== Infinity ? `${formatPriceCompact(minPrice)} - ${formatPriceCompact(maxPrice)}` : '—'}
+                      {minPrice !== Infinity ? `${formatPriceCompact(minPrice)} - ${formatPriceCompact(maxPrice)}` : 'â€”'}
                     </p>
                     <div className={`text-[10px] md:text-[11px] mt-1 ${isDark ? 'text-[#ccc]' : 'text-gray-600'} ${expanded ? '' : 'hidden'}`}>
                       {availableSizes.slice(0, 4).map((size, index) => {
@@ -604,7 +604,7 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
                               ? `${formatPriceCompact(serviced.min)} - ${formatPriceCompact(serviced.max)}`
                               : hasUnserviced
                                 ? `${formatPriceCompact(unserviced.min)} - ${formatPriceCompact(unserviced.max)}`
-                                : '—'
+                                : 'â€”'
                             }
                           </div>
                         );
@@ -621,10 +621,10 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
               )}
             </div>
 
-            <div className={`backdrop-blur-sm rounded-lg p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-[#10121e]/80 border-[#51faaa]/10' : 'bg-white/80 border-gray-200'
+            <div className={`backdrop-blur-sm rounded-lg p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-[#0e1311]/80 border-[#fbbf24]/10' : 'bg-white/80 border-gray-200'
               }`}>
               <div className="flex items-center gap-1 mb-1">
-                <MapPin className="w-3.5 h-3.5 text-[#51faaa]" />
+                <MapPin className="w-3.5 h-3.5 text-[#000000]" />
                 <p className={`text-xs font-medium ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Hotspot Areas</p>
               </div>
               <p className={`text-sm font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{insights?.hotspots?.length ?? 0} Areas</p>
@@ -823,7 +823,7 @@ function EnhancedSearchBar({ searchQuery, setSearchQuery, propertyCount, filters
       transition={{ duration: 0.5, delay: 0.3 }}
     >
       <motion.div
-        className={`relative bg-white/95 dark:bg-gray-800/95 rounded-full shadow-lg border-2 backdrop-blur-sm transition-all duration-300 ${isFocused ? 'border-[#51faaa] shadow-xl shadow-[#51faaa]/20' : 'border-gray-200 dark:border-gray-700'
+        className={`relative bg-white/95 dark:bg-gray-800/95 rounded-full shadow-lg border-2 backdrop-blur-sm transition-all duration-300 ${isFocused ? 'border-[#fbbf24] shadow-xl shadow-[#000000]/20' : 'border-gray-200 dark:border-gray-700'
           }`}
         animate={{
           scale: isFocused ? 1.02 : 1,
@@ -840,7 +840,7 @@ function EnhancedSearchBar({ searchQuery, setSearchQuery, propertyCount, filters
               }}
               transition={{ duration: 0.2 }}
             >
-              <Search className={`w-4 h-4 ml-3 transition-colors ${isFocused ? 'text-[#51faaa]' : 'text-gray-400'
+              <Search className={`w-4 h-4 ml-3 transition-colors ${isFocused ? 'text-[#000000]' : 'text-gray-400'
                 }`} />
             </motion.div>
             <motion.input
@@ -892,7 +892,7 @@ function EnhancedSearchBar({ searchQuery, setSearchQuery, propertyCount, filters
             <button
               onClick={() => setShowFilters(!showFilters)}
               className={`px-3 py-1.5 rounded-full flex items-center gap-1.5 text-xs font-medium transition-all duration-300 ${showFilters
-                ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                 : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
             >
@@ -901,7 +901,7 @@ function EnhancedSearchBar({ searchQuery, setSearchQuery, propertyCount, filters
             </button>
             <button
               onClick={handleSaveSearch}
-              className="px-3 py-1.5 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] rounded-full text-xs font-medium hover:shadow-lg transition-all duration-300"
+              className="px-3 py-1.5 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-full text-xs font-medium hover:shadow-lg transition-all duration-300"
             >
               Save Search
             </button>
@@ -935,11 +935,11 @@ function EnhancedSearchBar({ searchQuery, setSearchQuery, propertyCount, filters
                     }}
                   >
                     <motion.div
-                      className="w-8 h-8 bg-[#51faaa]/20 dark:bg-[#51faaa]/20 rounded-lg flex items-center justify-center group-hover:bg-[#51faaa] transition-colors"
+                      className="w-8 h-8 bg-[#000000]/20 dark:bg-[#000000]/20 rounded-lg flex items-center justify-center group-hover:bg-[#000000] transition-colors"
                       whileHover={{ scale: 1.1, rotate: 5 }}
                       transition={{ duration: 0.2 }}
                     >
-                      <MapPin className="w-4 h-4 text-[#51faaa] dark:text-[#51faaa] group-hover:text-[#0a0c19]" />
+                      <MapPin className="w-4 h-4 text-[#000000] dark:text-[#000000] group-hover:text-[#000000]" />
                     </motion.div>
                     <span className="text-gray-700 dark:text-gray-200 font-medium">{suggestion}</span>
                   </motion.button>
@@ -1186,9 +1186,9 @@ function PropertyCard({
                 e.stopPropagation();
                 prev();
               }}
-              className="w-10 h-10 rounded-full absolute left-4 top-1/3 text-center flex items-center justify-center text-2xl z-20 opacity-80 hover:opacity-100 bg-black/60 text-white"
+              className="w-10 h-10 rounded-full absolute left-4 top-1/3 -translate-y-1/2 flex items-center justify-center z-20 opacity-80 hover:opacity-100 bg-black/60 text-white transition-opacity"
             >
-              ‹
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><polyline points="15 18 9 12 15 6"/></svg>
             </button>
 
             <button
@@ -1196,9 +1196,9 @@ function PropertyCard({
                 e.stopPropagation();
                 next();
               }}
-              className="w-10 h-10 rounded-full absolute right-4 top-1/3 text-2xl z-20 opacity-80 hover:opacity-100 bg-black/60 text-white"
+              className="w-10 h-10 rounded-full absolute right-4 top-1/3 -translate-y-1/2 flex items-center justify-center z-20 opacity-80 hover:opacity-100 bg-black/60 text-white transition-opacity"
             >
-              ›
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
           </>
         )}
@@ -1281,7 +1281,7 @@ function PropertyCard({
               e.stopPropagation();
               navigate(`/property/${property.id}`, { state: { property } });
             }}
-            className="text-[#059669] dark:text-[#51faaa] font-medium text-sm hover:text-[#51faaa]/80 dark:hover:text-[#51faaa]/80 transition-colors flex items-center gap-1"
+            className="text-[#303030] dark:text-[#000000] font-medium text-sm hover:text-[#000000]/80 dark:hover:text-[#000000]/80 transition-colors flex items-center gap-1"
           >
             View Details
             <ChevronRight className="w-3 h-3" />
@@ -1332,7 +1332,7 @@ function PropertyCard({
 //         const images = property.images || [];
 //         if (images.length === 0) return 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80';
 //         const transformedUrl = images[currentImageIndex];
-//         return transformedUrl?.replace('makao-648bd.firebasestorage.app', 'dwellmate-285e8.firebasestorage.app') || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80';
+//         return transformedUrl?.replace('makao-648bd.firebasestorage.app', 'maploti.firebasestorage.app') || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&h=300&q=80';
 //       })()}
 //       alt={property.title}
 //       className="w-full rounded-2xl h-60 object-cover shadow-1xl transition-all duration-300 group-hover:scale-110"
@@ -1461,7 +1461,7 @@ function PropertyCard({
 //           e.stopPropagation();
 //           navigate(`/property/${property.id}`, { state: { property } });
 //         }}
-//         className="text-[#059669] dark:text-[#51faaa] font-medium text-sm hover:text-[#51faaa]/80 dark:hover:text-[#51faaa]/80 transition-colors flex items-center gap-1"
+//         className="text-[#303030] dark:text-[#000000] font-medium text-sm hover:text-[#000000]/80 dark:hover:text-[#000000]/80 transition-colors flex items-center gap-1"
 //       >
 //         View Details
 //         <ChevronRight className="w-3 h-3" />
@@ -1536,12 +1536,12 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
     }
 
     if (import.meta.env.DEV) {
-      console.log('🗺️ onLoad called with mapInstance:', !!mapInstance, 'retry:', retryCountRef.current);
+      console.log('Ã°Å¸â€”ÂºÃ¯Â¸Â onLoad called with mapInstance:', !!mapInstance, 'retry:', retryCountRef.current);
     }
     setMap(mapInstance);
     try {
       // Wait for Google Maps to be fully loaded. NOTE: do NOT check
-      // window.google.maps.Projection here — it's an interface (type), not a
+      // window.google.maps.Projection here â€” it's an interface (type), not a
       // runtime property, so it's always undefined and the map would "fail"
       // after retries even though mapInstance is valid and the map loaded fine.
       if (!mapInstance || !window.google || !window.google.maps || !window.google.maps.Map) {
@@ -1566,14 +1566,14 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
 
       // Check if we're in production and disable spider if there are issues
       const isProduction = import.meta.env.PROD;
-      if (import.meta.env.DEV) console.log('🔍 Environment check - isProduction:', isProduction);
+      if (import.meta.env.DEV) console.log('Ã°Å¸â€Â Environment check - isProduction:', isProduction);
 
       // Skip OverlappingMarkerSpiderfier in production to avoid errors
       if (isProduction) {
-        if (import.meta.env.DEV) console.log('🚫 OverlappingMarkerSpiderfier disabled in production to prevent errors');
+        if (import.meta.env.DEV) console.log('Ã°Å¸Å¡Â« OverlappingMarkerSpiderfier disabled in production to prevent errors');
         setOms(null);
         if (import.meta.env.DEV) {
-          console.log('✅ onLoad completed successfully in production mode');
+          console.log('Ã¢Å“â€¦ onLoad completed successfully in production mode');
         }
         return;
       }
@@ -1587,7 +1587,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
         const module = await import('overlapping-marker-spiderfier');
         OverlappingMarkerSpiderfier = module.default;
       } catch (importError) {
-        console.warn('⚠️ Failed to import OverlappingMarkerSpiderfier:', importError.message);
+        console.warn('Ã¢Å¡Â Ã¯Â¸Â Failed to import OverlappingMarkerSpiderfier:', importError.message);
         setOms(null);
         return;
       }
@@ -1613,10 +1613,10 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
         });
         setOms(spider);
         if (import.meta.env.DEV) {
-          console.log('✅ OverlappingMarkerSpiderfier initialized successfully');
+          console.log('Ã¢Å“â€¦ OverlappingMarkerSpiderfier initialized successfully');
         }
       } catch (spiderError) {
-        console.warn('⚠️ OverlappingMarkerSpiderfier initialization failed:', spiderError.message);
+        console.warn('Ã¢Å¡Â Ã¯Â¸Â OverlappingMarkerSpiderfier initialization failed:', spiderError.message);
         // Continue without spider functionality
         setOms(null);
       }
@@ -1836,7 +1836,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="px-6 py-3 bg-[#51faaa] text-[#0a0c19] rounded-lg hover:bg-[#45e595] transition-colors font-medium"
+              className="px-6 py-3 bg-[#000000] text-[#000000] rounded-lg hover:bg-[#45e595] transition-colors font-medium"
             >
               Refresh Page
             </button>
@@ -1852,7 +1852,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
                       <div>${property.price?.toLocaleString()}</div>
                       {property.latitude && property.longitude && (
                         <div className="text-gray-500">
-                          📍 {property.latitude}, {property.longitude}
+                          Ã°Å¸â€œÂ {property.latitude}, {property.longitude}
                         </div>
                       )}
                     </div>
@@ -1864,7 +1864,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
         </div>
       ) : (
         !canInstantiateMap ? (
-          <div className="w-full h-full flex items-center justify-center text-gray-600 dark:text-gray-300">Loading map…</div>
+          <div className="w-full h-full flex items-center justify-center text-gray-600 dark:text-gray-300">Loading mapÃ¢â‚¬Â¦</div>
         ) : (
           <div className="w-full h-full">
             <GoogleMapComponent
@@ -1897,7 +1897,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
                     // Render only the markers inside the current map bounds
                     // (visibleProperties, kept fresh by the bounds_changed
                     // listener in onLoad) instead of all 500+ properties, so
-                    // we never build the full Marker set at once — the
+                    // we never build the full Marker set at once â€” the
                     // clusterer handles the rest as the user pans/zooms.
                     const baseList = Array.isArray(visibleProperties)
                       ? visibleProperties
@@ -1946,9 +1946,9 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
                   options={{
                     drawingControl: false,
                     polygonOptions: {
-                      fillColor: '#51faaa',
+                      fillColor: '#000000',
                       fillOpacity: 0.1,
-                      strokeColor: '#51faaa',
+                      strokeColor: '#000000',
                       strokeWeight: 2,
                       clickable: false,
                       editable: true,
@@ -1991,7 +1991,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
                     </div>
                     <button
                       onClick={() => navigate(`/property/${selectedProperty.id}`)}
-                      className="w-full px-3 py-1.5 bg-[#51faaa] text-[#0a0c19] rounded-lg hover:bg-[#dbd5a4] transition-colors text-xs font-semibold"
+                      className="w-full px-3 py-1.5 bg-[#000000] text-[#000000] rounded-lg hover:bg-[#f0f0f0] transition-colors text-xs font-semibold"
                     >
                       View Details
                     </button>
@@ -2026,7 +2026,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
           <button
             onClick={() => setDrawingMode(!drawingMode)}
             className={`p-3 rounded-xl transition-all duration-300 ${drawingMode
-              ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+              ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
               : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200'
               }`}
             title="Draw boundary"
@@ -2051,7 +2051,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
           <button
             onClick={() => setShowSchools(!showSchools)}
             className={`p-3 rounded-xl transition-all duration-300 ${showSchools
-              ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+              ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
               : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200'
               }`}
             title="Schools"
@@ -2061,7 +2061,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
           <button
             onClick={() => setShowTransit(!showTransit)}
             className={`p-3 rounded-xl transition-all duration-300 mt-1 ${showTransit
-              ? 'bg-[#dbd5a4] text-[#0a0c19] shadow-lg shadow-[#dbd5a4]/20'
+              ? 'bg-[#f0f0f0] text-[#000000] shadow-lg shadow-[#f0f0f0]/20'
               : 'hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200'
               }`}
             title="Transit"
@@ -2083,7 +2083,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
               key={theme.value}
               onClick={() => setMapTheme(theme.value)}
               className={`px-3 py-2 rounded-xl flex items-center gap-2 text-xs md:text-sm font-medium transition-all duration-300 ${mapTheme === theme.value
-                ? 'bg-[#059669] text-[#fff] shadow-lg shadow-[#51faaa]/20'
+                ? 'bg-[#303030] text-[#fff] shadow-lg shadow-[#000000]/20'
                 : 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700'
                 }`}
             >
@@ -2095,14 +2095,14 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
       </div>
 
       {/* Property Count Badge */}
-      <div className="absolute bottom-8 left-6 bg-gradient-to-r from-emerald-500 to-emerald-500 text-[#0a0c19] px-3 py-2 rounded-2xl shadow-lg flex items-center gap-3">
+      <div className="absolute bottom-8 left-6 bg-gradient-to-r from-emerald-500 to-emerald-500 text-[#000000] px-3 py-2 rounded-2xl shadow-lg flex items-center gap-3">
         <Home className="w-5 h-5 text-white" />
         <span className=" text-white">{propertyData.length} properties</span>
       </div>
 
       {/* Drawing Mode Indicator */}
       {drawingMode && (
-        <div className="absolute bottom-4 right-4 bg-[#51faaa] text-[#0a0c19] px-4 py-2 rounded-xl shadow-lg">
+        <div className="absolute bottom-4 right-4 bg-[#000000] text-[#000000] px-4 py-2 rounded-xl shadow-lg">
           <div className="flex items-center gap-2">
             <Map className="w-4 h-4" />
             <span className="text-sm font-medium">Click to draw boundary</span>
@@ -2212,7 +2212,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
             </motion.button>
             <motion.button
               onClick={clearAllFilters}
-              className="text-[#51faaa] dark:text-[#51faaa] hover:text-[#dbd5a4] dark:hover:text-[#dbd5a4] text-sm font-medium"
+              className="text-[#000000] dark:text-[#000000] hover:text-[#f0f0f0] dark:hover:text-[#f0f0f0] text-sm font-medium"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.2 }}
@@ -2240,7 +2240,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
                 type="checkbox"
                 checked={filters.isFurnished}
                 onChange={(e) => handleFilterChange('isFurnished', e.target.checked)}
-                className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#51faaa] focus:ring-[#51faaa]"
+                className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#000000] focus:ring-[#000000]"
                 whileTap={{ scale: 0.9 }}
               />
               <span className="text-sm text-gray-700 dark:text-gray-200 flex items-center gap-1">
@@ -2258,7 +2258,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
                 type="checkbox"
                 checked={filters.isStudentFriendly}
                 onChange={(e) => handleFilterChange('isStudentFriendly', e.target.checked)}
-                className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#51faaa] focus:ring-[#51faaa]"
+                className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#000000] focus:ring-[#000000]"
               />
               <span className="text-sm text-gray-700 dark:text-gray-200 flex items-center gap-1">
                 <School className="w-4 h-4" /> Student-Friendly
@@ -2269,7 +2269,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
                 type="checkbox"
                 checked={filters.isGatedCommunity}
                 onChange={(e) => handleFilterChange('isGatedCommunity', e.target.checked)}
-                className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#51faaa] focus:ring-[#51faaa]"
+                className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#000000] focus:ring-[#000000]"
               />
               <span className="text-sm text-gray-700 dark:text-gray-200 flex items-center gap-1">
                 <Shield className="w-4 h-4" /> Gated Community
@@ -2280,7 +2280,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
                 type="checkbox"
                 checked={filters.hasParking}
                 onChange={(e) => handleFilterChange('hasParking', e.target.checked)}
-                className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#51faaa] focus:ring-[#51faaa]"
+                className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#000000] focus:ring-[#000000]"
               />
               <span className="text-sm text-gray-700 dark:text-gray-200 flex items-center gap-1">
                 <Car className="w-4 h-4" /> Parking Available
@@ -2298,14 +2298,14 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
               placeholder="Min price"
               value={filters.minPrice}
               onChange={(e) => handleFilterChange('minPrice', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#51faaa] bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#000000] bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
             />
             <input
               type="number"
               placeholder="Max price"
               value={filters.maxPrice}
               onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#51faaa] bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#000000] bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
             />
           </div>
         </div>
@@ -2317,7 +2317,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
             <select
               value={filters.minBeds}
               onChange={(e) => handleFilterChange('minBeds', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#51faaa] bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#000000] bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
             >
               <option value="">Any beds</option>
               <option value="0">Single Room (Bedsitter)</option>
@@ -2329,7 +2329,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
             <select
               value={filters.minBaths}
               onChange={(e) => handleFilterChange('minBaths', e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#51faaa] bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#000000] bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
             >
               <option value="">Any baths</option>
               <option value="1">1+ baths</option>
@@ -2355,7 +2355,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
                       : (filters.homeTypes || []).filter(t => t !== type);
                     handleFilterChange('homeTypes', newTypes);
                   }}
-                  className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#51faaa] focus:ring-[#51faaa]"
+                  className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#000000] focus:ring-[#000000]"
                 />
                 <span className="text-sm text-gray-700 dark:text-gray-200">{type}</span>
               </label>
@@ -2372,7 +2372,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
                 type="checkbox"
                 checked={filters.isNearCBD}
                 onChange={(e) => handleFilterChange('isNearCBD', e.target.checked)}
-                className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#51faaa] focus:ring-[#51faaa]"
+                className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#000000] focus:ring-[#000000]"
               />
               <span className="text-sm text-gray-700 dark:text-gray-200">Nairobi CBD</span>
             </label>
@@ -2381,7 +2381,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
                 type="checkbox"
                 checked={filters.isNearUniversity}
                 onChange={(e) => handleFilterChange('isNearUniversity', e.target.checked)}
-                className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#51faaa] focus:ring-[#51faaa]"
+                className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#000000] focus:ring-[#000000]"
               />
               <span className="text-sm text-gray-700 dark:text-gray-200">Near University/College</span>
             </label>
@@ -2390,7 +2390,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
                 type="checkbox"
                 checked={filters.isNearMajorRoads}
                 onChange={(e) => handleFilterChange('isNearMajorRoads', e.target.checked)}
-                className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#51faaa] focus:ring-[#51faaa]"
+                className="mr-2 rounded border-gray-300 dark:border-gray-700 text-[#000000] focus:ring-[#000000]"
               />
               <span className="text-sm text-gray-700 dark:text-gray-200">Near Major Roads (Thika Rd, Mombasa Rd, Waiyaki Way, etc.)</span>
             </label>
@@ -2403,7 +2403,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
           <select
             value={filters.selectedEstate || ''}
             onChange={(e) => handleFilterChange('selectedEstate', e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#51faaa] bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#000000] bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
           >
             <option value="">All Estates</option>
             <option value="Kileleshwa">Kileleshwa</option>
@@ -2426,7 +2426,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
 
         {/* Enhanced Apply Filters Button */}
         <motion.button
-          className="w-full bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#0a0c19] font-semibold py-3 px-6 rounded-xl hover:shadow-lg hover:shadow-[#51faaa]/25 transition-all duration-300 relative overflow-hidden"
+          className="w-full bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-semibold py-3 px-6 rounded-xl hover:shadow-lg hover:shadow-[#000000]/25 transition-all duration-300 relative overflow-hidden"
           whileHover={{
             scale: 1.02,
             y: -2
@@ -2667,7 +2667,7 @@ export default function MapView() {
   // Alternative Google Maps loading method (referenced by loader onError)
   const loadGoogleMapsAlternative = useCallback(() => {
     if (window.google && window.google.maps) {
-      console.log('✅ Google Maps loaded via alternative method');
+      console.log('Ã¢Å“â€¦ Google Maps loaded via alternative method');
       setMapLoaded(true);
       return;
     }
@@ -2679,13 +2679,13 @@ export default function MapView() {
 
     // Global callback for alternative loading
     window.initGoogleMaps = () => {
-      console.log('✅ Google Maps loaded via alternative callback');
+      console.log('Ã¢Å“â€¦ Google Maps loaded via alternative callback');
       setMapLoaded(true);
       delete window.initGoogleMaps;
     };
 
     script.onerror = () => {
-      console.error('❌ Alternative Google Maps loading also failed');
+      console.error('Ã¢ÂÅ’ Alternative Google Maps loading also failed');
       setMapsApiError(true);
     };
 
@@ -2704,21 +2704,21 @@ export default function MapView() {
     retryDelay: 2000,
     // Add callback for successful load
     onLoad: () => {
-      console.log('✅ Google Maps API loaded successfully');
+      console.log('Ã¢Å“â€¦ Google Maps API loaded successfully');
       setMapLoaded(true);
     },
     // Add callback for load errors
     onError: (error) => {
-      console.error('❌ Google Maps API failed to load:', error);
-      console.error('🔑 API Key being used:', GOOGLE_MAPS_API_KEY ? GOOGLE_MAPS_API_KEY.substring(0, 10) + '...' : 'MISSING');
-      console.error('🌍 Environment:', import.meta.env.MODE);
-      console.error('🔗 API URL:', import.meta.env.VITE_API_URL);
+      console.error('Ã¢ÂÅ’ Google Maps API failed to load:', error);
+      console.error('Ã°Å¸â€â€˜ API Key being used:', GOOGLE_MAPS_API_KEY ? GOOGLE_MAPS_API_KEY.substring(0, 10) + '...' : 'MISSING');
+      console.error('Ã°Å¸Å’Â Environment:', import.meta.env.MODE);
+      console.error('Ã°Å¸â€â€” API URL:', import.meta.env.VITE_API_URL);
       setMapsApiError(true);
 
       // Try alternative loading method
       setTimeout(() => {
         if (!window.google || !window.google.maps) {
-          console.warn('⚠️ Attempting alternative Google Maps loading...');
+          console.warn('Ã¢Å¡Â Ã¯Â¸Â Attempting alternative Google Maps loading...');
           loadGoogleMapsAlternative();
         }
       }, 3000);
@@ -2728,7 +2728,7 @@ export default function MapView() {
   // Enhanced error logging for production debugging
   useEffect(() => {
     if (loadError) {
-      console.error('🚨 Google Maps Load Error Details:', {
+      console.error('Ã°Å¸Å¡Â¨ Google Maps Load Error Details:', {
         error: loadError,
         apiKey: GOOGLE_MAPS_API_KEY ? 'Present' : 'Missing',
         environment: import.meta.env.MODE,
@@ -2784,10 +2784,10 @@ export default function MapView() {
   const [filteredData, setFilteredData] = useState([]);
   const [visibleCardCount, setVisibleCardCount] = useState(24);
   const sentinelRef = useRef(null);
-  // Desktop map drawer — collapsed by default so the full listings page gets
+  // Desktop map drawer â€” collapsed by default so the full listings page gets
   // the room; toggled via the floating "Show map" button.
   const [showMap, setShowMap] = useState(false);
-  // "Map is hidden" hint — shown once on first visit until the user opens the
+  // "Map is hidden" hint â€” shown once on first visit until the user opens the
   // map or dismisses it (persisted so it doesn't nag on later visits).
   const [mapHintDismissed, setMapHintDismissed] = useState(
     () => { try { return localStorage.getItem('bm_map_hint_seen') === '1'; } catch (_) { return false; } }
@@ -2819,7 +2819,7 @@ export default function MapView() {
   const geocodeCacheRef = useRef(null);
 
   // Data fetching hooks - must be at top level
-  let { data, isError, isLoading: propertiesLoading } = useProperties()
+  let { data, isError, isLoading: propertiesLoading } = useProperties({ limit: 200 })
   const properties = data?.properties || []
 
   // Enhanced debugging for property data
@@ -2830,7 +2830,7 @@ export default function MapView() {
       console.log('Properties with coordinates:', properties.filter(p => p.latitude && p.longitude));
     } else {
       // Production debugging
-      console.log('🏠 Property data status:', {
+      console.log('Ã°Å¸ÂÂ  Property data status:', {
         hasData: !!data,
         propertiesCount: properties.length,
         isLoading: propertiesLoading,
@@ -2846,14 +2846,14 @@ export default function MapView() {
     // Listen for Google Maps API loaded event
     const handleGoogleMapsLoaded = () => {
       if (import.meta.env.DEV) {
-        console.log('🗺️ Google Maps API loaded, re-rendering components...');
+        console.log('Ã°Å¸â€”ÂºÃ¯Â¸Â Google Maps API loaded, re-rendering components...');
       }
       setMapLoaded(true);
     };
 
     // Listen for Google Maps API errors
     const handleGoogleMapsError = () => {
-      console.warn('⚠️ Google Maps API failed to load, using fallback mode');
+      console.warn('Ã¢Å¡Â Ã¯Â¸Â Google Maps API failed to load, using fallback mode');
       setMapsApiError(true);
     };
 
@@ -3035,7 +3035,7 @@ export default function MapView() {
           if (!isValidKenyanCoordinate(lat, lng)) {
             // Fallback near Nairobi with larger offset to avoid overlapping
             // Use a more spread out pattern to ensure visible separation
-            const offsetLat = (index % 10) * 0.02; // 0.02 degrees ≈ 2.2km
+            const offsetLat = (index % 10) * 0.02; // 0.02 degrees Ã¢â€°Ë† 2.2km
             const offsetLng = Math.floor(index / 10) * 0.02;
             lat = -1.2921 + offsetLat;
             lng = 36.8219 + offsetLng;
@@ -3368,7 +3368,7 @@ export default function MapView() {
         break;
     }
 
-    // Rentals first, sales after — stable sort preserves the prior ordering within each group.
+    // Rentals first, sales after â€” stable sort preserves the prior ordering within each group.
     const isRental = (p) => {
       const t = String(p.listing_type || p.type || '').toLowerCase();
       return t === 'rent' || t === 'rental' || t === 'for-rent' || t === 'for rent';
@@ -3402,7 +3402,7 @@ export default function MapView() {
   useEffect(() => {
     if (!isLoaded && !mapsReady && !loadingTimeout) {
       const timeout = setTimeout(() => {
-        console.warn('⚠️ Google Maps loading timeout - proceeding without map');
+        console.warn('Ã¢Å¡Â Ã¯Â¸Â Google Maps loading timeout - proceeding without map');
         setLoadingTimeout(true);
       }, 10000); // 10 second timeout
 
@@ -3432,7 +3432,7 @@ export default function MapView() {
   };
 
   // Debug logging for map loading (always show in production for debugging)
-  if (import.meta.env.DEV) console.log('🔍 Map loading debug:', {
+  if (import.meta.env.DEV) console.log('Ã°Å¸â€Â Map loading debug:', {
     isLoaded,
     loadError,
     mapsApiError,
@@ -3448,7 +3448,7 @@ export default function MapView() {
   // so the surrounding page layout (navbar, filters, insights, listings) still renders.
   // Don't render anything until Google Maps is loaded (unless timeout)
   if (false && !isLoaded && !mapsReady && !loadingTimeout) {
-    console.log('⏳ Waiting for Google Maps API to load...');
+    console.log('Ã¢ÂÂ³ Waiting for Google Maps API to load...');
     return (
       <div className="w-full h-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center">
@@ -3465,7 +3465,7 @@ export default function MapView() {
 
   // If timeout occurred, show a fallback UI
   if (false && loadingTimeout && !isLoaded && !mapsReady) {
-    console.log('⚠️ Google Maps loading timeout - showing fallback UI');
+    console.log('Ã¢Å¡Â Ã¯Â¸Â Google Maps loading timeout - showing fallback UI');
     return (
       <div className="w-full h-full flex items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="text-center p-8">
@@ -3749,7 +3749,7 @@ export default function MapView() {
               {currentUser ? (
                 <div className="flex items-center gap-3">
                   <a href="/account" className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                    <span className="inline-flex w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-[#51faaa] to-[#dbd5a4]">
+                    <span className="inline-flex w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-[#fbbf24] to-[#f59e0b]">
                       {currentUser.photoURL ? (
                         <img src={currentUser.photoURL} alt={currentUser.displayName || currentUser.email} width="40" height="40" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                       ) : (
@@ -3763,10 +3763,10 @@ export default function MapView() {
                 </div>
               ) : (
                 <div className="flex items-center gap-3">
-                  <a href="/login" className="px-5 py-2.5 text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-[#0a0c19] dark:hover:text-[#0a0c19] transition-colors rounded-full hover:bg-[#51faaa]/20 dark:hover:bg-[#51faaa]/30">
+                  <a href="/login" className="px-5 py-2.5 text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-[#000000] dark:hover:text-[#000000] transition-colors rounded-full hover:bg-[#000000]/20 dark:hover:bg-[#000000]/30">
                     Sign In
                   </a>
-                  <a href="/register" className="px-6 py-2.5 bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] text-[#111] rounded-full text-base font-semibold hover:shadow-lg hover:shadow-[#51faaa]/30 transition-all duration-300">
+                  <a href="/register" className="px-6 py-2.5 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-full text-base font-semibold hover:shadow-lg hover:shadow-[#000000]/30 transition-all duration-300">
                     Get Started
                   </a>
                 </div>
@@ -3781,7 +3781,7 @@ export default function MapView() {
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isNearPublicTransport: !prev.isNearPublicTransport }))}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isNearPublicTransport
-                  ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -3791,7 +3791,7 @@ export default function MapView() {
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isWaterIncluded: !prev.isWaterIncluded }))}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isWaterIncluded
-                  ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -3801,7 +3801,7 @@ export default function MapView() {
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isWifiIncluded: !prev.isWifiIncluded }))}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isWifiIncluded
-                  ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -3811,7 +3811,7 @@ export default function MapView() {
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isGatedCommunity: !prev.isGatedCommunity }))}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isGatedCommunity
-                  ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -3821,7 +3821,7 @@ export default function MapView() {
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isNewlyBuilt: !prev.isNewlyBuilt }))}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isNewlyBuilt
-                  ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -3831,7 +3831,7 @@ export default function MapView() {
               <button
                 onClick={() => setFilters(prev => ({ ...prev, hasElevator: !prev.hasElevator }))}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.hasElevator
-                  ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -3841,7 +3841,7 @@ export default function MapView() {
               <button
                 onClick={() => setFilters(prev => ({ ...prev, hasParking: !prev.hasParking }))}
                 className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.hasParking
-                  ? 'bg-[#51faaa] text-[#0a0c19] shadow-lg shadow-[#51faaa]/20'
+                  ? 'bg-[#000000] text-[#000000] shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
               >
@@ -3862,7 +3862,7 @@ export default function MapView() {
                   onClick={() => setFilters(prev => ({ ...prev, listingType: opt.v }))}
                   className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 ${
                     (filters.listingType || 'all') === opt.v
-                      ? 'bg-[#51faaa] text-[#0a0c19] shadow'
+                      ? 'bg-[#000000] text-[#000000] shadow'
                       : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white'
                   }`}
                 >
@@ -3906,7 +3906,7 @@ export default function MapView() {
         </>
       )}
 
-      {/* Map Area — desktop: hidden by default so the full listings page gets the
+      {/* Map Area â€” desktop: hidden by default so the full listings page gets the
           room. Clicking "Show map" morphs into the original split layout (map on
           the left ~48%, list on the right ~52%) as the list animates narrower.
           Mobile: full-screen map when viewMode is 'map'. The map only mounts
@@ -3953,13 +3953,13 @@ export default function MapView() {
         </ErrorBoundary>
       </div>
 
-      {/* Floating map toggle (desktop only) — collapsed by default so the full
+      {/* Floating map toggle (desktop only) â€” collapsed by default so the full
           listings page gets the room; opens the original split layout. */}
       <button
         onClick={() => { setShowMap((v) => !v); dismissMapHint(); }}
-        className={`hidden lg:flex fixed bottom-6 right-6 z-40 items-center gap-2 px-5 py-3 rounded-full shadow-xl text-sm font-semibold transition-all duration-300 ${showMap
-          ? 'bg-gray-900/80 text-white hover:bg-gray-700'
-          : 'bg-gradient-to-r from-[#51faaa] to-emerald-500 text-[#0a0c19] hover:scale-105 hover:shadow-[#51faaa]/30'
+        className={`hidden lg:flex fixed bottom-6 right-6 z-40 items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${showMap
+          ? 'bg-gray-900/80 text-white hover:bg-gray-700 shadow-xl'
+          : 'bg-gradient-to-b from-[#fbbf24] to-[#f59e0b] text-[#0e1311] shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_20px_-6px_rgba(251,191,36,0.45)] hover:brightness-110 hover:-translate-y-0.5'
           }`}
       >
         {showMap ? <X className="w-4 h-4" /> : <MapPin className="w-4 h-4" />}
@@ -3980,7 +3980,7 @@ export default function MapView() {
                 onClick={() => { try { const el = document.getElementById('listings-scroll'); if (el) el.scrollTo({ top: 0, behavior: 'smooth' }); } catch (_) { } }}
               >
                 <div className="w-5 h-5 rounded-full flex items-center justify-center bg-gradient-to-r from-emerald-500 to-emerald-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-2.5 h-2.5 text-[#0a0c19]">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-2.5 h-2.5 text-[#000000]">
                     <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
                     <path d="M5 3v4"></path>
                     <path d="M19 17v4"></path>
@@ -4001,12 +4001,12 @@ export default function MapView() {
                 <button
                   onClick={() => setViewMode('grid')}
                   className={`px-2.5 py-1 rounded-full transition-all duration-300 flex items-center gap-1 relative overflow-hidden ${viewMode === 'grid'
-                    ? 'bg-white dark:bg-gray-600 shadow-md text-[#059669] dark:text-[#51faaa] font-medium'
+                    ? 'bg-white dark:bg-gray-600 shadow-md text-[#303030] dark:text-[#000000] font-medium'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
                     }`}
                 >
                   {viewMode === 'grid' && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#51faaa]/10 to-[#dbd5a4]/10" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10" />
                   )}
                   <Grid className="w-3 h-3 relative z-10" />
                   <span className="text-[11px] hidden sm:inline relative z-10">Grid</span>
@@ -4014,12 +4014,12 @@ export default function MapView() {
                 <button
                   onClick={() => setViewMode('list')}
                   className={`px-2.5 py-1 rounded-full transition-all duration-300 flex items-center gap-1 relative overflow-hidden ${viewMode === 'list'
-                    ? 'bg-white dark:bg-gray-600 shadow-md text-[#059669] dark:text-[#51faaa] font-medium'
+                    ? 'bg-white dark:bg-gray-600 shadow-md text-[#303030] dark:text-[#000000] font-medium'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200'
                     }`}
                 >
                   {viewMode === 'list' && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#51faaa]/10 to-[#dbd5a4]/10" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10" />
                   )}
                   <List className="w-3 h-3 relative z-10" />
                   <span className="text-[11px] hidden sm:inline relative z-10">List</span>
@@ -4032,17 +4032,17 @@ export default function MapView() {
         {!showMap && !mapHintDismissed && (
           <button
             onClick={dismissMapHint}
-            className="hidden lg:flex mt-2 w-full items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-medium bg-emerald-50 dark:bg-[#51faaa]/10 text-emerald-700 dark:text-[#51faaa] border border-emerald-200/60 dark:border-[#51faaa]/20 hover:bg-emerald-100 dark:hover:bg-[#51faaa]/20 transition-colors"
+            className="hidden lg:flex mt-2 w-full items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-medium bg-emerald-50 dark:bg-[#000000]/10 text-emerald-700 dark:text-[#000000] border border-emerald-200/60 dark:border-[#fbbf24]/20 hover:bg-emerald-100 dark:hover:bg-[#000000]/20 transition-colors"
           >
             <MapPin className="w-3.5 h-3.5 shrink-0" />
-            <span className="flex-1 text-left">Map is hidden — show it to view locations</span>
+            <span className="flex-1 text-left">Map is hidden â€” show it to view locations</span>
             <X className="w-3.5 h-3.5 opacity-70 shrink-0" />
           </button>
         )}
 
         {/* Scrollable Cards */}
         <div id="listings-scroll" className="flex-1 min-h-0 overflow-y-auto bg-gray-100 dark:bg-gray-900">
-          {/* Market Insights — lives inside the scroll container so it scrolls
+          {/* Market Insights â€” lives inside the scroll container so it scrolls
               away with the cards instead of staying pinned */}
           <div className="px-3 pt-3">
             <MarketInsights location={searchQuery || 'Nairobi'} propertyCount={filteredData.length} searchQuery={searchQuery} />
@@ -4161,7 +4161,7 @@ function CartoFallbackView({ propertyData, onPropertySelect }) {
         count={propertyData?.length || 0}
       />
       <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] bg-gray-900/85 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-lg pointer-events-none whitespace-nowrap">
-        OpenStreetMap view · Google Maps unavailable
+        OpenStreetMap view Ã‚Â· Google Maps unavailable
       </div>
     </div>
   );
@@ -4183,7 +4183,7 @@ function FallbackMap({ propertyData, onPropertySelect }) {
           Property Locations ({propertyData?.length || 0})
         </h3>
         <div className="text-sm text-gray-600 dark:text-gray-400">
-          📍 Interactive map unavailable
+          Ã°Å¸â€œÂ Interactive map unavailable
         </div>
       </div>
 
@@ -4210,7 +4210,7 @@ function FallbackMap({ propertyData, onPropertySelect }) {
                   </p>
                   {property.latitude && property.longitude && (
                     <p className="text-xs text-gray-500 mt-1">
-                      📍 {property.latitude}, {property.longitude}
+                      Ã°Å¸â€œÂ {property.latitude}, {property.longitude}
                     </p>
                   )}
                   <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
@@ -4302,7 +4302,7 @@ function FallbackMap({ propertyData, onPropertySelect }) {
                   setSelectedProperty(null);
                   onPropertySelect && onPropertySelect(selectedProperty);
                 }}
-                className="w-full bg-[#51faaa] text-[#0a0c19] py-2 rounded-lg hover:bg-[#45e595] transition-colors font-medium"
+                className="w-full bg-[#000000] text-[#000000] py-2 rounded-lg hover:bg-[#45e595] transition-colors font-medium"
               >
                 View Full Details
               </button>
@@ -4341,7 +4341,7 @@ class ErrorBoundary extends React.Component {
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="px-6 py-3 bg-[#51faaa] text-[#0a0c19] rounded-lg hover:bg-[#45e595] transition-colors font-medium"
+              className="px-6 py-3 bg-[#000000] text-[#000000] rounded-lg hover:bg-[#45e595] transition-colors font-medium"
             >
               Refresh Page
             </button>

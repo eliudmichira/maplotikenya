@@ -181,7 +181,7 @@ function generateProperty(index) {
     agent: {
       name: ['James Kariuki', 'Grace Wanjiku', 'David Mwangi', 'Aisha Hassan', 'Peter Otieno'][index % 5],
       phone: `+254 7${randomInt(10, 99)} ${randomInt(100000, 999999)}`,
-      email: 'agent@bumihouse.co.ke',
+      email: 'agent@maplotikenya.co.ke',
       avatar: '',
       rating: (3.5 + Math.random() * 1.5).toFixed(1),
       reviews: randomInt(2, 48),
@@ -199,7 +199,7 @@ function generateProperty(index) {
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
 async function seed() {
-  console.log('\n🏠 BumiHouse Firestore Seeder\n');
+  console.log('\n🏠 MaplotiKenya Firestore Seeder\n');
 
   // Check existing count
   const existing = await getDocs(query(collection(db, 'properties'), limit(5)));

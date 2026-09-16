@@ -215,7 +215,7 @@ export const seedFirestore = async () => {
     // Seed properties
     console.log('📦 Adding properties...');
     for (const property of sampleProperties) {
-      await addDoc(collection(db, 'properties'), property);
+      await addDoc(collection(db, 'listings'), property);
       console.log(`✅ Added property: ${property.title}`);
     }
 

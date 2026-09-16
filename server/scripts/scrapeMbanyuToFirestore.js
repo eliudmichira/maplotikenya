@@ -1,5 +1,5 @@
 /**
- * Scrapes Mbanyu real estate listings and imports them into Maploti Firebase Firestore.
+ * Scrapes Mbanyu real estate listings and imports them into MaplotiKenya Firebase Firestore.
  * Bypasses local dependencies by running directly within the server environment.
  * 
  * Usage:
@@ -11,9 +11,9 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, getDocs, query, where, Timestamp } from 'firebase/firestore';
 import { scrapeMbanyu } from './scrape/sites/mbanyu.js';
 
-// Firebase configuration for Maploti project
+// Firebase configuration for MaplotiKenya project
 const firebaseConfig = {
-  apiKey: process.env.MAPLOTI_API_KEY || 'YOUR_FIREBASE_API_KEY',
+  apiKey: process.env.MAPLOTIKENYA_API_KEY || 'YOUR_FIREBASE_API_KEY',
   appId: '1:689776477151:android:5ce8ad8b4011584add7a6a',
   messagingSenderId: '689776477151',
   projectId: 'maploti',

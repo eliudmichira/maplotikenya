@@ -1,0 +1,55 @@
+// Verify Firestore data
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
+const firebaseConfig = {
+    apiKey: process.env.VITE_FIREBASE_API_KEY || "YOUR_FIREBASE_API_KEY",
+    authDomain: "MaplotiKenya.firebaseapp.com",
+    projectId: "MaplotiKenya",
+    storageBucket: "MaplotiKenya.firebasestorage.app",
+    messagingSenderId: "1020344751483",
+    appId: "1:1020344751483:web:69b0ad87673613d75699de",
+    measurementId: "G-VQNF1ZPH1K"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+async function verifyData() {
+    console.log('ðŸ” Verifying Firestore data...');
+
+    try {
+        await signInWithEmailAndPassword(auth, process.env.FIREBASE_ADMIN_EMAIL || "YOUR_ADMIN_EMAIL", process.env.FIREBASE_ADMIN_PASSWORD || "YOUR_ADMIN_PASSWORD");
+        console.log("âœ… Authenticated as Admin for verification.");
+    } catch (e) {
+        console.warn("âš ï¸ Could not sign in as admin. Some collections might be unreadable/empty.");
+    }
+
+
+    const collections = [
+        'properties',
+        'agents',
+        'users',
+        'pageViews',
+        'admin',
+        'inquiries',
+        'conversations',
+        'reviews',
+        'comments'
+    ];
+
+    for (const colName of collections) {
+        try {
+            const snap = await getDocs(collection(db, colName));
+            console.log(`âœ… ${colName}: ${snap.size} documents found.`);
+            if (snap.size === 0) console.warn(`âš ï¸ ${colName} is empty!`);
+        } catch (e) {
+            console.error(`âŒ Error checking ${colName}:`, e.message);
+        }
+    }
+    process.exit(0);
+}
+
+verifyData();

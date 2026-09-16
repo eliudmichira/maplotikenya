@@ -1,4 +1,10 @@
 /** @type {import('tailwindcss').Config} */
+// Shared mono ramp used to override every colorful family below.
+const monoRamp = () => ({
+  50:  '#f8f8f8', 100: '#f0f0f0', 200: '#e2e2e2', 300: '#c8c8c8',
+  400: '#a3a3a3', 500: '#505050', 600: '#303030', 700: '#1a1a1a',
+  800: '#0e1311', 900: '#000000',
+});
 export default {
   content: [
     "./index.html",
@@ -8,42 +14,66 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'manrope': ['Manrope', 'sans-serif'],
-        'lato': ['Lato', 'sans-serif'],
-        'primary': ['Manrope', 'sans-serif'],
+        'manrope':  ['Apfel Grotezk', 'Manrope', 'sans-serif'],
+        'lato':     ['Apfel Grotezk', 'Lato', 'sans-serif'],
+        'primary':  ['Apfel Grotezk', 'Manrope', 'sans-serif'],
+        'sans':     ['Apfel Grotezk', 'Manrope', 'system-ui', 'sans-serif'],
+        'apfel':    ['Apfel Grotezk', 'system-ui', 'sans-serif'],
+        'apfel-brukt': ['Apfel Grotezk Brukt', 'Apfel Grotezk', 'system-ui', 'sans-serif'],
       },
       colors: {
-        // Primary - Brand Mint Green (#51faaa original BumiHouse)
+        // ─── PRIMARY: MONO (black-first CTA palette) ──────────────────
         primary: {
-          50: '#f0fdf7',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          300: '#86efb8',
-          400: '#51faaa',
-          500: '#3fd693',
-          600: '#2dd284',
-          700: '#1fb372',
-          800: '#15803d',
-          900: '#0f5132'
+          50:  '#f8f8f8',   // off-white
+          100: '#f0f0f0',
+          200: '#e2e2e2',
+          300: '#c8c8c8',
+          400: '#a3a3a3',
+          500: '#505050',   // mid gray (body)
+          600: '#303030',
+          700: '#1a1a1a',
+          800: '#0e1311',   // near-black green-tinted (badge bg)
+          900: '#000000',   // pure black (primary CTA)
         },
-        // Emerald - actual Tailwind emerald green
-        emerald: {
-          50: '#ecfdf5',
-          100: '#d1fae5',
-          200: '#a7f3d0',
-          300: '#6ee7b7',
-          400: '#34d399',
-          500: '#10b981',
-          600: '#059669',
-          700: '#047857',
-          800: '#065f46',
-          900: '#064e3b'
+        // Explicit mono aliases
+        mono: {
+          white:  '#ffffff',
+          off:    '#f8f8f8',
+          gray:   '#505050',
+          badge:  '#0e1311',
+          black:  '#000000',
         },
-        // Secondary - Warm Gold/Beige (#dbd5a4 original BumiHouse)
+        // The one sparing neon accent
+        accent: {
+          400: '#fbbf24',
+          500: '#fbbf24',
+          DEFAULT: '#fbbf24',
+        },
+        cream: {
+          50:  '#fffdf6', 100: '#fffaf0', 200: '#f7f6f0',
+          300: '#f7f1e3', 400: '#eee9db', 500: '#e0dccf',
+        },
+        // ─── ALL COLORFUL FAMILIES → MONO (single source of truth) ───
+        emerald:  monoRamp(),
+        green:    monoRamp(),
+        lime:     monoRamp(),
+        teal:     monoRamp(),
+        blue:     monoRamp(),
+        sky:      monoRamp(),
+        indigo:   monoRamp(),
+        cyan:     monoRamp(),
+        violet:   monoRamp(),
+        purple:   monoRamp(),
+        fuchsia:  monoRamp(),
+        pink:     monoRamp(),
+        rose:     monoRamp(),
+        // Note: `red`, `orange`, `amber`, `yellow` intentionally NOT overridden —
+        // preserved for error/warning semantics.
+        // Secondary - Warm Gold/Beige (#90e0ef original BumiHouse)
         secondary: {
           50: '#fefdf8',
           100: '#fefbf3',
-          200: '#dbd5a4',
+          200: '#90e0ef',
           300: '#c9c285',
           400: '#b7af66',
           500: '#a59c47',
@@ -52,65 +82,59 @@ export default {
           800: '#6f6348',
           900: '#5d5043'
         },
-        // Redefine as purple for consistency
-        purple: {
-          50: '#f5f3ff',
-          100: '#ede9fe',
-          200: '#ddd6fe',
-          300: '#c4b5fd',
-          400: '#a78bfa',
-          500: '#8b5cf6',
-          600: '#7c3aed',
-          700: '#6d28d9',
-          800: '#5b21b6',
-          900: '#4c1d95',
-        },
-        // Dark theme specific colors - Standardized Gray-based
+        // Dark theme — TRUE NEUTRAL blacks (no blue/green tint)
         dark: {
-          base: '#111827', // gray-900
-          surface: '#1f2937', // gray-800
-          elevated: '#374151', // gray-700
-          overlay: '#4b5563', // gray-600
-          900: '#111827', // gray-900
-          800: '#1f2937', // gray-800
-          700: '#374151', // gray-700
-          600: '#4b5563', // gray-600
+          base:     '#0A0A0A',
+          surface:  '#111111',
+          elevated: '#131313',
+          overlay:  '#1C1C1C',
+          900: '#0A0A0A',
+          800: '#111111',
+          700: '#131313',
+          600: '#1C1C1C',
         },
         // Status colors
-        success: '#10b981',
+        success: '#fbbf24',      // the neon accent
         warning: '#f59e0b',
         error: '#ef4444',
-        info: '#51faaa',
+        info: '#ffffff',
       },
       backgroundColor: {
-        'dark-base': '#111827', // gray-900
-        'dark-surface': '#1f2937', // gray-800
-        'dark-elevated': '#374151', // gray-700
-        'glass-dark': 'rgba(31, 41, 55, 0.8)', // gray-800 with opacity
-        'glass-light': 'rgba(255, 255, 255, 0.8)',
+        'dark-base':     '#000000',
+        'dark-surface':  '#0e1311',
+        'dark-elevated': '#1a1a1a',
+        'glass-dark':    'rgba(14, 19, 17, 0.72)',
+        'glass-light':   'rgba(255, 255, 255, 0.8)',
+        'scrim':         'rgba(0, 0, 0, 0.24)',
       },
       borderColor: {
-        'glass-dark': 'rgba(55, 65, 81, 0.3)', // gray-700 with opacity
-        'glass-light': 'rgba(229, 231, 235, 0.5)',
+        'glass-dark':  'rgba(255, 255, 255, 0.08)',
+        'glass-light': 'rgba(0, 0, 0, 0.08)',
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
-        'gradient-primary-hover': 'linear-gradient(135deg, #047857 0%, #059669 100%)',
-        'gradient-brand': 'linear-gradient(135deg, #51faaa 0%, #dbd5a4 100%)',
-        'gradient-secondary': 'linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%)',
-        'gradient-secondary-hover': 'linear-gradient(135deg, #6d28d9 0%, #7c3aed 100%)',
-        'gradient-dark': 'linear-gradient(135deg, #111827 0%, #374151 100%)',
-        'gradient-emerald': 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
-        'gradient-purple': 'linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%)',
+        // CTA gradients — AMBER (used by Get Started, Subscribe, Contact Sales, etc.)
+        'gradient-primary':        'linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%)',
+        'gradient-primary-hover':  'linear-gradient(180deg, #fcd34d 0%, #f59e0b 100%)',
+        'gradient-brand':          'linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%)',
+        'gradient-secondary':      'linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%)',
+        'gradient-secondary-hover':'linear-gradient(180deg, #fcd34d 0%, #f59e0b 100%)',
+        'gradient-dark':           'linear-gradient(180deg, #000000 0%, #0e1311 100%)',
+        'gradient-emerald':        'linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%)',
+        'gradient-purple':         'linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%)',
+        'scrim-bottom':            'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 100%)',
       },
       boxShadow: {
-        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.3)',
-        'glass-inset': 'inset 0 1px 0 0 rgba(81, 250, 170, 0.1)',
-        'glass-hover': '0 12px 40px 0 rgba(0, 0, 0, 0.4)',
-        'primary': '0 10px 40px -10px rgba(81, 250, 170, 0.3)',
-        'secondary': '0 10px 40px -10px rgba(219, 213, 164, 0.3)',
-        'emerald': '0 6px 20px 0 rgba(16, 185, 129, 0.4)',
-        'purple': '0 6px 20px 0 rgba(139, 92, 246, 0.4)',
+        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.4)',
+        'glass-inset': 'inset 0 1px 0 0 rgba(255, 255, 255, 0.06)',
+        'glass-hover': '0 12px 40px 0 rgba(0, 0, 0, 0.5)',
+        // Amber embossed CTA — used by every shadow-primary/-secondary/-emerald/-purple ref
+        'primary':   'inset 0 1px 0 rgba(255,255,255,0.55), 0 1px 2px rgba(0,0,0,0.15), 0 8px 20px -6px rgba(251,191,36,0.45)',
+        'secondary': 'inset 0 1px 0 rgba(255,255,255,0.55), 0 1px 2px rgba(0,0,0,0.15), 0 8px 20px -6px rgba(251,191,36,0.45)',
+        'emboss':    'inset 0 1px 0 rgba(255,255,255,0.10), 0 1px 2px rgba(0,0,0,0.35), 0 6px 16px -4px rgba(0,0,0,0.4)',
+        'emboss-light': 'inset 0 1px 0 rgba(255,255,255,0.65), 0 1px 2px rgba(0,0,0,0.08), 0 4px 12px -4px rgba(0,0,0,0.12)',
+        'accent':    '0 0 0 1px rgba(251,191,36,0.4), 0 6px 20px -4px rgba(251,191,36,0.35)',
+        'emerald':   'inset 0 1px 0 rgba(255,255,255,0.55), 0 1px 2px rgba(0,0,0,0.15), 0 8px 20px -6px rgba(251,191,36,0.45)',
+        'purple':    'inset 0 1px 0 rgba(255,255,255,0.55), 0 1px 2px rgba(0,0,0,0.15), 0 8px 20px -6px rgba(251,191,36,0.45)',
         // Google Material 3 inspired shadows
         'elevation-1': '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
         'elevation-2': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
@@ -245,7 +269,7 @@ export default {
     function({ addUtilities, theme }) {
       const newUtilities = {
         '.text-gradient-primary': {
-          background: 'linear-gradient(135deg, #059669 0%, #10b981 100%)',
+          background: 'linear-gradient(135deg, #0077b6 0%, #00b4d8 100%)',
           '-webkit-background-clip': 'text',
           '-webkit-text-fill-color': 'transparent',
           'background-clip': 'text',

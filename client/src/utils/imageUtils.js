@@ -48,7 +48,7 @@ export const transformImageUrl = (imageUrl) => {
   
   // Replace old bucket with new bucket
   if (imageUrl.includes('makao-648bd.firebasestorage.app')) {
-    return imageUrl.replace('makao-648bd.firebasestorage.app', 'dwellmate-285e8.firebasestorage.app');
+    return imageUrl.replace('makao-648bd.firebasestorage.app', 'maploti.firebasestorage.app');
   }
   
   return imageUrl;

@@ -1,4 +1,4 @@
-﻿import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { FileText, Bed, Bath, Square, Car, Layers, Plus, Trash2, X, Check, Home, Armchair } from 'lucide-react';
 import { useTheme } from '../../../context/ThemeContext';
 
@@ -71,9 +71,9 @@ const StepDetails = ({ formData, handleInputChange }) => {
     if (!formData.hasMultipleUnits) {
         return (
             <div className="space-y-6">
-                <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#10121e]' : 'bg-white shadow-sm'}`}>
+                <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#0e1311]' : 'bg-white shadow-sm'}`}>
                     <h2 className={`text-xl font-bold mb-6 flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                        <FileText className="w-6 h-6 text-[#51faaa]" /> Property Details
+                        <FileText className="w-6 h-6 text-[#000000]" /> Property Details
                     </h2>
 
                     <div className="grid grid-cols-2 gap-4">
@@ -88,7 +88,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
                                     type="number"
                                     value={formData.details.bedrooms}
                                     onChange={(e) => handleInputChange('details.bedrooms', e.target.value)}
-                                    className={`w-full p-3 pl-10 rounded-xl border text-center font-medium ${isDark ? 'bg-[#1a1d2d] border-gray-700 text-white' : 'bg-gray-50 border-gray-200 text-gray-900'} focus:ring-2 focus:ring-[#51faaa] outline-none`}
+                                    className={`w-full p-3 pl-10 rounded-xl border text-center font-medium ${isDark ? 'bg-[#1a1d2d] border-gray-700 text-white' : 'bg-gray-50 border-gray-200 text-gray-900'} focus:ring-2 focus:ring-[#000000] outline-none`}
                                 />
                             </div>
                         </div>
@@ -104,7 +104,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
                                     type="number"
                                     value={formData.details.bathrooms}
                                     onChange={(e) => handleInputChange('details.bathrooms', e.target.value)}
-                                    className={`w-full p-3 pl-10 rounded-xl border text-center font-medium ${isDark ? 'bg-[#1a1d2d] border-gray-700 text-white' : 'bg-gray-50 border-gray-200 text-gray-900'} focus:ring-2 focus:ring-[#51faaa] outline-none`}
+                                    className={`w-full p-3 pl-10 rounded-xl border text-center font-medium ${isDark ? 'bg-[#1a1d2d] border-gray-700 text-white' : 'bg-gray-50 border-gray-200 text-gray-900'} focus:ring-2 focus:ring-[#000000] outline-none`}
                                 />
                             </div>
                         </div>
@@ -120,7 +120,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
                                     type="number"
                                     value={formData.details.area}
                                     onChange={(e) => handleInputChange('details.area', e.target.value)}
-                                    className={`w-full p-3 pl-10 rounded-xl border text-center font-medium ${isDark ? 'bg-[#1a1d2d] border-gray-700 text-white' : 'bg-gray-50 border-gray-200 text-gray-900'} focus:ring-2 focus:ring-[#51faaa] outline-none`}
+                                    className={`w-full p-3 pl-10 rounded-xl border text-center font-medium ${isDark ? 'bg-[#1a1d2d] border-gray-700 text-white' : 'bg-gray-50 border-gray-200 text-gray-900'} focus:ring-2 focus:ring-[#000000] outline-none`}
                                 />
                             </div>
                         </div>
@@ -136,7 +136,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
                                     type="number"
                                     value={formData.details.parking}
                                     onChange={(e) => handleInputChange('details.parking', e.target.value)}
-                                    className={`w-full p-3 pl-10 rounded-xl border text-center font-medium ${isDark ? 'bg-[#1a1d2d] border-gray-700 text-white' : 'bg-gray-50 border-gray-200 text-gray-900'} focus:ring-2 focus:ring-[#51faaa] outline-none`}
+                                    className={`w-full p-3 pl-10 rounded-xl border text-center font-medium ${isDark ? 'bg-[#1a1d2d] border-gray-700 text-white' : 'bg-gray-50 border-gray-200 text-gray-900'} focus:ring-2 focus:ring-[#000000] outline-none`}
                                 />
                             </div>
                         </div>
@@ -149,14 +149,14 @@ const StepDetails = ({ formData, handleInputChange }) => {
     // Multi-Unit Mode
     return (
         <div className="space-y-6">
-            <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#10121e]' : 'bg-white shadow-sm'}`}>
+            <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#0e1311]' : 'bg-white shadow-sm'}`}>
                 <div className="flex justify-between items-center mb-6">
                     <h2 className={`text-xl font-bold flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-                        <Layers className="w-6 h-6 text-[#51faaa]" /> Unit Configurations
+                        <Layers className="w-6 h-6 text-[#000000]" /> Unit Configurations
                     </h2>
                     <button
                         onClick={() => setShowAddUnit(true)}
-                        className={`text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 ${isDark ? 'bg-[#51faaa]/20 text-[#51faaa]' : 'bg-[#51faaa]/10 text-[#51faaa]'}`}
+                        className={`text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1 ${isDark ? 'bg-[#000000]/20 text-[#000000]' : 'bg-[#000000]/10 text-[#000000]'}`}
                     >
                         <Plus className="w-3 h-3" /> Add Unit
                     </button>
@@ -174,7 +174,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
                                             {unit.unitsAvailable} Available
                                         </span>
                                     </div>
-                                    <span className="text-[#51faaa] font-bold font-mono">KES {Number(unit.price).toLocaleString()}</span>
+                                    <span className="text-[#000000] font-bold font-mono">KES {Number(unit.price).toLocaleString()}</span>
                                 </div>
                                 <div className="flex gap-4 text-xs text-gray-500">
                                     <span className="flex items-center gap-1"><Bed className="w-3 h-3" /> {unit.bedrooms || '-'}</span>
@@ -218,7 +218,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
                                         key={type.id}
                                         onClick={() => selectUnitType(type)}
                                         className={`px-3 py-2 rounded-lg text-xs font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 ${newUnit.type === type.id
-                                            ? 'bg-[#51faaa] text-[#0a0c19]'
+                                            ? 'bg-[#000000] text-[#000000]'
                                             : isDark ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                             }`}
                                     >
@@ -237,7 +237,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
                                     placeholder="e.g. 2 Bedroom Apartment"
                                     value={newUnit.name}
                                     onChange={e => setNewUnit({ ...newUnit, name: e.target.value })}
-                                    className={`w-full p-3 rounded-lg border text-sm ${isDark ? 'bg-[#0a0c19] border-gray-700 text-white' : 'bg-gray-50 border-gray-200'}`}
+                                    className={`w-full p-3 rounded-lg border text-sm ${isDark ? 'bg-[#000000] border-gray-700 text-white' : 'bg-gray-50 border-gray-200'}`}
                                 />
                             </div>
 
@@ -249,7 +249,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
                                         placeholder="0.00"
                                         value={newUnit.price}
                                         onChange={e => setNewUnit({ ...newUnit, price: e.target.value })}
-                                        className={`w-full p-3 rounded-lg border text-sm ${isDark ? 'bg-[#0a0c19] border-gray-700 text-white' : 'bg-gray-50 border-gray-200'}`}
+                                        className={`w-full p-3 rounded-lg border text-sm ${isDark ? 'bg-[#000000] border-gray-700 text-white' : 'bg-gray-50 border-gray-200'}`}
                                     />
                                 </div>
                                 <div>
@@ -258,7 +258,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
                                         type="number"
                                         value={newUnit.unitsAvailable}
                                         onChange={e => setNewUnit({ ...newUnit, unitsAvailable: e.target.value })}
-                                        className={`w-full p-3 rounded-lg border text-sm text-center ${isDark ? 'bg-[#0a0c19] border-gray-700 text-white' : 'bg-gray-50 border-gray-200'}`}
+                                        className={`w-full p-3 rounded-lg border text-sm text-center ${isDark ? 'bg-[#000000] border-gray-700 text-white' : 'bg-gray-50 border-gray-200'}`}
                                     />
                                 </div>
                             </div>
@@ -270,7 +270,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
                                         type="number"
                                         value={newUnit.bedrooms}
                                         onChange={e => setNewUnit({ ...newUnit, bedrooms: e.target.value })}
-                                        className={`w-full p-3 rounded-lg border text-sm text-center ${isDark ? 'bg-[#0a0c19] border-gray-700 text-white' : 'bg-gray-50 border-gray-200'}`}
+                                        className={`w-full p-3 rounded-lg border text-sm text-center ${isDark ? 'bg-[#000000] border-gray-700 text-white' : 'bg-gray-50 border-gray-200'}`}
                                     />
                                 </div>
                                 <div>
@@ -279,7 +279,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
                                         type="number"
                                         value={newUnit.bathrooms}
                                         onChange={e => setNewUnit({ ...newUnit, bathrooms: e.target.value })}
-                                        className={`w-full p-3 rounded-lg border text-sm text-center ${isDark ? 'bg-[#0a0c19] border-gray-700 text-white' : 'bg-gray-50 border-gray-200'}`}
+                                        className={`w-full p-3 rounded-lg border text-sm text-center ${isDark ? 'bg-[#000000] border-gray-700 text-white' : 'bg-gray-50 border-gray-200'}`}
                                     />
                                 </div>
                                 <div>
@@ -288,7 +288,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
                                         type="number"
                                         value={newUnit.area}
                                         onChange={e => setNewUnit({ ...newUnit, area: e.target.value })}
-                                        className={`w-full p-3 rounded-lg border text-sm text-center ${isDark ? 'bg-[#0a0c19] border-gray-700 text-white' : 'bg-gray-50 border-gray-200'}`}
+                                        className={`w-full p-3 rounded-lg border text-sm text-center ${isDark ? 'bg-[#000000] border-gray-700 text-white' : 'bg-gray-50 border-gray-200'}`}
                                     />
                                 </div>
                             </div>
@@ -300,13 +300,13 @@ const StepDetails = ({ formData, handleInputChange }) => {
                                     placeholder="e.g. Ensuite, Balcony, Open Kitchen"
                                     value={newUnit.features}
                                     onChange={e => setNewUnit({ ...newUnit, features: e.target.value })}
-                                    className={`w-full p-3 rounded-lg border text-sm ${isDark ? 'bg-[#0a0c19] border-gray-700 text-white' : 'bg-gray-50 border-gray-200'}`}
+                                    className={`w-full p-3 rounded-lg border text-sm ${isDark ? 'bg-[#000000] border-gray-700 text-white' : 'bg-gray-50 border-gray-200'}`}
                                 />
                             </div>
 
                             <button
                                 onClick={handleAddUnit}
-                                className="w-full py-3 rounded-lg bg-[#51faaa] text-[#0a0c19] font-bold text-sm hover:shadow-lg hover:shadow-[#51faaa]/20 transition-all flex items-center justify-center gap-2"
+                                className="w-full py-3 rounded-lg bg-[#000000] text-[#000000] font-bold text-sm hover:shadow-lg hover:shadow-[#000000]/20 transition-all flex items-center justify-center gap-2"
                             >
                                 <Plus className="w-4 h-4" /> Add Configuration
                             </button>

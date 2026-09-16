@@ -1,4 +1,4 @@
-﻿import React from 'react';
+import React from 'react';
 import { useTheme } from '../context/ThemeContext';
 import logoPadded from '../assets/logo_padded.png';
 
@@ -29,12 +29,12 @@ const Preloader = ({
 
   // Minimalist Spinner Variant
   const SpinnerLoader = () => (
-    <div className={`${sizeClasses[size]} animate-spin rounded-full border-2 border-[#51faaa]/20 border-t-[#51faaa]`} />
+    <div className={`${sizeClasses[size]} animate-spin rounded-full border-2 border-[#fbbf24]/20 border-t-[#000000]`} />
   );
 
   // Minimalist Pulse Variant
   const PulseLoader = () => (
-    <div className={`${sizeClasses[size]} animate-pulse rounded-full bg-[#51faaa]/20`} />
+    <div className={`${sizeClasses[size]} animate-pulse rounded-full bg-[#000000]/20`} />
   );
 
   // Minimalist Dots Variant
@@ -43,7 +43,7 @@ const Preloader = ({
       {[0, 1, 2].map((i) => (
         <div
           key={i}
-          className={`w-2 h-2 rounded-full bg-[#51faaa] animate-pulse`}
+          className={`w-2 h-2 rounded-full bg-[#000000] animate-pulse`}
           style={{ animationDelay: `${i * 0.2}s` }}
         />
       ))}
@@ -53,8 +53,8 @@ const Preloader = ({
   // Minimalist Ring Variant
   const RingLoader = () => (
     <div className={`${sizeClasses[size]} relative`}>
-      <div className={`absolute inset-0 rounded-full border-2 border-[#51faaa]/20`} />
-      <div className={`absolute inset-0 rounded-full border-2 border-transparent border-t-[#51faaa] animate-spin`} />
+      <div className={`absolute inset-0 rounded-full border-2 border-[#fbbf24]/20`} />
+      <div className={`absolute inset-0 rounded-full border-2 border-transparent border-t-[#000000] animate-spin`} />
     </div>
   );
 
@@ -64,7 +64,7 @@ const Preloader = ({
       {[0, 1, 2, 3, 4].map((i) => (
         <div
           key={i}
-          className={`w-1 h-6 rounded-full bg-[#51faaa] animate-pulse`}
+          className={`w-1 h-6 rounded-full bg-[#000000] animate-pulse`}
           style={{
             animationDelay: `${i * 0.1}s`,
             animationDuration: '1s'
@@ -77,16 +77,16 @@ const Preloader = ({
   // Minimalist Cube Variant
   const CubeLoader = () => (
     <div className={`${sizeClasses[size]} relative transform rotate-45`}>
-      <div className={`absolute inset-0 rounded-lg bg-[#51faaa] animate-pulse`} />
-      <div className={`absolute inset-1 rounded-lg ${isDark ? 'bg-[#0a0c19]' : 'bg-white'}`} />
+      <div className={`absolute inset-0 rounded-lg bg-[#000000] animate-pulse`} />
+      <div className={`absolute inset-1 rounded-lg ${isDark ? 'bg-[#000000]' : 'bg-white'}`} />
     </div>
   );
 
   // Minimalist Gradient Spinner Variant
   const GradientSpinner = () => (
     <div className={`${sizeClasses[size]} relative`}>
-      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#51faaa] to-[#dbd5a4] animate-spin" />
-      <div className={`absolute inset-1 rounded-full ${isDark ? 'bg-[#0a0c19]' : 'bg-white'}`} />
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] animate-spin" />
+      <div className={`absolute inset-1 rounded-full ${isDark ? 'bg-[#000000]' : 'bg-white'}`} />
     </div>
   );
 
@@ -94,11 +94,11 @@ const Preloader = ({
   const LogoSpinner = () => (
     <div className="relative">
       {/* Simple spinning ring */}
-      <div className="w-24 h-24 rounded-full border-2 border-[#51faaa]/20 border-t-[#51faaa] animate-spin" style={{ animationDuration: '2s' }} />
+      <div className="w-24 h-24 rounded-full border-2 border-[#fbbf24]/20 border-t-[#000000] animate-spin" style={{ animationDuration: '2s' }} />
 
       {/* Center logo */}
-      <div className="absolute inset-4 rounded-full bg-[#0a0c19] flex items-center justify-center overflow-hidden">
-        <img src={logoPadded} alt="BumiHouse" className="w-12 h-12 object-contain" />
+      <div className="absolute inset-4 rounded-full bg-[#000000] flex items-center justify-center overflow-hidden">
+        <img src={logoPadded} alt="MaplotiKenya" className="w-12 h-12 object-contain" />
       </div>
     </div>
   );
@@ -106,22 +106,22 @@ const Preloader = ({
   // Minimalist Skeleton Variant
   const SkeletonLoader = () => (
     <div className="space-y-3">
-      <div className={`h-4 rounded bg-[#51faaa]/20 animate-pulse`} />
-      <div className={`h-4 rounded w-5/6 bg-[#51faaa]/20 animate-pulse`} />
-      <div className={`h-4 rounded w-4/6 bg-[#51faaa]/20 animate-pulse`} />
+      <div className={`h-4 rounded bg-[#000000]/20 animate-pulse`} />
+      <div className={`h-4 rounded w-5/6 bg-[#000000]/20 animate-pulse`} />
+      <div className={`h-4 rounded w-4/6 bg-[#000000]/20 animate-pulse`} />
     </div>
   );
 
   // Minimalist Card Skeleton Variant
   const CardSkeleton = () => (
-    <div className={`rounded-xl p-6 border ${isDark ? 'bg-[#0a0c19] border-[#51faaa]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
+    <div className={`rounded-xl p-6 border ${isDark ? 'bg-[#000000] border-[#fbbf24]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
       <div className="space-y-4">
-        <div className={`h-6 rounded w-3/4 bg-[#51faaa]/20 animate-pulse`} />
-        <div className={`h-4 rounded w-full bg-[#51faaa]/20 animate-pulse`} />
-        <div className={`h-4 rounded w-5/6 bg-[#51faaa]/20 animate-pulse`} />
+        <div className={`h-6 rounded w-3/4 bg-[#000000]/20 animate-pulse`} />
+        <div className={`h-4 rounded w-full bg-[#000000]/20 animate-pulse`} />
+        <div className={`h-4 rounded w-5/6 bg-[#000000]/20 animate-pulse`} />
         <div className="flex space-x-2">
-          <div className={`h-8 rounded w-20 bg-[#51faaa]/20 animate-pulse`} />
-          <div className={`h-8 rounded w-20 bg-[#51faaa]/20 animate-pulse`} />
+          <div className={`h-8 rounded w-20 bg-[#000000]/20 animate-pulse`} />
+          <div className={`h-8 rounded w-20 bg-[#000000]/20 animate-pulse`} />
         </div>
       </div>
     </div>
@@ -132,18 +132,18 @@ const Preloader = ({
     <div className="space-y-6">
       {/* Header */}
       <div className="space-y-4">
-        <div className={`h-8 rounded w-1/3 bg-[#51faaa]/20 animate-pulse`} />
-        <div className={`h-4 rounded w-1/2 bg-[#51faaa]/20 animate-pulse`} />
+        <div className={`h-8 rounded w-1/3 bg-[#000000]/20 animate-pulse`} />
+        <div className={`h-4 rounded w-1/2 bg-[#000000]/20 animate-pulse`} />
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className={`rounded-xl p-6 border ${isDark ? 'bg-[#0a0c19] border-[#51faaa]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
+          <div key={i} className={`rounded-xl p-6 border ${isDark ? 'bg-[#000000] border-[#fbbf24]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
             <div className="space-y-3">
-              <div className={`h-4 rounded w-1/2 bg-[#51faaa]/20 animate-pulse`} />
-              <div className={`h-8 rounded w-3/4 bg-[#51faaa]/20 animate-pulse`} />
-              <div className={`h-3 rounded w-1/3 bg-[#51faaa]/20 animate-pulse`} />
+              <div className={`h-4 rounded w-1/2 bg-[#000000]/20 animate-pulse`} />
+              <div className={`h-8 rounded w-3/4 bg-[#000000]/20 animate-pulse`} />
+              <div className={`h-3 rounded w-1/3 bg-[#000000]/20 animate-pulse`} />
             </div>
           </div>
         ))}
@@ -151,22 +151,22 @@ const Preloader = ({
 
       {/* Content Area */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className={`lg:col-span-2 rounded-xl p-6 border ${isDark ? 'bg-[#0a0c19] border-[#51faaa]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
+        <div className={`lg:col-span-2 rounded-xl p-6 border ${isDark ? 'bg-[#000000] border-[#fbbf24]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
           <div className="space-y-4">
-            <div className={`h-6 rounded w-1/4 bg-[#51faaa]/20 animate-pulse`} />
+            <div className={`h-6 rounded w-1/4 bg-[#000000]/20 animate-pulse`} />
             <div className="space-y-3">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className={`h-4 rounded bg-[#51faaa]/20 animate-pulse`} />
+                <div key={i} className={`h-4 rounded bg-[#000000]/20 animate-pulse`} />
               ))}
             </div>
           </div>
         </div>
-        <div className={`rounded-xl p-6 border ${isDark ? 'bg-[#0a0c19] border-[#51faaa]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
+        <div className={`rounded-xl p-6 border ${isDark ? 'bg-[#000000] border-[#fbbf24]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
           <div className="space-y-4">
-            <div className={`h-6 rounded w-1/3 bg-[#51faaa]/20 animate-pulse`} />
+            <div className={`h-6 rounded w-1/3 bg-[#000000]/20 animate-pulse`} />
             <div className="space-y-3">
               {[1, 2, 3].map((i) => (
-                <div key={i} className={`h-4 rounded bg-[#51faaa]/20 animate-pulse`} />
+                <div key={i} className={`h-4 rounded bg-[#000000]/20 animate-pulse`} />
               ))}
             </div>
           </div>
@@ -177,16 +177,16 @@ const Preloader = ({
 
   // Minimalist Property Card Skeleton
   const PropertyCardSkeleton = () => (
-    <div className={`rounded-xl overflow-hidden border ${isDark ? 'bg-[#0a0c19] border-[#51faaa]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
-      <div className={`h-48 bg-[#51faaa]/20 animate-pulse`} />
+    <div className={`rounded-xl overflow-hidden border ${isDark ? 'bg-[#000000] border-[#fbbf24]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
+      <div className={`h-48 bg-[#000000]/20 animate-pulse`} />
       <div className="p-4 space-y-3">
-        <div className={`h-5 rounded w-3/4 bg-[#51faaa]/20 animate-pulse`} />
-        <div className={`h-4 rounded w-1/2 bg-[#51faaa]/20 animate-pulse`} />
-        <div className={`h-6 rounded w-1/3 bg-[#51faaa]/20 animate-pulse`} />
+        <div className={`h-5 rounded w-3/4 bg-[#000000]/20 animate-pulse`} />
+        <div className={`h-4 rounded w-1/2 bg-[#000000]/20 animate-pulse`} />
+        <div className={`h-6 rounded w-1/3 bg-[#000000]/20 animate-pulse`} />
         <div className="flex space-x-2">
-          <div className={`h-4 rounded w-16 bg-[#51faaa]/20 animate-pulse`} />
-          <div className={`h-4 rounded w-16 bg-[#51faaa]/20 animate-pulse`} />
-          <div className={`h-4 rounded w-16 bg-[#51faaa]/20 animate-pulse`} />
+          <div className={`h-4 rounded w-16 bg-[#000000]/20 animate-pulse`} />
+          <div className={`h-4 rounded w-16 bg-[#000000]/20 animate-pulse`} />
+          <div className={`h-4 rounded w-16 bg-[#000000]/20 animate-pulse`} />
         </div>
       </div>
     </div>
@@ -214,7 +214,7 @@ const Preloader = ({
   // Full screen loader
   if (fullScreen) {
     return (
-      <div className={`fixed inset-0 z-50 flex items-center justify-center ${isDark ? 'bg-[#0a0c19]' : 'bg-gray-50'}`}>
+      <div className={`fixed inset-0 z-50 flex items-center justify-center ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
         <div className="text-center space-y-6">
           {/* Logo and Spinner */}
           <div className="flex justify-center">
@@ -232,7 +232,7 @@ const Preloader = ({
                   {[0, 1, 2].map((i) => (
                     <div
                       key={i}
-                      className={`w-2 h-2 rounded-full bg-[#51faaa] animate-pulse`}
+                      className={`w-2 h-2 rounded-full bg-[#000000] animate-pulse`}
                       style={{ animationDelay: `${i * 0.2}s` }}
                     />
                   ))}
@@ -250,7 +250,7 @@ const Preloader = ({
     <div className={`flex flex-col items-center justify-center space-y-3 ${className}`}>
       {getLoaderComponent()}
       {showText && (
-        <p className={`${textSizes[size]} ${isDark ? 'text-[#dbd5a4]' : 'text-gray-600'}`}>
+        <p className={`${textSizes[size]} ${isDark ? 'text-[#f0f0f0]' : 'text-gray-600'}`}>
           {text}
         </p>
       )}
@@ -259,17 +259,17 @@ const Preloader = ({
 };
 
 // Convenience components for common use cases
-export const PageLoader = ({ text = 'Welcome to BumiHouse' }) => (
-  <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0a0c19]">
+export const PageLoader = ({ text = 'Welcome to MaplotiKenya' }) => (
+  <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#000000]">
     <div className="text-center space-y-8 max-w-md mx-auto px-6">
       {/* Minimalist Logo Container */}
       <div className="relative mx-auto w-32 h-32">
         {/* Simple spinning ring */}
-        <div className="w-32 h-32 rounded-full border-2 border-[#51faaa]/20 border-t-[#51faaa] animate-spin" style={{ animationDuration: '2s' }} />
+        <div className="w-32 h-32 rounded-full border-2 border-[#fbbf24]/20 border-t-[#000000] animate-spin" style={{ animationDuration: '2s' }} />
 
         {/* Center logo */}
-        <div className="absolute inset-4 rounded-full bg-[#0a0c19] flex items-center justify-center overflow-hidden">
-          <img src={logoPadded} alt="BumiHouse" className="w-20 h-20 object-contain" />
+        <div className="absolute inset-4 rounded-full bg-[#000000] flex items-center justify-center overflow-hidden">
+          <img src={logoPadded} alt="MaplotiKenya" className="w-20 h-20 object-contain" />
         </div>
       </div>
 
@@ -278,7 +278,7 @@ export const PageLoader = ({ text = 'Welcome to BumiHouse' }) => (
         <h1 className="text-3xl font-bold text-white tracking-wide">
           {text}
         </h1>
-        <p className="text-lg text-[#dbd5a4] font-medium">
+        <p className="text-lg text-[#f0f0f0] font-medium">
           Finding your perfect home
         </p>
       </div>
@@ -288,7 +288,7 @@ export const PageLoader = ({ text = 'Welcome to BumiHouse' }) => (
         {[0, 1, 2].map((i) => (
           <div
             key={i}
-            className={`w-2 h-2 rounded-full bg-[#51faaa] animate-pulse`}
+            className={`w-2 h-2 rounded-full bg-[#000000] animate-pulse`}
             style={{ animationDelay: `${i * 0.2}s` }}
           />
         ))}

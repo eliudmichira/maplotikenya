@@ -66,10 +66,10 @@ const HomeMobileContent = () => {
   ];
 
   const propertyTypes = [
-    { icon: <Building className="w-5 h-5" />, name: "Apartments", count: "2,500+", color: "from-[#51faaa] to-[#45e695]", path: "/search?type=apartment" },
-    { icon: <Home className="w-5 h-5" />, name: "Houses", count: "1,800+", color: "from-[#51faaa] to-[#3dd88a]", path: "/search?type=house" },
-    { icon: <Building className="w-5 h-5" />, name: "Villas", count: "500+", color: "from-[#51faaa] to-[#35ca7f]", path: "/search?type=villa" },
-    { icon: <TreePine className="w-5 h-5" />, name: "Land", count: "200+", color: "from-[#51faaa] to-[#2dbc74]", path: "/search?type=land" }
+    { icon: <Building className="w-5 h-5" />, name: "Apartments", count: "2,500+", color: "from-[#000000] to-[#45e695]", path: "/search?type=apartment" },
+    { icon: <Home className="w-5 h-5" />, name: "Houses", count: "1,800+", color: "from-[#000000] to-[#fbbf24]", path: "/search?type=house" },
+    { icon: <Building className="w-5 h-5" />, name: "Villas", count: "500+", color: "from-[#000000] to-[#35ca7f]", path: "/search?type=villa" },
+    { icon: <TreePine className="w-5 h-5" />, name: "Land", count: "200+", color: "from-[#000000] to-[#2dbc74]", path: "/search?type=land" }
   ];
 
   const handleSearch = () => {
@@ -168,7 +168,7 @@ const HomeMobileContent = () => {
           </p>
           <button
             onClick={() => refetchFeatured()}
-            className="px-6 py-2 bg-[#51faaa] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors flex items-center gap-2 mx-auto"
+            className="px-6 py-2 bg-[#000000] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors flex items-center gap-2 mx-auto"
           >
             <RefreshCw className="w-4 h-4" />
             Try Again
@@ -226,7 +226,7 @@ const HomeMobileContent = () => {
                   placeholder="Enter location (e.g., Nairobi, Mombasa)"
                   value={searchData.location}
                   onChange={(e) => setSearchData(prev => ({ ...prev, location: e.target.value }))}
-                  className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#51faaa] focus:border-transparent text-gray-900 placeholder-gray-500"
+                  className="w-full pl-12 pr-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#000000] focus:border-transparent text-gray-900 placeholder-gray-500"
                 />
               </div>
               
@@ -234,7 +234,7 @@ const HomeMobileContent = () => {
                 <select
                   value={searchData.propertyType}
                   onChange={(e) => setSearchData(prev => ({ ...prev, propertyType: e.target.value }))}
-                  className="px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#51faaa] focus:border-transparent text-gray-900"
+                  className="px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#000000] focus:border-transparent text-gray-900"
                 >
                   <option value="">Property Type</option>
                   <option value="apartment">Apartment</option>
@@ -246,7 +246,7 @@ const HomeMobileContent = () => {
                 <select
                   value={searchData.priceRange}
                   onChange={(e) => setSearchData(prev => ({ ...prev, priceRange: e.target.value }))}
-                  className="px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#51faaa] focus:border-transparent text-gray-900"
+                  className="px-4 py-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-[#000000] focus:border-transparent text-gray-900"
                 >
                   <option value="">Price Range</option>
                   <option value="0-50000">Under Ksh 50,000</option>
@@ -260,7 +260,7 @@ const HomeMobileContent = () => {
               
               <motion.button
                 onClick={handleSearch}
-                className="w-full bg-gradient-to-r from-[#51faaa] to-[#45e695] text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3"
+                className="w-full bg-gradient-to-r from-[#000000] to-[#45e695] text-white py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
@@ -297,7 +297,7 @@ const HomeMobileContent = () => {
               transition={{ duration: 0.5, delay: index * 0.1 }}
               className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-800 dark:to-gray-700 rounded-2xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-600"
             >
-              <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#51faaa] to-[#45e695] rounded-2xl mx-auto mb-4 shadow-lg">
+              <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#000000] to-[#45e695] rounded-2xl mx-auto mb-4 shadow-lg">
                 {stat.icon}
               </div>
               <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -345,7 +345,7 @@ const HomeMobileContent = () => {
               <div className="font-bold text-lg text-gray-900 dark:text-white mb-2">
                 {type.name}
               </div>
-              <div className="text-sm text-[#51faaa] font-semibold mb-2">
+              <div className="text-sm text-[#000000] font-semibold mb-2">
                 {type.count}
               </div>
               <div className="flex items-center justify-center text-gray-500 dark:text-gray-400">
@@ -375,7 +375,7 @@ const HomeMobileContent = () => {
           </div>
           <motion.button
             onClick={() => navigate('/search')}
-            className="bg-gradient-to-r from-[#51faaa] to-[#45e695] text-white px-4 py-2 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
+            className="bg-gradient-to-r from-[#000000] to-[#45e695] text-white px-4 py-2 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -386,7 +386,7 @@ const HomeMobileContent = () => {
         
         {featuredLoading ? (
           <div className="flex items-center justify-center py-12">
-            <Loader2 className="w-8 h-8 text-[#51faaa] animate-spin" />
+            <Loader2 className="w-8 h-8 text-[#000000] animate-spin" />
           </div>
         ) : featuredProperties.length > 0 ? (
           <div className="space-y-6">
@@ -461,13 +461,13 @@ const HomeMobileContent = () => {
                     </div>
                     
                     <div className="flex items-center justify-between">
-                      <div className="text-xl font-bold text-[#51faaa]">
+                      <div className="text-xl font-bold text-[#000000]">
                         {formatPrice(property.price)}
                       </div>
                       <div className="flex gap-2">
                         <motion.button 
                           onClick={() => handleFeaturedPropertyClick(property.id)}
-                          className="bg-gradient-to-r from-[#51faaa] to-[#45e695] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:shadow-lg transition-all duration-300"
+                          className="bg-gradient-to-r from-[#000000] to-[#45e695] text-white px-4 py-2 rounded-xl text-sm font-semibold hover:shadow-lg transition-all duration-300"
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                         >
@@ -499,7 +499,7 @@ const HomeMobileContent = () => {
       </section>
 
       {/* Premium CTA Section */}
-      <section className="px-6 py-16 bg-gradient-to-br from-[#51faaa] via-[#45e695] to-[#3dd88a] relative overflow-hidden">
+      <section className="px-6 py-16 bg-gradient-to-br from-[#000000] via-[#45e695] to-[#fbbf24] relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-32 h-32 bg-white rounded-full -translate-x-16 -translate-y-16"></div>

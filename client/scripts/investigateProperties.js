@@ -4,9 +4,9 @@ import { getFirestore, collection, getDocs, query, limit } from 'firebase/firest
 
 const firebaseConfig = {
     apiKey: process.env.VITE_FIREBASE_API_KEY || "YOUR_FIREBASE_API_KEY",
-    authDomain: "homeske.firebaseapp.com",
-    projectId: "homeske",
-    storageBucket: "homeske.firebasestorage.app",
+    authDomain: "MaplotiKenya.firebaseapp.com",
+    projectId: "MaplotiKenya",
+    storageBucket: "MaplotiKenya.firebasestorage.app",
     messagingSenderId: "1020344751483",
     appId: "1:1020344751483:web:69b0ad87673613d75699de",
     measurementId: "G-VQNF1ZPH1K"
@@ -16,7 +16,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 async function investigate() {
-    console.log('🔍 Investigating properties in homeske...');
+    console.log('ðŸ” Investigating properties in MaplotiKenya...');
     try {
         const snap = await getDocs(query(collection(db, 'properties'), limit(10)));
         console.log(`Found ${snap.size} properties.`);
@@ -30,7 +30,7 @@ async function investigate() {
             console.log(`Location:`, JSON.stringify(data.location || data.coordinates || {}));
         });
     } catch (e) {
-        console.error('❌ Error:', e.message);
+        console.error('âŒ Error:', e.message);
     }
     process.exit(0);
 }
