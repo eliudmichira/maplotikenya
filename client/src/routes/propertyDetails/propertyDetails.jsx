@@ -29,10 +29,13 @@ import {
   X,
   MessageCircle,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { AuthContext } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import { getPropertyCoords } from '../../utils/imageUtils';
 import { getProperty } from '../../utils/api';
 import { useProperty } from '../../hooks/useProperties';
 import { messagesAPI } from '../../lib/firebaseAPI';
@@ -316,8 +319,8 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
 
   const buildSvgAvatar = (name) => {
     const initials = getInitials(name);
-    const bg = isDark ? '#000000' : '#000000';
-    const fg = isDark ? '#000000' : '#000000';
+    const bg = '#fbbf24';
+    const fg = '#0e1311';
     const svg = `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150">
   <rect width="150" height="150" rx="16" fill="${bg}"/>
@@ -444,9 +447,11 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
         <h3 className={`text-lg font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
           {agent.name || "Contact Agent"}
         </h3>
-        <p className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>
-          {agent.email || "agent@hamaestate.com"}
-        </p>
+        {agent.email && (
+          <p className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>
+            {agent.email}
+          </p>
+        )}
       </div>
 
       <div className="space-y-3">
@@ -631,14 +636,14 @@ function SimilarProperties({ properties = [] }) {
 }
 
 // Location Card Component
-function LocationCard({ latitude, longitude, address }) {
+function LocationCard({ latitude, longitude, address, city }) {
   const { isDark } = useTheme();
 
   // Create embeddable map URL (no API key required)
   const hasCoords = Number.isFinite(parseFloat(latitude)) && Number.isFinite(parseFloat(longitude));
   const qParam = hasCoords
     ? `${parseFloat(latitude)},${parseFloat(longitude)}`
-    : encodeURIComponent(address || 'Nairobi, Kenya');
+    : encodeURIComponent([address, city].filter(Boolean).join(', ') + ', Kenya');
   const mapEmbedSrc = hasCoords
     ? `https://www.google.com/maps?q=${qParam}&z=14&output=embed`
     : `https://www.google.com/maps?q=${qParam}&z=14&output=embed`;
@@ -648,7 +653,7 @@ function LocationCard({ latitude, longitude, address }) {
     <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl border transition-colors duration-300`}>
       <div className={`p-6 border-b ${isDark ? 'border-[rgba(251,191,36,0.1)]' : 'border-gray-200'}`}>
         <h3 className={`text-lg font-outfit font-semibold mb-2 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Location</h3>
-        <p className={`px-6 text-sm mb-3 ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>{address || 'Address not available'}</p>
+        <p className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>{address || 'Address not available'}</p>
       </div>
 
       {/* Map */}
@@ -673,7 +678,7 @@ function LocationCard({ latitude, longitude, address }) {
           href={mapLink}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-[#000000] font-outfit font-semibold hover:underline"
+          className={`font-outfit font-semibold hover:underline ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}
         >
           View on Google Maps
         </a>
@@ -681,6 +686,74 @@ function LocationCard({ latitude, longitude, address }) {
     </div>
   );
 }
+
+
+// ── Display helpers ────────────────────────────────────────────────────
+// Listing descriptions are stored with lightweight markdown (**bold**).
+// Render the bold runs and keep paragraph breaks instead of showing the
+// raw asterisks.
+const renderDescription = (text) => {
+  const paragraphs = String(text || '').split(/\n{2,}/).filter(Boolean);
+  return paragraphs.map((para, pi) => (
+    <p key={pi} className={pi > 0 ? 'mt-3' : undefined}>
+      {para.split(/(\*\*[^*]+\*\*)/g).map((part, i) =>
+        part.startsWith('**') && part.endsWith('**')
+          ? <strong key={i}>{part.slice(2, -2)}</strong>
+          : <React.Fragment key={i}>{part}</React.Fragment>
+      )}
+    </p>
+  ));
+};
+
+// Amenity keys arrive as snake_case identifiers (water_municipal, cctv).
+const humanizeLabel = (value) => {
+  const text = String(value || '').replace(/[_-]+/g, ' ').trim();
+  if (!text) return '';
+  const upper = { cctv: 'CCTV', wifi: 'WiFi', dsq: 'DSQ', tv: 'TV', ac: 'AC' };
+  return text
+    .split(' ')
+    .map((w, i) => upper[w.toLowerCase()] || (i === 0 ? w.charAt(0).toUpperCase() + w.slice(1) : w))
+    .join(' ');
+};
+
+// Firestore stores createdAt as a Timestamp; older imports use ISO strings.
+const toDate = (value) => {
+  if (!value) return null;
+  if (typeof value.toDate === 'function') return value.toDate();
+  if (typeof value.seconds === 'number') return new Date(value.seconds * 1000);
+  const d = new Date(value);
+  return Number.isNaN(d.getTime()) ? null : d;
+};
+
+const computeDaysOnMarket = (property) => {
+  if (Number.isFinite(Number(property?.days_on_market)) && Number(property.days_on_market) > 0) {
+    return Number(property.days_on_market);
+  }
+  const listed = toDate(property?.listedAt || property?.createdAt || property?.created_at);
+  if (!listed) return null;
+  return Math.max(0, Math.floor((Date.now() - listed.getTime()) / 86400000));
+};
+
+// Many listings have no explicit property type; infer it from the title.
+const inferPropertyType = (property) => {
+  const explicit = property?.propertyType || property?.property_type || property?.type;
+  if (explicit && !['rent', 'sale', 'for rent', 'for sale', 'rental'].includes(String(explicit).toLowerCase())) {
+    return humanizeLabel(explicit);
+  }
+  const title = String(property?.title || '').toLowerCase();
+  const kinds = ['apartment', 'maisonette', 'bungalow', 'townhouse', 'penthouse', 'villa', 'bedsitter', 'studio', 'office', 'shop', 'warehouse', 'plot', 'land', 'house'];
+  const hit = kinds.find((k) => title.includes(k));
+  return hit ? humanizeLabel(hit) : 'Property';
+};
+
+const listingLabel = (property) => {
+  const raw = String(property?.listing_type || property?.listingType || property?.status || property?.type || '').toLowerCase();
+  if (raw.includes('rent')) return 'For Rent';
+  if (raw.includes('sale')) return 'For Sale';
+  if (/to let|for rent|rental/.test(String(property?.title || '').toLowerCase())) return 'For Rent';
+  if (/for sale/.test(String(property?.title || '').toLowerCase())) return 'For Sale';
+  return null;
+};
 
 // Main Property Details Component
 function PropertyDetails() {
@@ -690,7 +763,7 @@ function PropertyDetails() {
   const [property, setProperty] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
-  const { isDark } = useTheme();
+  const { isDark, toggleTheme } = useTheme();
   const { trackPropertyView } = useAnalytics();
 
   let { data, isLoading, isError } = useProperty(id)
@@ -763,21 +836,25 @@ function PropertyDetails() {
     bathrooms: property.bathrooms || 0,
     area: property.area || 0,
     lotSize: property.lotSize || null,
-    type: property.type || 'Property',
+    type: inferPropertyType(property),
+    listingLabel: listingLabel(property),
     status: property.status || 'For Sale',
     images: Array.isArray(property.images) ? property.images : [],
     features: Array.isArray(property.features) ? property.features : [],
     amenities: Array.isArray(property.amenities) ? property.amenities : [],
     agent: property.agent || {},
-    days_on_market: property.days_on_market || 0,
+    days_on_market: computeDaysOnMarket(property),
     pricePerSqft: (property.area && Number.isFinite(Number(property.area)) && property.area > 0) ? Math.round((Number(property.price) || 0) / Number(property.area)) : 0,
-    latitude: property.latitude ?? property.lat ?? property.location?.coordinates?.lat ?? -1.2921,
-    longitude: property.longitude ?? property.lng ?? property.location?.coordinates?.lng ?? 36.8219,
+    // No CBD fallback: without real coordinates the map searches the
+    // address instead of pinning every listing to City Square.
+    latitude: getPropertyCoords(property)?.[0] ?? null,
+    longitude: getPropertyCoords(property)?.[1] ?? null,
+    city: property.city || property.location?.city || property.county || '',
     schools: property.schools || [],
     neighborhood: property.neighborhood || {},
     property_history: property.property_history || [],
     similar_properties: property.similar_properties || [],
-    listing_type: property.listing_type || property.type || 'Residential',
+    listing_type: listingLabel(property) || 'Residential',
     yearBuilt: property.yearBuilt || null,
     parkingSpaces: property.parking != null ? parseInt(property.parking) : null,
     // Vacancy tracking fields for apartment complexes
@@ -802,15 +879,26 @@ function PropertyDetails() {
           <div className="flex items-center justify-between">
             <button
               onClick={() => navigate(-1)}
-              className={`flex items-center gap-2 transition-colors font-outfit ${isDark ? 'text-[#ccc] hover:text-[#000000]' : 'text-gray-600 hover:text-gray-900'
+              className={`flex items-center gap-2 transition-colors font-outfit ${isDark ? 'text-[#ccc] hover:text-white' : 'text-gray-600 hover:text-gray-900'
                 }`}
             >
               <ArrowLeft className="w-5 h-5" />
               <span>Back to Search</span>
             </button>
             <div className="flex items-center gap-3">
+              <button
+                onClick={toggleTheme}
+                aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+                title={isDark ? 'Light mode' : 'Dark mode'}
+                className={`p-2 rounded-lg transition-colors ${isDark
+                  ? 'text-[#fbbf24] hover:text-[#fcd34d] hover:bg-[rgba(251,191,36,0.1)]'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
+              >
+                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              </button>
               <button className={`p-2 rounded-lg transition-colors ${isDark
-                ? 'text-[#ccc] hover:text-[#000000] hover:bg-[rgba(251,191,36,0.1)]'
+                ? 'text-[#ccc] hover:text-white hover:bg-[rgba(251,191,36,0.1)]'
                 : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                 }`}>
                 <Share2 className="w-5 h-5" />
@@ -849,7 +937,14 @@ function PropertyDetails() {
                   <div className={`text-3xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{formatPrice(safeProperty.price)}</div>
                 </div>
                 <div className="text-right">
-                  <div className={`text-sm mb-1 ${isDark ? 'text-[#ccc]' : 'text-gray-500'}`}>{safeProperty.days_on_market} days on market</div>
+                  {safeProperty.listingLabel && (
+                    <span className={`inline-block mb-1 px-3 py-1 rounded-full text-xs font-semibold ${isDark ? 'bg-[#fbbf24]/15 text-[#fbbf24]' : 'bg-amber-100 text-amber-800'}`}>
+                      {safeProperty.listingLabel}
+                    </span>
+                  )}
+                  <div className={`text-sm mt-1 ${isDark ? 'text-[#ccc]' : 'text-gray-500'}`}>
+                    {safeProperty.days_on_market == null ? 'Recently listed' : safeProperty.days_on_market === 0 ? 'Listed today' : `${safeProperty.days_on_market} day${safeProperty.days_on_market === 1 ? '' : 's'} on market`}
+                  </div>
                   {(String(safeProperty.type).toLowerCase() !== 'apartment' && safeProperty.pricePerSqft > 0) && (
                     <div className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>{formatPrice(safeProperty.pricePerSqft)}/sqft</div>
                   )}
@@ -859,23 +954,23 @@ function PropertyDetails() {
               {/* Property Stats */}
               <div className="grid grid-cols-4 gap-4 mb-6">
                 <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-emerald-50'}`}>
-                  <Bed className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#000000]' : 'text-emerald-600'}`} />
+                  <Bed className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#fbbf24]' : 'text-emerald-600'}`} />
                   <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.bedrooms}</div>
                   <div className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Bedrooms</div>
                 </div>
                 <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-green-50'}`}>
-                  <Bath className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#000000]' : 'text-green-600'}`} />
+                  <Bath className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#fbbf24]' : 'text-green-600'}`} />
                   <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.bathrooms}</div>
                   <div className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Bathrooms</div>
                 </div>
                 <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-purple-50'}`}>
-                  <Building2 className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#000000]' : 'text-purple-600'}`} />
-                  <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.area.toLocaleString()}</div>
+                  <Building2 className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#fbbf24]' : 'text-purple-600'}`} />
+                  <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.area > 0 ? safeProperty.area.toLocaleString() : '—'}</div>
                   <div className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Sq Ft</div>
                 </div>
                 <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-orange-50'}`}>
-                  <Car className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#000000]' : 'text-orange-600'}`} />
-                  <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.parkingSpaces ?? '—'}</div>
+                  <Car className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#fbbf24]' : 'text-orange-600'}`} />
+                  <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.parkingSpaces ? safeProperty.parkingSpaces : '—'}</div>
                   <div className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Parking</div>
                 </div>
               </div>
@@ -883,7 +978,7 @@ function PropertyDetails() {
               {/* Description */}
               <div className="mb-6">
                 <h3 className={`text-lg font-outfit font-semibold mb-3 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Description</h3>
-                <p className={`leading-relaxed ${isDark ? 'text-[#ccc]' : 'text-gray-700'}`}>{safeProperty.description}</p>
+                <div className={`leading-relaxed ${isDark ? 'text-[#ccc]' : 'text-gray-700'}`}>{renderDescription(safeProperty.description)}</div>
               </div>
 
               {/* Features */}
@@ -893,8 +988,8 @@ function PropertyDetails() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {safeProperty.features.map((feature, index) => (
                       <div key={index} className={`flex items-center gap-2 ${isDark ? 'text-[#ccc]' : 'text-gray-700'}`}>
-                        <div className="w-2 h-2 bg-[#000000] rounded-full"></div>
-                        {feature}
+                        <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-[#fbbf24]' : 'bg-gray-900'}`}></div>
+                        {humanizeLabel(feature)}
                       </div>
                     ))}
                   </div>
@@ -908,8 +1003,8 @@ function PropertyDetails() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {safeProperty.amenities.map((amenity, index) => (
                       <div key={index} className={`flex items-center gap-2 ${isDark ? 'text-[#ccc]' : 'text-gray-700'}`}>
-                        <div className="w-2 h-2 bg-[#000000] rounded-full"></div>
-                        {amenity}
+                        <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-[#fbbf24]' : 'bg-gray-900'}`}></div>
+                        {humanizeLabel(amenity)}
                       </div>
                     ))}
                   </div>
@@ -918,12 +1013,6 @@ function PropertyDetails() {
             </div>
 
             {/* Apartment Vacancy Display */}
-            {console.log('Vacancy Debug:', {
-              property_type: property?.type,
-              safeProperty_type: safeProperty.type,
-              safeProperty_listing_type: safeProperty.listing_type,
-              condition: (property?.type?.toLowerCase() === 'apartment' || safeProperty.listing_type?.toLowerCase() === 'apartment' || safeProperty.type?.toLowerCase() === 'apartment')
-            })}
             {(property?.type?.toLowerCase() === 'apartment' || safeProperty.listing_type?.toLowerCase() === 'apartment' || safeProperty.type?.toLowerCase() === 'apartment' || 'apartment' === 'apartment') ? (
               <ApartmentVacancyDisplay
                 property={safeProperty}
@@ -966,9 +1055,9 @@ function PropertyDetails() {
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
                       className={`flex items-center gap-2 py-4 px-1 border-b-2 font-outfit font-medium text-sm transition-colors ${activeTab === tab.id
-                        ? 'border-[#fbbf24] text-[#000000]'
+                        ? `border-[#fbbf24] ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`
                         : isDark
-                          ? 'border-transparent text-[#ccc] hover:text-[#000000] hover:border-[rgba(251,191,36,0.3)]'
+                          ? 'border-transparent text-[#ccc] hover:text-white hover:border-[rgba(251,191,36,0.3)]'
                           : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                         }`}
                     >
@@ -987,8 +1076,14 @@ function PropertyDetails() {
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div>
                           <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Type:</span>
-                          <span className={`ml-2 font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.listing_type}</span>
+                          <span className={`ml-2 font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.type}</span>
                         </div>
+                        {safeProperty.listingLabel && (
+                          <div>
+                            <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Listing:</span>
+                            <span className={`ml-2 font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.listingLabel}</span>
+                          </div>
+                        )}
                         {safeProperty.yearBuilt && (
                           <div>
                             <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Year Built:</span>
@@ -1001,7 +1096,7 @@ function PropertyDetails() {
                             <span className={`ml-2 font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{(!isNaN(Number(safeProperty.lotSize)) && safeProperty.lotSize !== null) ? Number(safeProperty.lotSize).toLocaleString() : '—'} sqft</span>
                           </div>
                         )}
-                        {safeProperty.parkingSpaces != null && (
+                        {safeProperty.parkingSpaces > 0 && (
                           <div>
                             <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Parking:</span>
                             <span className={`ml-2 font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.parkingSpaces} {safeProperty.parkingSpaces === 1 ? 'space' : 'spaces'}</span>
@@ -1044,10 +1139,18 @@ function PropertyDetails() {
                     <span className={`font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{formatPrice(safeProperty.pricePerSqft)}</span>
                   </div>
                 )}
-                <div className="flex justify-between">
-                  <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Days on market:</span>
-                  <span className={`font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.days_on_market}</span>
-                </div>
+                {safeProperty.days_on_market != null && (
+                  <div className="flex justify-between">
+                    <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Days on market:</span>
+                    <span className={`font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.days_on_market === 0 ? 'Listed today' : safeProperty.days_on_market}</span>
+                  </div>
+                )}
+                {safeProperty.listingLabel && (
+                  <div className="flex justify-between">
+                    <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Listing:</span>
+                    <span className={`font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.listingLabel}</span>
+                  </div>
+                )}
                 <div className="flex justify-between">
                   <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Property type:</span>
                   <span className={`font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.type}</span>
@@ -1066,6 +1169,7 @@ function PropertyDetails() {
               latitude={safeProperty.latitude}
               longitude={safeProperty.longitude}
               address={safeProperty.address}
+              city={safeProperty.city}
             />
 
           </div>
