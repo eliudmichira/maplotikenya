@@ -4,6 +4,9 @@
 
 const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
 
+// True when a URL is the stock fallback rather than a real listing photo
+export const isPlaceholderImage = (url) => url === PLACEHOLDER_IMAGE;
+
 // Extract [lat, lng] from a property using any of the common field shapes
 export const getPropertyCoords = (property) => {
   if (!property) return null;
@@ -70,9 +73,10 @@ export const getPropertyImage = (property) => {
     return transformImageUrl(property.images[0]);
   }
   
-  // Try single image field
-  if (property?.image) {
-    return transformImageUrl(property.image);
+  // Try single image / cover photo fields
+  const single = property?.image || property?.coverPhoto || property?.coverPhotoUrl;
+  if (single) {
+    return transformImageUrl(single);
   }
   
   // Try photos array
@@ -102,10 +106,10 @@ export const getPropertyImages = (property) => {
     images.push(...transformImageUrls(property.images));
   }
   
-  // Collect from single image field
-  if (property?.image) {
-    images.push(transformImageUrl(property.image));
-  }
+  // Collect from single image / cover photo fields
+  [property?.image, property?.coverPhoto, property?.coverPhotoUrl].forEach((u) => {
+    if (u) images.push(transformImageUrl(u));
+  });
   
   // Collect from photos array
   if (property?.photos && Array.isArray(property.photos)) {

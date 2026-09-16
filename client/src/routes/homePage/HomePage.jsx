@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import Hero from '../../components/hero/Hero';
 import { useTheme } from '../../context/ThemeContext';
-import { useFeaturedProperties } from '../../hooks/useProperties';
+import { useFeaturedProperties, useProperties } from '../../hooks/useProperties';
 import { SpinnerLoader } from '../../components/Preloader';
 import { SimpleSpinner } from '../../components/SimpleLoadingStates';
 import {
@@ -254,8 +254,10 @@ const HomePage = () => {
 
   // Popular areas â€” grouped from live listings so the home page reflects real
   // inventory: top areas by listing count, each with a representative photo.
-  // Areas derived from featuredData - avoids a redundant full Firestore fetch
-  const areasData = featuredData;
+  // Popular Areas needs the whole listing set: the featured query only
+  // returns 6 cards, which is never enough to fill a 12-area grid. The
+  // query is cached for 10 minutes so it doesn't refetch on every render.
+  const { data: areasData } = useProperties({ limit: 200 });
   const [areaCriteria, setAreaCriteria] = useState('popular');
   const popularAreas = useMemo(
     () => rankAreas(getAreasFromProperties(areasData?.properties || []), areaCriteria).slice(0, 12),

@@ -1,4 +1,4 @@
-import { getPropertyImage } from './imageUtils';
+import { getPropertyImage, isPlaceholderImage } from './imageUtils';
 
 /**
  * Group properties into neighborhoods/areas for the Popular Areas section and
@@ -55,13 +55,26 @@ export function getAreasFromProperties(properties, { maxImages = 3 } = {}) {
       entry.pricedCount = (entry.pricedCount || 0) + 1;
     }
 
-    if (entry.images.length < maxImages) {
-      const first = getPropertyImage(p);
-      if (first && !entry.images.includes(first)) entry.images.push(first);
+    // Only real listing photos go in the carousel. The stock placeholder is
+    // remembered separately and used only if an area has no photos at all,
+    // so one photo-less listing never pushes a placeholder onto an area
+    // that has genuine pictures.
+    const first = getPropertyImage(p);
+    if (first) {
+      if (isPlaceholderImage(first)) {
+        entry.fallback = first;
+      } else if (entry.images.length < maxImages && !entry.images.includes(first)) {
+        entry.images.push(first);
+      }
     }
   });
 
-  return [...byArea.values()].sort((a, b) => b.count - a.count);
+  return [...byArea.values()]
+    .map(({ fallback, ...area }) => ({
+      ...area,
+      images: area.images.length > 0 ? area.images : fallback ? [fallback] : [],
+    }))
+    .sort((a, b) => b.count - a.count);
 }
 
 /**
