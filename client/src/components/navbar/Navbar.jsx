@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Menu, X, Search, User, LogOut, Sun, Moon, Settings, Heart, Home, MessageCircle, ChevronDown, Shield, BarChart3, Building2, FileText, Users, Crown } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
@@ -26,6 +26,12 @@ const Navbar = () => {
   const { isDark, toggleTheme } = useTheme();
   const { trackSearch } = useAnalytics();
   const navigate = useNavigate();
+  const location = useLocation();
+  // The home hero has its own search form, so the nav search only appears
+  // there once the hero has scrolled out of view.
+  const [pastHero, setPastHero] = useState(false);
+  const isHomePage = ['/', '/desktop', '/desktop/'].includes(location.pathname);
+  const showNavSearch = !isHomePage || pastHero;
   const profileDropdownRef = useRef(null);
   const searchRef = useRef(null);
 
@@ -111,9 +117,25 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // The page scrolls on <body> (html/body are height-constrained in
+    // index.css), so window.scrollY stays 0. Read every candidate offset and
+    // listen in capture phase so body scroll events reach us too.
+    const handleScroll = () => {
+      const y = Math.max(
+        window.scrollY || 0,
+        document.documentElement.scrollTop || 0,
+        document.body.scrollTop || 0
+      );
+      setIsScrolled(y > 20);
+      setPastHero(y > window.innerHeight * 0.6);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    document.addEventListener("scroll", handleScroll, { capture: true, passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("scroll", handleScroll, { capture: true });
+    };
   }, []);
 
   // Typing effect for search placeholder
@@ -215,11 +237,12 @@ const Navbar = () => {
           <div className="hidden lg:flex items-center gap-16">
             {/* Enhanced Desktop Search */}
             <motion.div
-              className="w-96"
+              className={`w-96 ${showNavSearch ? '' : 'pointer-events-none'}`}
+              aria-hidden={!showNavSearch}
               ref={searchRef}
               initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              animate={{ opacity: showNavSearch ? 1 : 0, y: showNavSearch ? 0 : -10 }}
+              transition={{ duration: 0.3 }}
             >
               <motion.div
                 className="relative w-full"
@@ -238,7 +261,7 @@ const Navbar = () => {
                 >
                   <Search
                     className={`w-5 h-5 transition-colors duration-300 ${isSearchFocused
-                      ? (isDark ? "text-[#000000]" : "text-[#000000]")
+                      ? (isDark ? "text-[#fbbf24]" : "text-gray-900")
                       : (isDark ? "text-white/60" : "text-gray-400")
                       }`}
                   />
@@ -718,7 +741,7 @@ const Navbar = () => {
                 >
                   <Link
                     to="/login"
-                    className={`${isDark ? "text-white" : "text-gray-600"} hover:text-[#000000] transition-colors duration-300`}
+                    className={`${isDark ? "text-white hover:text-[#fbbf24]" : "text-gray-600 hover:text-gray-900"} transition-colors duration-300`}
                   >
                     Sign In
                   </Link>
@@ -733,7 +756,7 @@ const Navbar = () => {
                 >
                   <Link
                     to="/register"
-                    className="px-5 py-2 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all duration-300 relative overflow-hidden block"
+                    className="px-5 py-2 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-full font-medium hover:shadow-lg transition-all duration-300 relative overflow-hidden block"
                   >
                     {/* Shimmer effect */}
                     <motion.div
@@ -1017,7 +1040,7 @@ const Navbar = () => {
                 <Link
                   to="/desktop/register"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block w-full text-center px-5 py-3 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
+                  className="block w-full text-center px-5 py-3 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-full font-medium hover:shadow-lg transition-all"
                 >
                   Get Started
                 </Link>

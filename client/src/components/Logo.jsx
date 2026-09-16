@@ -17,6 +17,10 @@ const Logo = ({
   pulse = 'hover'
 }) => {
   const baseColor = isDark ? 'text-white' : 'text-gray-900';
+  // Gradient ink: black on light backgrounds, white on dark ones, so the
+  // dark bands of the premium wordmark never disappear into a dark header.
+  const ink = isDark ? '#ffffff' : '#000000';
+  const inkSoft = isDark ? '#e5e5e5' : '#303030';
   const sizeClasses = className || 'text-xl sm:text-2xl lg:text-3xl';
 
   // Enhanced glow effects
@@ -161,7 +165,7 @@ const Logo = ({
               <span
                 className="font-bold tracking-tight green-glow-text"
                 style={{
-                  background: `linear-gradient(90deg, #303030 0%, #000000 100%)`,
+                  background: `linear-gradient(90deg, ${inkSoft} 0%, ${ink} 100%)`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   textShadow: isDark ? '0 0 20px rgba(251,191,36,0.6), 0 0 40px rgba(251,191,36,0.3)' : '0 0 15px rgba(251,191,36,0.4)',
@@ -192,7 +196,7 @@ const Logo = ({
               <span className={`font-bold tracking-tight ${baseColor}`}>Maploti</span>
               <span className={`font-semibold tracking-tight ${isDark ? 'text-white/90' : 'text-gray-800'}`}>Kenya</span>
               <span className="font-bold tracking-tight green-glow-text" style={{
-                background: `linear-gradient(90deg, #303030 0%, #000000 100%)`,
+                background: `linear-gradient(90deg, ${inkSoft} 0%, ${ink} 100%)`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
               }}></span>
@@ -203,11 +207,11 @@ const Logo = ({
                 className="font-bold tracking-tight premium-logo-text"
                 style={{
                   background: `linear-gradient(135deg,
-                    #000000 0%, #000000 15%,
+                    ${ink} 0%, ${ink} 15%,
                     #ffffff 16%, #ffffff 25%,
                     #c1121f 26%, #c1121f 75%,
                     #ffffff 76%, #ffffff 85%,
-                    #303030 86%, #000000 100%
+                    ${inkSoft} 86%, ${ink} 100%
                   )`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
@@ -223,7 +227,7 @@ const Logo = ({
                   background: `linear-gradient(135deg,
                     #c1121f 0%, #c1121f 20%,
                     #ffffff 21%, #ffffff 30%,
-                    #303030 31%, #000000 100%
+                    ${inkSoft} 31%, ${ink} 100%
                   )`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
@@ -245,11 +249,11 @@ const Logo = ({
                 className="font-bold tracking-tight logo-premium-glow"
                 style={{
                   background: `linear-gradient(135deg,
-                    #000000 0%, #000000 10%,
+                    ${ink} 0%, ${ink} 10%,
                     #ffffff 11%, #ffffff 20%,
                     #c1121f 21%, #c1121f 80%,
                     #ffffff 81%, #ffffff 90%,
-                    #303030 91%, #000000 100%
+                    ${inkSoft} 91%, ${ink} 100%
                   )`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
@@ -266,7 +270,7 @@ const Logo = ({
                   background: `linear-gradient(135deg,
                     #c1121f 0%, #c1121f 15%,
                     #ffffff 16%, #ffffff 25%,
-                    #303030 26%, #000000 100%
+                    ${inkSoft} 26%, ${ink} 100%
                   )`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
@@ -299,7 +303,7 @@ const Logo = ({
             <span
               className="font-bold tracking-tight green-glow-text"
               style={{
-                background: `linear-gradient(90deg, #303030 0%, #000000 100%)`,
+                background: `linear-gradient(90deg, ${inkSoft} 0%, ${ink} 100%)`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 textShadow: isDark ? '0 0 20px rgba(251,191,36,0.6), 0 0 40px rgba(251,191,36,0.3)' : '0 0 15px rgba(251,191,36,0.4)',
@@ -311,11 +315,11 @@ const Logo = ({
               className="font-semibold tracking-tight kenya-gradient-text"
               style={{
                 background: `linear-gradient(135deg,
-                  #000000 0%, #000000 12%,
+                  ${ink} 0%, ${ink} 12%,
                   #ffffff 13%, #ffffff 18%,
                   #c1121f 19%, #c1121f 78%,
                   #ffffff 79%, #ffffff 84%,
-                  #303030 85%, #000000 100%
+                  ${inkSoft} 85%, ${ink} 100%
                 )`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -338,7 +342,7 @@ const Logo = ({
             <span className={`font-bold tracking-tight ${baseColor}`}>Maploti</span>
             <span className={`font-semibold tracking-tight ${isDark ? 'text-white/90' : 'text-gray-800'}`}>Kenya</span>
             <span className="font-bold tracking-tight green-glow-text" style={{
-              background: `linear-gradient(90deg, #303030 0%, #000000 100%)`,
+              background: `linear-gradient(90deg, ${inkSoft} 0%, ${ink} 100%)`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}></span>
@@ -349,11 +353,11 @@ const Logo = ({
               className="font-bold tracking-tight premium-logo-text"
               style={{
                 background: `linear-gradient(135deg,
-                  #000000 0%, #000000 15%,
+                  ${ink} 0%, ${ink} 15%,
                   #ffffff 16%, #ffffff 25%,
                   #c1121f 26%, #c1121f 75%,
                   #ffffff 76%, #ffffff 85%,
-                  #303030 86%, #000000 100%
+                  ${inkSoft} 86%, ${ink} 100%
                 )`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -369,7 +373,7 @@ const Logo = ({
                 background: `linear-gradient(135deg,
                   #c1121f 0%, #c1121f 20%,
                   #ffffff 21%, #ffffff 30%,
-                  #303030 31%, #000000 100%
+                  ${inkSoft} 31%, ${ink} 100%
                 )`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -391,11 +395,11 @@ const Logo = ({
               className="font-bold tracking-tight logo-premium-glow"
               style={{
                 background: `linear-gradient(135deg,
-                  #000000 0%, #000000 10%,
+                  ${ink} 0%, ${ink} 10%,
                   #ffffff 11%, #ffffff 20%,
                   #c1121f 21%, #c1121f 80%,
                   #ffffff 81%, #ffffff 90%,
-                  #303030 91%, #000000 100%
+                  ${inkSoft} 91%, ${ink} 100%
                 )`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
@@ -412,7 +416,7 @@ const Logo = ({
                 background: `linear-gradient(135deg,
                   #c1121f 0%, #c1121f 15%,
                   #ffffff 16%, #ffffff 25%,
-                  #303030 26%, #000000 100%
+                  ${inkSoft} 26%, ${ink} 100%
                 )`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',

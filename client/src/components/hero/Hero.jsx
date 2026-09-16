@@ -4,11 +4,15 @@ import { motion } from 'framer-motion';
 import { Search, MapPin, Home, TrendingUp, ChevronDown, Award, Newspaper, Building2, Users } from 'lucide-react';
 import LightRays from '../effects/LightRays';
 import heroImage from '../../images/amani-nation-LTh5pGyvKAM-unsplash.jpg';
+import { useProperties } from '../../hooks/useProperties';
 
 const Hero = () => {
   // const { isDark } = useTheme();
   const isDark = true;
   const navigate = useNavigate();
+  // Same query key as the home page's Popular Areas, so this is served from cache.
+  const { data: listingData } = useProperties({ limit: 200 });
+  const listingCount = Array.isArray(listingData?.properties) ? listingData.properties.length : 0;
   const [init, setInit] = useState(true);
   const [statsInView, setStatsInView] = useState(false);
   const [counters, setCounters] = useState({ properties: 0, counties: 0, customers: 0, agents: 0 });
@@ -609,11 +613,6 @@ const Hero = () => {
       }
     }
   }), []);
-  function showRandomNumber() {
-    const random = Math.floor(Math.random() * 1001);
-    return random;
-  }
-
   return (
     <section className={`relative min-h-screen flex items-center justify-center overflow-hidden transition-colors duration-500 ${isDark
       ? 'bg-gradient-to-b from-[#000000] via-[#0f1419] to-[#1a1f2e]'
@@ -637,8 +636,8 @@ const Hero = () => {
           <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#1a1f2e] to-[#2d3748]" />
         )}
         <div className={`absolute inset-0 transition-colors duration-500 ${isDark
-          ? 'bg-black/50'
-          : 'bg-white/20'
+          ? 'bg-gradient-to-b from-black/45 via-black/55 to-black/85'
+          : 'bg-gradient-to-b from-white/10 via-white/20 to-white/60'
           }`} />
 
         {/* Aurora Effect */}
@@ -665,7 +664,7 @@ const Hero = () => {
 
           {/* Enhanced Trust Badge */}
           <motion.div
-            className={`inline-flex items-center gap-2 px-8 py-4 backdrop-blur-2xl rounded-full mb-6 border shadow-2xl transition-all duration-500 ${isDark
+            className={`inline-flex items-center gap-3 px-5 py-2.5 backdrop-blur-2xl rounded-full mb-6 border shadow-2xl transition-all duration-500 ${isDark
               ? 'bg-[#1a1b2e]/30 border-[rgba(255,255,255,0.1)] shadow-[#000000]/5 hover:shadow-[#000000]/10'
               : 'bg-white/30 border-[rgba(0,0,0,0.1)] shadow-[#000000]/5 hover:shadow-[#000000]/10'
               }`}
@@ -690,17 +689,20 @@ const Hero = () => {
             /> */}
             {/* <span className={`font-semibold text-sm transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'
               }`}>Trusted by 10,000+ property seekers</span> */}
-            <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-gradient-to-r from-emerald-500/10 via-secondary-300/10 to-emerald-500/10 backdrop-blur-xl rounded-full border border-emerald-500/20 animate-pulse-soft">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-ping" />
-              <span className="text-sm font-medium bg-gradient-to-r from-green-600 to-secondary-400 bg-clip-text text-transparent">
-                Live: {showRandomNumber()} people searching now
-              </span>
-            </div>
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-[#fbbf24] opacity-75 animate-ping" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#fbbf24]" />
+            </span>
+            <span className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
+              {listingCount > 0
+                ? `${listingCount.toLocaleString()}${listingCount >= 200 ? '+' : ''} verified listings across Kenya`
+                : 'Verified listings across Kenya'}
+            </span>
           </motion.div>
 
           {/* Enhanced Main Heading */}
           <motion.h1
-            className={`text-3xl sm:text-2xl md:text-3xl   lg:text-5xl font-bold mb-6 leading-tight
+            className={`text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight
                tracking-tight transition-colors duration-500 ${isDark ? 'text-white' : 'text-emerald-400'
               }`}
             initial={{ opacity: 0, y: 30 }}
@@ -729,7 +731,7 @@ const Hero = () => {
           {/* Enhanced Subtitle */}
           <motion.p
             className={`text-lg md:text-xl mb-8 max-w-4xl mx-auto leading-relaxed font-light transition-colors
-               duration-500 ${isDark ? 'text-[#ccc]' : 'text-[#fff]'
+               duration-500 ${isDark ? 'text-white/90' : 'text-gray-800'
               }`}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -746,7 +748,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.2 }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
 
               {/* Enhanced Location Search */}
               <motion.div
@@ -756,15 +758,15 @@ const Hero = () => {
                 transition={{ duration: 0.5, delay: 1.4 }}
                 whileHover={{ y: -2 }}
               >
-                <label className={`block text-md font-semibold mb-2 transition-colors
-                 duration-500 ${isDark ? 'text-white' : 'text-white'
+                <label className={`block text-sm font-semibold mb-2 transition-colors
+                 duration-500 ${isDark ? 'text-white' : 'text-gray-900'
                   }`}>Location</label>
                 <div className="relative">
                   <motion.div
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <MapPin className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#000000] group-focus-within:text-[#f0f0f0]' : 'text-[#000000] group-focus-within:text-[#303030]'
+                    <MapPin className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#fbbf24] group-focus-within:text-[#fcd34d]' : 'text-gray-700 group-focus-within:text-gray-900'
                       }`} />
                   </motion.div>
                   <select
@@ -806,7 +808,7 @@ const Hero = () => {
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <Home className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#000000] group-focus-within:text-[#f0f0f0]' : 'text-[#000000] group-focus-within:text-[#303030]'
+                    <Home className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#fbbf24] group-focus-within:text-[#fcd34d]' : 'text-gray-700 group-focus-within:text-gray-900'
                       }`} />
                   </motion.div>
                   <select
@@ -844,7 +846,7 @@ const Hero = () => {
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.2 }}
                   >
-                    <TrendingUp className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#000000] group-focus-within:text-[#f0f0f0]' : 'text-[#000000] group-focus-within:text-[#303030]'
+                    <TrendingUp className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#fbbf24] group-focus-within:text-[#fcd34d]' : 'text-gray-700 group-focus-within:text-gray-900'
                       }`} />
                   </motion.div>
                   <select
@@ -875,7 +877,7 @@ const Hero = () => {
               >
                 <motion.button
                   onClick={handleSearchSubmit}
-                  className="w-full bg-gradient-to-br from-[#000000] to-[#303030] text-white font-bold py-4 px-6 rounded-full flex items-center justify-center gap-3 text-base shadow-xl shadow-[#000000]/30 relative overflow-hidden"
+                  className="w-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 text-base shadow-xl shadow-[#fbbf24]/25 relative overflow-hidden"
                   whileHover={{
                     scale: 1.05,
                     y: -2,
