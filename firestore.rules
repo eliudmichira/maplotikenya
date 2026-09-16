@@ -50,5 +50,69 @@ service cloud.firestore {
         && request.resource.data.comment.size() <= 2000;
       allow update, delete: if isAdmin();
     }
+
+    // Public content, admin-managed
+    match /agents/{agentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /blogPosts/{postId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Conversations are private to their participants; messages inherit.
+    match /conversations/{conversationId} {
+      allow read, update: if isSignedIn() && request.auth.uid in resource.data.participants;
+      allow create: if isSignedIn() && request.auth.uid in request.resource.data.participants;
+      allow delete: if isAdmin();
+
+      match /messages/{messageId} {
+        allow read, create: if isSignedIn()
+          && request.auth.uid in get(/databases/$(database)/documents/conversations/$(conversationId)).data.participants;
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    // Bookings belong to the tenant who made them and the agent they target.
+    match /bookings/{bookingId} {
+      allow read, update: if isSignedIn()
+        && (request.auth.uid == resource.data.userId || request.auth.uid == resource.data.agentId || isAdmin());
+      allow create: if isSignedIn() && request.auth.uid == request.resource.data.userId;
+      allow delete: if isAdmin();
+    }
+
+    // Inquiries: signed-in users send them; the target agent reads them.
+    match /inquiries/{inquiryId} {
+      allow read: if isSignedIn() && (request.auth.uid == resource.data.agentId || isAdmin());
+      allow create: if isSignedIn();
+      allow update, delete: if isAdmin();
+    }
+
+    // Intake and analytics written by signed-in users, read by admins only.
+    match /trialSignups/{signupId} {
+      allow create: if isSignedIn();
+      allow read, update, delete: if isAdmin();
+    }
+    match /emailQueue/{emailId} {
+      allow create: if isSignedIn();
+      allow read, update, delete: if isAdmin();
+    }
+    match /analytics/{eventId} {
+      allow create: if isSignedIn();
+      allow read, update, delete: if isAdmin();
+    }
+
+    // Page view counters: signed-in users bump them; totals are public.
+    match /pageViews/{viewId} {
+      allow read: if true;
+      allow create, update: if isSignedIn();
+      allow delete: if isAdmin();
+    }
+
+    // Admin settings
+    match /admin/{docId} {
+      allow read, write: if isAdmin();
+    }
   }
 }
