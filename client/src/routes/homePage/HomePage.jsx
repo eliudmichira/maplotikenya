@@ -104,7 +104,7 @@ function PropertyCard({ property, index, onClick }) {
         {(property.featured || property.is_featured) && (
           <div className="absolute top-4 left-4">
             <span className="px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-md bg-white/90 text-gray-900 shadow-sm group-hover:shadow-lg group-hover:shadow-[#000000]/20 transition-all duration-300">
-              â­ Featured
+              <Star className="w-3 h-3 inline-block -mt-0.5 mr-1 fill-current text-[#f59e0b]" />Featured
             </span>
           </div>
         )}

@@ -4,8 +4,24 @@
 
 const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
 
-// True when a URL is the stock fallback rather than a real listing photo
-export const isPlaceholderImage = (url) => url === PLACEHOLDER_IMAGE;
+// Stock imagery hosts. Seeded and demo listings carry Unsplash URLs in their
+// own `images` field, so a URL from one of these is not a photo of the place.
+const STOCK_IMAGE_HOSTS = ['images.unsplash.com', 'unsplash.com', 'source.unsplash.com', 'picsum.photos', 'placehold.co', 'via.placeholder.com'];
+
+// True when a URL is the stock fallback or stock imagery rather than a real listing photo
+export const isPlaceholderImage = (url) => {
+  if (!url || typeof url !== 'string') return true;
+  if (url === PLACEHOLDER_IMAGE) return true;
+  try {
+    const host = new URL(url).hostname;
+    return STOCK_IMAGE_HOSTS.some((h) => host === h || host.endsWith('.' + h));
+  } catch {
+    return false;
+  }
+};
+
+// True when the listing's first image is a genuine photo of the property
+export const hasRealPhoto = (property) => !isPlaceholderImage(getPropertyImage(property));
 
 // Extract [lat, lng] from a property using any of the common field shapes
 export const getPropertyCoords = (property) => {

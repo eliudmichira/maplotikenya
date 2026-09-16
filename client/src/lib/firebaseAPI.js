@@ -24,6 +24,7 @@ import {
   deleteObject
 } from 'firebase/storage';
 import { db, storage } from './firebase';
+import { hasRealPhoto } from '../utils/imageUtils';
 import { getCountyFromCoords, getGeohash } from '../utils/locationUtils';
 
 // Dev-only logger â€” keeps the production console clean. console.error/warn are left intact.
@@ -213,6 +214,9 @@ export const propertiesAPI = {
   getFeatured: async (limitCount = 6) => {
     try {
       devLog('Fetching featured properties...');
+      // Fetch more candidates than needed so listings with genuine photos can
+      // be ranked ahead of ones that only carry stock imagery.
+      const candidateCount = limitCount * 3;
 
       // Try to get featured properties first
       let properties = [];
@@ -220,7 +224,7 @@ export const propertiesAPI = {
         const q = query(
           collection(db, 'listings'),
           where('featured', '==', true),
-          limit(limitCount)
+          limit(candidateCount)
         );
 
         const querySnapshot = await getDocs(q);
@@ -238,24 +242,24 @@ export const propertiesAPI = {
 
       // Top up with regular listings whenever there are fewer featured than requested,
       // so the carousel always shows a full row (featured first, padded with others).
-      if (properties.length < limitCount) {
+      if (properties.length < candidateCount) {
         const existingIds = new Set(properties.map((p) => p.id));
 
         const addUntilFull = (snapshot) => {
           snapshot.forEach((doc) => {
-            if (properties.length >= limitCount) return;
+            if (properties.length >= candidateCount) return;
             if (existingIds.has(doc.id)) return;
             existingIds.add(doc.id);
             properties.push({ id: doc.id, ...doc.data() });
           });
         };
 
-        devLog(`Only ${properties.length} featured; topping up to ${limitCount} with regular listings...`);
+        devLog(`Only ${properties.length} featured; topping up to ${candidateCount} candidates with regular listings...`);
         try {
           // Fetch extra to cover any overlap with the featured set before deduping.
           const fallbackQuery = query(
             collection(db, 'listings'),
-            limit(limitCount + properties.length)
+            limit(candidateCount + properties.length)
           );
 
           const fallbackSnapshot = await getDocs(fallbackQuery);
@@ -270,9 +274,13 @@ export const propertiesAPI = {
         }
       }
 
-      // Sort featured first, then newest first within each group.
+      // Rank: real photo first, then featured, then newest.
       if (properties.length > 0) {
         properties.sort((a, b) => {
+          const aPhoto = hasRealPhoto(a) ? 1 : 0;
+          const bPhoto = hasRealPhoto(b) ? 1 : 0;
+          if (aPhoto !== bPhoto) return bPhoto - aPhoto;
+
           const aFeatured = (a.featured || a.is_featured) ? 1 : 0;
           const bFeatured = (b.featured || b.is_featured) ? 1 : 0;
           if (aFeatured !== bFeatured) return bFeatured - aFeatured;
@@ -283,8 +291,9 @@ export const propertiesAPI = {
         });
       }
 
-      devLog('Total properties to return:', properties.length);
-      return { properties };
+      const selected = properties.slice(0, limitCount);
+      devLog('Total properties to return:', selected.length);
+      return { properties: selected };
     } catch (error) {
       console.error('Error fetching featured properties:', error);
 
