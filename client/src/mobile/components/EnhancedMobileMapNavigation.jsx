@@ -94,8 +94,8 @@ const EnhancedMobileMapNavigation = ({
   // Quick filters
   const quickFilters = [
     { key: 'isNearPublicTransport', label: 'Transit', icon: Bus, emoji: '🚐' },
-    { key: 'isWaterIncluded', label: 'Water/Borehole', icon: Droplets, emoji: '💧' },
-    { key: 'isWifiIncluded', label: 'Fibre Internet', icon: Wifi, emoji: '🌐' },
+    { key: 'isWaterIncluded', label: 'Water', icon: Droplets, emoji: '💧' },
+    { key: 'isWifiIncluded', label: 'Fibre', icon: Wifi, emoji: '🌐' },
     { key: 'isGatedCommunity', label: 'Secure', icon: Shield, emoji: '🔒' },
     { key: 'isNewlyBuilt', label: 'Modern', icon: Building, emoji: '🏗' },
     { key: 'hasElevator', label: 'Elevator', icon: ArrowUpDown, emoji: '🛗' },
@@ -202,16 +202,8 @@ const EnhancedMobileMapNavigation = ({
           <div className="flex items-center justify-between mb-3">
             {/* Logo */}
             <div className="flex items-center">
-              <Link className="flex items-center gap-2 group" to="/">
-                <div className="w-9 h-9 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-xl flex items-center justify-center shadow-lg shadow-[#000000]/25 group-hover:shadow-xl group-hover:shadow-[#000000]/40 transition-all duration-300">
-                  <span className="text-[#111] text-sm font-bold">H</span>
-                </div>
-                <span className={`text-lg font-bold tracking-tight transition-colors ${isDark
-                  ? 'text-white group-hover:text-[#000000]'
-                  : 'text-gray-900 group-hover:text-[#000000]'
-                  }`}>
-                  MaplotiKenya
-                </span>
+              <Link className="flex items-center group" to="/" aria-label="MaplotiKenya home">
+                <Logo variant="ultra" greenStyle="premium" glow="subtle" pulse="off" isDark={isDark} className="text-xl sm:text-2xl" />
               </Link>
             </div>
 
@@ -321,7 +313,7 @@ const EnhancedMobileMapNavigation = ({
                   <input
                     ref={searchInputRef}
                     type="text"
-                    placeholder="Search by location, address, or ZIP"
+                    placeholder="Search by estate, area or town"
                     value={searchQuery}
                     onChange={(e) => handleSearchChange(e.target.value)}
                     onFocus={() => {
@@ -405,33 +397,11 @@ const EnhancedMobileMapNavigation = ({
 
           {/* Quick Filters Row */}
           <div className="flex items-center gap-2 mt-3 overflow-x-auto scrollbar-hide">
-            {/* Removed Map button - map is only available on HomeScreen */}
-            <button
-              onClick={() => setViewMode('grid')}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${viewMode === 'grid'
-                ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
-                }`}
-            >
-              <Grid className="w-3 h-3" />
-              Grid
-            </button>
-            <button
-              onClick={() => setViewMode('list')}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${viewMode === 'list'
-                ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
-                }`}
-            >
-              <List className="w-3 h-3" />
-              List
-            </button>
-            <div className="w-px h-4 bg-gray-300 dark:bg-gray-700" />
-            {quickFilters.slice(0, 3).map((filter) => (
+            {quickFilters.map((filter) => (
               <button
                 key={filter.key}
                 onClick={() => toggleFilter(filter.key)}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters[filter.key]
+                className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap flex-shrink-0 transition-all duration-300 flex items-center gap-1.5 ${filters[filter.key]
                   ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}

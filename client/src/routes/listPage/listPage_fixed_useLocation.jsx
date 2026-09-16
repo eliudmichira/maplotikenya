@@ -523,11 +523,11 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
   const seasonalTrends = insights?.seasonal_trends;
 
   return (
-    <div className={`rounded-xl p-2 md:p-2.5 mb-2 border backdrop-blur-xl transition-colors duration-500 ${isDark
+    <div className={`rounded-xl p-1.5 md:p-2.5 mb-2 border backdrop-blur-xl transition-colors duration-500 ${isDark
       ? 'bg-gradient-to-br from-[#000000] via-[#0e1311] to-[#000000] border-[#fbbf24]/20'
       : 'bg-gradient-to-br from-gray-50 via-white to-gray-50 border-gray-200'
       }`}>
-      <div className="flex items-center justify-between mb-1 md:mb-1.5">
+      <div className={`flex items-center justify-between gap-2 ${expanded ? 'mb-1' : 'mb-0'} md:mb-1.5`}>
         <h3 className={`text-sm md:text-base font-bold flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
           <div className="w-7 h-7 md:w-8 md:h-8 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-lg flex items-center justify-center shadow-lg shadow-[#000000]/20">
             <TrendingUp className="h-3.5 w-3.5 md:h-4 md:w-4 text-[#000000]" />
@@ -535,13 +535,14 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
           {location} Market Insights
         </h3>
         <div className="flex items-center gap-2">
-          <div className="text-right">
+          <div className="hidden sm:block text-right">
             <h4 className={`text-xs md:text-sm font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{searchQuery || 'Nairobi'} Real Estate</h4>
             <p className={`text-[10px] md:text-xs ${isDark ? 'text-white/60' : 'text-gray-600'}`}>{propertyCount} properties available</p>
           </div>
           <button
             onClick={() => setExpanded(!expanded)}
-            className="px-2 py-1 text-[10px] md:text-xs rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors"
+            className="flex-shrink-0 px-2 py-1 text-[10px] md:text-xs rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 transition-colors"
+            aria-expanded={expanded}
           >
             {expanded ? 'Hide' : 'Details'}
           </button>
@@ -549,7 +550,7 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
       </div>
 
       {loading && (
-        <p className={isDark ? 'text-white/70' : 'text-gray-700'}>Generating local market dataÃ¢â‚¬Â¦</p>
+        <p className={`text-xs ${expanded ? 'block' : 'hidden md:block'} ${isDark ? 'text-white/70' : 'text-gray-700'}`}>Generating local market dataÃ¢â‚¬Â¦</p>
       )}
 
       {!loading && insights && (
@@ -557,7 +558,8 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
           {expanded && insights.summary && (
             <p className={`mb-2 md:mb-3 text-[12px] md:text-[13px] leading-relaxed ${isDark ? 'text-white/80' : 'text-gray-700'}`}>{insights.summary}</p>
           )}
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-1.5 md:gap-1.5">
+          {/* Stat cards: collapsed by default on phones so listings stay above the fold */}
+          <div className={`${expanded ? 'grid mt-1.5' : 'hidden md:grid'} grid-cols-2 md:grid-cols-3 gap-1.5 md:gap-1.5`}>
             <div className={`backdrop-blur-sm rounded-lg p-2.5 md:p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-[#0e1311]/80 border-[#fbbf24]/10' : 'bg-white/80 border-gray-200'
               }`}>
               <div className="flex items-center gap-1 mb-1">
@@ -703,6 +705,7 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
 
 // Enhanced Search Bar
 function EnhancedSearchBar({ searchQuery, setSearchQuery, propertyCount, filters, setFilters, showFilters, setShowFilters, onLocationSelect }) {
+  const { isDark } = useTheme();
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -894,12 +897,12 @@ function EnhancedSearchBar({ searchQuery, setSearchQuery, propertyCount, filters
               }}
               transition={{ duration: 0.2 }}
             >
-              <Search className={`w-4 h-4 ml-3 transition-colors ${isFocused ? 'text-[#000000]' : 'text-gray-400'
+              <Search className={`w-4 h-4 ml-3 transition-colors ${isFocused ? (isDark ? 'text-[#fbbf24]' : 'text-gray-900') : 'text-gray-400'
                 }`} />
             </motion.div>
             <motion.input
               type="text"
-              placeholder="Search by location, address, or ZIP"
+              placeholder="Search by estate, area or town"
               value={searchQuery}
               onChange={(e) => handleSearchChange(e.target.value)}
               onFocus={() => setIsFocused(true)}
@@ -2861,6 +2864,22 @@ export default function MapView() {
   const [userLocation, setUserLocation] = useState(null);
   const [locationLoading, setLocationLoading] = useState(false);
   const [mapCenter, setMapCenter] = useState(DEFAULT_CENTER);
+  // Quick-filter chip row: show a right-edge fade only while it actually overflows
+  const quickChipsRef = useRef(null);
+  const [quickChipsCanScroll, setQuickChipsCanScroll] = useState(false);
+  useEffect(() => {
+    const el = quickChipsRef.current;
+    if (!el) return;
+    const check = () => setQuickChipsCanScroll(el.scrollWidth - el.clientWidth - el.scrollLeft > 4);
+    check();
+    el.addEventListener('scroll', check, { passive: true });
+    const ro = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(check) : null;
+    if (ro) ro.observe(el); else window.addEventListener('resize', check);
+    return () => {
+      el.removeEventListener('scroll', check);
+      if (ro) ro.disconnect(); else window.removeEventListener('resize', check);
+    };
+  }, []);
   const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM);
 
   // Other hooks that need to be at the top
@@ -3826,11 +3845,12 @@ export default function MapView() {
 
           {/* Bottom Row - Sort and Quick Filters */}
           <div className="flex items-center justify-between gap-3">
-            {/* Left - Quick Filters */}
-            <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide">
+            {/* Left - Quick Filters (horizontally scrollable, with a right-edge fade as a scroll hint) */}
+            <div className="relative min-w-0 flex-1">
+              <div ref={quickChipsRef} className="flex items-center gap-2 overflow-x-auto scrollbar-hide pr-8">
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isNearPublicTransport: !prev.isNearPublicTransport }))}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isNearPublicTransport
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${filters.isNearPublicTransport
                   ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
@@ -3840,7 +3860,7 @@ export default function MapView() {
               </button>
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isWaterIncluded: !prev.isWaterIncluded }))}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isWaterIncluded
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${filters.isWaterIncluded
                   ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
@@ -3850,7 +3870,7 @@ export default function MapView() {
               </button>
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isWifiIncluded: !prev.isWifiIncluded }))}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isWifiIncluded
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${filters.isWifiIncluded
                   ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
@@ -3860,7 +3880,7 @@ export default function MapView() {
               </button>
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isGatedCommunity: !prev.isGatedCommunity }))}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isGatedCommunity
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${filters.isGatedCommunity
                   ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
@@ -3870,7 +3890,7 @@ export default function MapView() {
               </button>
               <button
                 onClick={() => setFilters(prev => ({ ...prev, isNewlyBuilt: !prev.isNewlyBuilt }))}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.isNewlyBuilt
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${filters.isNewlyBuilt
                   ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
@@ -3880,7 +3900,7 @@ export default function MapView() {
               </button>
               <button
                 onClick={() => setFilters(prev => ({ ...prev, hasElevator: !prev.hasElevator }))}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.hasElevator
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${filters.hasElevator
                   ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
@@ -3890,7 +3910,7 @@ export default function MapView() {
               </button>
               <button
                 onClick={() => setFilters(prev => ({ ...prev, hasParking: !prev.hasParking }))}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 ${filters.hasParking
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 flex items-center gap-1.5 whitespace-nowrap flex-shrink-0 ${filters.hasParking
                   ? 'bg-black text-white dark:bg-white dark:text-black shadow-lg shadow-[#000000]/20'
                   : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
                   }`}
@@ -3898,6 +3918,11 @@ export default function MapView() {
                 <Car className="w-3 h-3" />
                 Parking
               </button>
+              </div>
+              <div
+                aria-hidden="true"
+                className={`pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-white/95 dark:from-gray-800/95 to-transparent transition-opacity duration-200 ${quickChipsCanScroll ? 'opacity-100' : 'opacity-0'}`}
+              />
             </div>
 
             {/* Right - Listing type toggle + Sort Dropdown (unified group) */}
