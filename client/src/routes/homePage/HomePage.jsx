@@ -1,9 +1,9 @@
 ﻿import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from 'framer-motion';
 import {
-  Search, MapPin, Home, Award, Users, Building2, Star, Shield, Sparkles,
+  Search, MapPin, Home, Award, Users, Building2, Star, Sparkles, Calendar,
   ChevronRight, Check, TrendingUp, Phone, Mail, MessageCircle, Play,
-  ArrowRight, Zap, Globe, Heart, Eye, Bed, Bath, Square,
+  ArrowRight, Heart, Eye, Bed, Bath, Square,
   Wifi, Car, Trees, Mountain, Waves, Coffee, Dumbbell, ShoppingBag,
   X, Share2, Filter, Map, MessageSquare, PhoneCall
 } from 'lucide-react';
@@ -13,15 +13,14 @@ import { useFeaturedProperties, useProperties } from '../../hooks/useProperties'
 import { SpinnerLoader } from '../../components/Preloader';
 import { SimpleSpinner } from '../../components/SimpleLoadingStates';
 import {
-  GoogleLevelSearchBar,
-  GoogleLevelFeatureCard
+  GoogleLevelSearchBar
 } from '../../components/enhanced/GoogleLevelHomeSections';
 import {
   GoogleLevelPropertyCard,
   GoogleLevelTestimonialCard
 } from '../../components/enhanced/GoogleLevelPropertyShowcase';
 import { testimonialsAPI } from '../../lib/firebaseAPI';
-import { getPropertyImage, handleImageError } from '../../utils/imageUtils';
+import { getPropertyImage, handleImageError, isPlaceholderImage } from '../../utils/imageUtils';
 import { getAreasFromProperties, rankAreas } from '../../utils/popularAreas';
 import AreaImageCarousel from '../../components/AreaImageCarousel';
 
@@ -263,6 +262,17 @@ const HomePage = () => {
     () => rankAreas(getAreasFromProperties(areasData?.properties || []), areaCriteria).slice(0, 12),
     [areasData, areaCriteria]
   );
+
+  // First featured listing with a genuine photo, used as the proof card in
+  // the "Why MaplotiKenya" section.
+  const proofListing = useMemo(
+    () => featuredProperties.find((p) => !isPlaceholderImage(getPropertyImage(p))) || featuredProperties[0] || null,
+    [featuredProperties]
+  );
+  const formatKsh = (value) => {
+    const n = Number(value);
+    return Number.isFinite(n) && n > 0 ? `Ksh ${n.toLocaleString('en-KE')}` : 'Price on request';
+  };
 
   // Navigation handlers
   const handlePropertyTypeClick = (type) => {
@@ -748,31 +758,146 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Why Choose Us Section */}
-      <section className={`py-24 transition-colors duration-500 ${isDark ? 'bg-[#000000]' : 'bg-gray-50'
-        }`}>
+      {/* Why MaplotiKenya — editorial split backed by live listing data */}
+      <section className={`py-24 transition-colors duration-500 ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'
-              }`}>
-              Why Choose MaplotiKenya?
-            </h2>
-            <p className={`text-xl max-w-2xl mx-auto ${isDark ? 'text-white/80' : 'text-gray-600'
-              }`}>
-              Experience the future of real estate with our innovative platform
-            </p>
-          </div>
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {features.map((feature, index) => (
-              <GoogleLevelFeatureCard
-                key={index}
-                icon={feature.icon}
-                title={feature.title}
-                description={feature.description}
-                delay={index * 0.2}
-              />
-            ))}
+            {/* Left: the pitch */}
+            <div className="lg:col-span-5 lg:sticky lg:top-28">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#fbbf24] mb-5">Why MaplotiKenya</p>
+              <h2 className={`text-4xl md:text-5xl font-bold leading-[1.05] tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>
+                Built for renting and buying in Kenya.
+              </h2>
+              <p className={`mt-6 text-lg leading-relaxed max-w-md ${isDark ? 'text-white/70' : 'text-gray-600'}`}>
+                Listings with real photos, prices in shillings, and a phone number you can actually call.
+              </p>
+              <a
+                href="/desktop/properties"
+                className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] hover:shadow-lg hover:shadow-[#fbbf24]/25 transition-all"
+              >
+                Browse listings
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+
+            {/* Right: three numbered proofs, each backed by something real */}
+            <div className={`lg:col-span-7 border-t ${isDark ? 'border-white/10' : 'border-gray-200'}`}>
+
+              {/* 01 — real areas from the listing data */}
+              <motion.div
+                className={`grid grid-cols-[3rem,1fr] md:grid-cols-[4rem,1fr] gap-x-4 py-10 border-b ${isDark ? 'border-white/10' : 'border-gray-200'}`}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.5 }}
+              >
+                <span className="text-sm font-semibold tabular-nums text-[#fbbf24] pt-1">01</span>
+                <div>
+                  <h3 className={`text-xl md:text-2xl font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Search by estate, not just city.</h3>
+                  <p className={`mt-2 max-w-lg ${isDark ? 'text-white/60' : 'text-gray-600'}`}>
+                    Nobody searches for "Nairobi". Listings are grouped by the places people actually ask for.
+                  </p>
+                  {popularAreas.length > 0 && (
+                    <div className="mt-5 flex flex-wrap gap-2">
+                      {popularAreas.slice(0, 8).map((area) => (
+                        <button
+                          key={area.name}
+                          onClick={() => handleAreaClick(area.name)}
+                          className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${isDark
+                            ? 'border-white/15 text-white/80 hover:border-[#fbbf24]/60 hover:text-white'
+                            : 'border-gray-300 text-gray-700 hover:border-[#fbbf24] hover:text-gray-900'}`}
+                        >
+                          {area.name}
+                          <span className={`ml-1.5 tabular-nums ${isDark ? 'text-white/40' : 'text-gray-400'}`}>{area.count}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </motion.div>
+
+              {/* 02 — an actual listing, not an illustration */}
+              <motion.div
+                className={`grid grid-cols-[3rem,1fr] md:grid-cols-[4rem,1fr] gap-x-4 py-10 border-b ${isDark ? 'border-white/10' : 'border-gray-200'}`}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.5, delay: 0.08 }}
+              >
+                <span className="text-sm font-semibold tabular-nums text-[#fbbf24] pt-1">02</span>
+                <div>
+                  <h3 className={`text-xl md:text-2xl font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Real photos. Prices in KSh.</h3>
+                  <p className={`mt-2 max-w-lg ${isDark ? 'text-white/60' : 'text-gray-600'}`}>
+                    Every listing shows the actual place and what it costs, in shillings. No stock imagery.
+                  </p>
+                  {proofListing && (
+                    <button
+                      onClick={() => handlePropertyCardClick(proofListing.id)}
+                      className={`mt-5 flex items-center gap-4 w-full max-w-lg text-left rounded-2xl p-3 border transition-colors ${isDark
+                        ? 'border-white/10 bg-white/[0.03] hover:border-[#fbbf24]/50'
+                        : 'border-gray-200 bg-white hover:border-[#fbbf24]'}`}
+                    >
+                      <img
+                        src={getPropertyImage(proofListing)}
+                        alt={proofListing.title || 'Listing photo'}
+                        loading="lazy"
+                        onError={handleImageError}
+                        className="w-24 h-20 md:w-28 md:h-24 rounded-xl object-cover flex-shrink-0"
+                      />
+                      <div className="min-w-0">
+                        <div className={`font-semibold truncate ${isDark ? 'text-white' : 'text-gray-900'}`}>{proofListing.title}</div>
+                        <div className="mt-1 text-[#fbbf24] font-bold tabular-nums">
+                          {formatKsh(proofListing.price)}
+                          {String(proofListing.listing_type || '').toLowerCase() === 'rent' && (
+                            <span className={`ml-1 text-xs font-normal ${isDark ? 'text-white/50' : 'text-gray-500'}`}>/ month</span>
+                          )}
+                        </div>
+                        <div className={`mt-1 text-sm flex items-center gap-1 ${isDark ? 'text-white/50' : 'text-gray-500'}`}>
+                          <MapPin className="w-3.5 h-3.5" />
+                          <span className="truncate">{proofListing.address || proofListing.location?.address || proofListing.city || ''}</span>
+                        </div>
+                      </div>
+                    </button>
+                  )}
+                </div>
+              </motion.div>
+
+              {/* 03 — the contact actions that exist on every listing */}
+              <motion.div
+                className={`grid grid-cols-[3rem,1fr] md:grid-cols-[4rem,1fr] gap-x-4 py-10 border-b ${isDark ? 'border-white/10' : 'border-gray-200'}`}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.5, delay: 0.16 }}
+              >
+                <span className="text-sm font-semibold tabular-nums text-[#fbbf24] pt-1">03</span>
+                <div>
+                  <h3 className={`text-xl md:text-2xl font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Reach the person who listed it.</h3>
+                  <p className={`mt-2 max-w-lg ${isDark ? 'text-white/60' : 'text-gray-600'}`}>
+                    Call, message, or book a viewing straight from the listing. The number belongs to the owner or their agent.
+                  </p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {[
+                      { icon: Phone, label: 'Call' },
+                      { icon: MessageCircle, label: 'Send message' },
+                      { icon: Calendar, label: 'Book viewing' },
+                    ].map(({ icon: Icon, label }) => (
+                      <span
+                        key={label}
+                        className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-sm font-medium border ${isDark
+                          ? 'border-[#fbbf24]/30 text-white/85 bg-[#fbbf24]/5'
+                          : 'border-amber-200 text-gray-800 bg-amber-50'}`}
+                      >
+                        <Icon className="w-4 h-4 text-[#fbbf24]" />
+                        {label}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+
+            </div>
           </div>
         </div>
       </section>
@@ -1022,29 +1147,6 @@ const propertyTypes = [
   { id: 'land', name: 'Land', icon: MapPin }
 ];
 
-const features = [
-  {
-    id: 'secure',
-    icon: Shield,
-    title: "Security & Trust",
-    description: "Bank-level encryption and verified listings ensure your peace of mind throughout the process.",
-    points: ["256-bit SSL encryption", "ID-verified agents", "Escrow protection", "Legal compliance"]
-  },
-  {
-    id: 'ai',
-    icon: Zap,
-    title: "AI Technology",
-    description: "AI-powered matching and instant notifications help you never miss the perfect property.",
-    points: ["Instant property matching", "Price prediction accuracy", "Market trend analysis", "98% accuracy rate"]
-  },
-  {
-    id: 'reach',
-    icon: Globe,
-    title: "Kenya-wide Reach",
-    description: "From bustling Nairobi to pristine Mombasa beaches - we connect you with properties everywhere.",
-    points: ["All 47 counties", "Multi-language support", "Local market experts", "24/7 customer support"]
-  }
-];
 
 // Kenyan avatar fallbacks (deterministic by name)
 // Use initials avatars (no external image dependency)
