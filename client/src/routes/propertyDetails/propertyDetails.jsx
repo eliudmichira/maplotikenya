@@ -791,8 +791,6 @@ function PropertyDetails() {
   };
 
   useEffect(() => {
-    console.log({ id, isLoading, isError, data });
-
     if (data) {
       setProperty(data);
       // Track property view for analytics
@@ -803,7 +801,35 @@ function PropertyDetails() {
 
   }, [data, id, trackPropertyView]);
 
-  console.log(data)
+  // Missing or deleted listing: getById throws, so React Query reports
+  // isError once its retries are exhausted. Show a way out instead of
+  // spinning forever.
+  if (!property && (isError || (!isLoading && !data))) {
+    return (
+      <div className={`min-h-screen pt-32 pb-8 ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
+        <div className="max-w-xl mx-auto px-4 sm:px-6 text-center">
+          <h1 className={`text-2xl md:text-3xl font-bold mb-3 ${isDark ? 'text-white' : 'text-gray-900'}`}>Listing not found</h1>
+          <p className={`mb-8 ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>
+            This property may have been removed or the link is incorrect.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <button
+              onClick={() => navigate(-1)}
+              className={`inline-flex items-center justify-center min-h-[44px] px-6 py-3 rounded-full font-semibold border-2 border-[#fbbf24] transition-colors hover:bg-[#fbbf24] hover:text-[#111] ${isDark ? 'text-white' : 'text-gray-900'}`}
+            >
+              Go back
+            </button>
+            <a
+              href="/properties"
+              className="inline-flex items-center justify-center min-h-[44px] px-6 py-3 rounded-full font-semibold bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] hover:shadow-lg transition-all"
+            >
+              Browse properties
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (!property) {
     return (
