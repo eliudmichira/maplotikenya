@@ -416,7 +416,7 @@ const HomePage = () => {
 
       {/* Google-Level Property Types Section */}
       <motion.section
-        className={`py-24 transition-colors duration-500 relative overflow-hidden ${isDark ? 'bg-[#000000]' : 'bg-gray-50'
+        className={`py-14 md:py-24 transition-colors duration-500 relative overflow-hidden ${isDark ? 'bg-[#000000]' : 'bg-gray-50'
           }`}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -440,7 +440,7 @@ const HomePage = () => {
             transition={{ duration: 0.6 }}
           >
             <motion.h2
-              className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'
+              className={`text-3xl md:text-5xl font-bold mb-4 md:mb-6 ${isDark ? 'text-white' : 'text-gray-900'
                 }`}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -452,7 +452,7 @@ const HomePage = () => {
               </span>
             </motion.h2>
             <motion.p
-              className={`text-xl max-w-2xl mx-auto ${isDark ? 'text-white/80' : 'text-gray-600'
+              className={`text-base md:text-xl max-w-2xl mx-auto ${isDark ? 'text-white/80' : 'text-gray-600'
                 }`}
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
@@ -463,14 +463,14 @@ const HomePage = () => {
             </motion.p>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 items-stretch">
             {propertyTypes.map((type, index) => (
               <motion.button
                 key={type.id}
                 onClick={() => handlePropertyTypeClick(type.id)}
-                className={`group p-6 rounded-2xl transition-all duration-300 relative overflow-hidden ${isDark
-                  ? 'bg-[#0e1311] shadow-md hover:shadow-lg hover:shadow-[#000000]/20 hover:border hover:border-[#fbbf24]/30'
-                  : 'bg-white shadow-md hover:shadow-lg hover:shadow-[#000000]/20 hover:border hover:border-[#fbbf24]/30'
+                className={`group h-full min-h-[8.5rem] flex flex-col items-center justify-center p-5 md:p-6 rounded-2xl border border-transparent transition-all duration-300 relative overflow-hidden ${isDark
+                  ? 'bg-[#0e1311] shadow-md hover:shadow-lg hover:shadow-[#000000]/20 hover:border-[#fbbf24]/30'
+                  : 'bg-white shadow-md hover:shadow-lg hover:shadow-[#000000]/20 hover:border-[#fbbf24]/30'
                   }`}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -509,18 +509,18 @@ const HomePage = () => {
       </motion.section>
 
       {/* Popular Areas Section â€” top neighborhoods by live listing count */}
-      <section className={`py-24 transition-colors duration-500 ${isDark ? 'bg-[#0e1311]' : 'bg-white'
+      <section className={`py-14 md:py-24 transition-colors duration-500 ${isDark ? 'bg-[#0e1311]' : 'bg-white'
         }`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'
+          <div className="text-center mb-10 md:mb-16">
+            <h2 className={`text-3xl md:text-5xl font-bold mb-4 md:mb-6 ${isDark ? 'text-white' : 'text-gray-900'
               }`}>
               Popular{' '}
               <span className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent">
                 Areas
               </span>
             </h2>
-            <p className={`text-xl max-w-2xl mx-auto ${isDark ? 'text-white/90' : 'text-[#374151]'
+            <p className={`text-base md:text-xl max-w-2xl mx-auto ${isDark ? 'text-white/90' : 'text-[#374151]'
               }`}>
               Discover houses and apartments for rent and sale in our most popular locations
             </p>
@@ -570,7 +570,7 @@ const HomePage = () => {
           ) : (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6">
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="rounded-2xl bg-gray-200 dark:bg-gray-800 animate-pulse aspect-[4/3]" />
+                <div key={i} className="rounded-2xl bg-gray-200 dark:bg-white/5 animate-pulse aspect-[4/3]" />
               ))}
             </div>
           )}
@@ -589,10 +589,10 @@ const HomePage = () => {
       </section>
 
       {/* Premium Featured Properties Section */}
-      <section className={`py-24 transition-colors duration-500 relative ${isDark ? 'bg-[#000000]' : 'bg-white'
+      <section className={`py-14 md:py-24 transition-colors duration-500 relative ${isDark ? 'bg-[#000000]' : 'bg-white'
         }`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 md:mb-16">
             {/* Minimal Premium Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6 ${
               isDark ? 'bg-white/10 text-white/80' : 'bg-gray-100 text-gray-600'
@@ -601,7 +601,7 @@ const HomePage = () => {
               <span className="text-xs font-medium tracking-wide uppercase">Premium Featured</span>
             </div>
 
-            <h2 className={`text-4xl md:text-5xl font-bold mb-6 leading-tight ${isDark ? 'text-white' : 'text-gray-900'
+            <h2 className={`text-3xl md:text-5xl font-bold mb-4 md:mb-6 leading-tight ${isDark ? 'text-white' : 'text-gray-900'
               }`}>
               Featured Properties
             </h2>
@@ -610,30 +610,6 @@ const HomePage = () => {
               Discover our exclusive handpicked selection of premium properties across Kenya.
               These featured listings receive maximum visibility and premium placement.
             </p>
-
-            {/* Minimal Stats */}
-            <div className="flex items-center justify-center gap-12 mt-10">
-              <div className="text-center">
-                <div className={`text-2xl font-semibold ${isDark ? 'text-white' : 'text-gray-900'
-                  }`}>500+</div>
-                <div className={`text-xs uppercase tracking-wide ${isDark ? 'text-white/50' : 'text-gray-500'
-                  }`}>Daily Views</div>
-              </div>
-              <div className="w-px h-8 bg-gray-300 dark:bg-gray-600"></div>
-              <div className="text-center">
-                <div className={`text-2xl font-semibold ${isDark ? 'text-white' : 'text-gray-900'
-                  }`}>98%</div>
-                <div className={`text-xs uppercase tracking-wide ${isDark ? 'text-white/50' : 'text-gray-500'
-                  }`}>Response Rate</div>
-              </div>
-              <div className="w-px h-8 bg-gray-300 dark:bg-gray-600"></div>
-              <div className="text-center">
-                <div className={`text-2xl font-semibold ${isDark ? 'text-white' : 'text-gray-900'
-                  }`}>24/7</div>
-                <div className={`text-xs uppercase tracking-wide ${isDark ? 'text-white/50' : 'text-gray-500'
-                  }`}>Support</div>
-              </div>
-            </div>
           </div>
 
           {featuredLoading ? (
@@ -755,7 +731,7 @@ const HomePage = () => {
       </section>
 
       {/* Why MaplotiKenya — editorial split backed by live listing data */}
-      <section className={`py-24 transition-colors duration-500 ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
+      <section className={`py-14 md:py-24 transition-colors duration-500 ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
 
@@ -782,7 +758,7 @@ const HomePage = () => {
 
               {/* 01 — real areas from the listing data */}
               <motion.div
-                className={`grid grid-cols-[3rem,1fr] md:grid-cols-[4rem,1fr] gap-x-4 py-10 border-b ${isDark ? 'border-white/10' : 'border-gray-200'}`}
+                className={`grid grid-cols-1 sm:grid-cols-[3rem,1fr] md:grid-cols-[4rem,1fr] gap-x-4 gap-y-2 py-8 md:py-10 border-b ${isDark ? 'border-white/10' : 'border-gray-200'}`}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
@@ -815,7 +791,7 @@ const HomePage = () => {
 
               {/* 02 — an actual listing, not an illustration */}
               <motion.div
-                className={`grid grid-cols-[3rem,1fr] md:grid-cols-[4rem,1fr] gap-x-4 py-10 border-b ${isDark ? 'border-white/10' : 'border-gray-200'}`}
+                className={`grid grid-cols-1 sm:grid-cols-[3rem,1fr] md:grid-cols-[4rem,1fr] gap-x-4 gap-y-2 py-8 md:py-10 border-b ${isDark ? 'border-white/10' : 'border-gray-200'}`}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
@@ -861,7 +837,7 @@ const HomePage = () => {
 
               {/* 03 — the contact actions that exist on every listing */}
               <motion.div
-                className={`grid grid-cols-[3rem,1fr] md:grid-cols-[4rem,1fr] gap-x-4 py-10 border-b ${isDark ? 'border-white/10' : 'border-gray-200'}`}
+                className={`grid grid-cols-1 sm:grid-cols-[3rem,1fr] md:grid-cols-[4rem,1fr] gap-x-4 gap-y-2 py-8 md:py-10 border-b ${isDark ? 'border-white/10' : 'border-gray-200'}`}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
@@ -899,15 +875,15 @@ const HomePage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className={`py-24 transition-colors duration-500 ${isDark ? 'bg-[#0e1311]' : 'bg-white'
+      <section className={`py-14 md:py-24 transition-colors duration-500 ${isDark ? 'bg-[#0e1311]' : 'bg-white'
         }`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'
+          <div className="text-center mb-10 md:mb-16">
+            <h2 className={`text-3xl md:text-5xl font-bold mb-4 md:mb-6 ${isDark ? 'text-white' : 'text-gray-900'
               }`}>
               Loved by Thousands
             </h2>
-            <p className={`text-xl max-w-2xl mx-auto ${isDark ? 'text-white/80' : 'text-gray-600'
+            <p className={`text-base md:text-xl max-w-2xl mx-auto ${isDark ? 'text-white/80' : 'text-gray-600'
               }`}>
               See what our customers have to say about their experience
             </p>
@@ -916,7 +892,7 @@ const HomePage = () => {
           <div className="relative">
             <div ref={testimonialsRef} className="flex gap-8 overflow-hidden scroll-smooth pb-2">
               {(isLoadingTestimonials ? testimonials.map((t) => ({ ...t, quote: t.comment })) : remoteTestimonials).map((testimonial, index) => (
-                <div key={index} className="min-w-[320px] md:min-w-[400px] lg:min-w-[450px] flex-shrink-0">
+                <div key={index} className="min-w-[280px] w-[calc(100vw-3rem)] max-w-[360px] md:w-auto md:max-w-none md:min-w-[400px] lg:min-w-[450px] flex-shrink-0">
                   <GoogleLevelTestimonialCard
                     testimonial={testimonial}
                     index={index}
@@ -941,7 +917,7 @@ const HomePage = () => {
 
       {/* Enhanced CTA Section */}
       <motion.section
-        className={`py-24 transition-colors duration-500 relative overflow-hidden ${isDark ? 'bg-[#000000]' : 'bg-gray-50'
+        className={`py-14 md:py-24 transition-colors duration-500 relative overflow-hidden ${isDark ? 'bg-[#000000]' : 'bg-gray-50'
           }`}
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -983,7 +959,7 @@ const HomePage = () => {
             transition={{ duration: 0.6 }}
           >
             <motion.h2
-              className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'
+              className={`text-3xl md:text-5xl font-bold mb-4 md:mb-6 ${isDark ? 'text-white' : 'text-gray-900'
                 }`}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -1016,7 +992,7 @@ const HomePage = () => {
           >
             <motion.button
               onClick={handleStartSearching}
-              className="group relative px-8 py-4 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-semibold rounded-full overflow-hidden"
+              className="group relative flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-semibold rounded-full overflow-hidden"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -1035,7 +1011,7 @@ const HomePage = () => {
 
             <motion.button
               onClick={handleScheduleCall}
-              className={`px-8 py-4 border-2 border-[#fbbf24] rounded-full font-semibold transition-colors duration-300 hover:bg-[#fbbf24] hover:text-[#111] ${isDark ? 'text-white' : 'text-gray-900'}`}
+              className={`flex items-center justify-center px-8 py-4 border-2 border-[#fbbf24] rounded-full font-semibold transition-colors duration-300 hover:bg-[#fbbf24] hover:text-[#111] ${isDark ? 'text-white' : 'text-gray-900'}`}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
             >

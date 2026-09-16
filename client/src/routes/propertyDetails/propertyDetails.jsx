@@ -259,6 +259,7 @@ function PhotoGallery({ images = [], title, property }) {
                 alt={`Thumbnail ${index + 1}`}
                 loading="lazy"
                 decoding="async"
+                onError={(e) => { e.currentTarget.style.display = 'none'; }}
                 className="w-full h-full object-cover"
               />
             </button>
@@ -657,7 +658,7 @@ function LocationCard({ latitude, longitude, address, city }) {
       </div>
 
       {/* Map */}
-      <div className="w-full h-64">
+      <div className="w-full h-56 sm:h-64">
         <iframe
           title="Property Location"
           width="100%"
@@ -839,7 +840,7 @@ function PropertyDetails() {
     type: inferPropertyType(property),
     listingLabel: listingLabel(property),
     status: property.status || 'For Sale',
-    images: Array.isArray(property.images) ? property.images : [],
+    images: getPropertyImages(property),
     features: Array.isArray(property.features) ? property.features : [],
     amenities: Array.isArray(property.amenities) ? property.amenities : [],
     agent: property.agent || {},
@@ -930,19 +931,19 @@ function PropertyDetails() {
 
             {/* Property Info */}
             <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
-              <div className="flex items-start justify-between mb-6">
-                <div>
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
+                <div className="min-w-0">
                   <h1 className={`text-3xl font-outfit font-bold mb-2 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.title}</h1>
                   <p className={`text-xl mb-4 ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>{safeProperty.address}</p>
                   <div className={`text-3xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{formatPrice(safeProperty.price)}</div>
                 </div>
-                <div className="text-right">
+                <div className="flex flex-wrap items-center gap-3 sm:flex-col sm:items-end sm:gap-1 sm:text-right sm:flex-shrink-0">
                   {safeProperty.listingLabel && (
-                    <span className={`inline-block mb-1 px-3 py-1 rounded-full text-xs font-semibold ${isDark ? 'bg-[#fbbf24]/15 text-[#fbbf24]' : 'bg-amber-100 text-amber-800'}`}>
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${isDark ? 'bg-[#fbbf24]/15 text-[#fbbf24]' : 'bg-amber-100 text-amber-800'}`}>
                       {safeProperty.listingLabel}
                     </span>
                   )}
-                  <div className={`text-sm mt-1 ${isDark ? 'text-[#ccc]' : 'text-gray-500'}`}>
+                  <div className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-500'}`}>
                     {safeProperty.days_on_market == null ? 'Recently listed' : safeProperty.days_on_market === 0 ? 'Listed today' : `${safeProperty.days_on_market} day${safeProperty.days_on_market === 1 ? '' : 's'} on market`}
                   </div>
                   {(String(safeProperty.type).toLowerCase() !== 'apartment' && safeProperty.pricePerSqft > 0) && (
@@ -952,7 +953,7 @@ function PropertyDetails() {
               </div>
 
               {/* Property Stats */}
-              <div className="grid grid-cols-4 gap-4 mb-6">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
                 <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-emerald-50'}`}>
                   <Bed className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#fbbf24]' : 'text-emerald-600'}`} />
                   <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.bedrooms}</div>
@@ -1044,7 +1045,10 @@ function PropertyDetails() {
             {/* Tabs */}
             <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl border transition-colors duration-300`}>
               <div className={`border-b ${isDark ? 'border-[rgba(251,191,36,0.1)]' : 'border-gray-200'}`}>
-                <nav className="flex space-x-8 px-6">
+                <nav
+                  className="flex gap-4 sm:gap-8 px-4 sm:px-6 overflow-x-auto [&::-webkit-scrollbar]:hidden"
+                  style={{ scrollbarWidth: 'none' }}
+                >
                   {[
                     { id: 'overview', label: 'Overview', icon: Home },
                     { id: 'schools', label: 'Schools', icon: School },
@@ -1054,7 +1058,7 @@ function PropertyDetails() {
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
-                      className={`flex items-center gap-2 py-4 px-1 border-b-2 font-outfit font-medium text-sm transition-colors ${activeTab === tab.id
+                      className={`flex items-center gap-2 py-4 px-1 border-b-2 font-outfit font-medium text-sm whitespace-nowrap flex-shrink-0 transition-colors ${activeTab === tab.id
                         ? `border-[#fbbf24] ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`
                         : isDark
                           ? 'border-transparent text-[#ccc] hover:text-white hover:border-[rgba(251,191,36,0.3)]'
