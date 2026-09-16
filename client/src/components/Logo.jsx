@@ -167,7 +167,7 @@ const Logo = ({
                   textShadow: isDark ? '0 0 20px rgba(251,191,36,0.6), 0 0 40px rgba(251,191,36,0.3)' : '0 0 15px rgba(251,191,36,0.4)',
                 }}
               >
-                Bumi
+                MAPLOTI
               </span>
               <span
                 className="font-semibold tracking-tight"
@@ -177,7 +177,7 @@ const Logo = ({
                   WebkitTextFillColor: 'transparent',
                 }}
               >
-                House
+                KENYA
               </span>
             </>
           ) : variant === 'flagFull' || variant === 'kenyaGradient' ? (
@@ -195,7 +195,7 @@ const Logo = ({
                 background: `linear-gradient(90deg, #303030 0%, #000000 100%)`,
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-              }}> House</span>
+              }}></span>
             </>
           ) : variant === 'premium' ? (
             <>
@@ -215,7 +215,7 @@ const Logo = ({
                   textShadow: isDark ? '0 0 20px rgba(251,191,36,0.3)' : '0 0 10px rgba(251,191,36,0.2)',
                 }}
               >
-                Bumi
+                MAPLOTI
               </span>
               <span
                 className="font-semibold tracking-tight premium-logo-text"
@@ -231,7 +231,7 @@ const Logo = ({
                   textShadow: isDark ? '0 0 20px rgba(251,191,36,0.3)' : '0 0 10px rgba(251,191,36,0.2)',
                 }}
               >
-                House
+                KENYA
               </span>
             </>
           ) : variant === 'ultra' ? (
@@ -258,7 +258,7 @@ const Logo = ({
                   filter: 'drop-shadow(0 0 10px rgba(251,191,36,0.3))',
                 }}
               >
-                Bumi
+                MAPLOTI
               </span>
               <span
                 className="font-semibold tracking-tight logo-premium-glow"
@@ -275,7 +275,7 @@ const Logo = ({
                   filter: 'drop-shadow(0 0 10px rgba(251,191,36,0.3))',
                 }}
               >
-                House
+                KENYA
               </span>
             </motion.div>
           ) : (
@@ -305,7 +305,7 @@ const Logo = ({
                 textShadow: isDark ? '0 0 20px rgba(251,191,36,0.6), 0 0 40px rgba(251,191,36,0.3)' : '0 0 15px rgba(251,191,36,0.4)',
               }}
             >
-              Bumi
+              MAPLOTI
             </span>
             <span
               className="font-semibold tracking-tight kenya-gradient-text"
@@ -323,7 +323,7 @@ const Logo = ({
                 animation: 'kenyaShine 4s ease-in-out 5',
               }}
             >
-              House
+              KENYA
             </span>
           </>
         ) : variant === 'flagFull' || variant === 'kenyaGradient' ? (
@@ -361,7 +361,7 @@ const Logo = ({
                 textShadow: isDark ? '0 0 20px rgba(251,191,36,0.3)' : '0 0 10px rgba(251,191,36,0.2)',
               }}
             >
-              Bumi
+              MAPLOTI
             </span>
             <span
               className="font-semibold tracking-tight premium-logo-text"
@@ -377,7 +377,7 @@ const Logo = ({
                 textShadow: isDark ? '0 0 20px rgba(251,191,36,0.3)' : '0 0 10px rgba(251,191,36,0.2)',
               }}
             >
-              House
+              KENYA
             </span>
           </>
         ) : variant === 'ultra' ? (
@@ -404,7 +404,7 @@ const Logo = ({
                 filter: 'drop-shadow(0 0 10px rgba(251,191,36,0.3))',
               }}
             >
-              Bumi
+              MAPLOTI
             </span>
             <span
               className="font-semibold tracking-tight logo-premium-glow"
@@ -421,7 +421,7 @@ const Logo = ({
                 filter: 'drop-shadow(0 0 10px rgba(251,191,36,0.3))',
               }}
             >
-              House
+              KENYA
             </span>
           </motion.div>
         ) : variant === 'image' ? (

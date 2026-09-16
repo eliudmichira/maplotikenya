@@ -753,7 +753,7 @@ const HomePage = () => {
           <div className="text-center mb-16">
             <h2 className={`text-4xl md:text-5xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'
               }`}>
-              Why Choose BumiHouse?
+              Why Choose MaplotiKenya?
             </h2>
             <p className={`text-xl max-w-2xl mx-auto ${isDark ? 'text-white/80' : 'text-gray-600'
               }`}>
