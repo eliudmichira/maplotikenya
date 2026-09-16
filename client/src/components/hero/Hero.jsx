@@ -1039,14 +1039,10 @@ const Hero = () => {
             >
               <Link
                 to="/desktop/register"
-                className={`px-8 py-3 border-2 font-bold rounded-full transition-all duration-300 text-lg relative overflow-hidden block ${isDark
-                  ? 'border-[rgba(251,191,36,0.4)] text-[#000000] hover:bg-[rgba(251,191,36,0.1)] hover:border-[#fbbf24]'
-                  : 'border-[rgba(251,191,36,0.4)] text-[#000000] hover:bg-[rgba(251,191,36,0.1)] hover:border-[#fbbf24]'
-                  }`}
+                className="px-8 py-3 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] font-bold rounded-full shadow-lg shadow-[#fbbf24]/25 hover:shadow-xl transition-all duration-300 text-lg relative overflow-hidden block"
               >
                 <motion.div
-                  className={`absolute inset-0 bg-gradient-to-r from-transparent via-current/10 to-transparent -skew-x-12 ${isDark ? 'text-[#000000]' : 'text-[#000000]'
-                    }`}
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
                   initial={{ x: '-100%' }}
                   whileHover={{ x: '100%' }}
                   transition={{ duration: 0.6 }}
