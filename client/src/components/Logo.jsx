@@ -246,9 +246,12 @@ const Logo = ({
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
               <span
-                className="font-bold tracking-tight logo-premium-glow"
+                className="font-bold tracking-tight"
                 style={{
-                  background: `linear-gradient(135deg,
+                  // Clip-to-text only. No filter, text-shadow or animation on this
+                  // element: any of those can promote it to its own compositing layer,
+                  // where Chrome paints the whole gradient box instead of the letters.
+                  backgroundImage: `linear-gradient(135deg,
                     ${ink} 0%, ${ink} 10%,
                     #ffffff 11%, #ffffff 20%,
                     #c1121f 21%, #c1121f 80%,
@@ -256,27 +259,30 @@ const Logo = ({
                     ${inkSoft} 91%, ${ink} 100%
                   )`,
                   WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  backgroundSize: '200% auto',
-                  textShadow: isDark ? '0 0 25px rgba(251,191,36,0.4), 0 0 50px rgba(251,191,36,0.2)' : '0 0 15px rgba(251,191,36,0.3)',
-                  filter: 'drop-shadow(0 0 10px rgba(251,191,36,0.3))',
+                  color: 'transparent',
+                  display: 'inline-block',
                 }}
               >
                 MAPLOTI
               </span>
               <span
-                className="font-semibold tracking-tight logo-premium-glow"
+                className="font-semibold tracking-tight"
                 style={{
-                  background: `linear-gradient(135deg,
+                  // Clip-to-text only. No filter, text-shadow or animation on this
+                  // element: any of those can promote it to its own compositing layer,
+                  // where Chrome paints the whole gradient box instead of the letters.
+                  backgroundImage: `linear-gradient(135deg,
                     #c1121f 0%, #c1121f 15%,
                     #ffffff 16%, #ffffff 25%,
                     ${inkSoft} 26%, ${ink} 100%
                   )`,
                   WebkitBackgroundClip: 'text',
+                  backgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                  backgroundSize: '200% auto',
-                  textShadow: isDark ? '0 0 25px rgba(251,191,36,0.4), 0 0 50px rgba(251,191,36,0.2)' : '0 0 15px rgba(251,191,36,0.3)',
-                  filter: 'drop-shadow(0 0 10px rgba(251,191,36,0.3))',
+                  color: 'transparent',
+                  display: 'inline-block',
                 }}
               >
                 KENYA
@@ -392,9 +398,12 @@ const Logo = ({
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <span
-              className="font-bold tracking-tight logo-premium-glow"
+              className="font-bold tracking-tight"
               style={{
-                background: `linear-gradient(135deg,
+                // Clip-to-text only. No filter, text-shadow or animation on this
+                // element: any of those can promote it to its own compositing layer,
+                // where Chrome paints the whole gradient box instead of the letters.
+                backgroundImage: `linear-gradient(135deg,
                   ${ink} 0%, ${ink} 10%,
                   #ffffff 11%, #ffffff 20%,
                   #c1121f 21%, #c1121f 80%,
@@ -402,27 +411,30 @@ const Logo = ({
                   ${inkSoft} 91%, ${ink} 100%
                 )`,
                 WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                backgroundSize: '200% auto',
-                textShadow: isDark ? '0 0 25px rgba(251,191,36,0.4), 0 0 50px rgba(251,191,36,0.2)' : '0 0 15px rgba(251,191,36,0.3)',
-                filter: 'drop-shadow(0 0 10px rgba(251,191,36,0.3))',
+                color: 'transparent',
+                display: 'inline-block',
               }}
             >
               MAPLOTI
             </span>
             <span
-              className="font-semibold tracking-tight logo-premium-glow"
+              className="font-semibold tracking-tight"
               style={{
-                background: `linear-gradient(135deg,
+                // Clip-to-text only. No filter, text-shadow or animation on this
+                // element: any of those can promote it to its own compositing layer,
+                // where Chrome paints the whole gradient box instead of the letters.
+                backgroundImage: `linear-gradient(135deg,
                   #c1121f 0%, #c1121f 15%,
                   #ffffff 16%, #ffffff 25%,
                   ${inkSoft} 26%, ${ink} 100%
                 )`,
                 WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
-                backgroundSize: '200% auto',
-                textShadow: isDark ? '0 0 25px rgba(251,191,36,0.4), 0 0 50px rgba(251,191,36,0.2)' : '0 0 15px rgba(251,191,36,0.3)',
-                filter: 'drop-shadow(0 0 10px rgba(251,191,36,0.3))',
+                color: 'transparent',
+                display: 'inline-block',
               }}
             >
               KENYA

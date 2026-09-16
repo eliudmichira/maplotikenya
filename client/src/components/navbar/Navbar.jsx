@@ -234,18 +234,21 @@ const Navbar = () => {
           </div>
 
           {/* Center: Search + Nav */}
-          <div className="hidden lg:flex items-center gap-16">
-            {/* Enhanced Desktop Search */}
+          <div className="hidden lg:flex items-center">
+            {/* Enhanced Desktop Search — a slot that animates from zero width
+                so the nav links sit centred over the home hero and slide
+                across as the search bar appears. 28rem = 24rem bar + 4rem gap. */}
             <motion.div
-              className={`w-96 ${showNavSearch ? '' : 'pointer-events-none'}`}
+              className="flex-shrink-0"
               aria-hidden={!showNavSearch}
-              ref={searchRef}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: showNavSearch ? 1 : 0, y: showNavSearch ? 0 : -10 }}
-              transition={{ duration: 0.3 }}
+              initial={false}
+              animate={{ width: showNavSearch ? '28rem' : '0rem', opacity: showNavSearch ? 1 : 0 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+              style={{ overflow: showNavSearch ? 'visible' : 'hidden', pointerEvents: showNavSearch ? 'auto' : 'none' }}
             >
               <motion.div
-                className="relative w-full"
+                ref={searchRef}
+                className="relative w-96 mr-16"
                 animate={{
                   scale: isSearchFocused ? 1.02 : 1,
                   y: isSearchFocused ? -2 : 0
