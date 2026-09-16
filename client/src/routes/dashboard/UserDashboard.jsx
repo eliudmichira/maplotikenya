@@ -195,8 +195,8 @@ const UserDashboard = () => {
     <div className="space-y-6">
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
               <Heart className="w-6 h-6 text-red-500" />
@@ -208,7 +208,7 @@ const UserDashboard = () => {
           </div>
         </div>
 
-        <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/20 flex items-center justify-center">
               <Search className="w-6 h-6 text-emerald-500" />
@@ -220,7 +220,7 @@ const UserDashboard = () => {
           </div>
         </div>
 
-        <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/20 flex items-center justify-center">
               <Eye className="w-6 h-6 text-green-500" />
@@ -232,7 +232,7 @@ const UserDashboard = () => {
           </div>
         </div>
 
-        <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/20 flex items-center justify-center">
               <Star className="w-6 h-6 text-purple-500" />
@@ -246,7 +246,7 @@ const UserDashboard = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button
@@ -280,9 +280,9 @@ const UserDashboard = () => {
   // Favorites Section Component
   const FavoritesSection = () => (
     <div className="space-y-6">
-      <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Your Favorites</h2>
+      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Your Favorites</h2>
           <span className="text-sm text-gray-600 dark:text-gray-400">{userFavorites.length} properties</span>
         </div>
 
@@ -303,14 +303,14 @@ const UserDashboard = () => {
                   </div>
                 </div>
                 <div className="mt-3">
-                  <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-[#000000] transition-colors">
+                  <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-[#f59e0b] transition-colors">
                     {property.title}
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1 mt-1">
                     <MapPin className="w-3 h-3" />
                     {property.location?.address || 'Location not specified'}
                   </p>
-                  <p className="text-lg font-bold text-[#000000] mt-2">
+                  <p className={`text-lg font-bold mt-2 ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>
                     KES {property.price?.toLocaleString() || '0'}
                   </p>
                 </div>
@@ -339,17 +339,17 @@ const UserDashboard = () => {
   // Searches Section Component
   const SearchesSection = () => (
     <div className="space-y-6">
-      <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Saved Searches</h2>
+      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Saved Searches</h2>
           <span className="text-sm text-gray-600 dark:text-gray-400">{savedSearches?.length || 0} searches</span>
         </div>
 
         {savedSearches && savedSearches.length > 0 ? (
           <div className="space-y-4">
             {savedSearches.map((search) => (
-              <div key={search.id} className="flex items-center justify-between p-4 rounded-xl bg-gray-50 dark:bg-gray-700">
-                <div className="flex items-center gap-3">
+              <div key={search.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-700">
+                <div className="flex items-center gap-3 min-w-0">
                   <Search className="w-5 h-5 text-gray-500" />
                   <div>
                     <p className="font-medium text-gray-900 dark:text-white">{search.query}</p>
@@ -358,7 +358,7 @@ const UserDashboard = () => {
                     </p>
                   </div>
                 </div>
-                <button className="px-4 py-2 bg-[#000000] text-[#111] rounded-lg hover:bg-[#45e595] transition-colors">
+                <button className="w-full sm:w-auto min-h-[44px] px-4 py-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-medium rounded-lg hover:shadow-lg transition-all">
                   Search Again
                 </button>
               </div>
@@ -386,8 +386,8 @@ const UserDashboard = () => {
   // Activity Section Component
   const ActivitySection = () => (
     <div className="space-y-6">
-      <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Recent Activity</h2>
+      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-6">Recent Activity</h2>
 
         <div className="space-y-4">
           {recentActivity.length > 0 ? (
@@ -400,11 +400,11 @@ const UserDashboard = () => {
 
               return (
                 <div key={activity.id} className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-700">
-                  <div className="w-10 h-10 rounded-full bg-[#000000]/20 flex items-center justify-center">
-                    <IconComponent className="w-5 h-5 text-[#000000]" />
+                  <div className="w-10 h-10 rounded-full bg-[#fbbf24]/20 flex items-center justify-center flex-shrink-0">
+                    <IconComponent className={`w-5 h-5 ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`} />
                   </div>
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900 dark:text-white">
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-gray-900 dark:text-white break-words">
                       {activity.description}
                     </p>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
@@ -431,8 +431,8 @@ const UserDashboard = () => {
   // Recommendations Section Component
   const RecommendationsSection = () => (
     <div className="space-y-6">
-      <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Recommended for You</h2>
+      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-6">Recommended for You</h2>
 
         {recommendedProperties.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -458,15 +458,15 @@ const UserDashboard = () => {
                   )}
                 </div>
                 <div className="mt-3">
-                  <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-[#000000] transition-colors">
+                  <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-[#f59e0b] transition-colors">
                     {property.title}
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1 mt-1">
                     <MapPin className="w-3 h-3" />
                     {property.location?.address || property.location?.city || 'Location not specified'}
                   </p>
-                  <div className="flex items-center justify-between mt-2">
-                    <p className="text-lg font-bold text-[#000000]">
+                  <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mt-2">
+                    <p className={`text-lg font-bold ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>
                       KES {property.price?.toLocaleString() || '0'}
                     </p>
                     <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
@@ -507,9 +507,9 @@ const UserDashboard = () => {
   // Bookings Section Component
   const BookingsSection = () => (
     <div className="space-y-6">
-      <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Your Bookings</h2>
+      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Your Bookings</h2>
           <span className="text-sm text-gray-600 dark:text-gray-400">{userBookings.length} appointments</span>
         </div>
 
@@ -533,11 +533,11 @@ const UserDashboard = () => {
                 
                 <div className="space-y-3 mb-4">
                   <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                    <Calendar className="w-4 h-4 text-[#000000]" />
+                    <Calendar className={`w-4 h-4 ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`} />
                     <span>{booking.viewingDate}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                    <Clock className="w-4 h-4 text-[#000000]" />
+                    <Clock className={`w-4 h-4 ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`} />
                     <span>{booking.viewingTime}</span>
                   </div>
                   <div className="flex items-center gap-2">
@@ -554,11 +554,11 @@ const UserDashboard = () => {
                 <div className="flex gap-2">
                   <button 
                     onClick={() => navigate(`/property/${booking.propertyId}`)}
-                    className="flex-1 px-3 py-2 text-xs bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 transition-colors"
+                    className="flex-1 min-h-[44px] sm:min-h-0 px-3 py-2 text-xs bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 transition-colors"
                   >
                     View Property
                   </button>
-                  <button className="flex-1 px-3 py-2 text-xs bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all">
+                  <button className="flex-1 min-h-[44px] sm:min-h-0 px-3 py-2 text-xs bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all">
                     Cancel
                   </button>
                 </div>
@@ -618,31 +618,31 @@ const UserDashboard = () => {
 
     return (
       <div className="space-y-6">
-        <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-[#000000]/20 flex items-center justify-center">
-              <TrendingUp className="w-6 h-6 text-[#000000]" />
+            <div className="w-12 h-12 rounded-xl bg-[#fbbf24]/20 flex items-center justify-center flex-shrink-0">
+              <TrendingUp className={`w-6 h-6 ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`} />
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Market Insights</h2>
+              <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Market Insights</h2>
               <p className="text-sm text-gray-600 dark:text-gray-400">Overview of current property listings</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
             <div className={`p-6 rounded-xl border ${isDark ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'}`}>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Total Market Listings</p>
-              <p className="text-3xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
+              <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
             </div>
             <div className={`p-6 rounded-xl border ${isDark ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'}`}>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Average Market Price</p>
-              <p className="text-3xl font-bold text-[#000000]">
+              <p className={`text-2xl md:text-3xl font-bold break-words ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>
                 {stats.avgPrice ? new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', maximumFractionDigits: 0 }).format(stats.avgPrice) : '—'}
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
              <div className={`p-5 rounded-xl border ${isDark ? 'bg-gray-700/30 border-gray-700' : 'bg-gray-50 border-gray-100'}`}>
                 <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Properties by Location</h3>
                 <div className="h-64 w-full">
@@ -655,7 +655,7 @@ const UserDashboard = () => {
                                 cursor={{fill: isDark ? '#374151' : '#f3f4f6'}}
                                 contentStyle={{ backgroundColor: isDark ? '#1f2937' : '#ffffff', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                             />
-                            <Bar dataKey="count" name="Properties" fill="#000000" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                            <Bar dataKey="count" name="Properties" fill="#fbbf24" radius={[4, 4, 0, 0]} maxBarSize={40} />
                         </BarChart>
                     </ResponsiveContainer>
                  </div>
@@ -698,7 +698,7 @@ const UserDashboard = () => {
   if (isLoading) {
     return (
       <motion.div
-        className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20"
+        className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20 overflow-x-hidden"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.3 }}
@@ -781,7 +781,7 @@ const UserDashboard = () => {
           </div>
 
           {/* Loading indicator */}
-          <div className="fixed bottom-8 right-8 bg-white dark:bg-gray-800 p-4 rounded-full shadow-elevation-3 border border-gray-200 dark:border-gray-700">
+          <div className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-full shadow-elevation-3 border border-gray-200 dark:border-gray-700">
             <div className="flex items-center gap-3">
               <SimpleSpinner size="sm" />
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -796,7 +796,7 @@ const UserDashboard = () => {
 
   return (
     <motion.div
-      className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20"
+      className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20 overflow-x-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -810,7 +810,7 @@ const UserDashboard = () => {
           transition={{ duration: 0.5, delay: 0.1 }}
         >
           <motion.h1
-            className="text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-200 bg-clip-text text-transparent mb-2"
+            className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-200 bg-clip-text text-transparent mb-2 break-words"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
@@ -818,7 +818,7 @@ const UserDashboard = () => {
             Welcome back, {currentUser?.name || 'User'}!
           </motion.h1>
           <motion.p
-            className="text-gray-600 dark:text-gray-400 text-lg"
+            className="text-gray-600 dark:text-gray-400 text-base md:text-lg"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
@@ -834,12 +834,12 @@ const UserDashboard = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
         >
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-2 md:gap-3">
             {sections.map((section, index) => (
               <motion.button
                 key={section.id}
                 onClick={() => setActiveSection(section.id)}
-                className={`relative flex items-center gap-3 px-6 py-3 rounded-2xl font-semibold transition-all duration-300 overflow-hidden ${activeSection === section.id
+                className={`relative flex items-center gap-2 md:gap-3 px-4 py-2.5 md:px-6 md:py-3 min-h-[44px] rounded-2xl text-sm md:text-base font-semibold transition-all duration-300 overflow-hidden ${activeSection === section.id
                   ? 'bg-gradient-to-r from-primary-400 to-primary-500 text-white shadow-primary'
                   : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-elevation-1 hover:shadow-elevation-2'
                   }`}

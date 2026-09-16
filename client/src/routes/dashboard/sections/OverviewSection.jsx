@@ -43,7 +43,7 @@ const OverviewSection = ({ stats, chartData, chartLabels }) => {
   return (
     <div className="space-y-6">
       {/* Header with Controls */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
             Dashboard Overview
@@ -52,7 +52,7 @@ const OverviewSection = ({ stats, chartData, chartLabels }) => {
             Real-time analytics and performance metrics
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <select
             value={timeRange}
             onChange={(e) => setTimeRange(e.target.value)}
@@ -81,8 +81,8 @@ const OverviewSection = ({ stats, chartData, chartLabels }) => {
       </div>
 
       {/* Revenue & Views Trend Chart */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
-        <div className="flex items-center justify-between mb-4">
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
             Revenue & Views Trend
           </h3>
@@ -154,7 +154,7 @@ const OverviewSection = ({ stats, chartData, chartLabels }) => {
 
       {/* Additional Analytics */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <h4 className="text-md font-semibold text-gray-900 dark:text-white mb-4">Performance Metrics</h4>
           <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -176,7 +176,7 @@ const OverviewSection = ({ stats, chartData, chartLabels }) => {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <h4 className="text-md font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h4>
           <div className="space-y-3">
             <button className="w-full flex items-center gap-3 p-3 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-lg hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition-colors text-left">
@@ -205,7 +205,7 @@ const OverviewSection = ({ stats, chartData, chartLabels }) => {
       </div>
 
       {/* Recent Activity Summary */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
         <h4 className="text-md font-semibold text-gray-900 dark:text-white mb-4">Recent Activity</h4>
         <div className="space-y-3">
           <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">

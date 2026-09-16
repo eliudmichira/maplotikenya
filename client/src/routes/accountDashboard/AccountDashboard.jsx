@@ -19,6 +19,8 @@ const AccountDashboard = () => {
   const { logout, currentUser, getUserRole, isVerifiedAgent } = useAuth();
   const { isDark } = useTheme();
   const navigate = useNavigate();
+  // Amber accent for icons/links: readable on both dark (#0e1311/#000) and light (white/gray-50) surfaces
+  const accent = isDark ? 'text-[#fbbf24]' : 'text-[#b45309]';
   
   const [activeTab, setActiveTab] = useState('profile');
   const [user, setUser] = useState({
@@ -183,7 +185,7 @@ const AccountDashboard = () => {
   const renderProfileTab = () => (
     <div className="space-y-8">
       {/* Profile Header */}
-      <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border`}>
+      <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-5 md:p-8 border`}>
         <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
           {/* Avatar */}
           <div className="relative">
@@ -198,33 +200,33 @@ const AccountDashboard = () => {
                 <User className="w-12 h-12 text-[#111]" />
               )}
             </div>
-            <div className="absolute -bottom-1 -right-1 w-8 h-8 bg-[#000000] rounded-full flex items-center justify-center border-2 border-[#0e1311]">
+            <div className={`absolute -bottom-1 -right-1 w-8 h-8 bg-[#fbbf24] rounded-full flex items-center justify-center border-2 ${isDark ? 'border-[#0e1311]' : 'border-white'}`}>
               <Edit className="w-4 h-4 text-[#111]" />
             </div>
           </div>
           
                      {/* User Info */}
-           <div className="flex-1">
-             <div className="flex items-center gap-3 mb-2">
-               <h3 className={`text-2xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{user.name}</h3>
+           <div className="flex-1 min-w-0">
+             <div className="flex flex-wrap items-center gap-3 mb-2">
+               <h3 className={`text-xl md:text-2xl font-outfit font-bold break-words ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{user.name}</h3>
                {user.verified && (
-                 <div className="flex items-center px-3 py-1 bg-[#000000]/20 rounded-full">
-                   <Shield className="w-4 h-4 text-[#000000] mr-1" />
-                   <span className="text-[#000000] text-sm font-outfit font-medium">Verified</span>
+                 <div className="flex items-center px-3 py-1 bg-[#fbbf24]/20 rounded-full">
+                   <Shield className={`w-4 h-4 mr-1 ${accent}`} />
+                   <span className={`text-sm font-outfit font-medium ${accent}`}>Verified</span>
                  </div>
                )}
              </div>
-             <p className={`font-outfit text-lg mb-1 ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>{user.email}</p>
-             <p className="text-[#000000] font-outfit font-medium">{user.role}</p>
+             <p className={`font-outfit text-base md:text-lg mb-1 break-all ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>{user.email}</p>
+             <p className={`font-outfit font-medium ${accent}`}>{user.role}</p>
            </div>
           
                      {/* Action Buttons */}
-           <div className="flex gap-3">
-             <button className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-[#000000]/25 transition-all duration-300 flex items-center gap-2">
+           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+             <button className="w-full sm:w-auto min-h-[44px] bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-[#fbbf24]/25 transition-all duration-300 flex items-center justify-center gap-2">
                <Edit className="w-4 h-4" />
                <span>Edit Profile</span>
              </button>
-             <button className={`${isDark ? 'bg-[#000000]' : 'bg-gray-100'} text-black font-outfit font-semibold px-6 py-3 rounded-xl border border-[#fbbf24]/30 hover:bg-black/10 dark:text-white dark:hover:bg-white/10 transition-all duration-300`}>
+             <button className={`w-full sm:w-auto min-h-[44px] font-outfit font-semibold px-6 py-3 rounded-xl border transition-all duration-300 ${isDark ? 'bg-[#111111] text-white border-[#fbbf24]/30 hover:bg-white/10' : 'bg-gray-100 text-gray-900 border-gray-200 hover:bg-gray-200'}`}>
                Share Profile
              </button>
            </div>
@@ -239,8 +241,8 @@ const AccountDashboard = () => {
                  {/* Contact & Details Grid */}
          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
            <div className={`flex items-center gap-3 p-4 rounded-xl border ${isDark ? 'bg-[#000000] border-[rgba(251,191,36,0.1)]' : 'bg-gray-50 border-gray-200'}`}>
-             <div className="w-10 h-10 bg-[#000000]/20 rounded-lg flex items-center justify-center">
-               <Phone className="w-5 h-5 text-[#000000]" />
+             <div className="w-10 h-10 bg-[#fbbf24]/20 rounded-lg flex items-center justify-center flex-shrink-0">
+               <Phone className={`w-5 h-5 ${accent}`} />
              </div>
              <div>
                <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Phone</p>
@@ -249,8 +251,8 @@ const AccountDashboard = () => {
            </div>
            
            <div className={`flex items-center gap-3 p-4 rounded-xl border ${isDark ? 'bg-[#000000] border-[rgba(251,191,36,0.1)]' : 'bg-gray-50 border-gray-200'}`}>
-             <div className="w-10 h-10 bg-[#000000]/20 rounded-lg flex items-center justify-center">
-               <MapPin className="w-5 h-5 text-[#000000]" />
+             <div className="w-10 h-10 bg-[#fbbf24]/20 rounded-lg flex items-center justify-center flex-shrink-0">
+               <MapPin className={`w-5 h-5 ${accent}`} />
              </div>
              <div>
                <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Location</p>
@@ -259,8 +261,8 @@ const AccountDashboard = () => {
            </div>
            
            <div className={`flex items-center gap-3 p-4 rounded-xl border ${isDark ? 'bg-[#000000] border-[rgba(251,191,36,0.1)]' : 'bg-gray-50 border-gray-200'}`}>
-             <div className="w-10 h-10 bg-[#000000]/20 rounded-lg flex items-center justify-center">
-               <Calendar className="w-5 h-5 text-[#000000]" />
+             <div className="w-10 h-10 bg-[#fbbf24]/20 rounded-lg flex items-center justify-center flex-shrink-0">
+               <Calendar className={`w-5 h-5 ${accent}`} />
              </div>
              <div>
                <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Member Since</p>
@@ -271,72 +273,72 @@ const AccountDashboard = () => {
       </div>
 
              {/* Account Stats */}
-       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
          {isAgent ? (
            <>
-                           <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border text-center`}>
-                <div className="w-12 h-12 bg-[#000000]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Home className="w-6 h-6 text-[#000000]" />
+                           <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-4 md:p-6 border text-center`}>
+                <div className="w-12 h-12 bg-[#fbbf24]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Home className={`w-6 h-6 ${accent}`} />
                 </div>
-                <h4 className={`text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{analytics.properties}</h4>
+                <h4 className={`text-xl md:text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{analytics.properties}</h4>
                 <p className={`font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Active Listings</p>
               </div>
               
-              <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border text-center`}>
-                <div className="w-12 h-12 bg-[#000000]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Eye className="w-6 h-6 text-[#000000]" />
+              <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-4 md:p-6 border text-center`}>
+                <div className="w-12 h-12 bg-[#fbbf24]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Eye className={`w-6 h-6 ${accent}`} />
                 </div>
-                <h4 className={`text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{analytics.totalViews.toLocaleString()}</h4>
+                <h4 className={`text-xl md:text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{analytics.totalViews.toLocaleString()}</h4>
                 <p className={`font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Total Views</p>
               </div>
               
-              <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border text-center`}>
-                <div className="w-12 h-12 bg-[#000000]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <MessageCircle className="w-6 h-6 text-[#000000]" />
+              <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-4 md:p-6 border text-center`}>
+                <div className="w-12 h-12 bg-[#fbbf24]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <MessageCircle className={`w-6 h-6 ${accent}`} />
                 </div>
-                <h4 className={`text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{analytics.totalInquiries}</h4>
+                <h4 className={`text-xl md:text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{analytics.totalInquiries}</h4>
                 <p className={`font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Inquiries</p>
               </div>
               
-              <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border text-center`}>
-                <div className="w-12 h-12 bg-[#000000]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Star className="w-6 h-6 text-[#000000]" />
+              <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-4 md:p-6 border text-center`}>
+                <div className="w-12 h-12 bg-[#fbbf24]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                  <Star className={`w-6 h-6 ${accent}`} />
                 </div>
-                <h4 className={`text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{analytics.averageRating}</h4>
+                <h4 className={`text-xl md:text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{analytics.averageRating}</h4>
                 <p className={`font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Rating</p>
               </div>
            </>
          ) : (
            <>
-             <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border text-center`}>
-               <div className="w-12 h-12 bg-[#000000]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                 <Heart className="w-6 h-6 text-[#000000]" />
+             <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-4 md:p-6 border text-center`}>
+               <div className="w-12 h-12 bg-[#fbbf24]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                 <Heart className={`w-6 h-6 ${accent}`} />
                </div>
-               <h4 className={`text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{favorites.length}</h4>
+               <h4 className={`text-xl md:text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{favorites.length}</h4>
                <p className={`font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Favorites</p>
              </div>
              
-             <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border text-center`}>
-               <div className="w-12 h-12 bg-[#000000]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                 <Home className="w-6 h-6 text-[#000000]" />
+             <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-4 md:p-6 border text-center`}>
+               <div className="w-12 h-12 bg-[#fbbf24]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                 <Home className={`w-6 h-6 ${accent}`} />
                </div>
-               <h4 className={`text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{myProperties.length}</h4>
+               <h4 className={`text-xl md:text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{myProperties.length}</h4>
                <p className={`font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Properties</p>
              </div>
              
-             <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border text-center`}>
-               <div className="w-12 h-12 bg-[#000000]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                 <Calendar className="w-6 h-6 text-[#000000]" />
+             <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-4 md:p-6 border text-center`}>
+               <div className="w-12 h-12 bg-[#fbbf24]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                 <Calendar className={`w-6 h-6 ${accent}`} />
                </div>
-               <h4 className={`text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{bookings.length}</h4>
+               <h4 className={`text-xl md:text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{bookings.length}</h4>
                <p className={`font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Bookings</p>
              </div>
              
-             <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border text-center`}>
-               <div className="w-12 h-12 bg-[#000000]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-                 <MessageCircle className="w-6 h-6 text-[#000000]" />
+             <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-4 md:p-6 border text-center`}>
+               <div className="w-12 h-12 bg-[#fbbf24]/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+                 <MessageCircle className={`w-6 h-6 ${accent}`} />
                </div>
-               <h4 className={`text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>0</h4>
+               <h4 className={`text-xl md:text-2xl font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>0</h4>
                <p className={`font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Messages</p>
              </div>
            </>
@@ -347,19 +349,19 @@ const AccountDashboard = () => {
 
   const renderFavoritesTab = () => (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h3 className="text-xl font-outfit font-bold text-[#feffff]">Favorite Properties</h3>
-        <Link to="/desktop/properties" className="text-[#000000] font-outfit hover:underline">
+      <div className="flex flex-wrap justify-between items-center gap-3">
+        <h3 className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Favorite Properties</h3>
+        <Link to="/desktop/properties" className={`font-outfit hover:underline ${accent}`}>
           Browse More Properties
         </Link>
       </div>
       
       {favorites.length === 0 ? (
         <div className="bg-[#0e1311] rounded-2xl p-8 text-center border border-[rgba(251,191,36,0.2)]">
-          <Heart className="w-16 h-16 text-[#000000] mx-auto mb-4" />
+          <Heart className="w-16 h-16 text-[#fbbf24] mx-auto mb-4" />
           <h4 className="text-lg font-outfit font-semibold text-[#feffff] mb-2">No favorites yet</h4>
           <p className="text-[#ccc] font-outfit mb-4">Start exploring properties and save your favorites</p>
-          <Link to="/desktop/properties" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300">
+          <Link to="/desktop/properties" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 inline-flex items-center justify-center min-h-[44px]">
             Explore Properties
           </Link>
         </div>
@@ -373,18 +375,18 @@ const AccountDashboard = () => {
 
   const renderSearchesTab = () => (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h3 className="text-xl font-outfit font-bold text-[#feffff]">Saved Searches</h3>
-        <Link to="/desktop/properties" className="text-[#000000] font-outfit hover:underline">
+      <div className="flex flex-wrap justify-between items-center gap-3">
+        <h3 className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Saved Searches</h3>
+        <Link to="/desktop/properties" className={`font-outfit hover:underline ${accent}`}>
           Start New Search
         </Link>
       </div>
       
       <div className="bg-[#0e1311] rounded-2xl p-8 text-center border border-[rgba(251,191,36,0.2)]">
-        <Search className="w-16 h-16 text-[#000000] mx-auto mb-4" />
+        <Search className="w-16 h-16 text-[#fbbf24] mx-auto mb-4" />
         <h4 className="text-lg font-outfit font-semibold text-[#feffff] mb-2">No saved searches yet</h4>
         <p className="text-[#ccc] font-outfit mb-4">Save your search criteria to get notified about new properties</p>
-        <Link to="/desktop/properties" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300">
+        <Link to="/desktop/properties" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 inline-flex items-center justify-center min-h-[44px]">
           Start Searching
         </Link>
       </div>
@@ -393,9 +395,9 @@ const AccountDashboard = () => {
 
   const renderMyPropertiesTab = () => (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h3 className="text-xl font-outfit font-bold text-[#feffff]">My Properties</h3>
-        <Link to="/properties/add" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-300 flex items-center space-x-2">
+      <div className="flex flex-wrap justify-between items-center gap-3">
+        <h3 className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>My Properties</h3>
+        <Link to="/properties/add" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-4 py-2 min-h-[44px] rounded-lg hover:shadow-lg transition-all duration-300 flex items-center space-x-2">
           <Plus className="w-5 h-5" />
           <span>Add Property</span>
         </Link>
@@ -403,10 +405,10 @@ const AccountDashboard = () => {
       
       {myProperties.length === 0 ? (
         <div className="bg-[#0e1311] rounded-2xl p-8 text-center border border-[rgba(251,191,36,0.2)]">
-          <Home className="w-16 h-16 text-[#000000] mx-auto mb-4" />
+          <Home className="w-16 h-16 text-[#fbbf24] mx-auto mb-4" />
           <h4 className="text-lg font-outfit font-semibold text-[#feffff] mb-2">No properties listed</h4>
           <p className="text-[#ccc] font-outfit mb-4">Start listing your properties to reach potential tenants</p>
-          <Link to="/properties/add" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300">
+          <Link to="/properties/add" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 inline-flex items-center justify-center min-h-[44px]">
             List Your Property
           </Link>
         </div>
@@ -420,14 +422,14 @@ const AccountDashboard = () => {
 
   const renderBookingsTab = () => (
     <div className="space-y-6">
-      <h3 className="text-xl font-outfit font-bold text-[#feffff]">My Bookings</h3>
+      <h3 className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>My Bookings</h3>
       
       {bookings.length === 0 ? (
         <div className="bg-[#0e1311] rounded-2xl p-8 text-center border border-[rgba(251,191,36,0.2)]">
-          <Calendar className="w-16 h-16 text-[#000000] mx-auto mb-4" />
+          <Calendar className="w-16 h-16 text-[#fbbf24] mx-auto mb-4" />
           <h4 className="text-lg font-outfit font-semibold text-[#feffff] mb-2">No bookings yet</h4>
           <p className="text-[#ccc] font-outfit mb-4">Book property viewings to see your appointments here</p>
-          <Link to="/desktop/properties" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300">
+          <Link to="/desktop/properties" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 inline-flex items-center justify-center min-h-[44px]">
             Browse Properties
           </Link>
         </div>
@@ -441,18 +443,18 @@ const AccountDashboard = () => {
 
   const renderMessagesTab = () => (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h3 className="text-xl font-outfit font-bold text-[#feffff]">Messages</h3>
-        <Link to="/messages" className="text-[#000000] font-outfit hover:underline">
+      <div className="flex flex-wrap justify-between items-center gap-3">
+        <h3 className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Messages</h3>
+        <Link to="/messages" className={`font-outfit hover:underline ${accent}`}>
           View All Messages
         </Link>
       </div>
       
       <div className="bg-[#0e1311] rounded-2xl p-8 text-center border border-[rgba(251,191,36,0.2)]">
-        <MessageCircle className="w-16 h-16 text-[#000000] mx-auto mb-4" />
+        <MessageCircle className="w-16 h-16 text-[#fbbf24] mx-auto mb-4" />
         <h4 className="text-lg font-outfit font-semibold text-[#feffff] mb-2">No messages yet</h4>
         <p className="text-[#ccc] font-outfit mb-4">Your conversations with agents and landlords will appear here</p>
-        <Link to="/desktop/properties" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300">
+        <Link to="/desktop/properties" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 inline-flex items-center justify-center min-h-[44px]">
           Start Browsing
         </Link>
       </div>
@@ -461,98 +463,98 @@ const AccountDashboard = () => {
 
   const renderSettingsTab = () => (
     <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <h3 className={`text-2xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Account Settings</h3>
-        <button className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-[#000000]/25 transition-all duration-300">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h3 className={`text-xl md:text-2xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Account Settings</h3>
+        <button className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-xl hover:shadow-lg hover:shadow-[#fbbf24]/25 transition-all duration-300 min-h-[44px]">
           Save Changes
         </button>
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
         {/* Notifications Settings */}
         <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border`}>
           <h4 className={`text-xl font-outfit font-semibold mb-6 flex items-center gap-3 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
-            <Bell className="w-6 h-6 text-[#000000]" />
+            <Bell className={`w-6 h-6 ${accent}`} />
             Notifications
           </h4>
           
           <div className="space-y-4">
-            <div className={`flex items-center justify-between p-4 rounded-xl border ${
+            <div className={`flex items-center justify-between gap-3 p-4 rounded-xl border ${
               isDark 
                 ? 'bg-[#000000] border-[rgba(251,191,36,0.1)]' 
                 : 'bg-gray-50 border-gray-200'
             }`}>
               <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-[#000000]" />
+                <Mail className={`w-5 h-5 ${accent}`} />
                 <div>
                   <p className={`font-outfit font-medium ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Email Notifications</p>
                   <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Receive updates via email</p>
                 </div>
               </div>
-              <label className="relative inline-flex items-center cursor-pointer">
+              <label className="relative inline-flex items-center cursor-pointer min-h-[44px] flex-shrink-0">
                 <input type="checkbox" className="sr-only peer" defaultChecked={user.preferences.emailAlerts} />
-                <div className={`w-11 h-6 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#000000] ${
-                  isDark ? 'bg-[#000000]' : 'bg-gray-300'
+                <div className={`w-11 h-6 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#fbbf24] ${
+                  isDark ? 'bg-gray-700' : 'bg-gray-300'
                 }`}></div>
               </label>
             </div>
             
-            <div className={`flex items-center justify-between p-4 rounded-xl border ${
+            <div className={`flex items-center justify-between gap-3 p-4 rounded-xl border ${
               isDark 
                 ? 'bg-[#000000] border-[rgba(251,191,36,0.1)]' 
                 : 'bg-gray-50 border-gray-200'
             }`}>
               <div className="flex items-center gap-3">
-                <Bell className="w-5 h-5 text-[#000000]" />
+                <Bell className={`w-5 h-5 ${accent}`} />
                 <div>
                   <p className={`font-outfit font-medium ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Push Notifications</p>
                   <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Get instant alerts</p>
                 </div>
               </div>
-              <label className="relative inline-flex items-center cursor-pointer">
+              <label className="relative inline-flex items-center cursor-pointer min-h-[44px] flex-shrink-0">
                 <input type="checkbox" className="sr-only peer" defaultChecked={user.preferences.notifications} />
-                <div className={`w-11 h-6 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#000000] ${
-                  isDark ? 'bg-[#000000]' : 'bg-gray-300'
+                <div className={`w-11 h-6 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#fbbf24] ${
+                  isDark ? 'bg-gray-700' : 'bg-gray-300'
                 }`}></div>
               </label>
             </div>
             
-            <div className={`flex items-center justify-between p-4 rounded-xl border ${
+            <div className={`flex items-center justify-between gap-3 p-4 rounded-xl border ${
               isDark 
                 ? 'bg-[#000000] border-[rgba(251,191,36,0.1)]' 
                 : 'bg-gray-50 border-gray-200'
             }`}>
               <div className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-[#000000]" />
+                <Phone className={`w-5 h-5 ${accent}`} />
                 <div>
                   <p className={`font-outfit font-medium ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>SMS Alerts</p>
                   <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Receive text messages</p>
                 </div>
               </div>
-              <label className="relative inline-flex items-center cursor-pointer">
+              <label className="relative inline-flex items-center cursor-pointer min-h-[44px] flex-shrink-0">
                 <input type="checkbox" className="sr-only peer" defaultChecked={user.preferences.smsAlerts} />
-                <div className={`w-11 h-6 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#000000] ${
-                  isDark ? 'bg-[#000000]' : 'bg-gray-300'
+                <div className={`w-11 h-6 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#fbbf24] ${
+                  isDark ? 'bg-gray-700' : 'bg-gray-300'
                 }`}></div>
               </label>
             </div>
             
-            <div className={`flex items-center justify-between p-4 rounded-xl border ${
+            <div className={`flex items-center justify-between gap-3 p-4 rounded-xl border ${
               isDark 
                 ? 'bg-[#000000] border-[rgba(251,191,36,0.1)]' 
                 : 'bg-gray-50 border-gray-200'
             }`}>
               <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-[#000000]" />
+                <Mail className={`w-5 h-5 ${accent}`} />
                 <div>
                   <p className={`font-outfit font-medium ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Marketing Emails</p>
                   <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Receive promotional content</p>
                 </div>
               </div>
-              <label className="relative inline-flex items-center cursor-pointer">
+              <label className="relative inline-flex items-center cursor-pointer min-h-[44px] flex-shrink-0">
                 <input type="checkbox" className="sr-only peer" defaultChecked={user.preferences.marketingEmails} />
-                <div className={`w-11 h-6 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#000000] ${
-                  isDark ? 'bg-[#000000]' : 'bg-gray-300'
+                <div className={`w-11 h-6 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#fbbf24] ${
+                  isDark ? 'bg-gray-700' : 'bg-gray-300'
                 }`}></div>
               </label>
             </div>
@@ -562,7 +564,7 @@ const AccountDashboard = () => {
         {/* Security & Privacy */}
         <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border`}>
           <h4 className={`text-xl font-outfit font-semibold mb-6 flex items-center gap-3 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
-            <Shield className="w-6 h-6 text-[#000000]" />
+            <Shield className={`w-6 h-6 ${accent}`} />
             Security & Privacy
           </h4>
           
@@ -573,13 +575,13 @@ const AccountDashboard = () => {
                 : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
             }`}>
               <div className="flex items-center gap-3">
-                <Shield className="w-5 h-5 text-[#000000]" />
+                <Shield className={`w-5 h-5 ${accent}`} />
                 <div>
                   <p className={`font-outfit font-medium ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Change Password</p>
                   <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Update your password</p>
                 </div>
               </div>
-              <ChevronRight className="w-5 h-5 text-[#000000]" />
+              <ChevronRight className={`w-5 h-5 ${accent}`} />
             </button>
             
             <button className={`w-full text-left flex items-center justify-between p-4 rounded-xl transition-colors border ${
@@ -588,13 +590,13 @@ const AccountDashboard = () => {
                 : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
             }`}>
               <div className="flex items-center gap-3">
-                <CreditCard className="w-5 h-5 text-[#000000]" />
+                <CreditCard className={`w-5 h-5 ${accent}`} />
                 <div>
                   <p className={`font-outfit font-medium ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Payment Methods</p>
                   <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Manage your cards</p>
                 </div>
               </div>
-              <ChevronRight className="w-5 h-5 text-[#000000]" />
+              <ChevronRight className={`w-5 h-5 ${accent}`} />
             </button>
             
             <button className={`w-full text-left flex items-center justify-between p-4 rounded-xl transition-colors border ${
@@ -603,13 +605,13 @@ const AccountDashboard = () => {
                 : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
             }`}>
               <div className="flex items-center gap-3">
-                <User className="w-5 h-5 text-[#000000]" />
+                <User className={`w-5 h-5 ${accent}`} />
                 <div>
                   <p className={`font-outfit font-medium ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Privacy Settings</p>
                   <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Control your data</p>
                 </div>
               </div>
-              <ChevronRight className="w-5 h-5 text-[#000000]" />
+              <ChevronRight className={`w-5 h-5 ${accent}`} />
             </button>
           </div>
         </div>
@@ -618,7 +620,7 @@ const AccountDashboard = () => {
       {/* Support & Help */}
       <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border`}>
         <h4 className={`text-xl font-outfit font-semibold mb-6 flex items-center gap-3 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
-          <HelpCircle className="w-6 h-6 text-[#000000]" />
+          <HelpCircle className={`w-6 h-6 ${accent}`} />
           Support & Help
         </h4>
         
@@ -629,13 +631,13 @@ const AccountDashboard = () => {
               : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
           }`}>
             <div className="flex items-center gap-3">
-              <HelpCircle className="w-5 h-5 text-[#000000]" />
+              <HelpCircle className={`w-5 h-5 ${accent}`} />
               <div>
                 <p className={`font-outfit font-medium ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Help Center</p>
                 <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Find answers quickly</p>
               </div>
             </div>
-            <ChevronRight className="w-5 h-5 text-[#000000]" />
+            <ChevronRight className={`w-5 h-5 ${accent}`} />
           </button>
           
           <button className={`text-left flex items-center justify-between p-4 rounded-xl transition-colors border ${
@@ -644,13 +646,13 @@ const AccountDashboard = () => {
               : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
           }`}>
             <div className="flex items-center gap-3">
-              <FileText className="w-5 h-5 text-[#000000]" />
+              <FileText className={`w-5 h-5 ${accent}`} />
               <div>
                 <p className={`font-outfit font-medium ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Terms & Privacy</p>
                 <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Read our policies</p>
               </div>
             </div>
-            <ChevronRight className="w-5 h-5 text-[#000000]" />
+            <ChevronRight className={`w-5 h-5 ${accent}`} />
           </button>
         </div>
       </div>
@@ -663,7 +665,7 @@ const AccountDashboard = () => {
         </h4>
         
         <div className="space-y-4">
-          <button className="w-full flex items-center justify-center gap-2 bg-red-500/10 text-red-400 font-outfit font-semibold px-6 py-3 rounded-xl border border-red-500/30 hover:bg-red-500/20 transition-all duration-300">
+          <button onClick={handleLogout} className="w-full flex items-center justify-center gap-2 bg-red-500/10 text-red-400 font-outfit font-semibold px-6 py-3 rounded-xl border border-red-500/30 hover:bg-red-500/20 transition-all duration-300">
             <LogOut className="w-5 h-5" />
             <span>Sign Out</span>
           </button>
@@ -679,9 +681,9 @@ const AccountDashboard = () => {
 
   const renderInquiriesTab = () => (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h3 className="text-xl font-outfit font-bold text-[#feffff]">Client Inquiries</h3>
-        <span className="text-sm text-[#ccc]">{inquiries.length} total inquiries</span>
+      <div className="flex flex-wrap justify-between items-center gap-3">
+        <h3 className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Client Inquiries</h3>
+        <span className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>{inquiries.length} total inquiries</span>
       </div>
       
       {inquiries.length === 0 ? (
@@ -698,9 +700,9 @@ const AccountDashboard = () => {
       ) : (
         <div className="space-y-4">
           {inquiries.map((inquiry) => (
-            <div key={inquiry.id} className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200'} rounded-xl p-6 border`}>
-              <div className="flex justify-between items-start mb-4">
-                <div>
+            <div key={inquiry.id} className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200'} rounded-xl p-4 md:p-6 border`}>
+              <div className="flex justify-between items-start gap-3 mb-4">
+                <div className="min-w-0">
                   <h4 className={`font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
                     {inquiry.clientName || 'Anonymous Client'}
                   </h4>
@@ -719,7 +721,7 @@ const AccountDashboard = () => {
               <p className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'} mb-3`}>
                 {inquiry.message || 'No message provided'}
               </p>
-              <div className="flex justify-between items-center text-xs text-[#666]">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 text-xs text-[#666]">
                 <span>Property: {inquiry.propertyTitle || 'Unknown Property'}</span>
                 <span>{inquiry.createdAt?.toDate?.()?.toLocaleDateString() || 'Unknown date'}</span>
               </div>
@@ -732,9 +734,9 @@ const AccountDashboard = () => {
 
   const renderAnalyticsTab = () => (
     <div className="space-y-6">
-      <h3 className="text-xl font-outfit font-bold text-[#feffff]">Analytics</h3>
+      <h3 className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Analytics</h3>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         <div className="p-4 rounded-xl bg-gradient-to-br from-emerald-500 to-emerald-600 text-white">
           <div className="flex items-center gap-3">
             <Star className="w-8 h-8" />
@@ -773,15 +775,15 @@ const AccountDashboard = () => {
           <div className="space-y-3">
             <div className="flex justify-between">
               <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Total Views</span>
-              <span className="font-semibold text-[#000000]">{analytics.totalViews.toLocaleString()}</span>
+              <span className={`font-semibold ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>{analytics.totalViews.toLocaleString()}</span>
             </div>
             <div className="flex justify-between">
               <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Total Inquiries</span>
-              <span className="font-semibold text-[#000000]">{analytics.totalInquiries}</span>
+              <span className={`font-semibold ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>{analytics.totalInquiries}</span>
             </div>
             <div className="flex justify-between">
               <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Active Properties</span>
-              <span className="font-semibold text-[#000000]">{analytics.properties}</span>
+              <span className={`font-semibold ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>{analytics.properties}</span>
             </div>
           </div>
         </div>
@@ -790,7 +792,7 @@ const AccountDashboard = () => {
           <h4 className={`text-lg font-outfit font-semibold mb-4 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Recent Activity</h4>
           <div className="space-y-3">
             <div className="flex items-center gap-3">
-              <div className="w-2 h-2 bg-[#000000] rounded-full"></div>
+              <div className="w-2 h-2 bg-[#fbbf24] rounded-full"></div>
               <span className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>
                 {analytics.properties} properties listed
               </span>
@@ -815,9 +817,9 @@ const AccountDashboard = () => {
 
   const renderAdminPanelTab = () => (
     <div className="space-y-6">
-      <h3 className="text-xl font-outfit font-bold text-[#feffff]">Admin Panel</h3>
+      <h3 className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Admin Panel</h3>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         <div className="p-4 rounded-xl bg-gradient-to-br from-red-500 to-red-600 text-white">
           <div className="flex items-center gap-3">
             <Users className="w-8 h-8" />
@@ -850,10 +852,10 @@ const AccountDashboard = () => {
       </div>
 
       <div className="bg-[#0e1311] rounded-2xl p-8 text-center border border-[rgba(251,191,36,0.2)]">
-        <Shield className="w-16 h-16 text-[#000000] mx-auto mb-4" />
+        <Shield className="w-16 h-16 text-[#fbbf24] mx-auto mb-4" />
         <h4 className="text-lg font-outfit font-semibold text-[#feffff] mb-2">Admin Dashboard</h4>
         <p className="text-[#ccc] font-outfit mb-4">Manage the platform, users, and properties from here</p>
-        <Link to="/admin" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300">
+        <Link to="/admin" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 inline-flex items-center justify-center min-h-[44px]">
           Go to Admin Dashboard
         </Link>
       </div>
@@ -862,13 +864,13 @@ const AccountDashboard = () => {
 
   const renderUserManagementTab = () => (
     <div className="space-y-6">
-      <h3 className="text-xl font-outfit font-bold text-[#feffff]">User Management</h3>
+      <h3 className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>User Management</h3>
       
       <div className="bg-[#0e1311] rounded-2xl p-8 text-center border border-[rgba(251,191,36,0.2)]">
-        <Users className="w-16 h-16 text-[#000000] mx-auto mb-4" />
+        <Users className="w-16 h-16 text-[#fbbf24] mx-auto mb-4" />
         <h4 className="text-lg font-outfit font-semibold text-[#feffff] mb-2">User Management</h4>
         <p className="text-[#ccc] font-outfit mb-4">Manage user accounts, roles, and permissions</p>
-        <Link to="/admin/users" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300">
+        <Link to="/admin/users" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 inline-flex items-center justify-center min-h-[44px]">
           Manage Users
         </Link>
       </div>
@@ -877,13 +879,13 @@ const AccountDashboard = () => {
 
   const renderPropertyModerationTab = () => (
     <div className="space-y-6">
-      <h3 className="text-xl font-outfit font-bold text-[#feffff]">Property Moderation</h3>
+      <h3 className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Property Moderation</h3>
       
       <div className="bg-[#0e1311] rounded-2xl p-8 text-center border border-[rgba(251,191,36,0.2)]">
-        <Home className="w-16 h-16 text-[#000000] mx-auto mb-4" />
+        <Home className="w-16 h-16 text-[#fbbf24] mx-auto mb-4" />
         <h4 className="text-lg font-outfit font-semibold text-[#feffff] mb-2">Property Moderation</h4>
         <p className="text-[#ccc] font-outfit mb-4">Review and moderate property listings</p>
-        <Link to="/admin/properties" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300">
+        <Link to="/admin/properties" className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold px-6 py-3 rounded-lg hover:shadow-lg transition-all duration-300 inline-flex items-center justify-center min-h-[44px]">
           Moderate Properties
         </Link>
       </div>
@@ -921,7 +923,7 @@ const AccountDashboard = () => {
 
   if (loading || !currentUser) {
     return (
-      <div className={`min-h-screen pt-32 pb-8 overflow-y-auto ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
+      <div className={`min-h-screen pt-24 md:pt-32 pb-8 overflow-y-auto ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <DashboardLoader text="Loading your dashboard..." />
         </div>
@@ -930,41 +932,41 @@ const AccountDashboard = () => {
   }
 
   return (
-    <div className={`min-h-screen pt-32 pb-8 overflow-y-auto ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
+    <div className={`min-h-screen pt-24 md:pt-32 pb-8 overflow-y-auto ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className={`text-4xl font-outfit font-bold mb-3 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>My Account</h1>
-          <p className={`font-outfit text-lg ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Manage your profile, properties, and preferences</p>
+          <h1 className={`text-2xl md:text-4xl font-outfit font-bold mb-3 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>My Account</h1>
+          <p className={`font-outfit text-base md:text-lg ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Manage your profile, properties, and preferences</p>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 lg:gap-8">
           {/* Sidebar Navigation */}
           <div className="lg:col-span-1">
-            <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border sticky top-32`}>
-              <div className="mb-6">
+            <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-3 lg:p-6 border lg:sticky lg:top-32`}>
+              <div className="hidden lg:block mb-6">
                 <h3 className={`text-lg font-outfit font-semibold mb-2 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Account Menu</h3>
                 <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Navigate your account settings</p>
               </div>
               
-              <nav className="space-y-3">
+              <nav className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:gap-0 lg:space-y-3 lg:overflow-visible lg:pb-0" aria-label="Account sections">
                 {tabs.map((tab) => {
                   const Icon = tab.icon;
                   return (
                                          <button
                        key={tab.id}
                        onClick={() => handleTabChange(tab.id)}
-                       className={`w-full flex items-center gap-3 px-4 py-4 rounded-xl font-outfit transition-all duration-300 group ${
+                       className={`flex-shrink-0 whitespace-nowrap lg:w-full flex items-center gap-2 lg:gap-3 px-3 py-2 lg:px-4 lg:py-4 min-h-[44px] rounded-xl text-sm lg:text-base font-outfit transition-all duration-300 group ${
                          activeTab === tab.id
-                           ? 'bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] shadow-lg shadow-[#000000]/25'
+                           ? 'bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] shadow-lg shadow-[#fbbf24]/25'
                            : isDark 
-                             ? 'text-[#ccc] hover:bg-[rgba(251,191,36,0.1)] hover:text-[#000000]'
-                             : 'text-gray-600 hover:bg-[rgba(251,191,36,0.1)] hover:text-[#000000]'
+                             ? 'text-[#ccc] hover:bg-[rgba(251,191,36,0.1)] hover:text-[#fbbf24]'
+                             : 'text-gray-600 hover:bg-[rgba(251,191,36,0.1)] hover:text-[#b45309]'
                        }`}
                      >
-                       <div className={`w-10 h-10 rounded-lg flex items-center justify-center transition-all duration-300 ${
+                       <div className={`w-8 h-8 lg:w-10 lg:h-10 flex-shrink-0 rounded-lg flex items-center justify-center transition-all duration-300 ${
                          activeTab === tab.id
                            ? 'bg-[#111]/20'
-                           : 'bg-[#000000]/10 group-hover:bg-[#000000]/20'
+                           : 'bg-[#fbbf24]/10 group-hover:bg-[#fbbf24]/20'
                        }`}>
                          <Icon className="w-5 h-5" />
                        </div>
@@ -977,52 +979,52 @@ const AccountDashboard = () => {
               </nav>
               
                                              {/* Quick Stats */}
-                <div className={`mt-8 pt-6 border-t ${isDark ? 'border-[rgba(251,191,36,0.2)]' : 'border-gray-200'}`}>
+                <div className={`hidden lg:block mt-8 pt-6 border-t ${isDark ? 'border-[rgba(251,191,36,0.2)]' : 'border-gray-200'}`}>
                   <h4 className={`text-sm font-outfit font-semibold mb-3 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Quick Stats</h4>
                                      <div className="space-y-2">
                      {isAdmin ? (
                        <>
                          <div className="flex justify-between items-center text-sm">
                            <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Total Users</span>
-                           <span className="text-[#000000] font-medium">{adminStats.totalUsers.toLocaleString()}</span>
+                           <span className={`font-medium ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>{adminStats.totalUsers.toLocaleString()}</span>
                          </div>
                          <div className="flex justify-between items-center text-sm">
                            <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Total Properties</span>
-                           <span className="text-[#000000] font-medium">{adminStats.totalProperties.toLocaleString()}</span>
+                           <span className={`font-medium ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>{adminStats.totalProperties.toLocaleString()}</span>
                          </div>
                          <div className="flex justify-between items-center text-sm">
                            <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Pending Reviews</span>
-                           <span className="text-[#000000] font-medium">{adminStats.pendingReviews.toLocaleString()}</span>
+                           <span className={`font-medium ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>{adminStats.pendingReviews.toLocaleString()}</span>
                          </div>
                        </>
                      ) : isAgent ? (
                        <>
                          <div className="flex justify-between items-center text-sm">
                            <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Properties</span>
-                           <span className="text-[#000000] font-medium">{analytics.properties}</span>
+                           <span className={`font-medium ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>{analytics.properties}</span>
                          </div>
                          <div className="flex justify-between items-center text-sm">
                            <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Inquiries</span>
-                           <span className="text-[#000000] font-medium">{analytics.totalInquiries}</span>
+                           <span className={`font-medium ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>{analytics.totalInquiries}</span>
                          </div>
                          <div className="flex justify-between items-center text-sm">
                            <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Views</span>
-                           <span className="text-[#000000] font-medium">{analytics.totalViews.toLocaleString()}</span>
+                           <span className={`font-medium ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>{analytics.totalViews.toLocaleString()}</span>
                          </div>
                        </>
                      ) : (
                        <>
                          <div className="flex justify-between items-center text-sm">
                            <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Favorites</span>
-                           <span className="text-[#000000] font-medium">{favorites.length}</span>
+                           <span className={`font-medium ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>{favorites.length}</span>
                          </div>
                          <div className="flex justify-between items-center text-sm">
                            <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Saved Searches</span>
-                           <span className="text-[#000000] font-medium">0</span>
+                           <span className={`font-medium ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>0</span>
                          </div>
                          <div className="flex justify-between items-center text-sm">
                            <span className={isDark ? 'text-[#ccc]' : 'text-gray-600'}>Messages</span>
-                           <span className="text-[#000000] font-medium">0</span>
+                           <span className={`font-medium ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>0</span>
                          </div>
                        </>
                      )}

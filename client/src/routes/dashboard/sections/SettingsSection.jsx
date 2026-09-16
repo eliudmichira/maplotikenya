@@ -237,7 +237,7 @@ const SettingsSection = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
             Account Settings
@@ -270,9 +270,9 @@ const SettingsSection = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Profile Settings */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center">
               <User className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
@@ -365,7 +365,7 @@ const SettingsSection = () => {
         </div>
 
         {/* Notifications */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
               <Bell className="w-5 h-5 text-green-600 dark:text-green-400" />
@@ -374,7 +374,7 @@ const SettingsSection = () => {
           </div>
           
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-3">
               <div>
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Email Notifications</span>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Receive updates via email</p>
@@ -390,7 +390,7 @@ const SettingsSection = () => {
               </label>
             </div>
             
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-3">
               <div>
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">SMS Notifications</span>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Receive updates via SMS</p>
@@ -406,7 +406,7 @@ const SettingsSection = () => {
               </label>
             </div>
             
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-3">
               <div>
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Property Alerts</span>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Get notified about property updates</p>
@@ -422,7 +422,7 @@ const SettingsSection = () => {
               </label>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-3">
               <div>
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Inquiry Alerts</span>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Get notified about new inquiries</p>
@@ -438,7 +438,7 @@ const SettingsSection = () => {
               </label>
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-3">
               <div>
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Marketing Emails</span>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Receive promotional content</p>
@@ -457,7 +457,7 @@ const SettingsSection = () => {
         </div>
 
         {/* Security */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
               <Shield className="w-5 h-5 text-red-600 dark:text-red-400" />
@@ -466,7 +466,7 @@ const SettingsSection = () => {
           </div>
           
           <div className="space-y-4">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-3">
               <div>
                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Two-Factor Auth</span>
                 <p className="text-xs text-gray-500 dark:text-gray-400">Add an extra layer of security</p>
@@ -498,7 +498,7 @@ const SettingsSection = () => {
       </div>
 
       {/* Theme Settings */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center">
             <Palette className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
@@ -578,8 +578,8 @@ const SettingsSection = () => {
 
       {/* Password Change Modal */}
       {showPasswordModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-5 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Change Password</h3>
               <button onClick={() => setShowPasswordModal(false)} className="text-gray-400 hover:text-gray-600">
@@ -656,8 +656,8 @@ const SettingsSection = () => {
 
       {/* Avatar Upload Modal */}
       {showAvatarModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-5 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Update Profile Picture</h3>
               <button onClick={() => setShowAvatarModal(false)} className="text-gray-400 hover:text-gray-600">

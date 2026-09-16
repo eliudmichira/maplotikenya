@@ -5,10 +5,10 @@ import { Home, Eye, MessageCircle, Star, Edit, Trash2, Plus, Filter, Search, X, 
 // Toast notification system
 const showToast = (options) => {
   const toast = document.createElement('div');
-  toast.className = `fixed top-6 right-6 z-[9999] transform transition-all duration-500 ease-out`;
+  toast.className = `fixed top-4 left-4 right-4 sm:left-auto sm:top-6 sm:right-6 z-[9999] transform transition-all duration-500 ease-out`;
 
   toast.innerHTML = `
-    <div class="relative overflow-hidden rounded-2xl p-5 min-w-[300px] max-w-[400px] ${options.type === 'error'
+    <div class="relative overflow-hidden rounded-2xl p-5 sm:min-w-[300px] max-w-[400px] ml-auto ${options.type === 'error'
       ? 'bg-gradient-to-br from-red-500 via-red-600 to-red-700'
       : 'bg-gradient-to-br from-emerald-500 via-emerald-600 to-teal-600'
     } text-white shadow-2xl backdrop-blur-xl border border-white/20">
@@ -250,7 +250,7 @@ const PropertiesSection = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
             My Properties
@@ -269,8 +269,8 @@ const PropertiesSection = () => {
       </div>
 
       {/* Filters */}
-      <div className="flex items-center gap-4">
-        <div className="relative flex-1 max-w-md">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+        <div className="relative flex-1 sm:max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             type="text"
@@ -404,8 +404,8 @@ const PropertiesSection = () => {
 
       {/* Add Property Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-5 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Add New Property</h3>
               <button onClick={() => setShowAddModal(false)} className="text-gray-400 hover:text-gray-600">
@@ -495,8 +495,8 @@ const PropertiesSection = () => {
 
       {/* Edit Property Modal */}
       {showEditModal && selectedProperty && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-5 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Edit Property</h3>
               <button onClick={() => setShowEditModal(false)} className="text-gray-400 hover:text-gray-600">
@@ -556,8 +556,8 @@ const PropertiesSection = () => {
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && selectedProperty && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-5 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="text-center">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Delete Property</h3>
               <p className="text-gray-600 dark:text-gray-400 mb-6">

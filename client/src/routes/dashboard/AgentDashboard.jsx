@@ -114,7 +114,7 @@ const AgentDashboard = () => {
       setIsLoading(true);
       try {
         // Parallelize data fetching to improve performance
-        const [userProperties, agentInquiries, agentAnalytics] = await Promise.all([
+        const [userProperties, agentInquiries, agentAnalytics, agentBookings] = await Promise.all([
           accountDashboardAPI.getUserProperties(currentUser.id).catch(err => {
             console.error('Error fetching properties:', err);
             return [];
@@ -226,8 +226,8 @@ const AgentDashboard = () => {
     <div className="space-y-6">
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/20 flex items-center justify-center">
               <Building2 className="w-6 h-6 text-emerald-500" />
@@ -239,7 +239,7 @@ const AgentDashboard = () => {
           </div>
         </div>
 
-        <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/20 flex items-center justify-center">
               <Eye className="w-6 h-6 text-green-500" />
@@ -251,7 +251,7 @@ const AgentDashboard = () => {
           </div>
         </div>
 
-        <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/20 flex items-center justify-center">
               <MessageCircle className="w-6 h-6 text-purple-500" />
@@ -263,7 +263,7 @@ const AgentDashboard = () => {
           </div>
         </div>
 
-        <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-yellow-100 dark:bg-yellow-900/20 flex items-center justify-center">
               <DollarSign className="w-6 h-6 text-yellow-500" />
@@ -277,7 +277,7 @@ const AgentDashboard = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button
@@ -311,12 +311,12 @@ const AgentDashboard = () => {
   // Properties Section Component
   const PropertiesSection = () => (
     <div className="space-y-6">
-      <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">My Properties</h2>
+      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">My Properties</h2>
           <button
             onClick={() => navigate('/properties/add')}
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
+            className="flex items-center gap-2 px-4 py-2 min-h-[44px] bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
           >
             <Plus className="w-4 h-4" />
             Add Property
@@ -358,8 +358,8 @@ const AgentDashboard = () => {
                 </div>
                 <h3 className="font-semibold text-gray-900 dark:text-white mb-2">{property.title}</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{property.location?.address || 'Location not specified'}</p>
-                <div className="flex justify-between items-center">
-                  <span className="font-bold text-[#000000]">KES {property.price?.toLocaleString() || '0'}</span>
+                <div className="flex flex-wrap justify-between items-center gap-x-3 gap-y-1">
+                  <span className={`font-bold ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>KES {property.price?.toLocaleString() || '0'}</span>
                   <div className="flex items-center gap-2 text-sm text-gray-500">
                     <span>{property.bedrooms || 0} beds</span>
                     <span>•</span>
@@ -369,19 +369,19 @@ const AgentDashboard = () => {
                 <div className="mt-3 flex gap-2">
                   <button
                     onClick={() => navigate(`/properties/add?edit=${property.id}`)}
-                    className="flex-1 px-3 py-1 text-xs bg-[#000000] text-[#111] rounded-lg font-medium"
+                    className="flex-1 px-3 py-2 min-h-[40px] text-xs bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-lg font-medium hover:shadow-md transition-all"
                   >
                     Edit
                   </button>
                   <button
                     onClick={() => navigate(`/property/${property.id}`)}
-                    className="flex-1 px-3 py-1 text-xs bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium"
+                    className="flex-1 px-3 py-2 min-h-[40px] text-xs bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium"
                   >
                     View
                   </button>
                   <button
                     onClick={() => setPropertyToDelete(property)}
-                    className="px-3 py-1 text-xs bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg font-medium hover:bg-red-200 dark:hover:bg-red-900/50"
+                    className="px-3 py-2 min-h-[40px] text-xs bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg font-medium hover:bg-red-200 dark:hover:bg-red-900/50"
                     title="Delete Property"
                   >
                     <Trash2 className="w-3.5 h-3.5 inline" />
@@ -396,7 +396,7 @@ const AgentDashboard = () => {
       {/* Delete confirmation modal */}
       {propertyToDelete && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className={`rounded-2xl p-6 w-full max-w-md ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-xl`}>
+          <div className={`rounded-2xl p-5 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-xl`}>
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Delete Property</h3>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
               Are you sure you want to delete &quot;{propertyToDelete.title}&quot;? This action cannot be undone.
@@ -417,14 +417,14 @@ const AgentDashboard = () => {
                   }
                 }}
                 disabled={deleting}
-                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 disabled:opacity-50"
+                className="flex-1 px-4 py-2 min-h-[44px] bg-red-600 text-white rounded-xl font-medium hover:bg-red-700 disabled:opacity-50"
               >
                 {deleting ? <Loader2 className="w-4 h-4 animate-spin inline" /> : 'Delete'}
               </button>
               <button
                 onClick={() => setPropertyToDelete(null)}
                 disabled={deleting}
-                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
+                className="flex-1 px-4 py-2 min-h-[44px] border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-50 dark:hover:bg-gray-700"
               >
                 Cancel
               </button>
@@ -438,9 +438,9 @@ const AgentDashboard = () => {
   // Inquiries Section Component
   const InquiriesSection = () => (
     <div className="space-y-6">
-      <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Inquiries</h2>
+      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Inquiries</h2>
           <span className="text-sm text-gray-600 dark:text-gray-400">{inquiries.length} total inquiries</span>
         </div>
 
@@ -459,16 +459,16 @@ const AgentDashboard = () => {
           <div className="space-y-4">
             {inquiries.map((inquiry) => (
               <div key={inquiry.id} className={`p-4 rounded-xl border ${isDark ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'}`}>
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white">
+                <div className="flex justify-between items-start gap-3 mb-4">
+                  <div className="min-w-0">
+                    <h4 className="font-semibold text-gray-900 dark:text-white break-words">
                       {inquiry.client?.name || inquiry.clientName || 'Anonymous Client'}
                     </h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 break-all">
                       {inquiry.client?.email || inquiry.clientEmail || 'No email provided'}
                     </p>
                   </div>
-                  <div className="flex flex-col items-end gap-2">
+                  <div className="flex flex-col items-end gap-2 flex-shrink-0">
                     <span className={`text-xs px-2 py-1 rounded-full ${inquiry.status === 'new' ? 'bg-emerald-100 text-emerald-800' :
                         inquiry.status === 'active' ? 'bg-green-100 text-green-800' :
                           inquiry.status === 'responded' ? 'bg-green-100 text-green-800' :
@@ -486,8 +486,8 @@ const AgentDashboard = () => {
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                   {inquiry.lastMessage || inquiry.message || 'No message provided'}
                 </p>
-                <div className="flex justify-between items-center text-xs text-gray-500 mb-3">
-                  <span>Property: {inquiry.property?.title || inquiry.propertyTitle || 'Unknown Property'}</span>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 text-xs text-gray-500 mb-3">
+                  <span className="break-words">Property: {inquiry.property?.title || inquiry.propertyTitle || 'Unknown Property'}</span>
                   <span>{inquiry.updatedAt?.toDate?.()?.toLocaleDateString() || inquiry.createdAt?.toDate?.()?.toLocaleDateString() || 'Unknown date'}</span>
                 </div>
                 <div className="mt-3 flex gap-2">
@@ -498,11 +498,11 @@ const AgentDashboard = () => {
                         navigate(`/messages?conversation=${inquiry.conversationId}`);
                       }
                     }}
-                    className="flex-1 px-3 py-1 text-xs bg-[#000000] text-[#111] rounded-lg font-medium hover:bg-[#000000]/90 transition-colors"
+                    className="flex-1 px-3 py-2 min-h-[40px] text-xs bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-lg font-medium hover:shadow-md transition-all"
                   >
                     {inquiry.conversationId ? 'View Chat' : 'Reply'}
                   </button>
-                  <button className="flex-1 px-3 py-1 text-xs bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium">
+                  <button className="flex-1 px-3 py-2 min-h-[40px] text-xs bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium">
                     Mark Read
                   </button>
                 </div>
@@ -517,9 +517,9 @@ const AgentDashboard = () => {
   // Bookings Section Component
   const BookingsSection = () => (
     <div className="space-y-6">
-      <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Viewing Requests</h2>
+      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Viewing Requests</h2>
           <span className="text-sm text-gray-600 dark:text-gray-400">{bookings.length} total requests</span>
         </div>
 
@@ -536,7 +536,7 @@ const AgentDashboard = () => {
             {bookings.map((booking) => (
               <div key={booking.id} className={`p-4 rounded-xl border ${isDark ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'}`}>
                 <div className="flex flex-col sm:flex-row justify-between gap-4">
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-4 min-w-0">
                     <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/20 flex items-center justify-center flex-shrink-0">
                       <Calendar className="w-6 h-6 text-emerald-500" />
                     </div>
@@ -551,7 +551,7 @@ const AgentDashboard = () => {
                         </div>
                         <div className="flex items-center gap-1.5 text-sm text-gray-600 dark:text-gray-400">
                           <Home className="w-3.5 h-3.5" />
-                          <span>{booking.propertyTitle}</span>
+                          <span className="break-words">{booking.propertyTitle}</span>
                         </div>
                       </div>
                     </div>
@@ -574,14 +574,14 @@ const AgentDashboard = () => {
                   </div>
                 </div>
                 
-                <div className="mt-4 flex gap-2">
-                  <button className="flex-1 px-3 py-2 text-xs bg-[#000000] text-[#111] rounded-lg font-medium hover:opacity-90 transition-all">
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <button className="flex-1 min-w-[120px] px-3 py-2 min-h-[40px] text-xs bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-lg font-medium hover:shadow-md transition-all">
                     Confirm Viewing
                   </button>
-                  <button className="flex-1 px-3 py-2 text-xs border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+                  <button className="flex-1 min-w-[120px] px-3 py-2 min-h-[40px] text-xs border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
                     Reschedule
                   </button>
-                  <button className="px-3 py-2 text-xs bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg font-medium hover:bg-red-200 dark:hover:bg-red-900/50 transition-all">
+                  <button className="px-3 py-2 min-h-[40px] text-xs bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-lg font-medium hover:bg-red-200 dark:hover:bg-red-900/50 transition-all">
                     Decline
                   </button>
                 </div>
@@ -596,23 +596,23 @@ const AgentDashboard = () => {
   // Analytics Section Component
   const AnalyticsSection = () => (
     <div className="space-y-6">
-      <div className={`p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Analytics Overview</h2>
-          <select className={`px-4 py-2 rounded-lg text-sm font-medium ${isDark ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} border-none focus:ring-2 focus:ring-[#000000]`}>
+      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Analytics Overview</h2>
+          <select className={`px-4 py-2 min-h-[44px] rounded-lg text-sm font-medium ${isDark ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} border-none focus:ring-2 focus:ring-[#fbbf24]`}>
             <option>Last 6 Months</option>
             <option>This Year</option>
             <option>All Time</option>
           </select>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <div className="p-5 rounded-xl bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-white shadow-lg relative overflow-hidden">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6 md:mb-8">
+          <div className="p-5 rounded-xl bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] shadow-lg relative overflow-hidden">
              <div className="absolute top-0 right-0 p-4 opacity-20"><TrendingUp className="w-16 h-16" /></div>
             <p className="text-sm font-medium opacity-90 mb-1">Total Revenue</p>
-            <p className="text-3xl font-bold mb-2">KES {agentStats.totalRevenue.toLocaleString()}</p>
+            <p className="text-2xl md:text-3xl font-bold mb-2 break-words">KES {agentStats.totalRevenue.toLocaleString()}</p>
             <div className="flex items-center text-sm font-medium">
-               <span className="bg-white/20 px-2 py-1 rounded flex items-center gap-1">
+               <span className="bg-black/10 px-2 py-1 rounded flex items-center gap-1">
                  <TrendingUp className="w-3 h-3" /> +12.5%
                </span>
                <span className="ml-2 opacity-80">vs last month</span>
@@ -622,7 +622,7 @@ const AgentDashboard = () => {
           <div className="p-5 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 text-white shadow-lg relative overflow-hidden">
              <div className="absolute top-0 right-0 p-4 opacity-20"><BarChart3 className="w-16 h-16" /></div>
             <p className="text-sm font-medium opacity-90 mb-1">Conversion Rate</p>
-            <p className="text-3xl font-bold mb-2">{agentStats.conversionRate}%</p>
+            <p className="text-2xl md:text-3xl font-bold mb-2">{agentStats.conversionRate}%</p>
              <div className="flex items-center text-sm font-medium">
                <span className="bg-white/20 px-2 py-1 rounded flex items-center gap-1">
                  <TrendingUp className="w-3 h-3" /> +2.1%
@@ -634,7 +634,7 @@ const AgentDashboard = () => {
           <div className="p-5 rounded-xl bg-gradient-to-br from-violet-500 to-purple-600 text-white shadow-lg relative overflow-hidden">
              <div className="absolute top-0 right-0 p-4 opacity-20"><Star className="w-16 h-16" /></div>
             <p className="text-sm font-medium opacity-90 mb-1">Average Rating</p>
-            <p className="text-3xl font-bold mb-2">{agentStats.avgRating}/5</p>
+            <p className="text-2xl md:text-3xl font-bold mb-2">{agentStats.avgRating}/5</p>
              <div className="flex items-center text-sm font-medium">
                <span className="bg-white/20 px-2 py-1 rounded flex items-center gap-1">
                  <Star className="w-3 h-3 fill-current" /> 4.8
@@ -645,7 +645,7 @@ const AgentDashboard = () => {
         </div>
 
         {/* Charts */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8 mb-6">
             <div className={`p-5 rounded-xl border ${isDark ? 'bg-gray-700/30 border-gray-700' : 'bg-gray-50 border-gray-100'}`}>
                 <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Views vs Inquiries</h3>
                 <div className="h-64 w-full">
@@ -653,12 +653,12 @@ const AgentDashboard = () => {
                         <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                             <defs>
                                 <linearGradient id="colorViews" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#000000" stopOpacity={0.3}/>
-                                    <stop offset="95%" stopColor="#000000" stopOpacity={0}/>
+                                    <stop offset="5%" stopColor="#fbbf24" stopOpacity={0.3}/>
+                                    <stop offset="95%" stopColor="#fbbf24" stopOpacity={0}/>
                                 </linearGradient>
                                 <linearGradient id="colorInquiries" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#000000" stopOpacity={0.3}/>
-                                    <stop offset="95%" stopColor="#000000" stopOpacity={0}/>
+                                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3}/>
+                                    <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
                                 </linearGradient>
                             </defs>
                             <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDark ? '#374151' : '#e5e7eb'} />
@@ -668,8 +668,8 @@ const AgentDashboard = () => {
                                 contentStyle={{ backgroundColor: isDark ? '#1f2937' : '#ffffff', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                                 itemStyle={{ color: isDark ? '#f3f4f6' : '#111827', fontWeight: 500 }}
                             />
-                            <Area type="monotone" dataKey="views" name="Views" stroke="#000000" strokeWidth={3} fillOpacity={1} fill="url(#colorViews)" />
-                            <Area type="monotone" dataKey="inquiries" name="Inquiries" stroke="#000000" strokeWidth={3} fillOpacity={1} fill="url(#colorInquiries)" />
+                            <Area type="monotone" dataKey="views" name="Views" stroke="#fbbf24" strokeWidth={3} fillOpacity={1} fill="url(#colorViews)" />
+                            <Area type="monotone" dataKey="inquiries" name="Inquiries" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorInquiries)" />
                         </AreaChart>
                     </ResponsiveContainer>
                 </div>
@@ -687,7 +687,7 @@ const AgentDashboard = () => {
                                 cursor={{fill: isDark ? '#374151' : '#f3f4f6'}}
                                 contentStyle={{ backgroundColor: isDark ? '#1f2937' : '#ffffff', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                             />
-                            <Bar dataKey="inquiries" name="Leads" fill="#505050" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                            <Bar dataKey="inquiries" name="Leads" fill="#f59e0b" radius={[4, 4, 0, 0]} maxBarSize={40} />
                         </BarChart>
                     </ResponsiveContainer>
                  </div>
@@ -704,15 +704,15 @@ const AgentDashboard = () => {
                </div>
                <div className="p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Active Listings</p>
-                  <p className="text-xl font-bold text-[#000000]">{agentStats.activeListings}</p>
+                  <p className={`text-xl font-bold ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>{agentStats.activeListings}</p>
                </div>
                <div className="p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Views</p>
-                  <p className="text-xl font-bold text-[#000000]">{agentStats.totalViews.toLocaleString()}</p>
+                  <p className={`text-xl font-bold ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>{agentStats.totalViews.toLocaleString()}</p>
                </div>
                <div className="p-4 rounded-lg bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
                   <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Total Leads</p>
-                  <p className="text-xl font-bold text-[#505050]">{agentStats.totalInquiries}</p>
+                  <p className={`text-xl font-bold ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>{agentStats.totalInquiries}</p>
                </div>
             </div>
         </div>
@@ -729,11 +729,11 @@ const AgentDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20 overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">Agent Dashboard</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-2">Agent Dashboard</h1>
           <p className="text-gray-600 dark:text-gray-400">
             Manage your properties and track your performance
           </p>
@@ -746,8 +746,8 @@ const AgentDashboard = () => {
               <button
                 key={section.id}
                 onClick={() => setActiveSection(section.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl font-medium transition-all ${activeSection === section.id
-                    ? 'bg-[#000000] text-[#111] shadow-lg'
+                className={`flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-xl text-sm md:text-base font-medium transition-all ${activeSection === section.id
+                    ? 'bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] shadow-lg'
                     : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
                   }`}
               >

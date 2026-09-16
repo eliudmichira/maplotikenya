@@ -114,7 +114,7 @@ const MessagesSection = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
             Messages & Inquiries
@@ -157,11 +157,11 @@ const MessagesSection = () => {
           <div className="text-center py-10 text-gray-600 dark:text-gray-400">No messages found.</div>
         ) : (
           filteredMessages.map((message) => (
-            <div key={message.id} className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700 ${
+            <div key={message.id} className={`bg-white dark:bg-gray-800 rounded-xl p-4 sm:p-6 shadow-sm border border-gray-200 dark:border-gray-700 ${
               message.status === 'unread' ? 'ring-2 ring-emerald-500/20' : ''
             }`}>
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
+                <div className="flex items-center gap-3 min-w-0">
                   <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
                     <User className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                   </div>
@@ -187,8 +187,8 @@ const MessagesSection = () => {
                 <p className="text-gray-700 dark:text-gray-300">{message.message}</p>
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-600 dark:text-gray-400">
                   <span className="flex items-center gap-1">
                     <Mail className="w-3 h-3" />
                     {message.email}
@@ -206,7 +206,7 @@ const MessagesSection = () => {
                   </span>
                 </div>
                 
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
                   {message.status === 'unread' && (
                     <button 
                       onClick={() => handleMarkAsRead(message.id)}
@@ -262,8 +262,8 @@ const MessagesSection = () => {
 
       {/* Reply Modal */}
       {showReplyModal && selectedMessage && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-md">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-5 sm:p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Reply to {selectedMessage.name}</h3>
               <button onClick={() => setShowReplyModal(false)} className="text-gray-400 hover:text-gray-600">
