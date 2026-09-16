@@ -1,5 +1,6 @@
 import React, { Suspense, lazy, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useParams } from 'react-router-dom';
+import { MOBILE_UI_ENABLED } from './config/features';
 import { Layout } from './routes/layout/layout';
 import ErrorBoundary from './components/ErrorBoundary';
 import PerformanceMonitor from './components/PerformanceMonitor';
@@ -88,6 +89,13 @@ const TenantPayments = lazy(() => import('./routes/tenant-portal/payments/Paymen
 const TenantMaintenance = lazy(() => import('./routes/tenant-portal/maintenance/Maintenance'));
 const TenantReceipts = lazy(() => import('./routes/tenant-portal/receipts/Receipts'));
 const TenantSupport = lazy(() => import('./routes/tenant-portal/support/Support'));
+
+// Mobile-only deep links fall back to their desktop equivalents while the
+// mobile UI is switched off.
+const MobilePropertyRedirect = () => {
+  const { id } = useParams();
+  return <Navigate to={`/property/${id}`} replace />;
+};
 
 const ResponsiveComponent = ({ desktopComponent, mobileComponent }) => {
   const { isMobile, isMounted } = useMobileDetection(1024);
@@ -198,9 +206,11 @@ function AppContent() {
           />
         } />
         <Route path="/mobile-property/:id" element={
-          <MobilePropertyDetails />
+          MOBILE_UI_ENABLED ? <MobilePropertyDetails /> : <MobilePropertyRedirect />
         } />
-        <Route path="/agent/:id" element={<MobileAgentProfile />} />
+        <Route path="/agent/:id" element={
+          MOBILE_UI_ENABLED ? <MobileAgentProfile /> : <Navigate to="/desktop/agents" replace />
+        } />
         <Route path="/favorites" element={
           <ResponsiveComponent
             desktopComponent={<Navigate to="/account?tab=favorites" replace />}

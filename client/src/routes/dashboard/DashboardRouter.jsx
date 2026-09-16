@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import { MOBILE_UI_ENABLED } from '../../config/features';
 import { useAuth } from '../../context/AuthContext';
 import UserDashboard from './UserDashboard';
 import AgentDashboard from './AgentDashboard';
@@ -15,10 +16,10 @@ const DashboardRouter = () => {
   const { currentUser, getUserRole, isVerifiedAgent, loading: authLoading } = useAuth();
   const [userRole, setUserRole] = useState(null);
   const [isRoleDetermining, setIsRoleDetermining] = useState(true);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+  const [isMobile, setIsMobile] = useState(MOBILE_UI_ENABLED && window.innerWidth < 1024);
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024);
+    const handleResize = () => setIsMobile(MOBILE_UI_ENABLED && window.innerWidth < 1024);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);

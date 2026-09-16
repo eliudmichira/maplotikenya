@@ -105,6 +105,7 @@ const showToast = (options) => {
 };
 
 import { useMobileDetection } from '../../hooks/useMobileDetection';
+import { MOBILE_UI_ENABLED } from '../../config/features';
 import MobileAddProperty from '../../mobile/pages/MobileAddProperty';
 
 // Kenyan Market Unit Types
@@ -899,8 +900,7 @@ const DesktopAddProperty = () => {
       setTimeout(() => {
         try {
           // Check if user is on mobile or desktop and navigate accordingly
-          const isMobile = window.innerWidth <= 768;
-          console.log('Navigating after property creation, isMobile:', isMobile);
+          const isMobile = MOBILE_UI_ENABLED && window.innerWidth <= 768;
 
           // Use simpler navigation without URL parameters first
           if (isMobile) {

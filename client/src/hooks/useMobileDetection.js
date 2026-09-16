@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { MOBILE_UI_ENABLED } from '../config/features';
 
 export const useMobileDetection = (breakpoint = 1024) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -6,7 +7,9 @@ export const useMobileDetection = (breakpoint = 1024) => {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth <= breakpoint);
+      // With the mobile UI disabled every viewport is treated as desktop,
+      // so the responsive desktop site renders on phones too.
+      setIsMobile(MOBILE_UI_ENABLED && window.innerWidth <= breakpoint);
     };
 
     // Check on mount

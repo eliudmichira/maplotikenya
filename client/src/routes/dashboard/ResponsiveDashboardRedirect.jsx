@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import Dashboard from './dashboard';
+import { MOBILE_UI_ENABLED } from '../../config/features';
 
 const ResponsiveDashboardRedirect = () => {
-    const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
+    const [isMobile, setIsMobile] = useState(MOBILE_UI_ENABLED && window.innerWidth < 1024);
 
     useEffect(() => {
-        const handleResize = () => setIsMobile(window.innerWidth < 1024);
+        const handleResize = () => setIsMobile(MOBILE_UI_ENABLED && window.innerWidth < 1024);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
