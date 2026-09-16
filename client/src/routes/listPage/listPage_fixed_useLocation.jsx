@@ -95,6 +95,60 @@ import {
   PropertyLoadingSpinner
 } from '../../components/enhanced/PropertyLoadingStates';
 
+// ── Quick-filter flags derived from the data listings actually carry ─────
+// Imported listings do not have boolean flags like isWifiIncluded; they have
+// `amenities` / `utilities` arrays of snake_case keys (cctv, water_municipal,
+// internet), a `condition` ("New"), a `parking` string ("Garage") and a
+// `listingType` ("rent" | "sale"). The chips and the rent/sale toggle filter on
+// flags, so derive them here once per listing.
+const lower = (v) => String(v ?? '').toLowerCase();
+const listTokens = (property) =>
+  ['amenities', 'utilities', 'features', 'tags']
+    .flatMap((k) => (Array.isArray(property?.[k]) ? property[k] : []))
+    .map((t) => lower(typeof t === 'string' ? t : t?.name ?? t?.label ?? ''))
+    .filter(Boolean);
+
+export const normalizeListingType = (property) => {
+  const raw = lower(property?.listing_type || property?.listingType || property?.purpose || property?.type);
+  if (/rent|let/.test(raw)) return 'rent';
+  if (/sale|sell|buy/.test(raw)) return 'sale';
+  const title = lower(property?.title);
+  if (/to let|for rent|rental/.test(title)) return 'rent';
+  if (/for sale/.test(title)) return 'sale';
+  return raw || '';
+};
+
+export const deriveListingFlags = (property) => {
+  const tokens = listTokens(property);
+  const has = (...needles) => tokens.some((t) => needles.some((n) => t.includes(n)));
+  const text = [property?.title, property?.description, property?.condition, property?.availability, property?.estate]
+    .map(lower).join(' ');
+  const mentions = (re) => re.test(text);
+  const parking = property?.parking;
+  const parkingKnown = typeof parking === 'number'
+    ? parking > 0
+    : /garage|street|carport|covered|parking|yes|\d/.test(lower(parking)) && !/no parking|none/.test(lower(parking));
+  const year = Number(property?.yearBuilt);
+  const thisYear = new Date().getFullYear();
+
+  return {
+    listing_type: normalizeListingType(property),
+    isNearPublicTransport: Boolean(property?.isNearPublicTransport)
+      || has('transport', 'matatu', 'bus_stop', 'bus stop')
+      || mentions(/public transport|matatu|bus stop|bus stage|walking distance to (the )?(road|highway|stage)/),
+    isWaterIncluded: Boolean(property?.isWaterIncluded) || has('water', 'borehole'),
+    isWifiIncluded: Boolean(property?.isWifiIncluded) || has('internet', 'fibre', 'fiber', 'wifi', 'wi-fi'),
+    isGatedCommunity: Boolean(property?.isGatedCommunity)
+      || has('gated', 'secure', 'perimeter', 'cctv', 'alarm', 'security', 'guard', 'electric_fence'),
+    isNewlyBuilt: Boolean(property?.isNewlyBuilt)
+      || lower(property?.condition) === 'new'
+      || (Number.isFinite(year) && year >= thisYear - 2)
+      || mentions(/newly built|brand new|new build|modern/),
+    hasElevator: Boolean(property?.hasElevator) || has('elevator', 'lift'),
+    hasParking: Boolean(property?.hasParking) || has('parking', 'garage', 'carport') || parkingKnown,
+  };
+};
+
 // Google Maps API Key - strict in dev, safe fallback in prod
 const IS_PROD = import.meta.env.PROD;
 const ENV_KEY = (import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '').trim();
@@ -3057,21 +3111,17 @@ export default function MapView() {
             is_new: property.is_new || false,
             is_price_reduced: property.is_price_reduced || false,
             petFriendly: property.petFriendly || false,
-            hasParking: property.hasParking || false,
             open_house: property.open_house || null,
             days_on_market: property.days_on_market || 0,
             // Kenyan-focused properties
-            isNewlyBuilt: property.isNewlyBuilt || false,
-            isRecentlyRenovated: property.isRecentlyRenovated || false,
+            isRecentlyRenovated: property.isRecentlyRenovated || lower(property.condition) === 'renovated',
             isServicedApartment: property.isServicedApartment || false,
             isFurnished: property.isFurnished || false,
             isStudentFriendly: property.isStudentFriendly || false,
             isShortTermLease: property.isShortTermLease || false,
-            isNearPublicTransport: property.isNearPublicTransport || false,
-            isGatedCommunity: property.isGatedCommunity || false,
-            isWaterIncluded: property.isWaterIncluded || false,
-            isWifiIncluded: property.isWifiIncluded || false,
-            hasElevator: property.hasElevator || false,
+            // listing_type + the quick-filter flags, derived from the
+            // amenities / utilities / condition / parking the data carries
+            ...deriveListingFlags(property),
             // Location properties
             isNearCBD: property.isNearCBD || false,
             isNearUniversity: property.isNearUniversity || false,
