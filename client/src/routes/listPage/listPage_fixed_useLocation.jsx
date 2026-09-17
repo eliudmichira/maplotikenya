@@ -85,7 +85,7 @@ const AIStatusBar = ({ propertyCount, searchQuery, isAIShowingProperties }) => {
         {propertyCount.toLocaleString()} properties
       </span>
       {searchQuery && (
-        <span className="hidden sm:inline text-xs text-gray-600 dark:text-gray-400">Ã¢â‚¬Â¢ "{searchQuery}"</span>
+        <span className="hidden sm:inline text-xs text-gray-600 dark:text-gray-400">• "{searchQuery}"</span>
       )}
     </motion.button>
   );
@@ -399,7 +399,7 @@ function QuickViewModal({ property, isOpen, onClose, onFavoriteToggle, isFavorit
                 <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                   <Square className="h-5 w-5 mx-auto mb-1 text-[#000000]" />
                   <p className="text-xs text-gray-600 dark:text-gray-400">Area</p>
-                  <p className="text-lg font-bold text-gray-900 dark:text-white">{property?.area ? `${property.area}mÃ‚Â²` : 'N/A'}</p>
+                  <p className="text-lg font-bold text-gray-900 dark:text-white">{property?.area ? `${property.area}m²` : 'N/A'}</p>
                 </div>
                 <div className="text-center p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
                   <Home className="h-5 w-5 mx-auto mb-1 text-[#000000]" />
@@ -413,7 +413,7 @@ function QuickViewModal({ property, isOpen, onClose, onFavoriteToggle, isFavorit
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">Description</h3>
                 <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
                   {property?.description ||
-                    `This ${property?.property_type?.toLowerCase() || 'property'} features ${property?.bedrooms || 'N/A'} bedrooms and ${property?.bathrooms || 'N/A'} bathrooms. ${property?.area ? `With ${property.area}mÃ‚Â² of living space, ` : ''}this property offers modern amenities and thoughtful design.`
+                    `This ${property?.property_type?.toLowerCase() || 'property'} features ${property?.bedrooms || 'N/A'} bedrooms and ${property?.bathrooms || 'N/A'} bathrooms. ${property?.area ? `With ${property.area}m² of living space, ` : ''}this property offers modern amenities and thoughtful design.`
                   }
                 </p>
               </div>
@@ -531,7 +531,7 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
       }`}>
       <div className={`flex items-center justify-between gap-2 ${expanded ? 'mb-1' : 'mb-0'} md:mb-1.5`}>
         <h3 className={`text-sm md:text-base font-bold flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-          <div className="w-7 h-7 md:w-8 md:h-8 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-lg flex items-center justify-center shadow-lg shadow-[#000000]/20">
+          <div className="w-7 h-7 md:w-8 md:h-8 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center shadow-lg shadow-[#000000]/20">
             <TrendingUp className="h-3.5 w-3.5 md:h-4 md:w-4 text-[#000000]" />
           </div>
           {location} Market Insights
@@ -552,7 +552,7 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
       </div>
 
       {loading && (
-        <p className={`text-xs ${expanded ? 'block' : 'hidden md:block'} ${isDark ? 'text-white/70' : 'text-gray-700'}`}>Generating local market dataÃ¢â‚¬Â¦</p>
+        <p className={`text-xs ${expanded ? 'block' : 'hidden md:block'} ${isDark ? 'text-white/70' : 'text-gray-700'}`}>Generating local market data...</p>
       )}
 
       {!loading && insights && (
@@ -1299,10 +1299,10 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
 
       // Skip OverlappingMarkerSpiderfier in production to avoid errors
       if (isProduction) {
-        if (import.meta.env.DEV) console.log('Ã°Å¸Å¡Â« OverlappingMarkerSpiderfier disabled in production to prevent errors');
+        if (import.meta.env.DEV) console.log('🚫 OverlappingMarkerSpiderfier disabled in production to prevent errors');
         setOms(null);
         if (import.meta.env.DEV) {
-          console.log('Ã¢Å“â€¦ onLoad completed successfully in production mode');
+          console.log('✅ onLoad completed successfully in production mode');
         }
         return;
       }
@@ -1342,7 +1342,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
         });
         setOms(spider);
         if (import.meta.env.DEV) {
-          console.log('Ã¢Å“â€¦ OverlappingMarkerSpiderfier initialized successfully');
+          console.log('✅ OverlappingMarkerSpiderfier initialized successfully');
         }
       } catch (spiderError) {
         console.warn('Ã¢Å¡Â Ã¯Â¸Â OverlappingMarkerSpiderfier initialization failed:', spiderError.message);
@@ -1593,7 +1593,7 @@ function EnhancedMap({ propertyData, highlightedProperty, onMarkerHover, onPrope
         </div>
       ) : (
         !canInstantiateMap ? (
-          <div className="w-full h-full flex items-center justify-center text-gray-600 dark:text-gray-300">Loading mapÃ¢â‚¬Â¦</div>
+          <div className="w-full h-full flex items-center justify-center text-gray-600 dark:text-gray-300">Loading map...</div>
         ) : (
           <div className="w-full h-full">
             <GoogleMapComponent
@@ -2369,7 +2369,7 @@ export default function MapView() {
   // Alternative Google Maps loading method (referenced by loader onError)
   const loadGoogleMapsAlternative = useCallback(() => {
     if (window.google && window.google.maps) {
-      console.log('Ã¢Å“â€¦ Google Maps loaded via alternative method');
+      console.log('✅ Google Maps loaded via alternative method');
       setMapLoaded(true);
       return;
     }
@@ -2381,7 +2381,7 @@ export default function MapView() {
 
     // Global callback for alternative loading
     window.initGoogleMaps = () => {
-      console.log('Ã¢Å“â€¦ Google Maps loaded via alternative callback');
+      console.log('✅ Google Maps loaded via alternative callback');
       setMapLoaded(true);
       delete window.initGoogleMaps;
     };
@@ -2408,7 +2408,7 @@ export default function MapView() {
     retryDelay: 2000,
     // Add callback for successful load
     onLoad: () => {
-      console.log('Ã¢Å“â€¦ Google Maps API loaded successfully');
+      console.log('✅ Google Maps API loaded successfully');
       setMapLoaded(true);
     },
     // Add callback for load errors
@@ -2432,7 +2432,7 @@ export default function MapView() {
   // Enhanced error logging for production debugging
   useEffect(() => {
     if (loadError) {
-      console.error('Ã°Å¸Å¡Â¨ Google Maps Load Error Details:', {
+      console.error('🚨 Google Maps Load Error Details:', {
         error: loadError,
         apiKey: GOOGLE_MAPS_API_KEY ? 'Present' : 'Missing',
         environment: import.meta.env.MODE,
@@ -2772,7 +2772,7 @@ export default function MapView() {
           if (!isValidKenyanCoordinate(lat, lng)) {
             // Fallback near Nairobi with larger offset to avoid overlapping
             // Use a more spread out pattern to ensure visible separation
-            const offsetLat = (index % 10) * 0.02; // 0.02 degrees Ã¢â€°Ë† 2.2km
+            const offsetLat = (index % 10) * 0.02; // 0.02 degrees ≈ 2.2km
             const offsetLng = Math.floor(index / 10) * 0.02;
             lat = -1.2921 + offsetLat;
             lng = 36.8219 + offsetLng;
