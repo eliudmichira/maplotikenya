@@ -109,7 +109,7 @@ const MobileEditProfilePage = () => {
                         whileHover={{ scale: 1.05 }}
                         transition={{ type: 'spring', stiffness: 300 }}
                     >
-                        <div className="w-32 h-32 rounded-full overflow-hidden p-1 bg-gradient-to-br from-[#000000] via-[#45e695] to-[#f0f0f0] shadow-2xl">
+                        <div className="w-32 h-32 rounded-full overflow-hidden p-1 bg-gradient-to-br from-[#fbbf24] via-[#f59e0b] to-[#fbbf24] shadow-2xl">
                             <div className={`w-full h-full rounded-full overflow-hidden flex items-center justify-center text-4xl font-black ${isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
                                 {photoSrc ? (
                                     <img src={photoSrc} alt="" className="w-full h-full object-cover" />

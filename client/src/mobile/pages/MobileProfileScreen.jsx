@@ -99,8 +99,8 @@ const MobileProfileScreen = () => {
                     value: '0',
                     icon: TrendingUp,
                     color: 'green',
-                    gradient: 'from-[#000000]/20 to-[#45e695]/20',
-                    iconColor: 'text-[#2eac70]',
+                    gradient: 'from-amber-500/10 to-amber-600/10',
+                    iconColor: 'text-amber-500',
                     bgColor: 'bg-[#000000]/20'
                 },
                 {
@@ -180,8 +180,8 @@ const MobileProfileScreen = () => {
             sections.push({
                 title: 'Agent Dashboard',
                 items: [
-                    { icon: Home, label: 'My Listings', count: 0, color: 'blue', gradient: 'from-[#000000]/10 to-[#f0f0f0]/10', iconColor: 'text-[#2eac70]', action: () => navigate('/agent/listings') },
-                    { icon: MessageSquare, label: 'Messages', badge: 'New', color: 'green', gradient: 'from-[#45e695]/10 to-emerald-500/10', iconColor: 'text-[#2eac70]', action: () => navigate('/messages') },
+                    { icon: Home, label: 'My Listings', count: 0, color: 'blue', gradient: 'from-[#000000]/10 to-[#f0f0f0]/10', iconColor: 'text-amber-500', action: () => navigate('/agent/listings') },
+                    { icon: MessageSquare, label: 'Messages', badge: 'New', color: 'green', gradient: 'from-amber-500/10 to-amber-600/10', iconColor: 'text-amber-500', action: () => navigate('/messages') },
                     { icon: Star, label: 'Client Reviews', color: 'yellow', gradient: 'from-yellow-500/10 to-amber-500/10', iconColor: 'text-yellow-500', action: () => navigate('/agent/reviews') }
                 ]
             });
@@ -438,7 +438,7 @@ const MobileProfileScreen = () => {
                                     <p className={`text-sm ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Start exploring properties to see your activity here</p>
                                     <motion.button
                                         onClick={() => navigate('/properties')}
-                                        className="mt-6 px-6 py-3 bg-gradient-to-r from-[#000000] to-[#45e695] rounded-2xl text-gray-900 font-bold"
+                                        className="mt-6 px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-2xl text-[#111] font-bold shadow-lg shadow-[#fbbf24]/20"
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
                                     >

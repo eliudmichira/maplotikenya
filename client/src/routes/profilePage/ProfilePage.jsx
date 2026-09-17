@@ -205,7 +205,7 @@ const ProfilePage = () => {
       title: "Active User",
       description: "Logged in for 7 consecutive days",
       icon: Zap,
-      color: "from-[#f0f0f0] to-yellow-500",
+      color: "from-amber-300 to-amber-500",
       unlocked: false
     },
     {
@@ -213,7 +213,7 @@ const ProfilePage = () => {
       title: "Social Butterfly",
       description: "Connected social media accounts",
       icon: Users,
-      color: "from-[#29df99] to-[#000000]",
+      color: "from-amber-400 to-amber-600",
       unlocked: !!(currentUser?.social?.instagram || currentUser?.social?.twitter || currentUser?.social?.linkedin)
     }
   ];
@@ -251,7 +251,7 @@ const ProfilePage = () => {
                       </button>
                     </Link>
                     {currentUser?.verified && (
-                      <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-[#000000] to-[#45e695] rounded-full flex items-center justify-center shadow-lg text-gray-900 border-2 border-white dark:border-gray-800">
+                      <div className="absolute -top-2 -right-2 w-8 h-8 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center shadow-lg text-[#111] border-2 border-white dark:border-gray-800">
                         <CheckCircle className="w-5 h-5" />
                       </div>
                     )}
@@ -263,7 +263,7 @@ const ProfilePage = () => {
                         {currentUser?.name || currentUser?.username || 'User'}
                       </h1>
                       {currentUser?.role === 'premium' && (
-                        <span className="px-3 py-1 bg-gradient-to-r from-[#000000]/30 to-[#45e695]/30 border border-[#fbbf24]/40 text-[#000000] dark:text-white text-xs font-bold rounded-full flex items-center gap-1 shadow-sm backdrop-blur-sm">
+                        <span className="px-3 py-1 bg-amber-400/20 border border-amber-400/40 text-amber-700 dark:text-amber-300 text-xs font-bold rounded-full flex items-center gap-1 shadow-sm backdrop-blur-sm">
                           <Award className="w-3 h-3" />
                           PREMIUM
                         </span>
@@ -300,7 +300,7 @@ const ProfilePage = () => {
                 {/* Action Buttons */}
                 <div className="flex flex-wrap gap-3">
                   <Link to={isAgent ? "/profile/edit/agent" : "/profile/edit"}>
-                    <button className="flex items-center gap-2 bg-gradient-to-r from-[#000000] to-[#45e695] text-gray-900 font-bold py-2.5 px-5 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                    <button className="flex items-center gap-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-bold py-2.5 px-5 rounded-xl hover:shadow-lg hover:shadow-[#fbbf24]/20 transform hover:scale-105 transition-all duration-300">
                       <Settings className="w-4 h-4" />
                       {isAgent ? 'Edit Agent Profile' : 'Edit Profile'}
                     </button>
@@ -325,25 +325,25 @@ const ProfilePage = () => {
               {/* Stats Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-2 gap-4 lg:w-64">
                 {isAgent && (
-                  <div className="bg-[#000000]/10 rounded-2xl p-4 text-center hover:scale-105 transition-transform duration-300 border border-[#fbbf24]/20 shadow-sm">
-                    <Building2 className="w-6 h-6 mx-auto mb-1 text-[#000000]" />
+                  <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 text-center hover:scale-105 transition-transform duration-300 border border-gray-200 dark:border-gray-700 shadow-sm">
+                    <Building2 className="w-6 h-6 mx-auto mb-1 text-amber-500" />
                     <p className="text-2xl font-black text-gray-800 dark:text-white">{userStats.listings}</p>
                     <p className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-wider font-semibold">Listings</p>
                   </div>
                 )}
-                <div className="bg-[#f0f0f0]/10 rounded-2xl p-4 text-center hover:scale-105 transition-transform duration-300 border border-[#f0f0f0]/20 shadow-sm">
-                  <Heart className="w-6 h-6 mx-auto mb-1 text-[#f0f0f0]" />
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 text-center hover:scale-105 transition-transform duration-300 border border-gray-200 dark:border-gray-700 shadow-sm">
+                  <Heart className="w-6 h-6 mx-auto mb-1 text-gray-600 dark:text-gray-300" />
                   <p className="text-2xl font-black text-gray-800 dark:text-white">{userStats.saved}</p>
                   <p className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-wider font-semibold">Saved</p>
                 </div>
-                <div className="bg-[#45e695]/10 rounded-2xl p-4 text-center hover:scale-105 transition-transform duration-300 border border-[#45e695]/20 shadow-sm">
-                  <MessageCircle className="w-6 h-6 mx-auto mb-1 text-[#45e695]" />
+                <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 text-center hover:scale-105 transition-transform duration-300 border border-gray-200 dark:border-gray-700 shadow-sm">
+                  <MessageCircle className="w-6 h-6 mx-auto mb-1 text-amber-500" />
                   <p className="text-2xl font-black text-gray-800 dark:text-white">{chats?.length || 0}</p>
                   <p className="text-xs text-gray-600 dark:text-gray-400 uppercase tracking-wider font-semibold">Messages</p>
                 </div>
                 {isAgent && (
-                  <div className="bg-yellow-500/10 rounded-2xl p-4 text-center hover:scale-105 transition-transform duration-300 border border-yellow-500/20 shadow-sm">
-                    <Star className="w-6 h-6 mx-auto mb-1 text-yellow-500" />
+                  <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 text-center hover:scale-105 transition-transform duration-300 border border-gray-200 dark:border-gray-700 shadow-sm">
+                    <Star className="w-6 h-6 mx-auto mb-1 text-amber-500" />
                     <p className="text-2xl font-black text-gray-800 dark:text-white">
                       {userStats.rating || 'N/A'}
                     </p>
@@ -383,7 +383,7 @@ const ProfilePage = () => {
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold whitespace-nowrap transition-all duration-300 ${activeTab === tab.id
-                    ? 'bg-gradient-to-r from-[#000000] via-[#45e695] to-[#f0f0f0] text-gray-900 shadow-xl shadow-[#000000]/30'
+                    ? 'bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] shadow-lg shadow-[#fbbf24]/20 font-bold'
                     : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80'
                     }`}
                 >
@@ -391,7 +391,7 @@ const ProfilePage = () => {
                   {tab.label}
                   {tab.count > 0 && (
                     <span className={`ml-1 px-2 py-0.5 text-xs rounded-full ${activeTab === tab.id
-                      ? 'bg-white/20 text-white'
+                      ? 'bg-black/20 text-[#111] font-bold'
                       : 'bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200'
                       }`}>
                       {tab.count}
@@ -450,7 +450,7 @@ const ProfilePage = () => {
                 {recentActivity.length > 0 && (
                   <div className="backdrop-blur-xl bg-white/80 dark:bg-gray-800/80 border border-white/50 dark:border-gray-700/50 shadow-2xl rounded-3xl p-8">
                     <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-3">
-                      <Activity className="w-7 h-7 text-emerald-500" />
+                      <Activity className="w-7 h-7 text-amber-500" />
                       Recent Activity
                     </h2>
                     <div className="space-y-4">
@@ -459,8 +459,8 @@ const ProfilePage = () => {
                           key={activity.id}
                           className="flex items-start gap-4 p-4 rounded-2xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-all duration-300 group"
                         >
-                          <div className="w-10 h-10 bg-gradient-to-br from-[#000000] to-[#45e695] rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                            <Activity className="w-5 h-5 text-gray-900" />
+                          <div className="w-10 h-10 bg-amber-500/10 border border-amber-500/20 rounded-full flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                            <Activity className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                           </div>
                           <div className="flex-1">
                             <p className="font-medium text-gray-800 dark:text-white">
@@ -488,8 +488,8 @@ const ProfilePage = () => {
                   <div className="space-y-3">
                     {isAgent && (
                       <Link to="/add-property" className="block">
-                        <button className="w-full flex items-center gap-3 p-3 bg-gradient-to-r from-[#000000] to-[#45e695] text-gray-900 font-bold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300">
-                          <Plus className="w-5 h-5 text-gray-900" />
+                        <button className="w-full flex items-center gap-3 p-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-bold rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                          <Plus className="w-5 h-5 text-[#111]" />
                           Create New Listing
                         </button>
                       </Link>
@@ -524,7 +524,7 @@ const ProfilePage = () => {
                       )}
                       {currentUser.social?.twitter && (
                         <a href={`https://twitter.com/${currentUser.social.twitter.replace('@', '')}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors group">
-                          <Twitter className="w-5 h-5 text-emerald-400" />
+                          <Twitter className="w-5 h-5 text-sky-500" />
                           <span className="text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
                             {currentUser.social.twitter}
                           </span>
@@ -532,7 +532,7 @@ const ProfilePage = () => {
                       )}
                       {currentUser.social?.linkedin && (
                         <a href={`https://linkedin.com/in/${currentUser.social.linkedin}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors group">
-                          <Linkedin className="w-5 h-5 text-emerald-600" />
+                          <Linkedin className="w-5 h-5 text-blue-600" />
                           <span className="text-gray-700 dark:text-gray-300 group-hover:text-gray-900 dark:group-hover:text-white">
                             {currentUser.social.linkedin}
                           </span>
@@ -557,12 +557,12 @@ const ProfilePage = () => {
             <div className="backdrop-blur-xl bg-white/80 dark:bg-gray-800/80 border border-white/50 dark:border-gray-700/50 shadow-2xl rounded-3xl p-8">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold text-gray-800 dark:text-white flex items-center gap-3">
-                  <Building2 className="w-7 h-7 text-emerald-500" />
+                  <Building2 className="w-7 h-7 text-amber-500" />
                   My Listings ({userStats.listings})
                 </h2>
                 <div className="flex gap-3">
                   <Link to="/add-property">
-                    <button className="flex items-center gap-2 bg-gradient-to-r from-[#000000] to-[#45e695] text-gray-900 font-bold py-2 px-4 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                    <button className="flex items-center gap-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-bold py-2 px-4 rounded-xl hover:shadow-lg transform hover:scale-105 transition-all duration-300">
                       <Plus className="w-4 h-4" />
                       Add New
                     </button>
@@ -649,7 +649,7 @@ const ProfilePage = () => {
             <div className="grid lg:grid-cols-2 gap-8">
               <div className="backdrop-blur-xl bg-white/80 dark:bg-gray-800/80 border border-white/50 dark:border-gray-700/50 shadow-2xl rounded-3xl p-8">
                 <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-3">
-                  <TrendingUp className="w-6 h-6 text-green-500" />
+                  <TrendingUp className="w-6 h-6 text-amber-500" />
                   Performance Overview
                 </h3>
                 <div className="h-64 flex items-center justify-center text-gray-500 dark:text-gray-400">
@@ -669,7 +669,7 @@ const ProfilePage = () => {
 
               <div className="backdrop-blur-xl bg-white/80 dark:bg-gray-800/80 border border-white/50 dark:border-gray-700/50 shadow-2xl rounded-3xl p-8">
                 <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-6 flex items-center gap-3">
-                  <Eye className="w-6 h-6 text-emerald-500" />
+                  <Eye className="w-6 h-6 text-amber-500" />
                   Views Analytics
                 </h3>
                 <div className="h-64 flex items-center justify-center text-gray-500 dark:text-gray-400">
@@ -744,13 +744,13 @@ const ProfilePage = () => {
                   onClick={() => handleShare('twitter')}
                   className="flex-1 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
                 >
-                  <Twitter className="w-5 h-5 mx-auto text-emerald-400" />
+                  <Twitter className="w-5 h-5 mx-auto text-sky-500" />
                 </button>
                 <button
                   onClick={() => handleShare('linkedin')}
                   className="flex-1 p-4 bg-gray-50 dark:bg-gray-700 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
                 >
-                  <Linkedin className="w-5 h-5 mx-auto text-emerald-600" />
+                  <Linkedin className="w-5 h-5 mx-auto text-blue-600" />
                 </button>
                 <button
                   onClick={() => handleShare('instagram')}
@@ -830,7 +830,7 @@ function EmptyState({ title, description, icon: Icon, actionText, actionLink }) 
       <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-md mx-auto">{description}</p>
       {actionText && actionLink && (
         <Link to={actionLink}>
-          <button className="bg-gradient-to-br from-[#000000] to-[#45e695] text-gray-900 px-6 py-3 rounded-xl font-bold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+          <button className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] px-6 py-3 rounded-xl font-bold hover:shadow-lg transform hover:scale-105 transition-all duration-300">
             {actionText}
           </button>
         </Link>

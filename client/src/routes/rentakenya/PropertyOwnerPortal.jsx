@@ -291,7 +291,7 @@ const PropertyOwnerPortal = () => {
               >
                 <div className={`w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center ${
                   stat.color === '[#000000]' 
-                    ? 'bg-gradient-to-br from-[#000000] to-[#45e695]' 
+                    ? 'bg-gradient-to-br from-[#fbbf24] to-[#f59e0b]' 
                     : 'bg-gradient-to-br from-[#f0f0f0] to-[#d4c99e]'
                 }`}>
                   <stat.icon className="w-6 h-6 text-white" />

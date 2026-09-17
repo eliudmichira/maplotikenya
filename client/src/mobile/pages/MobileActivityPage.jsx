@@ -43,7 +43,7 @@ const MobileActivityPage = () => {
                     <motion.div className={`flex flex-col items-center justify-center py-20 rounded-3xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-200'}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                         <p className={`font-bold text-lg mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>No activity yet</p>
                         <p className={`text-sm mb-6 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Save favorites and view properties to see them here.</p>
-                        <motion.button onClick={() => navigate('/properties')} className="px-6 py-3 bg-gradient-to-r from-[#000000] to-[#45e695] rounded-2xl text-gray-900 font-bold" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>Explore</motion.button>
+                        <motion.button onClick={() => navigate('/properties')} className="px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-2xl text-[#111] font-bold shadow-lg shadow-[#fbbf24]/20" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>Explore</motion.button>
                     </motion.div>
                 ) : (
                     recentActivity.map((activity, i) => (

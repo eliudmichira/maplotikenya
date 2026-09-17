@@ -103,7 +103,7 @@ const MobileEditAgentBio = () => {
                 <motion.button
                     onClick={handleSave}
                     disabled={saving}
-                    className="w-full py-4 bg-gradient-to-r from-[#000000] to-[#45e695] rounded-2xl text-gray-900 font-bold shadow-xl shadow-[#000000]/20 flex items-center justify-center gap-2"
+                    className="w-full py-4 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-2xl text-[#111] font-bold shadow-lg shadow-[#fbbf24]/20 shadow-xl shadow-[#000000]/20 flex items-center justify-center gap-2"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                 >

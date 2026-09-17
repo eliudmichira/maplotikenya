@@ -205,7 +205,7 @@ const MobilePropertyDetails = () => {
           </p>
           <button
             onClick={() => navigate('/search')}
-            className="px-6 py-2 bg-[#505050] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
+            className="px-6 py-2 bg-[#505050] text-[#111] rounded-lg font-medium hover:bg-[#fbbf24] transition-colors"
           >
             Browse Properties
           </button>
@@ -465,7 +465,7 @@ const MobilePropertyDetails = () => {
               <div className="space-y-4">
                 <button
                   onClick={handleCall}
-                  className="w-full flex items-center gap-3 p-4 bg-[#505050] text-[#111] rounded-lg font-medium hover:bg-[#45e695] transition-colors"
+                  className="w-full flex items-center gap-3 p-4 bg-[#505050] text-[#111] rounded-lg font-medium hover:bg-[#fbbf24] transition-colors"
                 >
                   <Phone className="w-5 h-5" />
                   Call Agent

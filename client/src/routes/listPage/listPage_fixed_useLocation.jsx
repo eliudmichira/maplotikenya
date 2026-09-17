@@ -452,7 +452,7 @@ function QuickViewModal({ property, isOpen, onClose, onFavoriteToggle, isFavorit
                   />
                   <button
                     onClick={handleContactSubmit}
-                    className="w-full px-4 py-2 bg-black text-white dark:bg-white dark:text-black font-semibold rounded-lg hover:bg-[#45e695] transition-colors text-sm"
+                    className="w-full px-4 py-2 bg-black text-white dark:bg-white dark:text-black font-semibold rounded-lg hover:bg-[#fbbf24] hover:text-black transition-colors text-sm"
                   >
                     Send Message
                   </button>

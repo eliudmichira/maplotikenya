@@ -73,7 +73,7 @@ const MobileFavoritesPage = () => {
                         </p>
                         <motion.button
                             onClick={() => navigate('/properties')}
-                            className="px-6 py-3 bg-gradient-to-r from-[#000000] to-[#45e695] rounded-2xl text-gray-900 font-bold"
+                            className="px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-2xl text-[#111] font-bold shadow-lg shadow-[#fbbf24]/20"
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                         >
