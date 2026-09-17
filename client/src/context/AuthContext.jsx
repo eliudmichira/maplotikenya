@@ -557,11 +557,19 @@ export const AuthProvider = ({ children }) => {
     setUserPreferences((prev) => ({ ...prev, ...newPreferences }));
   };
 
-  const updateProfile = (profileData) => {
+  const updateProfile = async (profileData) => {
     if (!currentUser) return;
 
+    // Optimistic local update, then persist to users/{uid} so the change
+    // survives a reload and shows up for other visitors.
     const updatedUser = { ...currentUser, ...profileData };
     setCurrentUser(updatedUser);
+    try {
+      const { id, uid, password, ...persistable } = profileData || {};
+      await usersAPI.updateProfile(currentUser.id, persistable);
+    } catch (error) {
+      console.error('Failed to persist profile update:', error);
+    }
   };
 
   // Helper functions for user display

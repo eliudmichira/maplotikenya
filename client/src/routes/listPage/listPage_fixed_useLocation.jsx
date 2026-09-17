@@ -3817,7 +3817,7 @@ export default function MapView() {
               {/* Auth Buttons / Profile */}
               {currentUser ? (
                 <div className="flex items-center gap-3">
-                  <a href="/account" className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                  <a href="/desktop/dashboard" className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
                     <span className="inline-flex w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-[#fbbf24] to-[#f59e0b]">
                       {currentUser.photoURL ? (
                         <img src={currentUser.photoURL} alt={currentUser.displayName || currentUser.email} width="40" height="40" loading="lazy" decoding="async" className="w-full h-full object-cover" />
