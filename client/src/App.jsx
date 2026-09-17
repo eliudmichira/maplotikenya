@@ -65,7 +65,7 @@ const Dashboard = lazy(() => import('./routes/dashboard/dashboard'));
 const ResponsiveDashboardRedirect = lazy(() => import('./routes/dashboard/ResponsiveDashboardRedirect'));
 const ScrapingDashboard = lazy(() => import('./pages/ScrapingDashboard'));
 const AdminPanel = lazy(() => import('./routes/admin/AdminPanel'));
-const ProfilePage = lazy(() => import('./routes/profilePage/ProfilePage'));
+const ProfileUpdatePage = lazy(() => import('./routes/profileUpdatePage/profileUpdatePage'));
 const AgentVerificationPage = lazy(() => import('./routes/agent-verification/AgentVerificationPage'));
 const AddProperty = lazy(() => import('./routes/properties/AddProperty'));
 const TrialLogin = lazy(() => import('./routes/trial-login/TrialLogin'));
@@ -95,6 +95,14 @@ const TenantSupport = lazy(() => import('./routes/tenant-portal/support/Support'
 const MobilePropertyRedirect = () => {
   const { id } = useParams();
   return <Navigate to={`/property/${id}`} replace />;
+};
+
+// Old /account links carried ?tab=...; map them onto the dashboard sections.
+const AccountRedirect = () => {
+  const tab = new URLSearchParams(window.location.search).get('tab');
+  if (tab === 'settings') return <Navigate to="/profile/update" replace />;
+  if (tab === 'favorites') return <Navigate to="/desktop/dashboard?section=favorites" replace />;
+  return <Navigate to="/desktop/dashboard" replace />;
 };
 
 const ResponsiveComponent = ({ desktopComponent, mobileComponent }) => {
@@ -140,7 +148,7 @@ function AppContent() {
         } />
         <Route path="/profile" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/account" replace />}
+            desktopComponent={<Navigate to="/desktop/dashboard" replace />}
             mobileComponent={<Navigate to="/dashboard" replace />}
           />
         } />
@@ -213,7 +221,7 @@ function AppContent() {
         } />
         <Route path="/favorites" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/account?tab=favorites" replace />}
+            desktopComponent={<Navigate to="/desktop/dashboard?section=favorites" replace />}
             mobileComponent={
               <MobileLayoutWrapper title="Favorites" subtitle="Your saved properties">
                 <MobileFavoritesPage />
@@ -225,73 +233,73 @@ function AppContent() {
         {/* Profile sub-pages (functional) */}
         <Route path="/saved-searches" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/account" replace />}
+            desktopComponent={<Navigate to="/desktop/dashboard" replace />}
             mobileComponent={<MobileLayoutWrapper title="Saved Searches"><MobileSavedSearchesPage /></MobileLayoutWrapper>}
           />
         } />
         <Route path="/history" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/account" replace />}
+            desktopComponent={<Navigate to="/desktop/dashboard" replace />}
             mobileComponent={<MobileLayoutWrapper title="Recently Viewed"><MobileRecentlyViewedPage /></MobileLayoutWrapper>}
           />
         } />
         <Route path="/activity" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/account" replace />}
+            desktopComponent={<Navigate to="/desktop/dashboard" replace />}
             mobileComponent={<MobileLayoutWrapper title="Activity"><MobileActivityPage /></MobileLayoutWrapper>}
           />
         } />
         <Route path="/recommendations" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/account" replace />}
+            desktopComponent={<Navigate to="/desktop/dashboard" replace />}
             mobileComponent={<MobileLayoutWrapper title="Recommendations"><MobileRecommendationsPage /></MobileLayoutWrapper>}
           />
         } />
         <Route path="/insights" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/account" replace />}
+            desktopComponent={<Navigate to="/desktop/dashboard" replace />}
             mobileComponent={<MobileLayoutWrapper title="Insights"><MobileInsightsPage /></MobileLayoutWrapper>}
           />
         } />
         <Route path="/alerts" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/account" replace />}
+            desktopComponent={<Navigate to="/desktop/dashboard" replace />}
             mobileComponent={<MobileLayoutWrapper title="Price Alerts"><MobilePriceAlertsPage /></MobileLayoutWrapper>}
           />
         } />
         <Route path="/match" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/account" replace />}
+            desktopComponent={<Navigate to="/desktop/dashboard" replace />}
             mobileComponent={<MobileLayoutWrapper title="Property Match"><MobilePropertyMatchPage /></MobileLayoutWrapper>}
           />
         } />
         <Route path="/profile/edit" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/account" replace />}
+            desktopComponent={<Navigate to="/desktop/dashboard" replace />}
             mobileComponent={<MobileLayoutWrapper title="Edit Profile"><MobileEditProfilePage /></MobileLayoutWrapper>}
           />
         } />
         <Route path="/profile/edit/agent" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/account" replace />}
+            desktopComponent={<Navigate to="/desktop/dashboard" replace />}
             mobileComponent={<MobileLayoutWrapper title="Edit Agent Profile"><MobileEditAgentProfile /></MobileLayoutWrapper>}
           />
         } />
         <Route path="/profile/edit/agent/bio" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/account" replace />}
+            desktopComponent={<Navigate to="/desktop/dashboard" replace />}
             mobileComponent={<MobileLayoutWrapper title="Edit Bio"><MobileEditAgentBio /></MobileLayoutWrapper>}
           />
         } />
         <Route path="/profile/edit/agent/social" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/account" replace />}
+            desktopComponent={<Navigate to="/desktop/dashboard" replace />}
             mobileComponent={<MobileLayoutWrapper title="Edit Social Links"><MobileEditAgentSocial /></MobileLayoutWrapper>}
           />
         } />
         <Route path="/settings" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/account?tab=settings" replace />}
+            desktopComponent={<Navigate to="/profile/update" replace />}
             mobileComponent={<MobileLayoutWrapper title="Settings"><MobileSettingsPage /></MobileLayoutWrapper>}
           />
         } />
@@ -352,19 +360,18 @@ function AppContent() {
         <Route path="/desktop/register" element={<Navigate to="/auth?mode=signup" replace />} />
         <Route path="/desktop/dashboard" element={<ResponsiveDashboardRedirect />} />
 
-        {/* Account route (Responsive) */}
+        {/* /account used to be a separate profile page; it now lands on the
+            role-aware dashboard (or the profile form for ?tab=settings). */}
         <Route path="/account" element={
           <ResponsiveComponent
-            desktopComponent={<Layout />}
+            desktopComponent={<AccountRedirect />}
             mobileComponent={<MobileProfileScreen />}
           />
-        }>
-          <Route index element={
-            <ResponsiveComponent
-              desktopComponent={<ProfilePage />}
-              mobileComponent={null}
-            />
-          } />
+        } />
+
+        {/* Profile / settings form */}
+        <Route path="/profile/update" element={<Layout />}>
+          <Route index element={<ProfileUpdatePage />} />
         </Route>
 
         <Route path="/agent-verification" element={<AgentVerificationPage />} />

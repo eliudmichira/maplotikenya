@@ -664,7 +664,7 @@ const Navbar = () => {
                           </Link>
 
                           <Link
-                            to="/account?tab=favorites"
+                            to="/desktop/dashboard?section=favorites"
                             onClick={() => setIsProfileDropdownOpen(false)}
                             className="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                           >
@@ -685,7 +685,7 @@ const Navbar = () => {
 
                       {/* Common Menu Items for all users */}
                       <Link
-                        to="/account"
+                        to="/desktop/dashboard"
                         onClick={() => setIsProfileDropdownOpen(false)}
                         className="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                       >
@@ -694,7 +694,7 @@ const Navbar = () => {
                       </Link>
 
                       <Link
-                        to="/account?tab=settings"
+                        to="/profile/update"
                         onClick={() => setIsProfileDropdownOpen(false)}
                         className="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                       >
@@ -979,7 +979,7 @@ const Navbar = () => {
                       </Link>
 
                       <Link
-                        to="/account?tab=favorites"
+                        to="/desktop/dashboard?section=favorites"
                         onClick={() => setIsMenuOpen(false)}
                         className="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                       >
@@ -1000,7 +1000,7 @@ const Navbar = () => {
 
                   {/* Common Mobile Menu Items for all users */}
                   <Link
-                    to="/account"
+                    to="/desktop/dashboard"
                     onClick={() => setIsMenuOpen(false)}
                     className="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                   >
@@ -1009,7 +1009,7 @@ const Navbar = () => {
                   </Link>
 
                   <Link
-                    to="/account?tab=settings"
+                    to="/profile/update"
                     onClick={() => setIsMenuOpen(false)}
                     className="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                   >
