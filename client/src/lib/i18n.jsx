@@ -232,12 +232,17 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const LanguageContext = createContext();
 
+// English fallback so a page never crashes if it renders outside the provider.
+const FALLBACK_LANGUAGE = {
+  currentLanguage: 'en',
+  changeLanguage: () => {},
+  t: (key) => translations.en[key] || key,
+  availableLanguages: Object.keys(translations),
+};
+
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
-  if (!context) {
-    throw new Error('useLanguage must be used within a LanguageProvider');
-  }
-  return context;
+  return context || FALLBACK_LANGUAGE;
 };
 
 export const LanguageProvider = ({ children }) => {

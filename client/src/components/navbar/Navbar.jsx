@@ -699,7 +699,7 @@ const Navbar = () => {
                       </Link>
 
                       <Link
-                        to="/profile/update"
+                        to="/desktop/dashboard?section=profile"
                         onClick={() => setIsProfileDropdownOpen(false)}
                         className="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                       >
@@ -1014,7 +1014,7 @@ const Navbar = () => {
                   </Link>
 
                   <Link
-                    to="/profile/update"
+                    to="/desktop/dashboard?section=profile"
                     onClick={() => setIsMenuOpen(false)}
                     className="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                   >

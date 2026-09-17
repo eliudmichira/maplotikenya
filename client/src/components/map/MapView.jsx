@@ -8,6 +8,7 @@ import {
     DrawingManager
 } from '@react-google-maps/api';
 import CartoFallbackMap from '../GoogleMap/CartoFallbackMap';
+import { useGoogleMapsAuthFailed } from '../../lib/mapsStatus';
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -119,6 +120,7 @@ const MapView = ({
     onMapLoad,
     ...rest
 }) => {
+    const mapsAuthFailed = useGoogleMapsAuthFailed();
     const { isLoaded, loadError } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: GOOGLE_MAPS_API_KEY,
@@ -299,7 +301,7 @@ const MapView = ({
     }, [markers, memoizedMarkers]);
 
     // ✅ Fallback to the CARTO/OpenStreetMap basemap when Google Maps is unavailable
-    if (!GOOGLE_MAPS_API_KEY || loadError) {
+    if (!GOOGLE_MAPS_API_KEY || loadError || mapsAuthFailed) {
         return (
             <CartoFallbackMap
                 items={memoizedMarkers}

@@ -6,9 +6,9 @@ import { useAuth } from '../../context/AuthContext';
 import { accountDashboardAPI } from '../../lib/firebaseAPI';
 import { getPropertyImage, handleImageError } from '../../utils/imageUtils';
 import WorkspaceShell from '../../components/workspace/WorkspaceShell';
-import {
-  Home, Heart, Calendar, Search, Eye, Mail, User, Bed, Bath, X, Loader2, MapPin
-} from 'lucide-react';
+import ProfileSection from './sections/ProfileSection';
+import ListingCard from '../../components/listing/ListingCard';
+import { Home, Heart, Calendar, Search, Eye, Mail, User, X, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
@@ -22,11 +22,11 @@ const SECTIONS = [
   { id: 'overview', label: 'Overview', icon: Home },
   { id: 'favorites', label: 'Saved homes', icon: Heart },
   { id: 'bookings', label: 'Viewing requests', icon: Calendar },
+  { id: 'profile', label: 'Profile', icon: User },
 ];
 
 const LINKS = [
   { label: 'Messages', icon: Mail, to: '/messages' },
-  { label: 'Profile', icon: User, to: '/profile/update' },
 ];
 
 const areaOf = (p) => p.location?.address || p.location?.area || p.address || p.city || '';
@@ -34,7 +34,7 @@ const areaOf = (p) => p.location?.address || p.location?.area || p.address || p.
 const UserDashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { currentUser, favorites, toggleFavorite } = useAuth();
+  const { currentUser, favorites } = useAuth();
 
   const sectionFromUrl = searchParams.get('section');
   const [active, setActive] = useState(SECTIONS.some((s) => s.id === sectionFromUrl) ? sectionFromUrl : 'overview');
@@ -70,11 +70,6 @@ const UserDashboard = () => {
   const pendingBookings = useMemo(() => bookings.filter((b) => (b.status || 'pending') === 'pending'), [bookings]);
   const upcoming = useMemo(() => bookings.filter((b) => ['pending', 'confirmed'].includes(b.status || 'pending')).slice(0, 5), [bookings]);
 
-  const removeSaved = async (p) => {
-    setBusyId(p.id);
-    try { await toggleFavorite(p); } catch (e) { setError(`Could not update saved homes. ${e.message || ''}`); } finally { setBusyId(null); }
-  };
-
   const cancelBooking = async (b) => {
     setBusyId(b.id);
     try {
@@ -92,38 +87,6 @@ const UserDashboard = () => {
   );
 
   // ── pieces ──
-  const HomeCard = ({ p, onRemove }) => (
-    <Card className="group overflow-hidden">
-      <Link to={`/property/${p.id}`} className="block">
-        <div className="relative aspect-[4/3] bg-muted">
-          <img src={getPropertyImage(p)} alt="" loading="lazy" onError={(e) => handleImageError(e, null, p)} className="h-full w-full object-cover" />
-          {onRemove && (
-            <button
-              type="button"
-              onClick={(e) => { e.preventDefault(); onRemove(p); }}
-              disabled={busyId === p.id}
-              aria-label="Remove from saved homes"
-              className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background/90 text-foreground shadow-sm backdrop-blur hover:bg-background disabled:opacity-50"
-            >
-              {busyId === p.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <X className="h-4 w-4" />}
-            </button>
-          )}
-        </div>
-        <div className="p-3">
-          <p className="truncate text-sm font-medium text-foreground">{p.title || 'Untitled listing'}</p>
-          {areaOf(p) && <p className="mt-0.5 flex items-center gap-1 truncate text-xs text-muted-foreground"><MapPin className="h-3 w-3 shrink-0" />{areaOf(p)}</p>}
-          <div className="mt-2 flex items-center justify-between gap-2">
-            <span className="text-sm font-semibold tabular-nums text-foreground">{formatKsh(p.price)}</span>
-            <span className="flex items-center gap-2 text-xs text-muted-foreground tabular-nums">
-              {p.bedrooms ? <span className="flex items-center gap-1"><Bed className="h-3.5 w-3.5" />{p.bedrooms}</span> : null}
-              {p.bathrooms ? <span className="flex items-center gap-1"><Bath className="h-3.5 w-3.5" />{p.bathrooms}</span> : null}
-            </span>
-          </div>
-        </div>
-      </Link>
-    </Card>
-  );
-
   const BookingItem = ({ b }) => {
     const status = b.status || 'pending';
     return (
@@ -171,7 +134,7 @@ const UserDashboard = () => {
           <EmptyState icon={Heart} title="Nothing saved yet" description="Tap the heart on any listing to keep it here." action={browseButton} />
         ) : (
           <div className="grid grid-cols-2 gap-3 p-4 md:grid-cols-4">
-            {saved.slice(0, 4).map((p) => <HomeCard key={p.id} p={p} />)}
+            {saved.slice(0, 4).map((p) => <ListingCard key={p.id} property={p} />)}
           </div>
         )}
       </Card>
@@ -218,12 +181,12 @@ const UserDashboard = () => {
 
   const Favorites = () => (
     <>
-      <PageHeader title="Saved homes" description="Listings you hearted. Remove one with the cross on its photo.">{browseButton}</PageHeader>
+      <PageHeader title="Saved homes" description="Listings you hearted. Tap the heart again to remove one.">{browseButton}</PageHeader>
       {saved.length === 0 ? (
         <Card><EmptyState icon={Heart} title="Nothing saved yet" description="Tap the heart on any listing to keep it here." action={browseButton} /></Card>
       ) : (
         <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
-          {saved.map((p) => <HomeCard key={p.id} p={p} onRemove={removeSaved} />)}
+          {saved.map((p) => <ListingCard key={p.id} property={p} />)}
         </div>
       )}
     </>
@@ -244,7 +207,7 @@ const UserDashboard = () => {
     </>
   );
 
-  const body = { overview: <Overview />, favorites: <Favorites />, bookings: <Bookings /> }[active] || <Overview />;
+  const body = { overview: <Overview />, favorites: <Favorites />, bookings: <Bookings />, profile: <ProfileSection role="user" /> }[active] || <Overview />;
 
   return (
     <WorkspaceShell root="My account" navLabel="Workspace" sections={SECTIONS} links={LINKS} active={active} onSelect={setActive}>

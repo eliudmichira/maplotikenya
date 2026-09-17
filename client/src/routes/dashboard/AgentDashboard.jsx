@@ -7,6 +7,7 @@ import { useTheme } from '../../context/ThemeContext';
 import { accountDashboardAPI, propertiesAPI } from '../../lib/firebaseAPI';
 import { getPropertyImage, handleImageError } from '../../utils/imageUtils';
 import WorkspaceShell from '../../components/workspace/WorkspaceShell';
+import ProfileSection from './sections/ProfileSection';
 import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, LabelList
 } from 'recharts';
@@ -37,11 +38,11 @@ const SECTIONS = [
   { id: 'listings', label: 'My listings', icon: Building2 },
   { id: 'inquiries', label: 'Inquiries', icon: MessageCircle },
   { id: 'bookings', label: 'Viewing requests', icon: Calendar },
+  { id: 'profile', label: 'Profile', icon: User },
 ];
 
 const LINKS = [
   { label: 'Messages', icon: Mail, to: '/messages' },
-  { label: 'Profile', icon: User, to: '/profile/update' },
 ];
 
 const toDate = (v) => (v?.toDate ? v.toDate() : v ? new Date(v) : null);
@@ -435,7 +436,7 @@ const AgentDashboard = () => {
     );
   };
 
-  const body = { overview: <Overview />, listings: <Listings />, inquiries: <Inquiries />, bookings: <Bookings /> }[active] || <Overview />;
+  const body = { overview: <Overview />, listings: <Listings />, inquiries: <Inquiries />, bookings: <Bookings />, profile: <ProfileSection role="agent" /> }[active] || <Overview />;
 
   return (
     <WorkspaceShell root="Agent" navLabel="Workspace" sections={SECTIONS} links={LINKS} active={active} onSelect={setActive}>

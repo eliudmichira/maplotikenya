@@ -65,7 +65,6 @@ const Dashboard = lazy(() => import('./routes/dashboard/dashboard'));
 const ResponsiveDashboardRedirect = lazy(() => import('./routes/dashboard/ResponsiveDashboardRedirect'));
 const ScrapingDashboard = lazy(() => import('./pages/ScrapingDashboard'));
 const AdminPanel = lazy(() => import('./routes/admin/AdminPanel'));
-const ProfileUpdatePage = lazy(() => import('./routes/profileUpdatePage/profileUpdatePage'));
 const AgentVerificationPage = lazy(() => import('./routes/agent-verification/AgentVerificationPage'));
 const AddProperty = lazy(() => import('./routes/properties/AddProperty'));
 const TrialLogin = lazy(() => import('./routes/trial-login/TrialLogin'));
@@ -100,7 +99,7 @@ const MobilePropertyRedirect = () => {
 // Old /account links carried ?tab=...; map them onto the dashboard sections.
 const AccountRedirect = () => {
   const tab = new URLSearchParams(window.location.search).get('tab');
-  if (tab === 'settings') return <Navigate to="/profile/update" replace />;
+  if (tab === 'settings') return <Navigate to="/desktop/dashboard?section=profile" replace />;
   if (tab === 'favorites') return <Navigate to="/desktop/dashboard?section=favorites" replace />;
   return <Navigate to="/desktop/dashboard" replace />;
 };
@@ -299,7 +298,7 @@ function AppContent() {
         } />
         <Route path="/settings" element={
           <ResponsiveComponent
-            desktopComponent={<Navigate to="/profile/update" replace />}
+            desktopComponent={<Navigate to="/desktop/dashboard?section=profile" replace />}
             mobileComponent={<MobileLayoutWrapper title="Settings"><MobileSettingsPage /></MobileLayoutWrapper>}
           />
         } />
@@ -370,9 +369,8 @@ function AppContent() {
         } />
 
         {/* Profile / settings form */}
-        <Route path="/profile/update" element={<Layout />}>
-          <Route index element={<ProfileUpdatePage />} />
-        </Route>
+        {/* The profile now lives inside the dashboard. */}
+        <Route path="/profile/update" element={<Navigate to="/desktop/dashboard?section=profile" replace />} />
 
         <Route path="/agent-verification" element={<AgentVerificationPage />} />
 

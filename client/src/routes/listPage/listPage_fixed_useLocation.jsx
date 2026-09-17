@@ -34,11 +34,13 @@ import { useAuth } from '../../context/AuthContext';
 import { useLocation, Link } from 'react-router-dom';
 import EnhancedMobileMapNavigation from '../../mobile/components/EnhancedMobileMapNavigation';
 import EnhancedPropertyCard from '../../components/enhanced/PropertyCard';
+import ListingCard, { ListingCardSkeleton } from '../../components/listing/ListingCard';
 import SmartSearchBar from '../../components/enhanced/SmartSearchBar';
 import AdvancedFiltersSidebar from '../../components/enhanced/AdvancedFiltersSidebar';
 import Logo from '../../components/Logo';
 import EnhancedMapComponent from '../../components/listPage/Map';
 import CartoFallbackMap from '../../components/GoogleMap/CartoFallbackMap';
+import { useGoogleMapsAuthFailed } from '../../lib/mapsStatus';
 import { getPropertyImages, handleImageError } from '../../utils/imageUtils';
 
 // Normalize coordinates to { lat, lng } using global bounds
@@ -1013,342 +1015,12 @@ function EnhancedSearchBar({ searchQuery, setSearchQuery, propertyCount, filters
 // Enhanced Property Card
 
 
-function PropertyCard({
-  property,
-  isHighlighted,
-  onMouseEnter,
-  onMouseLeave,
-  onMarkerHover,
-  onQuickView,
-  viewMode = "list",
-}) {
-  const [current, setCurrent] = useState(0);
-  const [isSaved, setIsSaved] = useState(false);
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { currentUser, toggleFavorite, isFavorite } = useAuth();
-
-  const touchStartX = useRef(0);
-  const touchEndX = useRef(0);
-
-  const images = getPropertyImages(property);
-  const hasMultiple = images.length > 1;
-
-  // --- Navigation ---
-  const next = () => {
-    setCurrent((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  };
-
-  const prev = () => {
-    setCurrent((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  };
-
-  // --- Swipe ---
-  const handleTouchStart = (e) => {
-    touchStartX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchMove = (e) => {
-    touchEndX.current = e.targetTouches[0].clientX;
-  };
-
-  const handleTouchEnd = () => {
-    const distance = touchStartX.current - touchEndX.current;
-
-    if (distance > 50) next();
-    if (distance < -50) prev();
-  };
-
-  // --- Helpers ---
-  const formatPrice = (price) => new Intl.NumberFormat("en-KE", {
-    style: "currency",
-    currency: "KES",
-    maximumFractionDigits: 0,
-  }).format(price);
-
-  // const getAddressString = (property) => {
-  //   console.log(property);
-  //   const truncate = (str, max = 30) =>
-  //     str.length > max ? str.slice(0, max) + "..." : str;
-
-  //   if (typeof property?.location === "string") {
-  //     return truncate(property?.location.split(",").slice(1).join(", ").trim());
-  //   }
-
-  //   if (property?.location && typeof property.location === "object") {
-  //     const { city, state, zipCode } = property.location;
-  //     return truncate([city, state, zipCode].filter(Boolean).join(", "));
-  //   }
-
-  //   return "Unknown location";
-  // };
-
-  const getAddressString = (property) => {
-    const truncate = (str, max = 30) =>
-      str && str.length > max ? str.slice(0, max) + "..." : (str || '');
-
-    // Case 1: location is a string
-    if (typeof property?.location === "string") {
-      return truncate(property.location);
-    }
-
-    // Case 2: location is an object
-    if (property?.location && typeof property.location === "object") {
-      const { address, city, area, neighbourhood, state } = property.location;
-      const part1 = area || neighbourhood || address || '';
-      const part2 = city || state || '';
-      if (part1 && part2 && part1.toLowerCase().trim() !== part2.toLowerCase().trim()) {
-        return truncate(`${part1}, ${part2}`);
-      }
-      return truncate(part1 || part2 || '');
-    }
-
-    // Case 3: top-level address + city fields (flat structure)
-    if (property?.address || property?.city) {
-      const part1 = property.address || '';
-      const part2 = property.city || '';
-      if (part1 && part2 && part1.toLowerCase().trim() !== part2.toLowerCase().trim()) {
-        return truncate(`${part1}, ${part2}`);
-      }
-      return truncate(part1 || part2 || 'Kenya');
-    }
-
-    return "Kenya";
-  };
-
-
-  // --- Render ---
-  return (
-
-    <motion.div className={`group bg-gray-30 dark:bg-gray-800 rounded-2xl  overflow-hidden transition-all duration-300 cursor-pointer relative ${isHighlighted
-      ? 'ring-2 ring-emerald-200 shadow-1xl shadow-emerald-500/20 scale-[1.00]'
-      : 'hover:shadow-2xl hover:scale-[1.01]'
-      } ${viewMode === 'grid' ? 'flex flex-col' : 'flex flex-row'}`}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-      whileHover={{
-        y: 0,
-        transition: { duration: 0.3, ease: "easeOut" }
-      }}
-      whileTap={{ scale: 0.98 }}
-      onMouseEnter={() => {
-        onMouseEnter && onMouseEnter(property.id);
-        onMarkerHover && onMarkerHover(property.id);
-      }}
-      onMouseLeave={() => {
-        onMouseLeave && onMouseLeave();
-        onMarkerHover && onMarkerHover(null);
-      }}>
-      {/* IMAGE SLIDER */}
-      <div
-        className={`relative overflow-hidden rounded-2xl ${viewMode === 'grid' ? 'h-64' : 'h-32 w-48 flex-shrink-0'}`}
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        <div
-          className="flex h-full transition-transform duration-500 ease-out"
-          style={{ transform: `translateX(-${current * 100}%)` }}
-        >
-          {images.map((img, i) => (
-            <img
-              key={i}
-              src={img}
-              loading="lazy"
-              className="w-full h-full object-cover flex-shrink-0"
-              draggable={false}
-              onError={(e) => handleImageError(e, null, property)}
-            />
-          ))}
-        </div>
-
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-        {/* Status Badges */}
-        <div className="absolute top-4 left-4 flex flex-wrap gap-2">
-          {/* Removed unwanted badges: Virtual Tour, New Listings, Price Reduced */}
-        </div>
-
-        {/* Action Buttons */}
-        <div className="absolute top-4 right-4 flex gap-2   z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onQuickView(property);
-            }}
-            className="interactive-element w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex 
-            items-center justify-center hover:bg-white hover:scale-103 transition-all duration-300 shadow-lg"
-          >
-            <ZoomIn className="w-4 h-4 text-gray-700" />
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              if (!currentUser) {
-                navigate('/login', { state: { from: location } });
-                return;
-              }
-              setIsSaved(!isSaved);
-              toggleFavorite && toggleFavorite(property);
-            }}
-            className={`interactive-element w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg ${isSaved
-              ? 'bg-red-500 text-white hover:scale-103'
-              : 'bg-white/90 backdrop-blur-sm text-gray-700 hover:bg-red-500 hover:text-white hover:scale-103'
-              }`}
-          >
-            <Heart className="w-4 h-4" fill={isSaved ? 'currentColor' : 'none'} />
-          </button>
-        </div>
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={(e) => {
-                e.stopPropagation();
-                setCurrent(index); ``
-              }}
-              className={`interactive-element w-1.5 h-1.5 rounded-full transition-all duration-300 ${index === current ? 'w-6 bg-white' : 'bg-white/60 hover:bg-white/80'
-                }`}
-            />
-          ))}
-        </div>
-
-        {/* Click Zones */}
-        {hasMultiple && (
-          <div className="absolute inset-0 flex z-10">
-            <div
-              className="w-1/2"
-              onClick={(e) => {
-                e.stopPropagation();
-                prev();
-              }}
-            />
-            <div
-              className="w-1/2"
-              onClick={(e) => {
-                e.stopPropagation();
-                next();
-              }}
-            />
-          </div>
-        )}
-
-        {/* Arrows */}
-        {hasMultiple && (
-          <>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                prev();
-              }}
-              className="w-10 h-10 rounded-full absolute left-4 top-1/3 -translate-y-1/2 flex items-center justify-center z-20 opacity-80 hover:opacity-100 bg-black/60 text-white transition-opacity"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><polyline points="15 18 9 12 15 6"/></svg>
-            </button>
-
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                next();
-              }}
-              className="w-10 h-10 rounded-full absolute right-4 top-1/3 -translate-y-1/2 flex items-center justify-center z-20 opacity-80 hover:opacity-100 bg-black/60 text-white transition-opacity"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><polyline points="9 18 15 12 9 6"/></svg>
-            </button>
-          </>
-        )}
-      </div>
-
-      {/* CONTENT */}
-      {/* CONTENT */}
-      <div
-        onClick={() =>
-          navigate(`/property/${property.id}`, { state: { property } })
-        }
-        className={`${viewMode === "grid" ? "pt-2 pl-2" : "pl-4 flex-1"}`}
-      >
-        <div className="flex items-start justify-between mb-1">
-          <div>
-            <p className="text-lg font-semibold p-1 text-[#1f3e72] dark:text-white">
-              {property.title}
-            </p>
-
-            <div className="flex flex-row gap-10">
-              {/* PRICE */}
-              <div className="bg-orange-100 dark:bg-[#ff922d]/10 p-1 rounded-lg inline-block">
-                <p className="text-sm font-semibold text-[#ff922d]">
-                  {formatPrice(property.price)}
-                </p>
-              </div>
-
-              {/* BEDS & BATHS */}
-              <div
-                className={`flex items-center gap-2 mb-1 ${viewMode === "list" ? "flex-wrap" : ""
-                  }`}
-              >
-                <span className="flex items-center gap-0.5 text-xs text-gray-600 dark:text-gray-400">
-                  <Bed className="w-4 h-4" />
-                  <span className="text-gray-900 text-xs dark:text-white">
-                    {property.bedrooms}
-                  </span>{" "}
-
-                </span>
-
-                <span className="flex items-center gap-0.5 text-xs text-gray-600 dark:text-gray-400">
-                  <Bath className="w-4 h-4" />
-                  <span className="text-gray-900 text-xs dark:text-white">
-                    {property.bathrooms}
-                  </span>{" "}
-
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* (Removed MoreHorizontal to match target styling) */}
-        </div>
-
-        {/* ADDRESS */}
-        <div className="flex items-center gap-1 text-gray-600 dark:text-gray-400">
-          <MapPin className="w-4 h-4" />
-          <span
-            className={`text-gray-700 dark:text-gray-300 text-sm ${viewMode === "grid" ? "mb-1" : "mb-2"
-              }`}
-          >
-            {getAddressString(property)}
-          </span>
-        </div>
-
-        {/* FOOTER */}
-        <div
-          className={`flex items-center justify-between ${viewMode === "grid"
-            ? "pt-1 border-t border-gray-100 dark:border-gray-700"
-            : ""
-            }`}
-        >
-          <div className="flex items-center gap-1 bg-gray-200 p-1 rounded-lg dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-sm">
-            <Eye className="w-3 h-3" />
-            <span>{property.views || 0} views</span>
-          </div>
-
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              navigate(`/property/${property.id}`, { state: { property } });
-            }}
-            className="text-[#303030] dark:text-white font-medium text-sm hover:text-[#000000]/80 dark:hover:text-white/80 transition-colors flex items-center gap-1"
-          >
-            View Details
-            <ChevronRight className="w-3 h-3" />
-          </button>
-        </div>
-      </div>
-    </motion.div>
-  );
-
+// The listing card lives in components/listing/ListingCard.jsx and is shared
+// with the map list and the user's saved homes.
+function PropertyCard(props) {
+  return <ListingCard {...props} />;
 }
+
 //   id={`property-card-${property.id}`}
 //   ref={cardRef}
 //   className={`group bg-gray-30 dark:bg-gray-800 rounded-2xl  overflow-hidden transition-all duration-300 cursor-pointer relative ${isHighlighted
@@ -2516,34 +2188,7 @@ const QuickFilters = React.memo(({ filters, setFilters }) => {
 
 // Property Card Skeleton
 function PropertyCardSkeleton({ viewMode = 'list' }) {
-  return (
-    <motion.div
-      className={`bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden ${viewMode === 'grid' ? 'flex flex-col' : 'flex flex-row'
-        }`}
-      animate={{
-        opacity: [0.5, 1, 0.5],
-      }}
-      transition={{
-        duration: 1.5,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }}
-    >
-      <div className={`bg-gray-200 dark:bg-gray-700 ${viewMode === 'grid' ? 'h-64' : 'h-32 w-48 flex-shrink-0'
-        }`} />
-      <div className={`space-y-4 ${viewMode === 'grid' ? 'p-5' : 'p-4 flex-1'}`}>
-        <div className={`bg-gray-200 dark:bg-gray-700 rounded-lg ${viewMode === 'grid' ? 'h-8 w-3/4' : 'h-6 w-1/2'
-          }`} />
-        <div className="flex gap-3">
-          <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded-lg w-16" />
-          <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded-lg w-16" />
-          <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded-lg w-20" />
-        </div>
-        <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded-lg w-full" />
-        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded-lg w-1/2" />
-      </div>
-    </motion.div>
-  );
+  return <ListingCardSkeleton viewMode={viewMode} />;
 }
 
 // Mock property data
@@ -2750,6 +2395,8 @@ export default function MapView() {
   }, [GOOGLE_MAPS_API_KEY]);
 
   // Google Maps JS loader with enhanced error handling
+  // True once Google rejects the key (unbilled / restricted); the CARTO map takes over.
+  const mapsAuthFailed = useGoogleMapsAuthFailed();
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
@@ -4026,7 +3673,7 @@ export default function MapView() {
               >
                 <X className="w-4 h-4" />
               </button>
-              {!HAS_GOOGLE_MAPS_KEY || mapsApiError || !!loadError ? (
+              {!HAS_GOOGLE_MAPS_KEY || mapsApiError || !!loadError || mapsAuthFailed ? (
                 <CartoFallbackView
                   propertyData={filteredData}
                   onPropertySelect={handlePropertySelect}
@@ -4149,7 +3796,7 @@ export default function MapView() {
 
           <div className="px-4 lg:px-5 pb-8 pt-3 bg-gray-100 dark:bg-gray-900">
             <div className={`grid gap-4 sm:gap-5 lg:gap-6 ${viewMode === 'grid'
-              ? `grid-cols-1 sm:grid-cols-2 ${showMap ? '' : 'lg:grid-cols-3'}`
+              ? `grid-cols-1 sm:grid-cols-2 ${showMap ? '' : 'lg:grid-cols-3 2xl:grid-cols-4'}`
               : 'grid-cols-1'
               }`}>
               {propertiesLoading ? (
@@ -4259,9 +3906,7 @@ function CartoFallbackView({ propertyData, onPropertySelect }) {
         showCountBadge
         count={propertyData?.length || 0}
       />
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] bg-gray-900/85 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-lg pointer-events-none whitespace-nowrap">
-        OpenStreetMap view Ã‚Â· Google Maps unavailable
-      </div>
+
     </div>
   );
 }
