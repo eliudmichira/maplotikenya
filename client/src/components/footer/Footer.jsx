@@ -9,16 +9,16 @@ const Footer = () => {
 
   return (
     <footer className={`transition-colors duration-500 ${isDark
-      ? 'bg-[#000000] border-t border-[rgba(251,191,36,0.2)]'
-      : 'bg-gray-900 border-t border-gray-700'
+      ? 'bg-[#000000] border-t border-[rgba(251,191,36,0.15)]'
+      : 'bg-gray-900 border-t border-gray-800'
       }`}>
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
 
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10 mb-10 sm:mb-12">
 
           {/* Company Info */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <div className="flex items-center">
               <Logo
                 isDark={true}
@@ -29,197 +29,158 @@ const Footer = () => {
                 className="text-lg sm:text-xl lg:text-2xl"
               />
             </div>
-            <p className={`font-outfit leading-relaxed ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-              }`}>
+            <p className={`font-outfit text-sm leading-relaxed max-w-sm ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
               Kenya's premier real estate platform, connecting buyers and sellers across all 47 counties.
               Find your dream home with us.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className={`hover:text-[#fbbf24] transition-colors duration-300 ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                }`}>
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className={`hover:text-[#fbbf24] transition-colors duration-300 ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                }`}>
-                <Twitter className="w-5 h-5" />
-              </a>
-              <a href="#" className={`hover:text-[#fbbf24] transition-colors duration-300 ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                }`}>
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className={`hover:text-[#fbbf24] transition-colors duration-300 ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                }`}>
-                <Linkedin className="w-5 h-5" />
-              </a>
+            <div className="flex items-center gap-2.5">
+              {[
+                { icon: Facebook, href: '#', label: 'Facebook' },
+                { icon: Twitter, href: '#', label: 'Twitter' },
+                { icon: Instagram, href: '#', label: 'Instagram' },
+                { icon: Linkedin, href: '#', label: 'LinkedIn' }
+              ].map((social, index) => (
+                <a
+                  key={index}
+                  href={social.href}
+                  aria-label={social.label}
+                  className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/5 border border-white/10 hover:border-[#fbbf24]/50 hover:bg-[#fbbf24]/10 hover:text-[#fbbf24] text-gray-300 transition-all duration-200"
+                >
+                  <social.icon className="w-4 h-4" />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div className="space-y-6">
-            <h3 className="text-white font-outfit font-semibold text-lg">Quick Links</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                  }`}>
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link to="/desktop/properties" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                  }`}>
-                  Properties
-                </Link>
-              </li>
-              <li>
-                <Link to="/desktop/about" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                  }`}>
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/desktop/contact" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                  }`}>
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link to="/desktop/agents" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                  }`}>
-                  Agents
-                </Link>
-              </li>
-              <li>
-                <Link to="/desktop/blog" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                  }`}>
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link to="/properties/add" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                  }`}>
-                  List Property
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Links Grid: Side-by-side on mobile, 2 columns on desktop */}
+          <div className="grid grid-cols-2 gap-6 sm:gap-8 md:col-span-2 lg:col-span-2 lg:grid-cols-2">
+            {/* Quick Links */}
+            <div className="space-y-3 sm:space-y-5">
+              <h3 className="text-white font-outfit font-semibold text-base sm:text-lg">Quick Links</h3>
+              <ul className="space-y-2.5 sm:space-y-3">
+                {[
+                  { label: 'Home', to: '/' },
+                  { label: 'Properties', to: '/desktop/properties' },
+                  { label: 'About Us', to: '/desktop/about' },
+                  { label: 'Contact', to: '/desktop/contact' },
+                  { label: 'Agents', to: '/desktop/agents' },
+                  { label: 'Blog', to: '/desktop/blog' },
+                  { label: 'List Property', to: '/properties/add' }
+                ].map((link, index) => (
+                  <li key={index}>
+                    <Link
+                      to={link.to}
+                      className={`hover:text-[#fbbf24] transition-colors duration-200 font-outfit text-sm inline-block py-0.5 ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Services */}
-          <div className="space-y-6">
-            <h3 className="text-white font-outfit font-semibold text-lg">Services</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/properties?type=buy" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                  }`}>
-                  Buy Property
-                </Link>
-              </li>
-              <li>
-                <Link to="/properties?type=rent" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                  }`}>
-                  Rent Property
-                </Link>
-              </li>
-              <li>
-                <Link to="/desktop/register" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                  }`}>
-                  Sell Property
-                </Link>
-              </li>
-              <li>
-                <Link to="/desktop/contact" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                  }`}>
-                  Property Valuation
-                </Link>
-              </li>
-              <li>
-                <Link to="/desktop/contact" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                  }`}>
-                  M-Pesa Payments
-                </Link>
-              </li>
-            </ul>
+            {/* Services */}
+            <div className="space-y-3 sm:space-y-5">
+              <h3 className="text-white font-outfit font-semibold text-base sm:text-lg">Services</h3>
+              <ul className="space-y-2.5 sm:space-y-3">
+                {[
+                  { label: 'Buy Property', to: '/properties?type=buy' },
+                  { label: 'Rent Property', to: '/properties?type=rent' },
+                  { label: 'Sell Property', to: '/desktop/register' },
+                  { label: 'Property Valuation', to: '/desktop/contact' },
+                  { label: 'M-Pesa Payments', to: '/desktop/contact' }
+                ].map((service, index) => (
+                  <li key={index}>
+                    <Link
+                      to={service.to}
+                      className={`hover:text-[#fbbf24] transition-colors duration-200 font-outfit text-sm inline-block py-0.5 ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}
+                    >
+                      {service.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
 
           {/* Contact Info */}
-          <div className="space-y-6">
-            <h3 className="text-white font-outfit font-semibold text-lg">Contact Info</h3>
-            <div className="space-y-4">
-              <div className="flex items-start gap-3">
-                <MapPin className="w-5 h-5 text-[#fbbf24] mt-1 flex-shrink-0" />
-                <div>
-                  <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                    }`}>
-                    Nairobi, Kenya<br />
-                    Westlands, 8th Floor
-                  </p>
-                </div>
+          <div className="space-y-4 sm:space-y-6">
+            <h3 className="text-white font-outfit font-semibold text-base sm:text-lg">Contact Info</h3>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/5">
+                <MapPin className="w-5 h-5 text-[#fbbf24] mt-0.5 flex-shrink-0" />
+                <p className={`font-outfit text-sm leading-snug ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}>
+                  Nairobi, Kenya<br />
+                  <span className="text-xs opacity-75">Westlands, 8th Floor</span>
+                </p>
               </div>
-              <div className="flex items-center gap-3">
-                <Phone className="w-5 h-5 text-[#fbbf24] flex-shrink-0" />
-                <a href="tel:+254700000000" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                  }`}>
+
+              <a
+                href="tel:+254700000000"
+                className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-[#fbbf24]/50 hover:bg-[#fbbf24]/10 transition-all group"
+              >
+                <Phone className="w-4 h-4 text-[#fbbf24] flex-shrink-0 group-hover:scale-110 transition-transform" />
+                <span className={`font-outfit text-sm group-hover:text-[#fbbf24] transition-colors ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}>
                   +254 700 000 000
-                </a>
-              </div>
-              <div className="flex items-center gap-3">
-                <Mail className="w-5 h-5 text-[#fbbf24] flex-shrink-0" />
-                <a href="mailto:support@maplotikenya.com" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                  }`}>
+                </span>
+              </a>
+
+              <a
+                href="mailto:support@maplotikenya.com"
+                className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-[#fbbf24]/50 hover:bg-[#fbbf24]/10 transition-all group"
+              >
+                <Mail className="w-4 h-4 text-[#fbbf24] flex-shrink-0 group-hover:scale-110 transition-transform" />
+                <span className={`font-outfit text-sm break-all group-hover:text-[#fbbf24] transition-colors ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}>
                   support@maplotikenya.com
-                </a>
-              </div>
+                </span>
+              </a>
             </div>
           </div>
         </div>
 
         {/* Newsletter Section */}
-        <div className={`border-t pt-8 mb-8 ${isDark ? 'border-[rgba(251,191,36,0.2)]' : 'border-gray-700'
-          }`}>
+        <div className={`border-t pt-8 mb-8 ${isDark ? 'border-[rgba(251,191,36,0.15)]' : 'border-gray-800'}`}>
           <div className="max-w-md">
-            <h3 className="text-white font-outfit font-semibold text-lg mb-4">Stay Updated</h3>
-            <p className={`font-outfit text-sm mb-4 ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-              }`}>
+            <h3 className="text-white font-outfit font-semibold text-base sm:text-lg mb-2">Stay Updated</h3>
+            <p className={`font-outfit text-sm mb-4 ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
               Subscribe to our newsletter for the latest property updates and market insights.
             </p>
-            <div className="flex gap-2">
+            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col sm:flex-row gap-2.5">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className={`flex-1 px-4 py-2 rounded-lg font-outfit text-sm focus:outline-none focus:border-[#fbbf24] transition-colors ${isDark
-                  ? 'bg-[#0e1311] border border-[rgba(251,191,36,0.2)] text-white'
-                  : 'bg-gray-800 border border-gray-600 text-white placeholder-gray-400'
+                className={`flex-1 min-h-[44px] px-4 py-2.5 rounded-xl font-outfit text-sm focus:outline-none focus:border-[#fbbf24] transition-colors ${isDark
+                  ? 'bg-[#111111] border border-white/10 text-white placeholder-gray-500'
+                  : 'bg-gray-800 border border-gray-700 text-white placeholder-gray-400'
                   }`}
               />
-              <button className="px-6 py-2 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold rounded-lg shadow-[0px_-2px_0px_rgba(17,17,17,0.32)_inset] hover:shadow-lg transition-all duration-300">
+              <button
+                type="submit"
+                className="min-h-[44px] px-6 py-2.5 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold rounded-xl shadow-[0px_-2px_0px_rgba(17,17,17,0.32)_inset] hover:shadow-lg hover:shadow-[#fbbf24]/20 transition-all duration-300 active:scale-95"
+              >
                 Subscribe
               </button>
-            </div>
+            </form>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className={`border-t pt-8 ${isDark ? 'border-[rgba(251,191,36,0.2)]' : 'border-gray-700'
-          }`}>
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className={`font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-              }`}>
-              © 2024 MaplotiKenya. All rights reserved.
+        <div className={`border-t pt-6 sm:pt-8 ${isDark ? 'border-[rgba(251,191,36,0.15)]' : 'border-gray-800'}`}>
+          <div className="flex flex-col-reverse md:flex-row justify-between items-center gap-4 text-center md:text-left">
+            <p className={`font-outfit text-xs sm:text-sm ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
+              &copy; {new Date().getFullYear()} MaplotiKenya. All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2">
-              <Link to="/privacy" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                }`}>
+              <Link to="/privacy" className={`hover:text-[#fbbf24] transition-colors duration-200 font-outfit text-xs sm:text-sm ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
                 Privacy Policy
               </Link>
-              <Link to="/terms" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                }`}>
+              <Link to="/terms" className={`hover:text-[#fbbf24] transition-colors duration-200 font-outfit text-xs sm:text-sm ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
                 Terms of Service
               </Link>
-              <Link to="/cookies" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                }`}>
+              <Link to="/cookies" className={`hover:text-[#fbbf24] transition-colors duration-200 font-outfit text-xs sm:text-sm ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
                 Cookie Policy
               </Link>
-              <Link to="/account-deletion" className={`hover:text-[#fbbf24] transition-colors duration-300 font-outfit text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-300'
-                }`}>
+              <Link to="/account-deletion" className={`hover:text-[#fbbf24] transition-colors duration-200 font-outfit text-xs sm:text-sm ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
                 Delete Data
               </Link>
             </div>
