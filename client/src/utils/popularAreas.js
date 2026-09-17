@@ -11,7 +11,8 @@ import { getPropertyImage, isPlaceholderImage } from './imageUtils';
  * Each area is shaped as:
  *   {
  *     name, count, images: [up to maxImages unique photo URLs],
- *     rentCount, saleCount, totalViews, priceSum, pricedCount
+ *     rentCount, saleCount, totalViews, priceSum, pricedCount,
+ *     rentPriceSum, rentPricedCount, salePriceSum, salePricedCount
  *   }
  */
 export function getAreasFromProperties(properties, { maxImages = 3 } = {}) {
@@ -28,19 +29,24 @@ export function getAreasFromProperties(properties, { maxImages = 3 } = {}) {
     ).trim();
     if (!area) return;
 
-    const key = area.toLowerCase();
+    // "Karen, Nairobi" and "Karen" are the same neighbourhood; the county is
+    // already known, so keep only the part before the comma.
+    const areaName = area.split(',')[0].trim() || area;
+    const key = areaName.toLowerCase();
     let entry = byArea.get(key);
     if (!entry) {
-      entry = { name: area, count: 0, images: [] };
+      entry = { name: areaName, count: 0, images: [] };
       byArea.set(key, entry);
     }
 
     entry.count += 1;
 
-    const type = String(p.listing_type || p.type || '').toLowerCase();
-    if (type === 'rent' || type === 'rental' || type === 'for-rent' || type === 'for rent') {
+    const type = String(p.listing_type || p.listingType || p.type || '').toLowerCase();
+    const isRent = /rent|let/.test(type);
+    const isSale = /sale|sell|buy/.test(type);
+    if (isRent) {
       entry.rentCount = (entry.rentCount || 0) + 1;
-    } else if (type === 'sale' || type === 'for-sale' || type === 'for sale') {
+    } else if (isSale) {
       entry.saleCount = (entry.saleCount || 0) + 1;
     }
 
@@ -53,6 +59,15 @@ export function getAreasFromProperties(properties, { maxImages = 3 } = {}) {
     if (Number.isFinite(price) && price > 0) {
       entry.priceSum = (entry.priceSum || 0) + price;
       entry.pricedCount = (entry.pricedCount || 0) + 1;
+      // Keep rent and sale sums apart: a blended average of monthly rents
+      // and purchase prices means nothing.
+      if (isRent) {
+        entry.rentPriceSum = (entry.rentPriceSum || 0) + price;
+        entry.rentPricedCount = (entry.rentPricedCount || 0) + 1;
+      } else if (isSale) {
+        entry.salePriceSum = (entry.salePriceSum || 0) + price;
+        entry.salePricedCount = (entry.salePricedCount || 0) + 1;
+      }
     }
 
     // Only real listing photos go in the carousel. The stock placeholder is

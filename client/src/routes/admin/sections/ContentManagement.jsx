@@ -1,706 +1,261 @@
-import React, { useState, useEffect } from 'react';
-import { collection, getDocs, updateDoc, doc, query, where, orderBy } from 'firebase/firestore';
+import React, { useEffect, useMemo, useState } from 'react';
+import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
-import { getPropertyImage } from '../../../utils/imageUtils';
-import {
-  FileText,
-  Search,
-  Filter,
-  Star,
-  Edit,
-  Trash2,
-  Eye,
-  Plus,
-  Image,
-  Calendar,
-  User,
-  MapPin,
-  DollarSign,
-  Bed,
-  Bath,
-  Square,
-  Upload,
-  Download,
-  Save,
-  X,
-  Check,
-  AlertCircle,
-  Settings,
-  Globe,
-  BookOpen,
-  Tag
-} from 'lucide-react';
+import { getPropertyImage, handleImageError } from '../../../utils/imageUtils';
+import { Star, Search, Download, Home } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/table';
+import { Skeleton } from '@/components/ui/skeleton';
+import { PageHeader, StatGrid, Toolbar, EmptyState, Pagination, statusVariant, formatKsh } from '@/components/admin/primitives';
+
+const PAGE_SIZE = 25;
+const ACTIVE = new Set(['active', 'approved', 'published', 'live']);
+
+const normalise = (id, data) => {
+  const rawLoc = data.location;
+  const location = typeof rawLoc === 'string'
+    ? rawLoc
+    : rawLoc && typeof rawLoc === 'object'
+      ? [rawLoc.address || rawLoc.area, rawLoc.city || rawLoc.county, rawLoc.state].filter(Boolean).join(', ')
+      : [data.address, data.city, data.state].filter((v) => typeof v === 'string' && v).join(', ');
+  const category = typeof data.category === 'string' ? data.category : data.category?.name || '';
+  return {
+    id,
+    title: data.title || (typeof data.address === 'string' ? data.address : data.address?.address || data.address?.city || 'Untitled listing'),
+    price: Number(data.price) || 0,
+    location: location || '—',
+    category: category.toLowerCase(),
+    status: String(data.status || 'pending').toLowerCase(),
+    featured: !!data.featured,
+    featuredOrder: Number.isFinite(Number(data.featuredOrder)) && data.featuredOrder !== null ? Number(data.featuredOrder) : null,
+    owner: data.ownerEmail || data.owner || data.agentEmail || '',
+    createdAt: data.createdAt,
+    images: Array.isArray(data.images) ? data.images : [],
+    image: data.image,
+    coverPhoto: data.coverPhoto,
+  };
+};
+
+const statusLabel = (s) => (ACTIVE.has(s) ? 'Active' : s === 'pending' ? 'Pending' : s === 'rejected' ? 'Rejected' : s === 'inactive' ? 'Unpublished' : s);
+const byOrder = (a, b) => (a.featuredOrder ?? 999) - (b.featuredOrder ?? 999);
 
 const ContentManagement = () => {
-  const [featuredProperties, setFeaturedProperties] = useState([]);
-  const [allProperties, setAllProperties] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [featuredFilter, setFeaturedFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedProperty, setSelectedProperty] = useState(null);
-  const [editingProperty, setEditingProperty] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [addSelection, setAddSelection] = useState('');
+  const [page, setPage] = useState(1);
+  const [pending, setPending] = useState(() => new Set());
+  const [rowErrors, setRowErrors] = useState({});
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    const load = async () => {
+    (async () => {
       try {
-        const qAll = query(collection(db, 'listings'), orderBy('createdAt', 'desc'));
-        const snapAll = await getDocs(qAll);
-        const all = snapAll.docs.map((d) => {
-          const data = d.data();
-          const rawLoc = data.location;
-          const loc = typeof rawLoc === 'string'
-            ? rawLoc
-            : (rawLoc && typeof rawLoc === 'object')
-              ? [rawLoc.address, rawLoc.city, rawLoc.state].filter(Boolean).join(', ')
-              : [data.city, data.state].filter(Boolean).join(', ');
-          const title = data.title || (typeof data.address === 'string' ? data.address : (data.address?.address || data.address?.city || 'Untitled'));
-          const category = typeof data.category === 'string' ? data.category : (data.category?.name || 'house');
-          return {
-            id: d.id,
-            title,
-            price: data.price || 0,
-            location: loc,
-            category,
-            featured: !!data.featured,
-            featuredOrder: data.featuredOrder || null,
-            images: Array.isArray(data.images) && data.images.length ? data.images : ['https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=300&fit=crop'],
-            bedrooms: data.bedrooms || data.beds || 0,
-            bathrooms: data.bathrooms || data.baths || 0,
-            area: data.area || data.sqft || 0,
-            description: data.description || '',
-            owner: data.ownerEmail || data.owner || data.agentEmail || '',
-            createdAt: data.createdAt?.toDate ? data.createdAt.toDate() : new Date(),
-          };
-        });
-        const featured = all.filter((p) => p.featured).sort((a, b) => (a.featuredOrder || 999) - (b.featuredOrder || 999));
-        setAllProperties(all);
-        setFeaturedProperties(featured);
+        const snap = await getDocs(collection(db, 'listings'));
+        const list = snap.docs.map((d) => normalise(d.id, d.data()));
+        const t = (v) => (v?.toDate ? v.toDate().getTime() : v ? new Date(v).getTime() : 0);
+        list.sort((a, b) => t(b.createdAt) - t(a.createdAt));
+        setRows(list);
       } catch (e) {
-        setAllProperties([]);
-        setFeaturedProperties([]);
+        setError('Could not load listings. ' + (e.message || ''));
+      } finally {
+        setLoading(false);
       }
-    };
-    load();
+    })();
   }, []);
 
-  const handleAddToFeatured = async (propertyId) => {
-    const nextOrder = Math.max(...featuredProperties.map(p => p.featuredOrder || 0), 0) + 1;
+  const featuredRows = useMemo(() => rows.filter((r) => r.featured).sort(byOrder), [rows]);
+  const categories = useMemo(() => [...new Set(rows.map((r) => r.category).filter(Boolean))].sort(), [rows]);
+
+  const stats = useMemo(() => ({
+    total: rows.length,
+    featured: featuredRows.length,
+    active: rows.filter((r) => ACTIVE.has(r.status)).length,
+    featuredActive: featuredRows.filter((r) => ACTIVE.has(r.status)).length,
+  }), [rows, featuredRows]);
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return rows.filter((r) => {
+      if (featuredFilter === 'featured' && !r.featured) return false;
+      if (featuredFilter === 'not-featured' && r.featured) return false;
+      if (categoryFilter !== 'all' && r.category !== categoryFilter) return false;
+      if (!q) return true;
+      return [r.title, r.location, r.owner].some((v) => String(v).toLowerCase().includes(q));
+    });
+  }, [rows, search, featuredFilter, categoryFilter]);
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount);
+  const visible = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+
+  useEffect(() => { setPage(1); }, [search, featuredFilter, categoryFilter]);
+
+  // ── writes ──
+  // Optimistic: apply locally first, write to Firestore, roll back on failure.
+  const patchRow = async (row, data, failMessage) => {
+    const previous = { featured: row.featured, featuredOrder: row.featuredOrder };
+    setPending((prev) => new Set(prev).add(row.id));
+    setRowErrors((prev) => { const next = { ...prev }; delete next[row.id]; return next; });
+    setRows((prev) => prev.map((r) => (r.id === row.id ? { ...r, ...data } : r)));
     try {
-      await updatedoc(doc(db, 'listings', propertyId), { featured: true, featuredOrder: nextOrder });
-      setAllProperties(list => list.map(p => p.id === propertyId ? { ...p, featured: true, featuredOrder: nextOrder } : p));
-      const added = allProperties.find(p => p.id === propertyId);
-      if (added) {
-        setFeaturedProperties(prev => [...prev, { ...added, featured: true, featuredOrder: nextOrder }].sort((a, b) => (a.featuredOrder || 999) - (b.featuredOrder || 999)));
-      }
-      setShowAddModal(false);
-      setAddSelection('');
+      await updateDoc(doc(db, 'listings', row.id), data);
     } catch (e) {
-      console.error('Error featuring property:', e);
+      setRows((prev) => prev.map((r) => (r.id === row.id ? { ...r, ...previous } : r)));
+      setRowErrors((prev) => ({ ...prev, [row.id]: `${failMessage} ${e.message || ''}`.trim() }));
+    } finally {
+      setPending((prev) => { const next = new Set(prev); next.delete(row.id); return next; });
     }
   };
 
-  const handleRemoveFromFeatured = async (propertyId) => {
-    try {
-      await updatedoc(doc(db, 'listings', propertyId), { featured: false, featuredOrder: null });
-      setAllProperties(list => list.map(p => p.id === propertyId ? { ...p, featured: false, featuredOrder: null } : p));
-      setFeaturedProperties(prev => prev.filter(p => p.id !== propertyId));
-    } catch (e) {
-      console.error('Error un-featuring property:', e);
+  const toggleFeatured = (row, on) => {
+    if (on) {
+      const nextOrder = Math.max(0, ...featuredRows.map((r) => r.featuredOrder || 0)) + 1;
+      return patchRow(row, { featured: true, featuredOrder: nextOrder }, 'Could not feature this listing.');
     }
+    return patchRow(row, { featured: false, featuredOrder: null }, 'Could not unfeature this listing.');
   };
 
-  const handleReorderFeatured = async (propertyId, newOrder) => {
-    try {
-      await updatedoc(doc(db, 'listings', propertyId), { featuredOrder: newOrder });
-      setFeaturedProperties(prev => prev.map(p => p.id === propertyId ? { ...p, featuredOrder: newOrder } : p).sort((a, b) => (a.featuredOrder || 999) - (b.featuredOrder || 999)));
-      setAllProperties(list => list.map(p => p.id === propertyId ? { ...p, featuredOrder: newOrder } : p));
-    } catch (e) {
-      console.error('Error reordering featured property:', e);
-    }
-  };
+  const reorder = (row, order) => patchRow(row, { featuredOrder: order }, 'Could not change the order.');
 
-  const handleEditProperty = (property) => {
-    setEditingProperty(property);
-    setShowEditModal(true);
-  };
+  const orderOptions = useMemo(() => {
+    const max = Math.max(5, featuredRows.length, ...featuredRows.map((r) => r.featuredOrder || 0));
+    return Array.from({ length: max }, (_, i) => i + 1);
+  }, [featuredRows]);
 
-  const handleSaveEdit = () => {
-    if (!editingProperty) return;
-
-    setAllProperties(properties =>
-      properties.map(property =>
-        property.id === editingProperty.id
-          ? editingProperty
-          : property
-      )
-    );
-
-    setFeaturedProperties(prev =>
-      prev.map(property =>
-        property.id === editingProperty.id
-          ? editingProperty
-          : property
-      )
-    );
-
-    setShowEditModal(false);
-    setEditingProperty(null);
-  };
-
-  const getCategoryBadgeColor = (category) => {
-    switch (category) {
-      case 'luxury': return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200';
-      case 'apartment': return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200';
-      case 'house': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-      case 'studio': return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200';
-      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
-    }
-  };
-
-  const exportCSV = () => {
-    const rows = [
-      ['id', 'title', 'price', 'location', 'category', 'featured', 'featuredOrder', 'bedrooms', 'bathrooms', 'area', 'owner'],
-      ...allProperties.map(p => [
-        p.id,
-        p.title,
-        p.price,
-        p.location,
-        p.category,
-        p.featured ? 'true' : 'false',
-        p.featuredOrder ?? '',
-        p.bedrooms,
-        p.bathrooms,
-        p.area,
-        p.owner
-      ])
-    ];
-    const csv = rows.map(r => r.map(v => String(v).replace(/"/g, '""')).map(v => /[",\n]/.test(v) ? `"${v}"` : v).join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const exportCsv = () => {
+    const header = ['id', 'title', 'price', 'location', 'category', 'status', 'featured', 'featuredOrder', 'owner'];
+    const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const lines = [header.join(','), ...filtered.map((r) => [r.id, r.title, r.price, r.location, r.category, r.status, r.featured ? 'true' : 'false', r.featuredOrder ?? '', r.owner].map(esc).join(','))];
+    const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'properties.csv';
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const StatCard = ({ title, value, icon, color }) => (
-    <div className="bg-white dark:bg-dark-800 rounded-xl p-6 border border-gray-200 dark:border-dark-700 shadow-sm">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">{value}</p>
-        </div>
-        <div className={`p-3 rounded-full ${color}`}>
-          {icon}
-        </div>
-      </div>
-    </div>
-  );
-
-  const contentStats = {
-    totalProperties: allProperties.length,
-    featuredProperties: featuredProperties.length,
-    categories: [...new Set(allProperties.map(p => p.category))].length,
-    totalImages: allProperties.reduce((sum, p) => sum + p.images.length, 0)
+    const a = Object.assign(document.createElement('a'), { href: url, download: `featured-listings-${new Date().toISOString().slice(0, 10)}.csv` });
+    a.click(); URL.revokeObjectURL(url);
   };
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Content Management</h2>
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Manage featured properties and site content</p>
-        </div>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          <button onClick={exportCSV} className="flex justify-center items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors">
-            <Download className="w-4 h-4" />
-            Export
-          </button>
-          <button
-            onClick={() => setShowAddModal(true)}
-            className="flex justify-center items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            Add Featured
-          </button>
-        </div>
-      </div>
+    <>
+      <PageHeader title="Featured content" description="Choose which listings are highlighted on the home page and the order they appear in.">
+        <Button variant="outline" size="sm" onClick={exportCsv} disabled={filtered.length === 0}><Download />Export CSV</Button>
+      </PageHeader>
 
-      {/* Stats Overview */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <StatCard
-          title="Total Properties"
-          value={contentStats.totalProperties}
-          icon={<FileText className="w-5 h-5 md:w-6 md:h-6 text-emerald-600" />}
-          color="bg-emerald-100 dark:bg-emerald-900/30"
-        />
-        <StatCard
-          title="Featured"
-          value={contentStats.featuredProperties}
-          icon={<Star className="w-5 h-5 md:w-6 md:h-6 text-yellow-600" />}
-          color="bg-yellow-100 dark:bg-yellow-900/30"
-        />
-        <StatCard
-          title="Categories"
-          value={contentStats.categories}
-          icon={<Tag className="w-5 h-5 md:w-6 md:h-6 text-green-600" />}
-          color="bg-green-100 dark:bg-green-900/30"
-        />
-        <StatCard
-          title="Total Images"
-          value={contentStats.totalImages}
-          icon={<Image className="w-5 h-5 md:w-6 md:h-6 text-purple-600" />}
-          color="bg-purple-100 dark:bg-purple-900/30"
-        />
-      </div>
+      <StatGrid
+        loading={loading}
+        items={[
+          { label: 'Featured', value: stats.featured, icon: Star, note: stats.featured ? `${stats.featuredActive} of them active` : 'nothing featured yet' },
+          { label: 'Active listings', value: stats.active, note: 'visible on the site' },
+          { label: 'All listings', value: stats.total, icon: Home },
+          { label: 'Categories', value: categories.length },
+        ]}
+      />
 
-      {/* Featured Properties Section */}
-      <div className="bg-white dark:bg-dark-800 rounded-xl p-6 border border-gray-200 dark:border-dark-700">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Featured Properties</h3>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            {featuredProperties.length} properties featured
-          </p>
-        </div>
+      {error && <p className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {featuredProperties.map((property) => (
-            <div key={property.id} className="bg-gray-50 dark:bg-dark-700 rounded-xl p-4 border border-gray-200 dark:border-dark-600">
-              <div className="relative">
-                <img
-                  src={getPropertyImage(property)}
-                  alt={property.title}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
-                />
-                <div className="absolute top-2 right-2">
-                  <span className="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs font-semibold">
-                    #{property.featuredOrder}
-                  </span>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                <div>
-                  <h4 className="font-semibold text-gray-900 dark:text-white">{property.title}</h4>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {(() => {
-                      if (typeof property.location === 'string') {
-                        return property.location;
-                      } else if (property.location && typeof property.location === 'object') {
-                        return property.location.address || property.location.city || property.location.state || '';
-                      }
-                      return property.address || 'Location not specified';
-                    })()}
-                  </p>
-                  <p className="text-lg font-bold text-green-600">Ksh {property.price.toLocaleString()}</p>
-                </div>
-
-                <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center gap-4">
-                    <span className="flex items-center gap-1">
-                      <Bed className="w-4 h-4" />
-                      {property.bedrooms}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Bath className="w-4 h-4" />
-                      {property.bathrooms}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Square className="w-4 h-4" />
-                      {property.area} sq ft
-                    </span>
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getCategoryBadgeColor(property.category)}`}>
-                    {property.category}
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => handleEditProperty(property)}
-                      className="text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300"
-                    >
-                      <Edit className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleRemoveFromFeatured(property.id)}
-                      className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <label className="text-xs text-gray-500 dark:text-gray-400">Order:</label>
-                  <select
-                    value={property.featuredOrder}
-                    onChange={(e) => handleReorderFeatured(property.id, parseInt(e.target.value))}
-                    className="text-xs border border-gray-300 dark:border-dark-600 rounded px-2 py-1 bg-white dark:bg-dark-800"
-                  >
-                    {[1, 2, 3, 4, 5].map(num => (
-                      <option key={num} value={num}>{num}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+      <Card className="overflow-hidden">
+        <div className="p-3 md:p-4">
+          <Toolbar>
+            <div className="relative min-w-[220px] flex-1">
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search title, area or owner" className="pl-8" />
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* All Properties Section */}
-      <div className="bg-transparent md:bg-white md:dark:bg-dark-800 md:rounded-xl md:border md:border-gray-200 md:dark:border-dark-700 md:p-6 overflow-hidden">
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 md:mb-6 gap-4 bg-white dark:bg-dark-800 p-4 md:p-0 rounded-xl border border-gray-200 dark:border-dark-700 md:border-0">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">All Properties</h3>
-
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search properties..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white text-sm"
-              />
-            </div>
-            <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white text-sm"
-            >
-              <option value="all">All Categories</option>
-              <option value="luxury">Luxury</option>
-              <option value="apartment">Apartment</option>
-              <option value="house">House</option>
-              <option value="studio">Studio</option>
-            </select>
-          </div>
+            <Select value={featuredFilter} onValueChange={setFeaturedFilter}>
+              <SelectTrigger className="w-[150px]"><SelectValue placeholder="Featured" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All listings</SelectItem>
+                <SelectItem value="featured">Featured</SelectItem>
+                <SelectItem value="not-featured">Not featured</SelectItem>
+              </SelectContent>
+            </Select>
+            {categories.length > 0 && (
+              <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                <SelectTrigger className="w-[150px]"><SelectValue placeholder="Category" /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All categories</SelectItem>
+                  {categories.map((c) => <SelectItem key={c} value={c} className="capitalize">{c}</SelectItem>)}
+                </SelectContent>
+              </Select>
+            )}
+            <span className="ml-auto text-xs tabular-nums text-muted-foreground">{filtered.length.toLocaleString()} result{filtered.length === 1 ? '' : 's'}</span>
+          </Toolbar>
         </div>
 
-        {/* Mobile View - Cards */}
-        <div className="md:hidden space-y-4">
-          {allProperties
-            .filter(property =>
-              (categoryFilter === 'all' || property.category === categoryFilter) &&
-              (searchTerm === '' ||
-                property.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                property.location.toLowerCase().includes(searchTerm.toLowerCase()))
-            )
-            .map((property) => (
-              <div key={property.id} className="bg-white dark:bg-dark-800 rounded-xl p-4 border border-gray-200 dark:border-dark-700 shadow-sm flex flex-col gap-4">
-                <div className="flex items-start gap-4">
-                  {/* Image */}
-                  <img
-                    src={getPropertyImage(property)}
-                    alt={property.title}
-                    className="w-20 h-20 rounded-lg object-cover flex-shrink-0 bg-gray-100"
-                  />
-
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between">
-                      <h4 className="text-sm font-semibold text-gray-900 dark:text-white truncate pr-2">
-                        {property.title}
-                      </h4>
-                      <span className={`flex-shrink-0 inline-flex px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-md ${getCategoryBadgeColor(property.category)}`}>
-                        {property.category}
-                      </span>
-                    </div>
-
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 line-clamp-2">
-                      {(() => {
-                        if (typeof property.location === 'string') return property.location;
-                        if (property.location && typeof property.location === 'object') {
-                          return property.location.address || property.location.city || property.location.state || '';
-                        }
-                        return property.address || 'No location';
-                      })()}
-                    </p>
-
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mt-2">
-                      <p className="text-sm font-bold text-green-600">
-                        Ksh {property.price.toLocaleString()}
-                      </p>
-                      {property.featured && (
-                        <span className="inline-flex items-center px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-md bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200 w-fit">
-                          Featured
+        {loading ? (
+          <div className="space-y-2 p-4">{Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-14" />)}</div>
+        ) : visible.length === 0 ? (
+          <EmptyState
+            icon={Star}
+            title="No listings match"
+            description={search || featuredFilter !== 'all' || categoryFilter !== 'all' ? 'Try clearing the search or the filters.' : 'Listings will appear here as they are added.'}
+          />
+        ) : (
+          <>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="pl-4">Listing</TableHead>
+                  <TableHead className="hidden md:table-cell">Price</TableHead>
+                  <TableHead className="hidden lg:table-cell">Category</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="hidden md:table-cell">Order</TableHead>
+                  <TableHead className="pr-4 text-right">Featured</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {visible.map((r) => (
+                  <TableRow key={r.id}>
+                    <TableCell className="pl-4">
+                      <div className="flex min-w-0 items-center gap-3">
+                        <img src={getPropertyImage(r)} alt="" loading="lazy" onError={(e) => handleImageError(e, null, r)} className="h-11 w-16 shrink-0 rounded-md object-cover bg-muted" />
+                        <span className="min-w-0">
+                          <span className="block truncate text-sm font-medium text-foreground">{r.title}</span>
+                          <span className="block truncate text-xs text-muted-foreground">{r.location}</span>
+                          <span className="block text-xs text-muted-foreground md:hidden">{formatKsh(r.price)}</span>
                         </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell whitespace-nowrap tabular-nums">{formatKsh(r.price)}</TableCell>
+                    <TableCell className="hidden lg:table-cell capitalize text-muted-foreground">{r.category || '—'}</TableCell>
+                    <TableCell><Badge variant={statusVariant(r.status)}>{statusLabel(r.status)}</Badge></TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      {r.featured ? (
+                        <Select value={r.featuredOrder ? String(r.featuredOrder) : ''} onValueChange={(v) => reorder(r, Number(v))} disabled={pending.has(r.id)}>
+                          <SelectTrigger className="h-8 w-[72px]" aria-label={`Order for ${r.title}`}><SelectValue placeholder="—" /></SelectTrigger>
+                          <SelectContent>
+                            {orderOptions.map((n) => <SelectItem key={n} value={String(n)}>{n}</SelectItem>)}
+                          </SelectContent>
+                        </Select>
+                      ) : (
+                        <span className="text-muted-foreground">—</span>
                       )}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Metadata Row */}
-                <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-dark-700/50 p-2 rounded-lg">
-                  <div className="flex items-center gap-1">
-                    <User className="w-3 h-3 shrink-0" />
-                    <span className="truncate">{property.owner}</span>
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex items-center gap-2 pt-2 border-t border-gray-100 dark:border-dark-700">
-                  <button
-                    onClick={() => handleEditProperty(property)}
-                    className="flex items-center justify-center gap-1.5 px-3 py-2 bg-emerald-50 dark:bg-emerald-900/20 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 text-emerald-600 dark:text-emerald-400 rounded-lg text-sm font-medium transition-colors flex-1"
-                  >
-                    <Edit className="w-4 h-4" />
-                    Edit
-                  </button>
-
-                  {!property.featured ? (
-                    <button
-                      onClick={() => handleAddToFeatured(property.id)}
-                      className="flex items-center justify-center gap-1.5 px-3 py-2 bg-yellow-50 dark:bg-yellow-900/20 hover:bg-yellow-100 dark:hover:bg-yellow-900/40 text-yellow-600 dark:text-yellow-400 rounded-lg text-sm font-medium transition-colors flex-1"
-                    >
-                      <Star className="w-4 h-4" />
-                      Feature
-                    </button>
-                  ) : (
-                    <button
-                      onClick={() => handleRemoveFromFeatured(property.id)}
-                      className="flex items-center justify-center gap-1.5 px-3 py-2 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400 rounded-lg text-sm font-medium transition-colors flex-1"
-                    >
-                      <X className="w-4 h-4" />
-                      Unfeature
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-        </div>
-
-        {/* Desktop View - Table */}
-        <div className="hidden md:block overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50 dark:bg-dark-700">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Property
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Category
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Owner
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white dark:bg-dark-800 divide-y divide-gray-200 dark:divide-dark-700">
-              {allProperties
-                .filter(property =>
-                  (categoryFilter === 'all' || property.category === categoryFilter) &&
-                  (searchTerm === '' ||
-                    property.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    property.location.toLowerCase().includes(searchTerm.toLowerCase()))
-                )
-                .map((property) => (
-                  <tr key={property.id} className="hover:bg-gray-50 dark:hover:bg-dark-700 transition-colors">
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <img
-                          className="h-12 w-16 rounded-lg object-cover"
-                          src={getPropertyImage(property)}
-                          alt={property.title}
+                    </TableCell>
+                    <TableCell className="pr-4 text-right">
+                      <div className="flex flex-col items-end gap-1">
+                        <Switch
+                          checked={r.featured}
+                          disabled={pending.has(r.id)}
+                          onCheckedChange={(on) => toggleFeatured(r, on)}
+                          aria-label={r.featured ? `Unfeature ${r.title}` : `Feature ${r.title}`}
                         />
-                        <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900 dark:text-white">
-                            {property.title}
-                          </div>
-                          <div className="text-sm text-gray-500 dark:text-gray-400">
-                            {(() => {
-                              if (typeof property.location === 'string') {
-                                return property.location;
-                              } else if (property.location && typeof property.location === 'object') {
-                                return property.location.address || property.location.city || property.location.state || '';
-                              }
-                              return property.address || 'Location not specified';
-                            })()}
-                          </div>
-                          <div className="text-sm font-semibold text-green-600">
-                            Ksh {property.price.toLocaleString()}
-                          </div>
-                        </div>
+                        {rowErrors[r.id] && <span className="max-w-[200px] text-right text-xs text-destructive">{rowErrors[r.id]}</span>}
                       </div>
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getCategoryBadgeColor(property.category)}`}>
-                        {property.category}
-                      </span>
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap">
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${property.featured
-                        ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
-                        : 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200'
-                        }`}>
-                        {property.featured ? 'Featured' : 'Regular'}
-                      </span>
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                      {property.owner}
-                    </td>
-                    <td className="px-4 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => handleEditProperty(property)}
-                          className="text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300"
-                        >
-                          <Edit className="w-4 h-4" />
-                        </button>
-                        {!property.featured ? (
-                          <button
-                            onClick={() => handleAddToFeatured(property.id)}
-                            className="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300"
-                          >
-                            <Star className="w-4 h-4" />
-                          </button>
-                        ) : (
-                          <button
-                            onClick={() => handleRemoveFromFeatured(property.id)}
-                            className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Edit Property Modal */}
-      {showEditModal && editingProperty && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-dark-800 rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Edit Property
-              </h3>
-              <button
-                onClick={() => setShowEditModal(false)}
-                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  value={editingProperty.title}
-                  onChange={(e) => setEditingProperty({ ...editingProperty, title: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Description
-                </label>
-                <textarea
-                  value={editingProperty.description}
-                  onChange={(e) => setEditingProperty({ ...editingProperty, description: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white"
-                  rows="3"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Price
-                  </label>
-                  <input
-                    type="number"
-                    value={editingProperty.price}
-                    onChange={(e) => setEditingProperty({ ...editingProperty, price: parseInt(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Category
-                  </label>
-                  <select
-                    value={editingProperty.category}
-                    onChange={(e) => setEditingProperty({ ...editingProperty, category: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white"
-                  >
-                    <option value="luxury">Luxury</option>
-                    <option value="apartment">Apartment</option>
-                    <option value="house">House</option>
-                    <option value="studio">Studio</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex items-center justify-end gap-3 mt-6">
-              <button
-                onClick={() => setShowEditModal(false)}
-                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSaveEdit}
-                className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
-              >
-                Save Changes
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-dark-800 rounded-xl p-6 w-full max-w-md">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Add Featured Property</h3>
-              <button onClick={() => setShowAddModal(false)} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            <div className="space-y-4">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Select property</label>
-              <select value={addSelection} onChange={(e) => setAddSelection(e.target.value)} className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white">
-                <option value="">-- Choose --</option>
-                {allProperties.filter(p => !p.featured).map(p => (
-                  <option key={p.id} value={p.id}>{p.title}</option>
-                ))}
-              </select>
-              <div className="flex items-center justify-end gap-3">
-                <button onClick={() => setShowAddModal(false)} className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors">Cancel</button>
-                <button disabled={!addSelection} onClick={() => handleAddToFeatured(addSelection)} className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors disabled:opacity-50">Add</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+              </TableBody>
+            </Table>
+            <Pagination page={safePage} pageCount={pageCount} onPage={setPage} total={filtered.length} pageSize={PAGE_SIZE} />
+          </>
+        )}
+      </Card>
+    </>
   );
 };
 
-export default ContentManagement; 
+export default ContentManagement;

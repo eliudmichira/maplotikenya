@@ -1,3 +1,4 @@
+import animate from 'tailwindcss-animate';
 /** @type {import('tailwindcss').Config} */
 // Shared mono ramp used to override every colorful family below.
 const monoRamp = () => ({
@@ -13,6 +14,11 @@ export default {
   darkMode: 'class', // Enable class-based dark mode
   theme: {
     extend: {
+      borderRadius: {
+        lg: 'var(--ui-radius)',
+        md: 'calc(var(--ui-radius) - 2px)',
+        sm: 'calc(var(--ui-radius) - 4px)',
+      },
       fontFamily: {
         'manrope':  ['Apfel Grotezk', 'Manrope', 'sans-serif'],
         'lato':     ['Apfel Grotezk', 'Lato', 'sans-serif'],
@@ -22,8 +28,22 @@ export default {
         'apfel-brukt': ['Apfel Grotezk Brukt', 'Apfel Grotezk', 'system-ui', 'sans-serif'],
       },
       colors: {
+        // ─── UI kit tokens (shadcn-style) — see --ui-* in index.css ───
+        background: 'rgb(var(--ui-background) / <alpha-value>)',
+        foreground: 'rgb(var(--ui-foreground) / <alpha-value>)',
+        card: { DEFAULT: 'rgb(var(--ui-card) / <alpha-value>)', foreground: 'rgb(var(--ui-card-foreground) / <alpha-value>)' },
+        popover: { DEFAULT: 'rgb(var(--ui-popover) / <alpha-value>)', foreground: 'rgb(var(--ui-popover-foreground) / <alpha-value>)' },
+        muted: { DEFAULT: 'rgb(var(--ui-muted) / <alpha-value>)', foreground: 'rgb(var(--ui-muted-foreground) / <alpha-value>)' },
+        destructive: { DEFAULT: 'rgb(var(--ui-destructive) / <alpha-value>)', foreground: 'rgb(var(--ui-destructive-foreground) / <alpha-value>)' },
+        success: 'rgb(var(--ui-success) / <alpha-value>)',
+        warning: 'rgb(var(--ui-warning) / <alpha-value>)',
+        border: 'rgb(var(--ui-border) / <alpha-value>)',
+        input: 'rgb(var(--ui-input) / <alpha-value>)',
+        ring: 'rgb(var(--ui-ring) / <alpha-value>)',
         // ─── PRIMARY: MONO (black-first CTA palette) ──────────────────
         primary: {
+          DEFAULT: 'rgb(var(--ui-primary) / <alpha-value>)',
+          foreground: 'rgb(var(--ui-primary-foreground) / <alpha-value>)',
           50:  '#f8f8f8',   // off-white
           100: '#f0f0f0',
           200: '#e2e2e2',
@@ -80,6 +100,8 @@ export default {
         // preserved for error/warning semantics.
         // Secondary - Warm Gold/Beige (#90e0ef original BumiHouse)
         secondary: {
+          DEFAULT: 'rgb(var(--ui-secondary) / <alpha-value>)',
+          foreground: 'rgb(var(--ui-secondary-foreground) / <alpha-value>)',
           50: '#fefdf8',
           100: '#fefbf3',
           200: '#90e0ef',
@@ -274,6 +296,7 @@ export default {
     },
   },
   plugins: [
+    animate,
     // Custom plugin for theme-aware utilities
     function({ addUtilities, theme }) {
       const newUtilities = {

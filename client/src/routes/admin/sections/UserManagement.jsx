@@ -1,680 +1,427 @@
-import React, { useState, useEffect } from 'react';
-import { collection, getDocs, getDoc, doc, updateDoc, deleteDoc, query, orderBy } from 'firebase/firestore';
+import React, { useEffect, useMemo, useState } from 'react';
+import { collection, getDocs, updateDoc, doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 import { useAuth } from '../../../context/AuthContext';
-import {
-  Users,
-  Search,
-  Filter,
-  UserCheck,
-  UserX,
-  Shield,
-  Crown,
-  User,
-  Mail,
-  Calendar,
-  MoreVertical,
-  Edit3,
-  Trash2,
-  Eye,
-  Lock,
-  Unlock,
-  Plus,
-  Download,
-  Upload
-} from 'lucide-react';
+import { isPlaceholderImage } from '../../../utils/imageUtils';
+import { Users, Search, MoreHorizontal, Eye, UserCog, Lock, Unlock, Trash2, Download, ShieldCheck } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/table';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
+import { Skeleton } from '@/components/ui/skeleton';
+import { PageHeader, StatGrid, Toolbar, SelectionBar, EmptyState, Pagination, statusVariant, formatDate } from '@/components/admin/primitives';
 
-const UserManagement = () => {
-  const { currentUser } = useAuth();
-  const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [roleFilter, setRoleFilter] = useState('all');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [showUserModal, setShowUserModal] = useState(false);
-  const [showRoleModal, setShowRoleModal] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [deleteConfirmText, setDeleteConfirmText] = useState('');
-  const [newRole, setNewRole] = useState('user');
-  const [roleChangeReason, setRoleChangeReason] = useState('');
-  const [loading, setLoading] = useState(false);
+const PAGE_SIZE = 25;
+const ROLES = ['user', 'agent', 'moderator', 'admin'];
 
-  // Load real users from Firestore
-  useEffect(() => {
-    const loadUsers = async () => {
-      try {
-        setLoading(true);
-        let snapshot;
-        try {
-          snapshot = await getDocs(query(collection(db, 'users'), orderBy('createdAt', 'desc')));
-        } catch (_) {
-          snapshot = await getDocs(collection(db, 'users'));
-        }
+const normaliseUser = (id, data, verified) => ({
+  id,
+  email: data.email || '',
+  name: data.username || data.name || data.displayName || data.email || 'User',
+  role: ROLES.includes(String(data.role || '').toLowerCase()) ? String(data.role).toLowerCase() : 'user',
+  isActive: typeof data.isActive === 'boolean' ? data.isActive : true,
+  avatar: data.avatar || data.photoURL || '',
+  phone: data.phone || data.phoneNumber || '',
+  properties: Number(data.propertiesCount) || 0,
+  createdAt: data.createdAt,
+  lastLogin: data.lastLogin,
+  verified: !!verified,
+});
 
-        let rows = await Promise.all(
-          snapshot.docs.map(async (d) => {
-            const data = d.data();
-            // Derive verification from agents collection
-            let verified = false;
-            try {
-              const agentSnap = await getDoc(doc(db, 'agents', d.id));
-              verified = agentSnap.exists() ? !!agentSnap.data().verified : false;
-            } catch (_) { }
+// Used only when the users collection is empty: build rows from agent profiles.
+const normaliseAgentAsUser = (id, a) => ({
+  id,
+  email: a.email || '',
+  name: a.name || a.fullName || a.email || 'Agent',
+  role: 'agent',
+  isActive: true,
+  avatar: a.image || a.avatar || '',
+  phone: a.phoneNumber || a.phone || '',
+  properties: Number(a.propertiesSold) || 0,
+  createdAt: a.createdAt,
+  lastLogin: a.lastLogin,
+  verified: !!a.verified,
+});
 
-            const createdAt = data.createdAt?.toDate ? data.createdAt.toDate() : new Date();
-            const lastLogin = data.lastLogin?.toDate ? data.lastLogin.toDate() : createdAt;
+const initials = (name) => String(name || '').trim().split(/\s+/).slice(0, 2).map((w) => w[0]).join('').toUpperCase() || '?';
 
-            return {
-              id: d.id,
-              email: data.email || '',
-              displayName: data.username || data.name || data.email || 'User',
-              role: data.role || 'user',
-              createdAt,
-              lastLogin,
-              isActive: typeof data.isActive === 'boolean' ? data.isActive : true,
-              profileImage: data.avatar || 'https://i.pravatar.cc/150?img=1',
-              phone: data.phone || '',
-              properties: typeof data.propertiesCount === 'number' ? data.propertiesCount : 0,
-              verified,
-            };
-          })
-        );
-
-        // Fallback: if no users found, build from agents collection
-        if (rows.length === 0) {
-          const agentsSnap = await getDocs(collection(db, 'agents'));
-          rows = agentsSnap.docs.map((d) => {
-            const a = d.data();
-            const createdAt = a.createdAt?.toDate ? a.createdAt.toDate() : new Date();
-            return {
-              id: d.id,
-              email: a.email || '',
-              displayName: a.name || a.email || 'Agent',
-              role: 'agent',
-              createdAt,
-              lastLogin: createdAt,
-              isActive: true,
-              profileImage: a.image || 'https://i.pravatar.cc/150?img=1',
-              phone: a.phone || '',
-              properties: a.propertiesSold || 0,
-              verified: !!a.verified,
-            };
-          });
-        }
-
-        setUsers(rows);
-        setFilteredUsers(rows);
-      } catch (e) {
-        setUsers([]);
-        setFilteredUsers([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadUsers();
-  }, []);
-
-  useEffect(() => {
-    filterUsers();
-  }, [users, searchTerm, roleFilter, statusFilter]);
-
-  const filterUsers = () => {
-    let filtered = users;
-
-    // Search filter
-    if (searchTerm) {
-      filtered = filtered.filter(user =>
-        user.displayName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    // Role filter
-    if (roleFilter !== 'all') {
-      filtered = filtered.filter(user => user.role === roleFilter);
-    }
-
-    // Status filter
-    if (statusFilter !== 'all') {
-      filtered = filtered.filter(user =>
-        statusFilter === 'active' ? user.isActive : !user.isActive
-      );
-    }
-
-    setFilteredUsers(filtered);
-  };
-
-  const handleRoleChange = async () => {
-    if (!selectedUser) return;
-
-    try {
-      console.log('Attempting to update role for user:', selectedUser.id);
-      console.log('New role:', newRole);
-      console.log('Current user:', currentUser?.id, 'Role:', currentUser?.role);
-
-      await updateDoc(doc(db, 'users', selectedUser.id), { role: newRole });
-
-      console.log('Role updated successfully');
-
-      setUsers(users.map(user => user.id === selectedUser.id ? { ...user, role: newRole } : user));
-
-      setShowRoleModal(false);
-      setRoleChangeReason('');
-      setSelectedUser(null);
-
-      alert('User role updated successfully!');
-    } catch (error) {
-      console.error('Error updating user role:', error);
-      console.error('Error code:', error.code);
-      console.error('Error message:', error.message);
-      alert(`Failed to update role: ${error.message}\n\nCheck console for details.`);
-    }
-  };
-
-  const handleDeleteUser = async () => {
-    if (!selectedUser || deleteConfirmText !== 'DELETE') return;
-
-    // Prevent self-deletion
-    if (selectedUser.id === currentUser?.id) {
-      alert('You cannot delete your own account!');
-      return;
-    }
-
-    try {
-      console.log('Attempting to delete user:', selectedUser.id);
-      console.log('Current user role:', currentUser?.role);
-      console.log('Current user ID:', currentUser?.id);
-
-      // Delete user document
-      await deleteDoc(doc(db, 'users', selectedUser.id));
-
-      console.log('User deleted successfully');
-
-      // Update local state
-      setUsers(users.filter(user => user.id !== selectedUser.id));
-
-      // Close modal and reset
-      setShowDeleteModal(false);
-      setDeleteConfirmText('');
-      setSelectedUser(null);
-
-      alert('User deleted successfully!');
-    } catch (error) {
-      console.error('Error deleting user:', error);
-      console.error('Error code:', error.code);
-      console.error('Error message:', error.message);
-      alert(`Failed to delete user: ${error.message}\n\nCheck console for details.`);
-    }
-  };
-
-  const handleUserStatusToggle = async (userId) => {
-    const u = users.find(u => u.id === userId);
-    if (!u) return;
-    const next = !u.isActive;
-    try {
-      await updateDoc(doc(db, 'users', userId), { isActive: next });
-      setUsers(users.map(user => user.id === userId ? { ...user, isActive: next } : user));
-    } catch (e) {
-      console.error('Error updating user status:', e);
-    }
-  };
-
-  const getRoleIcon = (role) => {
-    switch (role) {
-      case 'admin': return <Crown className="w-4 h-4 text-yellow-500" />;
-      case 'moderator': return <Shield className="w-4 h-4 text-emerald-500" />;
-      case 'agent': return <Shield className="w-4 h-4 text-green-500" />;
-      default: return <User className="w-4 h-4 text-gray-500" />;
-    }
-  };
-
-  const getRoleBadgeColor = (role) => {
-    switch (role) {
-      case 'admin': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
-      case 'moderator': return 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200';
-      case 'agent': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
-    }
-  };
-
-  const StatCard = ({ title, value, icon, color }) => (
-    <div className="bg-white dark:bg-dark-800 rounded-xl p-6 border border-gray-200 dark:border-dark-700 shadow-sm">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">{value}</p>
-        </div>
-        <div className={`p-3 rounded-full ${color}`}>
-          {icon}
-        </div>
-      </div>
-    </div>
-  );
-
-  const userStats = {
-    totalUsers: users.length,
-    adminUsers: users.filter(u => u.role === 'admin').length,
-    moderatorUsers: users.filter(u => u.role === 'moderator').length,
-    regularUsers: users.filter(u => u.role === 'user').length,
-    activeUsers: users.filter(u => u.isActive).length,
-    verifiedUsers: users.filter(u => u.verified).length
-  };
-
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">User Management</h2>
-          <p className="text-sm md:text-base text-gray-600 dark:text-gray-400">Manage users, roles, and permissions</p>
-        </div>
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          <button className="flex justify-center items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors">
-            <Download className="w-4 h-4" />
-            Export
-          </button>
-          <button className="flex justify-center items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors">
-            <Plus className="w-4 h-4" />
-            Add User
-          </button>
-        </div>
-      </div>
-
-      {/* Stats Overview */}
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-        <StatCard
-          title="Total Users"
-          value={userStats.totalUsers}
-          icon={<Users className="w-5 h-5 md:w-6 md:h-6 text-emerald-600" />}
-          color="bg-emerald-100 dark:bg-emerald-900/30"
-        />
-        <StatCard
-          title="Active Users"
-          value={userStats.activeUsers}
-          icon={<UserCheck className="w-5 h-5 md:w-6 md:h-6 text-green-600" />}
-          color="bg-green-100 dark:bg-green-900/30"
-        />
-        <StatCard
-          title="Verified Users"
-          value={userStats.verifiedUsers}
-          icon={<Shield className="w-5 h-5 md:w-6 md:h-6 text-purple-600" />}
-          color="bg-purple-100 dark:bg-purple-900/30"
-        />
-      </div>
-
-      {/* Filters and Search */}
-      <div className="bg-white dark:bg-dark-800 rounded-xl p-6 border border-gray-200 dark:border-dark-700">
-        <div className="flex flex-col md:flex-row gap-4">
-          {/* Search */}
-          <div className="flex-1">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search users by name or email..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-              />
-            </div>
-          </div>
-
-          {/* Role Filter */}
-          <select
-            value={roleFilter}
-            onChange={(e) => setRoleFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white"
-          >
-            <option value="all">All Roles</option>
-            <option value="admin">Admin</option>
-            <option value="moderator">Moderator</option>
-            <option value="agent">Agent</option>
-            <option value="user">User</option>
-          </select>
-
-          {/* Status Filter */}
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white"
-          >
-            <option value="all">All Status</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Users Table / Mobile Cards */}
-      <div className="bg-transparent md:bg-white md:dark:bg-dark-800 md:rounded-xl md:border md:border-gray-200 md:dark:border-dark-700 overflow-hidden">
-
-        {/* Desktop Table (Hidden on Mobile) */}
-        <div className="hidden md:block overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50 dark:bg-dark-700">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  User
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Role
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Properties
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Last Login
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white dark:bg-dark-800 divide-y divide-gray-200 dark:divide-dark-700">
-              {filteredUsers.map((user) => (
-                <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-dark-700 transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <img
-                        className="h-10 w-10 rounded-full object-cover"
-                        src={user.profileImage}
-                        alt={user.displayName}
-                      />
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900 dark:text-white">
-                          {user.displayName}
-                        </div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                          {user.email}
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center gap-2">
-                      {getRoleIcon(user.role)}
-                      <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleBadgeColor(user.role)}`}>
-                        {user.role}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${user.isActive
-                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                      : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                      }`}>
-                      {user.isActive ? 'Active' : 'Inactive'}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                    {user.properties}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    {user.lastLogin.toLocaleDateString()}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => {
-                          setSelectedUser(user);
-                          setShowUserModal(true);
-                        }}
-                        className="p-1.5 text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 rounded"
-                        title="View Details"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSelectedUser(user);
-                          setShowRoleModal(true);
-                        }}
-                        className="p-1.5 text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 hover:bg-green-50 dark:hover:bg-green-900/30 rounded"
-                        title="Edit Role"
-                      >
-                        <Edit3 className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => handleUserStatusToggle(user.id)}
-                        className={`p-1.5 rounded ${user.isActive
-                          ? "text-orange-600 hover:text-orange-900 dark:text-orange-400 dark:hover:text-orange-300 hover:bg-orange-50 dark:hover:bg-orange-900/30"
-                          : "text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30"
-                          }`}
-                        title={user.isActive ? "Deactivate User" : "Activate User"}
-                      >
-                        {user.isActive ? <Lock className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}
-                      </button>
-                      <button
-                        onClick={() => {
-                          setSelectedUser(user);
-                          setShowDeleteModal(true);
-                        }}
-                        className="p-1.5 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 hover:bg-red-50 dark:hover:bg-red-900/30 rounded"
-                        title="Delete User"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {/* Mobile Cards (Hidden on Desktop) */}
-        <div className="md:hidden space-y-4">
-          {filteredUsers.map((user) => (
-            <div key={user.id} className="bg-white dark:bg-dark-800 rounded-xl p-4 border border-gray-200 dark:border-dark-700 shadow-sm flex flex-col gap-4">
-              <div className="flex items-start justify-between">
-                <div className="flex items-center gap-3">
-                  <img
-                    className="h-12 w-12 rounded-full object-cover shrink-0"
-                    src={user.profileImage}
-                    alt={user.displayName}
-                  />
-                  <div className="overflow-hidden">
-                    <h4 className="text-base font-bold text-gray-900 dark:text-white truncate">{user.displayName}</h4>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-sm">
-                <div>
-                  <span className="block text-gray-500 dark:text-gray-400 text-xs mb-1">Role</span>
-                  <div className="flex items-center gap-1.5">
-                    {getRoleIcon(user.role)}
-                    <span className={`inline-flex px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-md ${getRoleBadgeColor(user.role)}`}>
-                      {user.role}
-                    </span>
-                  </div>
-                </div>
-                <div>
-                  <span className="block text-gray-500 dark:text-gray-400 text-xs mb-1">Status</span>
-                  <span className={`inline-flex px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-md ${user.isActive
-                    ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                    : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-                    }`}>
-                    {user.isActive ? 'Active' : 'Inactive'}
-                  </span>
-                </div>
-                <div>
-                  <span className="block text-gray-500 dark:text-gray-400 text-xs mb-1">Properties</span>
-                  <p className="font-semibold text-gray-900 dark:text-white">{user.properties}</p>
-                </div>
-                <div>
-                  <span className="block text-gray-500 dark:text-gray-400 text-xs mb-1">Last Login</span>
-                  <p className="font-semibold text-gray-900 dark:text-white">{user.lastLogin.toLocaleDateString()}</p>
-                </div>
-              </div>
-
-              <div className="pt-3 border-t border-gray-100 dark:border-dark-700 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => {
-                      setSelectedUser(user);
-                      setShowUserModal(true);
-                    }}
-                    className="p-2 text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg transition-colors"
-                  >
-                    <Eye className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => {
-                      setSelectedUser(user);
-                      setShowRoleModal(true);
-                    }}
-                    className="p-2 text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 bg-green-50 dark:bg-green-900/20 rounded-lg transition-colors"
-                  >
-                    <Edit3 className="w-4 h-4" />
-                  </button>
-                  <button
-                    onClick={() => handleUserStatusToggle(user.id)}
-                    className={`p-2 rounded-lg transition-colors ${user.isActive
-                      ? "text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-900/20 hover:text-orange-900"
-                      : "text-emerald-600 bg-emerald-50 dark:text-emerald-400 dark:bg-emerald-900/20 hover:text-emerald-900"
-                      }`}
-                  >
-                    {user.isActive ? <Lock className="w-4 h-4" /> : <Unlock className="w-4 h-4" />}
-                  </button>
-                </div>
-                <button
-                  onClick={() => {
-                    setSelectedUser(user);
-                    setShowDeleteModal(true);
-                  }}
-                  className="p-2 text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 bg-red-50 dark:bg-red-900/20 rounded-lg transition-colors"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Role Change Modal */}
-      {showRoleModal && selectedUser && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-dark-800 rounded-xl p-6 w-full max-w-md">
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              Change User Role
-            </h3>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  User
-                </label>
-                <p className="text-sm text-gray-900 dark:text-white">{selectedUser.displayName} ({selectedUser.email})</p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  New Role
-                </label>
-                <select
-                  value={newRole}
-                  onChange={(e) => setNewRole(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white"
-                >
-                  <option value="user">User</option>
-                  <option value="agent">Agent</option>
-                  <option value="moderator">Moderator</option>
-                  <option value="admin">Admin</option>
-                </select>
-              </div>
-            </div>
-            <div className="flex items-center justify-end gap-3 mt-6">
-              <button
-                onClick={() => setShowRoleModal(false)}
-                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleRoleChange}
-                className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors"
-              >
-                Update Role
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Delete User Modal */}
-      {showDeleteModal && selectedUser && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-dark-800 rounded-xl p-6 w-full max-w-md border-2 border-red-500">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-3 bg-red-100 dark:bg-red-900/30 rounded-full">
-                <Trash2 className="w-6 h-6 text-red-600 dark:text-red-400" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Delete User
-              </h3>
-            </div>
-
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-4">
-              <p className="text-sm text-red-800 dark:text-red-200 font-semibold mb-2">
-                ⚠️ Warning: This action cannot be undone!
-              </p>
-              <p className="text-sm text-red-700 dark:text-red-300">
-                You are about to permanently delete:
-              </p>
-              <div className="mt-3 p-3 bg-white dark:bg-dark-700 rounded border border-red-200 dark:border-red-800">
-                <p className="font-semibold text-gray-900 dark:text-white">{selectedUser.displayName}</p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">{selectedUser.email}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">
-                  Role: {selectedUser.role} | Properties: {selectedUser.properties}
-                </p>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  Type <span className="font-bold text-red-600">DELETE</span> to confirm
-                </label>
-                <input
-                  type="text"
-                  value={deleteConfirmText}
-                  onChange={(e) => setDeleteConfirmText(e.target.value)}
-                  placeholder="Type DELETE"
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-end gap-3 mt-6">
-              <button
-                onClick={() => {
-                  setShowDeleteModal(false);
-                  setDeleteConfirmText('');
-                  setSelectedUser(null);
-                }}
-                className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleDeleteUser}
-                disabled={deleteConfirmText !== 'DELETE'}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                Delete User
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+const Avatar = ({ src, name, className }) => {
+  const [broken, setBroken] = useState(false);
+  const show = !!src && !broken && !isPlaceholderImage(src);
+  return show ? (
+    <img src={src} alt="" loading="lazy" onError={() => setBroken(true)} className={cn('shrink-0 rounded-full bg-muted object-cover', className)} />
+  ) : (
+    <span aria-hidden className={cn('flex shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-primary-foreground', className)}>{initials(name)}</span>
   );
 };
 
-export default UserManagement; 
+const roleVariant = (role) => (role === 'admin' ? 'default' : role === 'moderator' ? 'secondary' : 'outline');
+const roleLabel = (role) => role.charAt(0).toUpperCase() + role.slice(1);
+const statusOf = (u) => (u.isActive ? 'active' : 'suspended');
+const statusLabel = (u) => (u.isActive ? 'Active' : 'Suspended');
+
+const UserManagement = () => {
+  const { currentUser } = useAuth();
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [role, setRole] = useState('all');
+  const [status, setStatus] = useState('all');
+  const [selected, setSelected] = useState(() => new Set());
+  const [page, setPage] = useState(1);
+  const [detail, setDetail] = useState(null);
+  const [roleEdit, setRoleEdit] = useState(null); // { user, role }
+  const [suspending, setSuspending] = useState(null); // { ids: [] }
+  const [deleting, setDeleting] = useState(null); // { ids: [] }
+  const [deleteConfirm, setDeleteConfirm] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    (async () => {
+      try {
+        // One read of each collection; agent profiles supply the "verified" flag.
+        const [usersSnap, agentsSnap] = await Promise.all([
+          getDocs(collection(db, 'users')),
+          getDocs(collection(db, 'agents')).catch(() => null),
+        ]);
+        const verifiedIds = new Set((agentsSnap?.docs || []).filter((d) => d.data().verified === true).map((d) => d.id));
+        let list = usersSnap.docs.map((d) => normaliseUser(d.id, d.data(), verifiedIds.has(d.id)));
+        if (list.length === 0 && agentsSnap) list = agentsSnap.docs.map((d) => normaliseAgentAsUser(d.id, d.data()));
+        const t = (v) => (v?.toDate ? v.toDate().getTime() : v ? new Date(v).getTime() : 0);
+        list.sort((a, b) => t(b.createdAt) - t(a.createdAt));
+        setRows(list);
+      } catch (e) {
+        setError('Could not load users. ' + (e.message || ''));
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
+
+  const stats = useMemo(() => ({
+    total: rows.length,
+    active: rows.filter((r) => r.isActive).length,
+    verified: rows.filter((r) => r.verified).length,
+    admins: rows.filter((r) => r.role === 'admin').length,
+  }), [rows]);
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return rows.filter((r) => {
+      if (role !== 'all' && r.role !== role) return false;
+      if (status !== 'all' && statusOf(r) !== status) return false;
+      if (!q) return true;
+      return [r.name, r.email, r.phone].some((v) => String(v).toLowerCase().includes(q));
+    });
+  }, [rows, search, role, status]);
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount);
+  const visible = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+  const allVisibleSelected = visible.length > 0 && visible.every((r) => selected.has(r.id));
+  const someVisibleSelected = visible.some((r) => selected.has(r.id));
+
+  useEffect(() => { setPage(1); }, [search, role, status]);
+
+  const toggleAll = () => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (allVisibleSelected) visible.forEach((r) => next.delete(r.id));
+      else visible.forEach((r) => next.add(r.id));
+      return next;
+    });
+  };
+  const toggleOne = (id) => setSelected((prev) => { const next = new Set(prev); next.has(id) ? next.delete(id) : next.add(id); return next; });
+
+  const isSelf = (id) => !!currentUser?.id && id === currentUser.id;
+
+  // ── writes ──
+  const patch = async (ids, data) => {
+    setBusy(true); setError('');
+    try {
+      await Promise.all(ids.map((id) => updateDoc(doc(db, 'users', id), data)));
+      setRows((prev) => prev.map((r) => (ids.includes(r.id) ? { ...r, ...data } : r)));
+      setDetail((d) => (d && ids.includes(d.id) ? { ...d, ...data } : d));
+      return true;
+    } catch (e) {
+      setError('Update failed. ' + (e.message || ''));
+      return false;
+    } finally {
+      setBusy(false);
+    }
+  };
+  const activate = (ids) => patch(ids, { isActive: true });
+  const confirmSuspend = async () => {
+    if (!suspending) return;
+    await patch(suspending.ids, { isActive: false });
+    setSuspending(null);
+  };
+  const saveRole = async () => {
+    if (!roleEdit) return;
+    const ok = await patch([roleEdit.user.id], { role: roleEdit.role });
+    if (ok) setRoleEdit(null);
+  };
+  const openDelete = (ids) => {
+    const allowed = ids.filter((id) => !isSelf(id));
+    if (allowed.length === 0) { setError('You cannot delete your own account.'); return; }
+    setDeleteConfirm('');
+    setDeleting({ ids: allowed });
+  };
+  const confirmDelete = async () => {
+    if (!deleting || deleteConfirm !== 'DELETE') return;
+    setBusy(true); setError('');
+    try {
+      await Promise.all(deleting.ids.map((id) => deleteDoc(doc(db, 'users', id))));
+      setRows((prev) => prev.filter((r) => !deleting.ids.includes(r.id)));
+      setSelected((prev) => { const next = new Set(prev); deleting.ids.forEach((id) => next.delete(id)); return next; });
+      setDetail(null);
+      setDeleting(null);
+    } catch (e) {
+      setError('Delete failed. ' + (e.message || ''));
+    } finally {
+      setBusy(false); setDeleteConfirm('');
+    }
+  };
+
+  const exportCsv = () => {
+    const header = ['id', 'name', 'email', 'phone', 'role', 'status', 'verifiedAgent', 'properties', 'joined', 'lastLogin'];
+    const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const lines = [header.join(','), ...filtered.map((r) => [r.id, r.name, r.email, r.phone, r.role, statusOf(r), r.verified ? 'yes' : 'no', r.properties, formatDate(r.createdAt), formatDate(r.lastLogin)].map(esc).join(','))];
+    const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = Object.assign(document.createElement('a'), { href: url, download: `users-${new Date().toISOString().slice(0, 10)}.csv` });
+    a.click(); URL.revokeObjectURL(url);
+  };
+
+  const selectedIds = [...selected];
+  const selectedRows = rows.filter((r) => selected.has(r.id));
+
+  return (
+    <>
+      <PageHeader title="Users" description="Every account on the site. Change roles, suspend or reactivate, or remove accounts.">
+        <Button variant="outline" size="sm" onClick={exportCsv} disabled={filtered.length === 0}><Download />Export CSV</Button>
+      </PageHeader>
+
+      <StatGrid
+        loading={loading}
+        items={[
+          { label: 'All users', value: stats.total, icon: Users },
+          { label: 'Active', value: stats.active, note: stats.total - stats.active ? `${(stats.total - stats.active).toLocaleString()} suspended` : 'none suspended' },
+          { label: 'Verified agents', value: stats.verified, icon: ShieldCheck },
+          { label: 'Admins', value: stats.admins },
+        ]}
+      />
+
+      {error && <p className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>}
+
+      <Card className="overflow-hidden">
+        <div className="space-y-3 p-3 md:p-4">
+          <Toolbar>
+            <div className="relative min-w-[220px] flex-1">
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search name, email or phone" className="pl-8" />
+            </div>
+            <Select value={role} onValueChange={setRole}>
+              <SelectTrigger className="w-[150px]"><SelectValue placeholder="Role" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All roles</SelectItem>
+                {ROLES.map((r) => <SelectItem key={r} value={r}>{roleLabel(r)}</SelectItem>)}
+              </SelectContent>
+            </Select>
+            <Select value={status} onValueChange={setStatus}>
+              <SelectTrigger className="w-[150px]"><SelectValue placeholder="Status" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All statuses</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="suspended">Suspended</SelectItem>
+              </SelectContent>
+            </Select>
+            <span className="ml-auto text-xs tabular-nums text-muted-foreground">{filtered.length.toLocaleString()} result{filtered.length === 1 ? '' : 's'}</span>
+          </Toolbar>
+
+          <SelectionBar count={selectedIds.length} onClear={() => setSelected(new Set())}>
+            <Button size="sm" variant="outline" disabled={busy || selectedRows.every((r) => r.isActive)} onClick={() => activate(selectedIds)}><Unlock />Activate</Button>
+            <Button size="sm" variant="outline" disabled={busy || selectedRows.every((r) => !r.isActive)} onClick={() => setSuspending({ ids: selectedIds })}><Lock />Suspend</Button>
+            <Button size="sm" variant="destructive" disabled={busy} onClick={() => openDelete(selectedIds)}><Trash2 />Delete</Button>
+          </SelectionBar>
+        </div>
+
+        {loading ? (
+          <div className="space-y-2 p-4">{Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-14" />)}</div>
+        ) : visible.length === 0 ? (
+          <EmptyState icon={Users} title="No users match" description={search || role !== 'all' || status !== 'all' ? 'Try clearing the search or the filters.' : 'Accounts will appear here as people sign up.'} />
+        ) : (
+          <>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-10 pl-4">
+                    <Checkbox checked={allVisibleSelected ? true : someVisibleSelected ? 'indeterminate' : false} onCheckedChange={toggleAll} aria-label="Select all on this page" />
+                  </TableHead>
+                  <TableHead>User</TableHead>
+                  <TableHead>Role</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="hidden lg:table-cell text-right">Listings</TableHead>
+                  <TableHead className="hidden md:table-cell">Joined</TableHead>
+                  <TableHead className="hidden md:table-cell">Last login</TableHead>
+                  <TableHead className="w-12 text-right pr-3"><span className="sr-only">Actions</span></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {visible.map((r) => (
+                  <TableRow key={r.id} data-state={selected.has(r.id) ? 'selected' : undefined}>
+                    <TableCell className="pl-4">
+                      <Checkbox checked={selected.has(r.id)} onCheckedChange={() => toggleOne(r.id)} aria-label={`Select ${r.name}`} />
+                    </TableCell>
+                    <TableCell>
+                      <button type="button" onClick={() => setDetail(r)} className="flex min-w-0 items-center gap-3 text-left">
+                        <Avatar src={r.avatar} name={r.name} className="h-9 w-9" />
+                        <span className="min-w-0">
+                          <span className="flex items-center gap-1.5 text-sm font-medium text-foreground">
+                            <span className="truncate">{r.name}</span>
+                            {isSelf(r.id) && <span className="text-xs font-normal text-muted-foreground">(you)</span>}
+                            {r.verified && <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-muted-foreground" aria-label="Verified agent" />}
+                          </span>
+                          <span className="block truncate text-xs text-muted-foreground">{r.email || r.phone || '—'}</span>
+                        </span>
+                      </button>
+                    </TableCell>
+                    <TableCell><Badge variant={roleVariant(r.role)}>{roleLabel(r.role)}</Badge></TableCell>
+                    <TableCell><Badge variant={statusVariant(statusOf(r))}>{statusLabel(r)}</Badge></TableCell>
+                    <TableCell className="hidden lg:table-cell text-right tabular-nums text-muted-foreground">{r.properties.toLocaleString()}</TableCell>
+                    <TableCell className="hidden md:table-cell whitespace-nowrap text-muted-foreground">{formatDate(r.createdAt)}</TableCell>
+                    <TableCell className="hidden md:table-cell whitespace-nowrap text-muted-foreground">{formatDate(r.lastLogin)}</TableCell>
+                    <TableCell className="text-right pr-3">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" aria-label="Row actions"><MoreHorizontal /></Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onSelect={() => setDetail(r)}><Eye />View details</DropdownMenuItem>
+                          <DropdownMenuItem onSelect={() => setRoleEdit({ user: r, role: r.role })}><UserCog />Change role…</DropdownMenuItem>
+                          {r.isActive
+                            ? <DropdownMenuItem onSelect={() => setSuspending({ ids: [r.id] })}><Lock />Suspend…</DropdownMenuItem>
+                            : <DropdownMenuItem onSelect={() => activate([r.id])}><Unlock />Activate</DropdownMenuItem>}
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="text-destructive focus:text-destructive" disabled={isSelf(r.id)} onSelect={() => openDelete([r.id])}><Trash2 />Delete…</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <Pagination page={safePage} pageCount={pageCount} onPage={setPage} total={filtered.length} pageSize={PAGE_SIZE} />
+          </>
+        )}
+      </Card>
+
+      {/* Detail */}
+      <Dialog open={!!detail} onOpenChange={(o) => !o && setDetail(null)}>
+        <DialogContent>
+          {detail && (
+            <>
+              <DialogHeader>
+                <div className="flex items-center gap-3 pr-8">
+                  <Avatar src={detail.avatar} name={detail.name} className="h-12 w-12 text-sm" />
+                  <div className="min-w-0">
+                    <DialogTitle className="truncate">{detail.name}</DialogTitle>
+                    <DialogDescription className="truncate">{detail.email || 'No email on file'}</DialogDescription>
+                  </div>
+                </div>
+              </DialogHeader>
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge variant={roleVariant(detail.role)}>{roleLabel(detail.role)}</Badge>
+                <Badge variant={statusVariant(statusOf(detail))}>{statusLabel(detail)}</Badge>
+                {detail.verified && <Badge variant="success">Verified agent</Badge>}
+              </div>
+              <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-xs text-muted-foreground">
+                <div><dt className="uppercase tracking-wide">Phone</dt><dd className="mt-0.5 text-foreground">{detail.phone || '—'}</dd></div>
+                <div><dt className="uppercase tracking-wide">Listings</dt><dd className="mt-0.5 tabular-nums text-foreground">{detail.properties.toLocaleString()}</dd></div>
+                <div><dt className="uppercase tracking-wide">Joined</dt><dd className="mt-0.5 text-foreground">{formatDate(detail.createdAt)}</dd></div>
+                <div><dt className="uppercase tracking-wide">Last login</dt><dd className="mt-0.5 text-foreground">{formatDate(detail.lastLogin)}</dd></div>
+                <div className="col-span-2"><dt className="uppercase tracking-wide">User ID</dt><dd className="mt-0.5 break-all font-mono text-foreground">{detail.id}</dd></div>
+              </dl>
+              <DialogFooter>
+                <Button variant="destructive" size="sm" disabled={isSelf(detail.id)} onClick={() => openDelete([detail.id])}><Trash2 />Delete</Button>
+                <Button variant="outline" size="sm" onClick={() => setRoleEdit({ user: detail, role: detail.role })}><UserCog />Change role</Button>
+                {detail.isActive
+                  ? <Button variant="outline" size="sm" disabled={busy} onClick={() => setSuspending({ ids: [detail.id] })}><Lock />Suspend</Button>
+                  : <Button size="sm" disabled={busy} onClick={() => activate([detail.id])}><Unlock />Activate</Button>}
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Change role */}
+      <Dialog open={!!roleEdit} onOpenChange={(o) => !o && setRoleEdit(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Change role</DialogTitle>
+            <DialogDescription>{roleEdit?.user.name}{roleEdit?.user.email ? ` · ${roleEdit.user.email}` : ''}</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-2">
+            <Label htmlFor="new-role">New role</Label>
+            <Select value={roleEdit?.role || 'user'} onValueChange={(v) => setRoleEdit((s) => (s ? { ...s, role: v } : s))}>
+              <SelectTrigger id="new-role"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                {ROLES.map((r) => <SelectItem key={r} value={r}>{roleLabel(r)}</SelectItem>)}
+              </SelectContent>
+            </Select>
+            {roleEdit && isSelf(roleEdit.user.id) && roleEdit.role !== 'admin' && (
+              <p className="text-xs text-destructive">This is your own account. Leaving the admin role will lock you out of this panel.</p>
+            )}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setRoleEdit(null)}>Cancel</Button>
+            <Button disabled={busy || !roleEdit || roleEdit.role === roleEdit.user.role} onClick={saveRole}>Save role</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Suspend confirmation */}
+      <AlertDialog open={!!suspending} onOpenChange={(o) => !o && setSuspending(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Suspend {suspending?.ids.length === 1 ? 'this account' : `${suspending?.ids.length} accounts`}?</AlertDialogTitle>
+            <AlertDialogDescription>Suspended accounts are marked inactive. You can reactivate them at any time from this page.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction className="bg-destructive text-destructive-foreground hover:bg-destructive/90" disabled={busy} onClick={(e) => { e.preventDefault(); confirmSuspend(); }}>Suspend</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Delete confirmation */}
+      <AlertDialog open={!!deleting} onOpenChange={(o) => { if (!o) { setDeleting(null); setDeleteConfirm(''); } }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete {deleting?.ids.length === 1 ? 'this account' : `${deleting?.ids.length} accounts`}?</AlertDialogTitle>
+            <AlertDialogDescription>This removes the user profile from Firestore permanently. It cannot be undone.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <div className="space-y-2">
+            <Label htmlFor="delete-confirm">Type <span className="font-semibold text-destructive">DELETE</span> to confirm</Label>
+            <Input id="delete-confirm" value={deleteConfirm} onChange={(e) => setDeleteConfirm(e.target.value)} placeholder="DELETE" autoComplete="off" />
+          </div>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction className="bg-destructive text-destructive-foreground hover:bg-destructive/90" disabled={busy || deleteConfirm !== 'DELETE'} onClick={(e) => { e.preventDefault(); confirmDelete(); }}>Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
+  );
+};
+
+export default UserManagement;
