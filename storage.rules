@@ -1,9 +1,31 @@
 rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+    function isImage() {
+      return request.resource.contentType.matches('image/.*')
+        && request.resource.size < 10 * 1024 * 1024;
+    }
+
+    // Listing photos: properties/{ownerUid}/{file}. Public read; the owner uploads.
+    match /properties/{userId}/{fileName} {
+      allow read: if true;
+      allow create, update: if isOwner(userId) && isImage();
+      allow delete: if isOwner(userId);
+    }
+
+    // Profile photos: users/{uid}/{file}
+    match /users/{userId}/{fileName} {
+      allow read: if true;
+      allow create, update: if isOwner(userId) && isImage();
+      allow delete: if isOwner(userId);
+    }
+
+    // Legacy path used by older imports; readable, writable by signed-in users.
     match /property_images/{listingId}/{allPaths=**} {
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if isSignedIn() && isImage();
     }
   }
 }
