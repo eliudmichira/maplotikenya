@@ -11,7 +11,7 @@ const Hero = () => {
   const isDark = true;
   const navigate = useNavigate();
   // Same query key as the home page's Popular Areas, so this is served from cache.
-  const { data: listingData } = useProperties({ limit: 200 });
+  const { data: listingData } = useProperties({ limit: 1000 });
   const listingCount = Array.isArray(listingData?.properties) ? listingData.properties.length : 0;
   const [init, setInit] = useState(true);
   const [statsInView, setStatsInView] = useState(false);
@@ -695,7 +695,7 @@ const Hero = () => {
             </span>
             <span className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
               {listingCount > 0
-                ? `${listingCount.toLocaleString()}${listingCount >= 200 ? '+' : ''} verified listings across Kenya`
+                ? `${listingCount.toLocaleString()}${listingCount >= 1000 ? '+' : ''} verified listings across Kenya`
                 : 'Verified listings across Kenya'}
             </span>
           </motion.div>

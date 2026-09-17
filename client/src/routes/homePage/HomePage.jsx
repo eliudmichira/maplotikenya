@@ -256,7 +256,7 @@ const HomePage = () => {
   // Popular Areas needs the whole listing set: the featured query only
   // returns 6 cards, which is never enough to fill a 12-area grid. The
   // query is cached for 10 minutes so it doesn't refetch on every render.
-  const { data: areasData } = useProperties({ limit: 200 });
+  const { data: areasData } = useProperties({ limit: 1000 });
   const [areaCriteria, setAreaCriteria] = useState('popular');
   const popularAreas = useMemo(
     () => rankAreas(getAreasFromProperties(areasData?.properties || []), areaCriteria).slice(0, 12),

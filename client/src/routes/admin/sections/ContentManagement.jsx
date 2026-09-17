@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, updateDoc, doc, query, where, orderBy } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
+import { getPropertyImage } from '../../../utils/imageUtils';
 import {
   FileText,
   Search,
@@ -272,7 +273,7 @@ const ContentManagement = () => {
             <div key={property.id} className="bg-gray-50 dark:bg-dark-700 rounded-xl p-4 border border-gray-200 dark:border-dark-600">
               <div className="relative">
                 <img
-                  src={property.images[0]}
+                  src={getPropertyImage(property)}
                   alt={property.title}
                   className="w-full h-48 object-cover rounded-lg mb-4"
                 />
@@ -398,7 +399,7 @@ const ContentManagement = () => {
                 <div className="flex items-start gap-4">
                   {/* Image */}
                   <img
-                    src={property.images[0]}
+                    src={getPropertyImage(property)}
                     alt={property.title}
                     className="w-20 h-20 rounded-lg object-cover flex-shrink-0 bg-gray-100"
                   />
@@ -513,7 +514,7 @@ const ContentManagement = () => {
                       <div className="flex items-center">
                         <img
                           className="h-12 w-16 rounded-lg object-cover"
-                          src={property.images[0]}
+                          src={getPropertyImage(property)}
                           alt={property.title}
                         />
                         <div className="ml-4">

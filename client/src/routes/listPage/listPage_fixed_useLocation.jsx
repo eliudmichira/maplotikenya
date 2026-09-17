@@ -2892,7 +2892,7 @@ export default function MapView() {
   const geocodeCacheRef = useRef(null);
 
   // Data fetching hooks - must be at top level
-  let { data, isError, isLoading: propertiesLoading } = useProperties({ limit: 200 })
+  let { data, isError, isLoading: propertiesLoading } = useProperties({ limit: 1000 })
   const properties = data?.properties || []
 
   // Enhanced debugging for property data

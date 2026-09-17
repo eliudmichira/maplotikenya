@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { collection, getDocs, updateDoc, doc, query, orderBy, deleteDoc } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
+import { getPropertyImage } from '../../../utils/imageUtils';
 import {
   Home,
   Search,
@@ -215,7 +216,7 @@ const PropertyModeration = () => {
   const propertyStats = {
     total: properties.length,
     pending: properties.filter(p => p.status === 'pending').length,
-    approved: properties.filter(p => p.status === 'approved').length,
+    approved: properties.filter(p => ['approved', 'active', 'published', 'live'].includes(String(p.status || '').toLowerCase())).length,
     rejected: properties.filter(p => p.status === 'rejected').length
   };
 
@@ -348,7 +349,7 @@ const PropertyModeration = () => {
 
                   {/* Image */}
                   <img
-                    src={property.images[0]}
+                    src={getPropertyImage(property)}
                     alt={property.title}
                     className="w-20 h-20 rounded-lg object-cover flex-shrink-0 bg-gray-100"
                   />
@@ -488,7 +489,7 @@ const PropertyModeration = () => {
                     <div className="flex items-center">
                       <img
                         className="h-12 w-16 rounded-lg object-cover"
-                        src={property.images[0]}
+                        src={getPropertyImage(property)}
                         alt={property.title}
                       />
                       <div className="ml-4">
@@ -589,7 +590,7 @@ const PropertyModeration = () => {
 
             <div className="space-y-4">
               <img
-                src={selectedProperty.images[0]}
+                src={getPropertyImage(selectedProperty)}
                 alt={selectedProperty.title}
                 className="w-full h-48 object-cover rounded-lg"
               />
