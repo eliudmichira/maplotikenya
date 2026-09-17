@@ -40,7 +40,7 @@ import AdvancedFiltersSidebar from '../../components/enhanced/AdvancedFiltersSid
 import Logo from '../../components/Logo';
 import EnhancedMapComponent from '../../components/listPage/Map';
 import CartoFallbackMap from '../../components/GoogleMap/CartoFallbackMap';
-import { useGoogleMapsAuthFailed } from '../../lib/mapsStatus';
+import { useGoogleMapsAuthFailed, useGoogleMapsLoader, USE_GOOGLE_MAPS } from '../../lib/mapsStatus';
 import { getPropertyImages, handleImageError } from '../../utils/imageUtils';
 
 // Normalize coordinates to { lat, lng } using global bounds
@@ -162,7 +162,7 @@ const HAS_GOOGLE_MAPS_KEY = GOOGLE_MAPS_API_KEY.length > 0;
 const MAP_LIBRARIES = ['drawing', 'geometry', 'marker', 'places', 'visualization'];
 
 // Debug: Log the API key state
-if (!HAS_GOOGLE_MAPS_KEY) {
+if (!HAS_GOOGLE_MAPS_KEY && USE_GOOGLE_MAPS) {
   console.error('[Maps] VITE_GOOGLE_MAPS_API_KEY is missing. In dev, add it to client/.env.local then restart (npm run dev).');
 }
 
@@ -2397,7 +2397,7 @@ export default function MapView() {
   // Google Maps JS loader with enhanced error handling
   // True once Google rejects the key (unbilled / restricted); the CARTO map takes over.
   const mapsAuthFailed = useGoogleMapsAuthFailed();
-  const { isLoaded, loadError } = useJsApiLoader({
+  const { isLoaded, loadError } = useGoogleMapsLoader({
     id: 'google-map-script',
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
     libraries: MAP_LIBRARIES,
@@ -3673,7 +3673,7 @@ export default function MapView() {
               >
                 <X className="w-4 h-4" />
               </button>
-              {!HAS_GOOGLE_MAPS_KEY || mapsApiError || !!loadError || mapsAuthFailed ? (
+              {!USE_GOOGLE_MAPS || !HAS_GOOGLE_MAPS_KEY || mapsApiError || !!loadError || mapsAuthFailed ? (
                 <CartoFallbackView
                   propertyData={filteredData}
                   onPropertySelect={handlePropertySelect}
@@ -3904,6 +3904,7 @@ function CartoFallbackView({ propertyData, onPropertySelect }) {
         onItemSelect={handleSelect}
         showStyleSelector
         showCountBadge
+        fitToItems
         count={propertyData?.length || 0}
       />
 

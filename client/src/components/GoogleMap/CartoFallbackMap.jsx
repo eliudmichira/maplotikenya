@@ -58,7 +58,26 @@ function formatPrice(price) {
   return `Ksh ${Math.round(n).toLocaleString()}`;
 }
 
-// Green price-pill marker (divIcon) mirroring the Google Maps look.
+// Cluster bubble in the brand amber, sized by how many listings it holds.
+function buildClusterIcon(cluster) {
+  const count = cluster.getChildCount();
+  const size = count >= 100 ? 46 : count >= 20 ? 40 : 34;
+  return L.divIcon({
+    html: `<div style="
+      width:${size}px;height:${size}px;border-radius:999px;
+      background:#fbbf24;color:#111;border:3px solid rgba(255,255,255,0.9);
+      box-shadow:0 2px 8px rgba(0,0,0,0.3);
+      display:flex;align-items:center;justify-content:center;
+      font:700 ${count >= 100 ? 12 : 13}px/1 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;">
+      ${count}
+    </div>`,
+    className: 'maploti-cluster',
+    iconSize: [size, size],
+    iconAnchor: [size / 2, size / 2],
+  });
+}
+
+// Amber price-pill marker (divIcon) mirroring the Google Maps look.
 function buildPillIcon(label, { featured = false, selected = false } = {}) {
   const bg = selected ? (featured ? '#d97706' : '#000000') : (featured ? '#f59e0b' : '#fbbf24');
   const html = `
@@ -90,6 +109,17 @@ function buildPillIcon(label, { featured = false, selected = false } = {}) {
   });
 }
 
+// Keep the points between the 5th and 95th percentile on each axis.
+function trimOutliers(positions) {
+  const pick = (arr, q) => arr[Math.min(arr.length - 1, Math.max(0, Math.floor(arr.length * q)))];
+  const lats = positions.map(p => p.lat).sort((a, b) => a - b);
+  const lngs = positions.map(p => p.lng).sort((a, b) => a - b);
+  const latLo = pick(lats, 0.05), latHi = pick(lats, 0.95);
+  const lngLo = pick(lngs, 0.05), lngHi = pick(lngs, 0.95);
+  const core = positions.filter(p => p.lat >= latLo && p.lat <= latHi && p.lng >= lngLo && p.lng <= lngHi);
+  return core.length >= 2 ? core : positions;
+}
+
 function FitBounds({ items }) {
   const map = useMap();
   React.useEffect(() => {
@@ -99,7 +129,10 @@ function FitBounds({ items }) {
       map.setView([positions[0].lat, positions[0].lng], Math.max(map.getZoom(), 13));
       return;
     }
-    const bounds = L.latLngBounds(positions.map(p => [p.lat, p.lng]));
+    // Fit the dense core, not the outliers: a few listings geocoded to the
+    // wrong town would otherwise zoom the map out until the city is one blob.
+    const core = positions.length >= 20 ? trimOutliers(positions) : positions;
+    const bounds = L.latLngBounds(core.map(p => [p.lat, p.lng]));
     map.fitBounds(bounds, { padding: [40, 40], maxZoom: 15 });
   }, [items, map]);
   return null;
@@ -195,7 +228,12 @@ const CartoFallbackMap = ({
         {/* Cluster + cull: removeOutsideVisibleBounds (default) only keeps
             markers near the viewport, so 500 markers stay fast while
             panning/zooming. */}
-        <MarkerClusterGroup maxClusterRadius={60} showCoverageOnHover={false}>
+        <MarkerClusterGroup
+          maxClusterRadius={50}
+          showCoverageOnHover={false}
+          spiderfyOnMaxZoom
+          iconCreateFunction={buildClusterIcon}
+        >
 
         {normalized.map(({ item, position }, index) => {
           const label = formatPrice(item.price);

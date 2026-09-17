@@ -8,7 +8,7 @@ import {
     DrawingManager
 } from '@react-google-maps/api';
 import CartoFallbackMap from '../GoogleMap/CartoFallbackMap';
-import { useGoogleMapsAuthFailed } from '../../lib/mapsStatus';
+import { useGoogleMapsAuthFailed, useGoogleMapsLoader } from '../../lib/mapsStatus';
 
 const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -121,7 +121,7 @@ const MapView = ({
     ...rest
 }) => {
     const mapsAuthFailed = useGoogleMapsAuthFailed();
-    const { isLoaded, loadError } = useJsApiLoader({
+    const { isLoaded, loadError } = useGoogleMapsLoader({
         id: 'google-map-script',
         googleMapsApiKey: GOOGLE_MAPS_API_KEY,
         libraries,
