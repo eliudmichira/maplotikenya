@@ -52,9 +52,14 @@ service cloud.firestore {
     }
 
     // Public content, admin-managed
+    // An agent's profile lives at agents/{uid}. The user may create and
+    // update their own profile (this is how the verification request form
+    // works) but can never mark themselves verified; only admins can.
     match /agents/{agentId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow create, update: if isAdmin()
+        || (isOwner(agentId) && request.resource.data.verified != true);
+      allow delete: if isAdmin();
     }
     match /blogPosts/{postId} {
       allow read: if true;

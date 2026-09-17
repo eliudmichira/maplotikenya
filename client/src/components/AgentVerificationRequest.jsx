@@ -23,6 +23,7 @@ const AgentVerificationRequest = ({ onClose, onSuccess }) => {
   const { isDark } = useTheme();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const [submitError, setSubmitError] = useState('');
   const [errors, setErrors] = useState({});
 
   const [formData, setFormData] = useState({
@@ -188,10 +189,12 @@ const AgentVerificationRequest = ({ onClose, onSuccess }) => {
           onClose && onClose();
         }, 2000);
       } else {
+        setSubmitError(result.error || '');
         setSubmitStatus('error');
       }
     } catch (error) {
       console.error('Error submitting verification request:', error);
+      setSubmitError(error?.message || '');
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -249,7 +252,7 @@ const AgentVerificationRequest = ({ onClose, onSuccess }) => {
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto">
       <div className={`max-w-2xl w-full ${isDark ? 'bg-gray-800' : 'bg-white'} rounded-2xl shadow-2xl max-h-[90vh] overflow-y-auto`}>
         {/* Header */}
-        <div className="sticky top-0 p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10">
+        <div className={`sticky top-0 z-10 p-6 border-b ${isDark ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'}`}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] flex items-center justify-center">
@@ -558,7 +561,7 @@ const AgentVerificationRequest = ({ onClose, onSuccess }) => {
             <div className="flex items-center gap-3 p-4 rounded-xl bg-red-50 dark:bg-red-900/20">
               <AlertCircle className="w-5 h-5 text-red-500" />
               <p className="text-red-700 dark:text-red-300">
-                There was an error submitting your request. Please try again.
+                {submitError || 'There was an error submitting your request. Please try again.'}
               </p>
             </div>
           )}

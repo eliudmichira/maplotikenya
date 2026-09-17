@@ -608,16 +608,20 @@ export const AuthProvider = ({ children }) => {
 
   // Request agent verification
   const requestAgentVerification = async (agentData) => {
-    if (!currentUser?.id) {
-      return { success: false, error: 'User not authenticated' };
+    // Right after sign-up the context user may not have populated yet, so
+    // fall back to the Firebase auth session before giving up.
+    const authUser = auth.currentUser;
+    const uid = currentUser?.id || authUser?.uid;
+    if (!uid) {
+      return { success: false, error: 'Please sign in first, then submit your verification request.' };
     }
 
     try {
-      const result = await agentVerificationAPI.requestVerification(currentUser.id, {
+      const result = await agentVerificationAPI.requestVerification(uid, {
         ...agentData,
-        userId: currentUser.id,
-        email: currentUser.email,
-        name: currentUser.name || currentUser.username || agentData.fullName
+        userId: uid,
+        email: currentUser?.email || authUser?.email || '',
+        name: currentUser?.name || currentUser?.username || authUser?.displayName || agentData.fullName
       });
 
       if (result.success) {
@@ -627,7 +631,13 @@ export const AuthProvider = ({ children }) => {
       return result;
     } catch (error) {
       console.error('Error requesting agent verification:', error);
-      return { success: false, error: error.message };
+      const denied = error?.code === 'permission-denied' || /insufficient permissions/i.test(error?.message || '');
+      return {
+        success: false,
+        error: denied
+          ? 'Your account is not allowed to submit this yet. The Firestore rules for the agents collection need to be deployed.'
+          : (error?.message || 'Something went wrong. Please try again.')
+      };
     }
   };
 
