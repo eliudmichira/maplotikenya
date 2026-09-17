@@ -288,8 +288,10 @@ export const PageLoader = ({ text = 'Finding your perfect home' }) => (
   </div>
 );
 
-export const DashboardLoader = ({ text = 'Loading your dashboard...' }) => (
-  <Preloader variant="dashboard" text={text} />
+// Dashboards load behind the branded full-page loader rather than a
+// cramped grey skeleton in a narrow column.
+export const DashboardLoader = ({ text = 'Loading your dashboard' }) => (
+  <PageLoader text={text.replace(/\.{3}$/, '')} />
 );
 
 export const PropertyLoader = ({ text = 'Loading properties...' }) => (

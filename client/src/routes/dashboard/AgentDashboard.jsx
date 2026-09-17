@@ -227,10 +227,10 @@ const AgentDashboard = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/20 flex items-center justify-center">
-              <Building2 className="w-6 h-6 text-emerald-500" />
+            <div className="w-12 h-12 rounded-xl bg-[#fbbf24]/15 flex items-center justify-center">
+              <Building2 className="w-6 h-6 text-[#f59e0b]" />
             </div>
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Active Listings</p>
@@ -239,10 +239,10 @@ const AgentDashboard = () => {
           </div>
         </div>
 
-        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/20 flex items-center justify-center">
-              <Eye className="w-6 h-6 text-green-500" />
+            <div className="w-12 h-12 rounded-xl bg-[#fbbf24]/15 flex items-center justify-center">
+              <Eye className="w-6 h-6 text-[#f59e0b]" />
             </div>
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Total Views</p>
@@ -251,10 +251,10 @@ const AgentDashboard = () => {
           </div>
         </div>
 
-        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/20 flex items-center justify-center">
-              <MessageCircle className="w-6 h-6 text-purple-500" />
+            <div className="w-12 h-12 rounded-xl bg-[#fbbf24]/15 flex items-center justify-center">
+              <MessageCircle className="w-6 h-6 text-[#f59e0b]" />
             </div>
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Total Inquiries</p>
@@ -263,7 +263,7 @@ const AgentDashboard = () => {
           </div>
         </div>
 
-        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-yellow-100 dark:bg-yellow-900/20 flex items-center justify-center">
               <DollarSign className="w-6 h-6 text-yellow-500" />
@@ -277,7 +277,7 @@ const AgentDashboard = () => {
       </div>
 
       {/* Quick Actions */}
-      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button
@@ -311,7 +311,7 @@ const AgentDashboard = () => {
   // Properties Section Component
   const PropertiesSection = () => (
     <div className="space-y-6">
-      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">My Properties</h2>
           <button
@@ -438,7 +438,7 @@ const AgentDashboard = () => {
   // Inquiries Section Component
   const InquiriesSection = () => (
     <div className="space-y-6">
-      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Inquiries</h2>
           <span className="text-sm text-gray-600 dark:text-gray-400">{inquiries.length} total inquiries</span>
@@ -469,9 +469,9 @@ const AgentDashboard = () => {
                     </p>
                   </div>
                   <div className="flex flex-col items-end gap-2 flex-shrink-0">
-                    <span className={`text-xs px-2 py-1 rounded-full ${inquiry.status === 'new' ? 'bg-emerald-100 text-emerald-800' :
-                        inquiry.status === 'active' ? 'bg-green-100 text-green-800' :
-                          inquiry.status === 'responded' ? 'bg-green-100 text-green-800' :
+                    <span className={`text-xs px-2 py-1 rounded-full ${inquiry.status === 'new' ? 'bg-amber-100 text-amber-800' :
+                        inquiry.status === 'active' ? 'bg-gray-100 text-gray-800' :
+                          inquiry.status === 'responded' ? 'bg-gray-100 text-gray-800' :
                             'bg-gray-100 text-gray-800'
                       }`}>
                       {inquiry.status || 'new'}
@@ -517,7 +517,7 @@ const AgentDashboard = () => {
   // Bookings Section Component
   const BookingsSection = () => (
     <div className="space-y-6">
-      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Viewing Requests</h2>
           <span className="text-sm text-gray-600 dark:text-gray-400">{bookings.length} total requests</span>
@@ -537,8 +537,8 @@ const AgentDashboard = () => {
               <div key={booking.id} className={`p-4 rounded-xl border ${isDark ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'}`}>
                 <div className="flex flex-col sm:flex-row justify-between gap-4">
                   <div className="flex items-start gap-4 min-w-0">
-                    <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/20 flex items-center justify-center flex-shrink-0">
-                      <Calendar className="w-6 h-6 text-emerald-500" />
+                    <div className="w-12 h-12 rounded-xl bg-[#fbbf24]/15 flex items-center justify-center flex-shrink-0">
+                      <Calendar className="w-6 h-6 text-[#f59e0b]" />
                     </div>
                     <div>
                       <h4 className="font-semibold text-gray-900 dark:text-white">
@@ -560,7 +560,7 @@ const AgentDashboard = () => {
                   <div className="flex items-center gap-2 sm:self-center">
                     <span className={`text-xs px-2 py-1 rounded-full ${
                       booking.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                      booking.status === 'confirmed' ? 'bg-green-100 text-green-800' :
+                      booking.status === 'confirmed' ? 'bg-gray-100 text-gray-800' :
                       'bg-gray-100 text-gray-800'
                     }`}>
                       {booking.status || 'pending'}
@@ -596,7 +596,7 @@ const AgentDashboard = () => {
   // Analytics Section Component
   const AnalyticsSection = () => (
     <div className="space-y-6">
-      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
         <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Analytics Overview</h2>
           <select className={`px-4 py-2 min-h-[44px] rounded-lg text-sm font-medium ${isDark ? 'bg-gray-700 text-white' : 'bg-gray-100 text-gray-900'} border-none focus:ring-2 focus:ring-[#fbbf24]`}>

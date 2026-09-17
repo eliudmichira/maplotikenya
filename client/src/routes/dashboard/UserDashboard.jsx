@@ -196,57 +196,57 @@ const UserDashboard = () => {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
               <Heart className="w-6 h-6 text-red-500" />
             </div>
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Favorites</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{userAnalytics.totalFavorites}</p>
+              <p className="text-2xl md:text-3xl font-bold tabular-nums text-gray-900 dark:text-white">{userAnalytics.totalFavorites}</p>
             </div>
           </div>
         </div>
 
-        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-900/20 flex items-center justify-center">
-              <Search className="w-6 h-6 text-emerald-500" />
+            <div className="w-12 h-12 rounded-xl bg-[#fbbf24]/15 flex items-center justify-center">
+              <Search className="w-6 h-6 text-[#f59e0b]" />
             </div>
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Saved Searches</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{savedSearches?.length || 0}</p>
+              <p className="text-2xl md:text-3xl font-bold tabular-nums text-gray-900 dark:text-white">{savedSearches?.length || 0}</p>
             </div>
           </div>
         </div>
 
-        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/20 flex items-center justify-center">
-              <Eye className="w-6 h-6 text-green-500" />
+            <div className="w-12 h-12 rounded-xl bg-[#fbbf24]/15 flex items-center justify-center">
+              <Eye className="w-6 h-6 text-[#f59e0b]" />
             </div>
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Properties Viewed</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{viewedProperties.length}</p>
+              <p className="text-2xl md:text-3xl font-bold tabular-nums text-gray-900 dark:text-white">{viewedProperties.length}</p>
             </div>
           </div>
         </div>
 
-        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/20 flex items-center justify-center">
-              <Star className="w-6 h-6 text-purple-500" />
+            <div className="w-12 h-12 rounded-xl bg-[#fbbf24]/15 flex items-center justify-center">
+              <Star className="w-6 h-6 text-[#f59e0b]" />
             </div>
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-400">Recommendations</p>
-              <p className="text-2xl font-bold text-gray-900 dark:text-white">{recommendedProperties.length}</p>
+              <p className="text-2xl md:text-3xl font-bold tabular-nums text-gray-900 dark:text-white">{recommendedProperties.length}</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Quick Actions */}
-      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <button
@@ -280,7 +280,7 @@ const UserDashboard = () => {
   // Favorites Section Component
   const FavoritesSection = () => (
     <div className="space-y-6">
-      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
         <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Your Favorites</h2>
           <span className="text-sm text-gray-600 dark:text-gray-400">{userFavorites.length} properties</span>
@@ -339,7 +339,7 @@ const UserDashboard = () => {
   // Searches Section Component
   const SearchesSection = () => (
     <div className="space-y-6">
-      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
         <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Saved Searches</h2>
           <span className="text-sm text-gray-600 dark:text-gray-400">{savedSearches?.length || 0} searches</span>
@@ -386,7 +386,7 @@ const UserDashboard = () => {
   // Activity Section Component
   const ActivitySection = () => (
     <div className="space-y-6">
-      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
         <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-6">Recent Activity</h2>
 
         <div className="space-y-4">
@@ -431,7 +431,7 @@ const UserDashboard = () => {
   // Recommendations Section Component
   const RecommendationsSection = () => (
     <div className="space-y-6">
-      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
         <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-6">Recommended for You</h2>
 
         {recommendedProperties.length > 0 ? (
@@ -507,7 +507,7 @@ const UserDashboard = () => {
   // Bookings Section Component
   const BookingsSection = () => (
     <div className="space-y-6">
-      <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
         <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
           <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Your Bookings</h2>
           <span className="text-sm text-gray-600 dark:text-gray-400">{userBookings.length} appointments</span>
@@ -618,7 +618,7 @@ const UserDashboard = () => {
 
     return (
       <div className="space-y-6">
-        <div className={`p-4 sm:p-6 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
+        <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
           <div className="flex items-center gap-3 mb-6">
             <div className="w-12 h-12 rounded-xl bg-[#fbbf24]/20 flex items-center justify-center flex-shrink-0">
               <TrendingUp className={`w-6 h-6 ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`} />
@@ -840,8 +840,8 @@ const UserDashboard = () => {
                 key={section.id}
                 onClick={() => setActiveSection(section.id)}
                 className={`relative flex items-center gap-2 md:gap-3 px-4 py-2.5 md:px-6 md:py-3 min-h-[44px] rounded-2xl text-sm md:text-base font-semibold transition-all duration-300 overflow-hidden ${activeSection === section.id
-                  ? 'bg-gradient-to-r from-primary-400 to-primary-500 text-white shadow-primary'
-                  : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 shadow-elevation-1 hover:shadow-elevation-2'
+                  ? 'bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] shadow-lg shadow-[#fbbf24]/25'
+                  : `${isDark ? 'bg-[#111111] border border-white/10 text-gray-300 hover:border-[#fbbf24]/40 hover:text-white' : 'bg-white border border-gray-200 text-gray-700 hover:border-[#fbbf24]/60 hover:text-gray-900'}`
                   }`}
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
