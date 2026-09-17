@@ -3,12 +3,13 @@ import { useJsApiLoader } from '@react-google-maps/api';
 
 // Which basemap the site uses.
 //
-//   VITE_MAPS_PROVIDER=carto   (default) free CARTO / OpenStreetMap tiles via
-//                              Leaflet. No key, no billing.
+//   VITE_MAPS_PROVIDER=carto   (default) the free map: OpenFreeMap vector tiles
+//                              (OpenStreetMap data) via MapLibre + Leaflet. No
+//                              key, no registration, no billing.
 //   VITE_MAPS_PROVIDER=google  Google Maps, which needs VITE_GOOGLE_MAPS_API_KEY
 //                              on a project with billing enabled.
 //
-// Even with Google selected, the site falls back to CARTO on its own when
+// Even with Google selected, the site falls back to the free map on its own when
 // Google rejects the key (gm_authFailure) or serves the unbilled
 // "For development purposes only" map, and remembers that for the session.
 
