@@ -2809,6 +2809,7 @@ export default function MapView() {
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState({
     listingType: 'all', // 'all' | 'rent' | 'sale'
+    propertyType: '', // 'apartment' | 'house' | 'villa' | 'plot' (from the area directory)
     minPrice: '',
     maxPrice: '',
     minBeds: '',
@@ -2953,6 +2954,22 @@ export default function MapView() {
     const searchParam = urlParams.get('search');
     if (searchParam) {
       setSearchQuery(decodeURIComponent(searchParam));
+    }
+    // Filters carried over from the area directory (and shareable links).
+    const listingType = urlParams.get('listingType');
+    const propertyType = urlParams.get('propertyType');
+    const minBeds = urlParams.get('minBeds');
+    const minPrice = urlParams.get('minPrice');
+    const maxPrice = urlParams.get('maxPrice');
+    if (listingType || propertyType || minBeds || minPrice || maxPrice) {
+      setFilters((prev) => ({
+        ...prev,
+        ...(listingType && ['rent', 'sale', 'all'].includes(listingType) ? { listingType } : {}),
+        ...(propertyType ? { propertyType: propertyType.toLowerCase() } : {}),
+        ...(minBeds ? { minBeds } : {}),
+        ...(minPrice ? { minPrice } : {}),
+        ...(maxPrice ? { maxPrice } : {}),
+      }));
     }
   }, [location.search]);
 
@@ -3299,9 +3316,16 @@ export default function MapView() {
       });
     }
 
+    if (filters.propertyType) {
+      filtered = filtered.filter(property => {
+        const propertyType = String(property.propertyType || property.property_type || property.type || '').toLowerCase();
+        return propertyType.includes(filters.propertyType);
+      });
+    }
+
     if (filters.homeTypes.length > 0) {
       filtered = filtered.filter(property => {
-        const propertyType = property.property_type || property.type || '';
+        const propertyType = property.propertyType || property.property_type || property.type || '';
         return filters.homeTypes.some(type =>
           propertyType.toLowerCase().includes(type.toLowerCase())
         );
