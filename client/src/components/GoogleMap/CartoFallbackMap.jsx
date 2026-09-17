@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, Marker, Popup, useMap } from 'react-leaflet';
+import '@maplibre/maplibre-gl-leaflet';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import 'react-leaflet-cluster/lib/assets/MarkerCluster.css';
 import 'react-leaflet-cluster/lib/assets/MarkerCluster.Default.css';
@@ -17,13 +19,35 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-// CARTO (CartoDB) basemap tiles — free to use with attribution, powered by OpenStreetMap data.
-// https://carto.com/basemaps/
-const CARTO_LIGHT_TILES = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
-const CARTO_DARK_TILES = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
-const CARTO_SUBDOMAINS = 'abcd';
-const CARTO_ATTRIBUTION =
-  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+// OpenFreeMap vector basemaps: no API key, no registration, no request limits.
+// (CARTO's raster basemaps now require a key and watermark unkeyed requests.)
+// Rendered by MapLibre GL inside the Leaflet map so markers and clustering
+// stay in Leaflet. Attribution is required: https://openfreemap.org
+const BASEMAP_LIGHT = 'https://tiles.openfreemap.org/styles/liberty';
+const BASEMAP_DARK = 'https://tiles.openfreemap.org/styles/dark';
+const BASEMAP_ATTRIBUTION =
+  '<a href="https://openfreemap.org">OpenFreeMap</a> &copy; <a href="https://www.openmaptiles.org/">OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
+
+// Vector basemap layer. Recreated when the theme flips so the style swaps cleanly.
+function VectorBasemap({ dark }) {
+  const map = useMap();
+  React.useEffect(() => {
+    if (typeof L.maplibreGL !== 'function') return undefined;
+    const layer = L.maplibreGL({
+      style: dark ? BASEMAP_DARK : BASEMAP_LIGHT,
+      attribution: BASEMAP_ATTRIBUTION,
+      interactive: false,
+    });
+    layer.addTo(map);
+    // Add the credit ourselves as well, so it shows even before the style loads.
+    map.attributionControl?.addAttribution(BASEMAP_ATTRIBUTION);
+    return () => {
+      map.attributionControl?.removeAttribution(BASEMAP_ATTRIBUTION);
+      map.removeLayer(layer);
+    };
+  }, [map, dark]);
+  return null;
+}
 
 const DEFAULT_CENTER = { lat: -1.2921, lng: 36.8219 }; // Nairobi, Kenya
 const DEFAULT_ZOOM = 10;
@@ -159,8 +183,9 @@ function MapResizeHandler() {
 }
 
 /**
- * Fallback interactive map using CARTO (CartoDB) basemap tiles powered by OpenStreetMap data.
- * Renders when the Google Maps API key is missing or fails to load.
+ * The site's free map: OpenFreeMap vector tiles (OpenStreetMap data) drawn by
+ * MapLibre inside a Leaflet map, with Leaflet markers and clustering on top.
+ * Used by default, and as the fallback whenever Google Maps is unavailable.
  *
  * Accepts an array of either:
  *   - markers: { id, position: {lat,lng}, title, price, onClick, featured, selected, onMouseEnter, onMouseLeave }
@@ -203,27 +228,15 @@ const CartoFallbackMap = ({
       <MapContainer
         center={startCenter}
         zoom={zoom || DEFAULT_ZOOM}
+        minZoom={5}
+        maxZoom={19}
         // Absolute fill: avoids 0-height collapse when the parent only has
         // a min-height (percentage height chains resolve to auto).
         style={{ position: 'absolute', inset: 0 }}
         scrollWheelZoom
       >
         <MapResizeHandler />
-        {/* key forces a clean tile swap when the theme changes. updateWhenIdle
-            and keepBuffer are Leaflet's equivalent of a cancellable tile
-            provider: tiles are only requested once panning settles and a
-            small ring outside the viewport is kept, so a marker-heavy map
-            does not flood the tile CDN on every drag. */}
-        <TileLayer
-          key={dark ? 'dark' : 'light'}
-          attribution={CARTO_ATTRIBUTION}
-          url={dark ? CARTO_DARK_TILES : CARTO_LIGHT_TILES}
-          subdomains={CARTO_SUBDOMAINS}
-          maxZoom={20}
-          updateWhenIdle
-          updateWhenZooming={false}
-          keepBuffer={2}
-        />
+        <VectorBasemap dark={dark} />
         {fitToItems && <FitBounds items={items} />}
         {/* Cluster + cull: removeOutsideVisibleBounds (default) only keeps
             markers near the viewport, so 500 markers stay fast while
