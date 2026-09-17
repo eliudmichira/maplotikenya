@@ -11,10 +11,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip as RechartsTooltip,
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell
+  ResponsiveContainer
 } from 'recharts';
 import { useProperties } from '../../hooks/useProperties';
 import { SimpleSpinner, SimpleLoadingDots } from '../../components/SimpleLoadingStates';
@@ -610,8 +607,6 @@ const UserDashboard = () => {
       return { total: list.length, avgPrice, topTypesData, topLocationsData, withPrice: withPrice.length };
     }, [data]);
 
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
-
     if (isPropertiesLoading) {
        return <div className="flex justify-center py-12"><SimpleSpinner size="md" /></div>;
     }
@@ -630,11 +625,11 @@ const UserDashboard = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
-            <div className={`p-6 rounded-xl border ${isDark ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'}`}>
+            <div className={`p-5 rounded-2xl border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-gray-50 border-gray-200'}`}>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Total Market Listings</p>
               <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
             </div>
-            <div className={`p-6 rounded-xl border ${isDark ? 'bg-gray-700 border-gray-600' : 'bg-gray-50 border-gray-200'}`}>
+            <div className={`p-5 rounded-2xl border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-gray-50 border-gray-200'}`}>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Average Market Price</p>
               <p className={`text-2xl md:text-3xl font-bold break-words ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>
                 {stats.avgPrice ? new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', maximumFractionDigits: 0 }).format(stats.avgPrice) : '—'}
@@ -643,12 +638,12 @@ const UserDashboard = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
-             <div className={`p-5 rounded-xl border ${isDark ? 'bg-gray-700/30 border-gray-700' : 'bg-gray-50 border-gray-100'}`}>
-                <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Properties by Location</h3>
+             <div className={`p-5 rounded-2xl border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-gray-50 border-gray-200'}`}>
+                <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Listings by area</h3>
                 <div className="h-64 w-full">
                     <ResponsiveContainer width="100%" height="100%">
                         <BarChart data={stats.topLocationsData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDark ? '#374151' : '#e5e7eb'} />
+                            <CartesianGrid vertical={false} stroke={isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'} />
                             <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: isDark ? '#9ca3af' : '#6b7280', fontSize: 12}} dy={10} />
                             <YAxis axisLine={false} tickLine={false} tick={{fill: isDark ? '#9ca3af' : '#6b7280', fontSize: 12}} />
                             <RechartsTooltip 
@@ -661,31 +656,16 @@ const UserDashboard = () => {
                  </div>
             </div>
 
-            <div className={`p-5 rounded-xl border ${isDark ? 'bg-gray-700/30 border-gray-700' : 'bg-gray-50 border-gray-100'}`}>
-                <h3 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Properties by Type</h3>
-                <div className="h-64 w-full flex items-center justify-center">
+            <div className={`p-5 rounded-2xl border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-gray-50 border-gray-200'}`}>
+                <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Listings by type</h3>
+                <div className="h-64 w-full">
                     <ResponsiveContainer width="100%" height="100%">
-                        <PieChart>
-                          <Pie
-                            data={stats.topTypesData}
-                            cx="50%"
-                            cy="50%"
-                            innerRadius={60}
-                            outerRadius={80}
-                            fill="#8884d8"
-                            paddingAngle={5}
-                            dataKey="count"
-                            label={({name, percent}) => `${name} ${(percent * 100).toFixed(0)}%`}
-                            labelLine={false}
-                          >
-                            {stats.topTypesData.map((entry, index) => (
-                              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                            ))}
-                          </Pie>
-                          <RechartsTooltip 
-                             contentStyle={{ backgroundColor: isDark ? '#1f2937' : '#ffffff', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
-                          />
-                        </PieChart>
+                        <BarChart data={stats.topTypesData} layout="vertical" margin={{ top: 4, right: 40, left: 0, bottom: 4 }} barCategoryGap={10}>
+                            <XAxis type="number" hide />
+                            <YAxis type="category" dataKey="name" width={110} axisLine={false} tickLine={false} tick={{ fill: isDark ? '#a3a3a3' : '#6b6b6b', fontSize: 12 }} />
+                            <RechartsTooltip cursor={{ fill: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)' }} contentStyle={{ backgroundColor: isDark ? '#111111' : '#ffffff', borderRadius: 10, border: `1px solid ${isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.1)'}`, color: isDark ? '#f2f2f2' : '#111111', fontSize: 13 }} />
+                            <Bar dataKey="count" name="Listings" fill="#fbbf24" radius={[0, 4, 4, 0]} barSize={14} />
+                        </BarChart>
                     </ResponsiveContainer>
                  </div>
             </div>
