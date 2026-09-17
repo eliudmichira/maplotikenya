@@ -194,16 +194,21 @@ const Navbar = () => {
     }
   };
 
+  const isHeroTransparent = isHomePage && !isScrolled && !isMenuOpen;
+
   return (
     <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${isDark
-        ? isScrolled
-          ? "bg-[#000000]/95 shadow-[0_8px_32px_rgba(0,0,0,0.4)] border-b border-[rgba(251,191,36,0.15)]"
-          : "bg-[#0A0A0A] border-b border-white/5 lg:bg-transparent lg:border-transparent"
-        : isScrolled
-          ? "bg-white/95 shadow-[0_8px_32px_rgba(0,0,0,0.1)] border-b border-gray-200/50"
-          : "bg-white border-b border-gray-200/60 lg:bg-transparent lg:border-transparent"
-        } backdrop-blur-xl`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${
+        isHeroTransparent
+          ? "bg-transparent border-transparent backdrop-blur-sm"
+          : isDark
+            ? isScrolled
+              ? "bg-[#000000]/95 shadow-[0_8px_32px_rgba(0,0,0,0.4)] border-b border-[rgba(251,191,36,0.15)] backdrop-blur-xl"
+              : "bg-[#0A0A0A] border-b border-white/5 lg:bg-transparent lg:border-transparent backdrop-blur-xl"
+            : isScrolled
+              ? "bg-white/95 shadow-[0_8px_32px_rgba(0,0,0,0.1)] border-b border-gray-200/50 backdrop-blur-xl"
+              : "bg-white border-b border-gray-200/60 lg:bg-transparent lg:border-transparent backdrop-blur-xl"
+      }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
