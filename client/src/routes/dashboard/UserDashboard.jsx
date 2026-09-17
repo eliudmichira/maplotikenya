@@ -583,7 +583,7 @@ const UserDashboard = () => {
 
   // Insights Section Component
   const InsightsSection = () => {
-    const { data, isLoading: isPropertiesLoading } = useProperties();
+    const { data, isLoading: isPropertiesLoading } = useProperties({ limit: 1000 });
     
     const stats = React.useMemo(() => {
       const list = data?.properties || [];

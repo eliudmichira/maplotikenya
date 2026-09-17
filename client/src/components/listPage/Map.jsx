@@ -134,7 +134,7 @@ const DEFAULT_ZOOM = 10; // Closer zoom for city view
 
 const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover, onPropertySelect, drawnBounds, setDrawnBounds, mapTheme, setMapTheme, mapCenter, setMapCenter, mapZoom, setMapZoom }) => {
 
-    let { data, isError, isLoading: propertiesLoading } = useProperties()
+    let { data, isError, isLoading: propertiesLoading } = useProperties({ limit: 1000 })
     const properties = data?.properties || []
 
     const [selectedProperty, setSelectedProperty] = useState(null);
