@@ -7,7 +7,8 @@ import AreaImageCarousel from '../../components/AreaImageCarousel';
 
 const AreaDirectory = () => {
   const { isDark } = useTheme();
-  const { data, isLoading } = useProperties();
+  // Same query key as the home page so the directory and Popular Areas agree.
+  const { data, isLoading } = useProperties({ limit: 1000 });
   const [query, setQuery] = useState('');
   const [sort, setSort] = useState('count'); // 'count' | 'az'
 
