@@ -1,187 +1,308 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Check, X, Search, Shield, Mail, Phone, Calendar, Loader2 } from 'lucide-react';
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import { Check, X, Search, UserCheck, Loader2, MoreHorizontal, Eye } from 'lucide-react';
 import { db } from '../../../lib/firebase';
 import { agentVerificationAPI } from '../../../lib/firebaseAPI';
-import { SpinnerLoader } from '../../../components/Preloader';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import { Input, Textarea } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/table';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter
+} from '@/components/ui/dialog';
+import {
+  DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator
+} from '@/components/ui/dropdown-menu';
+import { PageHeader, StatGrid, Toolbar, EmptyState, formatDate } from '@/components/admin/primitives';
+
+// Agent profiles live at agents/{uid}. An agent asks for verification from
+// their dashboard (verificationRequested: true); an admin approves or
+// declines here, which only flips `verified` on that document.
+
+const TABS = [
+  { id: 'pending', label: 'Pending' },
+  { id: 'verified', label: 'Verified' },
+  { id: 'unverified', label: 'Unverified' },
+];
+
+const requestedAt = (a) => a.verificationRequestedAt || a.createdAt;
+
+function agentState(a) {
+  if (a.verified === true) return { label: 'Verified', variant: 'success' };
+  if (a.verificationRequested === true) return { label: 'Pending', variant: 'warning' };
+  return { label: 'Unverified', variant: 'muted' };
+}
 
 const AgentVerification = () => {
   const [agents, setAgents] = useState([]);
-  const [filtered, setFiltered] = useState([]);
-  const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(true);
-  const [actionLoadingId, setActionLoadingId] = useState(null);
-  const [activeTab, setActiveTab] = useState('pending');
+  const [error, setError] = useState('');
+  const [search, setSearch] = useState('');
+  const [tab, setTab] = useState('pending');
+  const [busyId, setBusyId] = useState(null);
+  const [viewing, setViewing] = useState(null);
+  const [declining, setDeclining] = useState(null);
+  const [declineNote, setDeclineNote] = useState('');
 
-  const loadAgents = async () => {
+  const load = async () => {
     try {
       setLoading(true);
-      const qAll = query(collection(db, 'agents'), orderBy('createdAt', 'desc'));
-      const snap = await getDocs(qAll);
-      const items = [];
-      snap.forEach((doc) => {
-        items.push({ id: doc.id, ...doc.data() });
-      });
-      setAgents(items);
+      setError('');
+      const snap = await getDocs(query(collection(db, 'agents'), orderBy('createdAt', 'desc')));
+      setAgents(snap.docs.map((d) => ({ id: d.id, ...d.data() })));
     } catch (e) {
       console.error('Error loading agents:', e);
+      setError(e?.message || 'Could not load agents.');
       setAgents([]);
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => {
-    loadAgents();
-  }, []);
+  useEffect(() => { load(); }, []);
 
-  const pendingList = useMemo(
-    () => agents.filter((a) => a.verificationRequested === true && a.verified !== true),
-    [agents]
-  );
-  const verifiedList = useMemo(
-    () => agents.filter((a) => a.verified === true),
-    [agents]
-  );
-  const unverifiedList = useMemo(
-    () => agents.filter((a) => a.verified !== true),
-    [agents]
-  );
+  const groups = useMemo(() => ({
+    pending: agents.filter((a) => a.verificationRequested === true && a.verified !== true),
+    verified: agents.filter((a) => a.verified === true),
+    unverified: agents.filter((a) => a.verified !== true),
+  }), [agents]);
 
-  useEffect(() => {
-    const base = activeTab === 'pending' ? pendingList : activeTab === 'verified' ? verifiedList : unverifiedList;
-    if (!search) {
-      setFiltered(base);
-      return;
-    }
-    const s = search.toLowerCase();
-    setFiltered(
-      base.filter(
-        (r) =>
-          (r.name || '').toLowerCase().includes(s) ||
-          (r.email || '').toLowerCase().includes(s) ||
-          (r.company || '').toLowerCase().includes(s)
-      )
+  const rows = useMemo(() => {
+    const base = groups[tab] || [];
+    const s = search.trim().toLowerCase();
+    if (!s) return base;
+    return base.filter((a) =>
+      [a.name, a.email, a.company, a.phoneNumber].some((v) => String(v || '').toLowerCase().includes(s))
     );
-  }, [search, activeTab, pendingList, verifiedList, unverifiedList]);
+  }, [groups, tab, search]);
 
-  const handleApprove = async (id) => {
+  const setVerified = async (agent, verified, note = '') => {
     try {
-      setActionLoadingId(id);
-      await agentVerificationAPI.updateVerificationStatus(id, true);
-      await loadAgents();
+      setBusyId(agent.id);
+      setError('');
+      await agentVerificationAPI.updateVerificationStatus(agent.id, verified, note);
+      setAgents((prev) => prev.map((a) => (a.id === agent.id ? { ...a, verified, adminNotes: note } : a)));
+      setViewing(null);
+      setDeclining(null);
+      setDeclineNote('');
+    } catch (e) {
+      setError(e?.message || 'Could not update this agent.');
     } finally {
-      setActionLoadingId(null);
+      setBusyId(null);
     }
   };
 
-  const handleReject = async (id) => {
-    try {
-      setActionLoadingId(id);
-      await agentVerificationAPI.updateVerificationStatus(id, false);
-      await loadAgents();
-    } finally {
-      setActionLoadingId(null);
-    }
+  const openDecline = (agent) => {
+    setDeclineNote(agent.adminNotes || '');
+    setDeclining(agent);
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">Agent Verification</h2>
-          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400">Review and approve agent verification requests</p>
-        </div>
-        <div className="relative w-full sm:w-64">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <input
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by name, email..."
-            className="w-full pl-9 pr-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-          />
-        </div>
-      </div>
+    <>
+      <PageHeader title="Agent verification" description="Approve agents who asked to be verified. Verified agents get a badge on their listings." />
 
-      <div className="flex flex-wrap items-center gap-2">
-        <button
-          onClick={() => setActiveTab('pending')}
-          className={`px-3 py-1.5 rounded-lg border ${activeTab === 'pending' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600'}`}
-        >
-          Pending ({pendingList.length})
-        </button>
-        <button
-          onClick={() => setActiveTab('verified')}
-          className={`px-3 py-1.5 rounded-lg border ${activeTab === 'verified' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600'}`}
-        >
-          Verified ({verifiedList.length})
-        </button>
-        <button
-          onClick={() => setActiveTab('unverified')}
-          className={`px-3 py-1.5 rounded-lg border ${activeTab === 'unverified' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600'}`}
-        >
-          Unverified ({unverifiedList.length})
-        </button>
-      </div>
+      {error && <p className="text-sm text-destructive">{error}</p>}
 
-      <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <StatGrid
+        loading={loading}
+        columns={3}
+        items={[
+          { label: 'Awaiting review', value: groups.pending.length, note: 'Requests not yet decided' },
+          { label: 'Verified', value: groups.verified.length, note: 'Agents with the badge' },
+          { label: 'All agents', value: agents.length, note: 'Profiles in the agents collection' },
+        ]}
+      />
+
+      <Card>
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border p-3">
+          <Tabs value={tab} onValueChange={setTab}>
+            <TabsList>
+              {TABS.map((t) => (
+                <TabsTrigger key={t.id} value={t.id}>
+                  {t.label}
+                  <span className="ml-1.5 tabular-nums text-muted-foreground">{groups[t.id].length}</span>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
+          <Toolbar>
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="Search name, email, company"
+                className="w-64 pl-8"
+                aria-label="Search agents"
+              />
+            </div>
+          </Toolbar>
+        </div>
+
         {loading ? (
-          <div className="p-12 text-center">
-            <SpinnerLoader text="Loading requests..." />
+          <div className="space-y-2 p-4">
+            {Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-10" />)}
           </div>
-        ) : filtered.length === 0 ? (
-          <div className="p-12 text-center text-gray-500">
-            {activeTab === 'pending' ? 'No pending verification requests' : activeTab === 'verified' ? 'No verified agents' : 'No unverified agents'}
-          </div>
+        ) : rows.length === 0 ? (
+          <EmptyState
+            icon={UserCheck}
+            title={search ? 'No agents match your search' : tab === 'pending' ? 'No requests waiting' : tab === 'verified' ? 'No verified agents yet' : 'No unverified agents'}
+            description={tab === 'pending' && !search ? 'When an agent asks for verification from their dashboard it will show up here.' : undefined}
+          />
         ) : (
-          <div className="divide-y divide-gray-200 dark:divide-gray-700">
-            {filtered.map((r) => (
-              <div key={r.id} className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div className="flex items-start sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
-                  <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center shrink-0">
-                    <Shield className="w-5 h-5 text-green-600" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="font-semibold text-gray-900 dark:text-white truncate">{r.name || 'Unknown Name'}</div>
-                    <div className="text-sm text-gray-500 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 mt-1 sm:mt-0">
-                      <span className="flex items-center gap-1 truncate max-w-full"><Mail className="w-3 h-3 shrink-0" /> <span className="truncate">{r.email}</span></span>
-                      {r.phoneNumber && <span className="flex items-center gap-1 truncate max-w-full"><Phone className="w-3 h-3 shrink-0" /> <span className="truncate">{r.phoneNumber}</span></span>}
-                      {r.company && <span className="flex items-center gap-1 truncate max-w-full"><span className="hidden sm:inline">• </span>{r.company}</span>}
-                    </div>
-                    <div className="text-xs text-gray-500 mt-2 sm:mt-1 flex items-start sm:items-center gap-1">
-                      <Calendar className="w-3 h-3 shrink-0 mt-0.5 sm:mt-0" />
-                      <span className="text-wrap">
-                        Requested {r.verificationRequestedAt?.toDate ? r.verificationRequestedAt.toDate().toLocaleString() : (r.createdAt?.toDate ? r.createdAt.toDate().toLocaleString() : '—')}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center justify-end gap-2 w-full sm:w-auto pt-3 sm:pt-0 border-t sm:border-0 border-gray-100 dark:border-gray-700">
-                  {activeTab !== 'verified' && (
-                    <button
-                      onClick={() => handleApprove(r.id)}
-                      disabled={actionLoadingId === r.id}
-                      className="flex-1 sm:flex-none flex justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
-                    >
-                      {actionLoadingId === r.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
-                    </button>
-                  )}
-                  {activeTab !== 'unverified' && (
-                    <button
-                      onClick={() => handleReject(r.id)}
-                      disabled={actionLoadingId === r.id}
-                      className="flex-1 sm:flex-none flex justify-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
-                    >
-                      {actionLoadingId === r.id ? <Loader2 className="w-4 h-4 animate-spin" /> : <X className="w-4 h-4" />}
-                    </button>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead>Agent</TableHead>
+                <TableHead className="hidden md:table-cell">Company</TableHead>
+                <TableHead className="hidden lg:table-cell">Phone</TableHead>
+                <TableHead className="hidden sm:table-cell">Requested</TableHead>
+                <TableHead>Status</TableHead>
+                <TableHead className="w-[1%] text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {rows.map((a) => {
+                const state = agentState(a);
+                const busy = busyId === a.id;
+                return (
+                  <TableRow key={a.id}>
+                    <TableCell>
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-foreground">
+                          {String(a.name || a.email || '?').trim().charAt(0).toUpperCase()}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="truncate text-sm font-medium text-foreground">{a.name || 'Unnamed agent'}</p>
+                          <p className="truncate text-xs text-muted-foreground">{a.email || '—'}</p>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden text-sm md:table-cell">{a.company || '—'}</TableCell>
+                    <TableCell className="hidden text-sm tabular-nums lg:table-cell">{a.phoneNumber || '—'}</TableCell>
+                    <TableCell className="hidden text-sm text-muted-foreground sm:table-cell">{formatDate(requestedAt(a))}</TableCell>
+                    <TableCell><Badge variant={state.variant}>{state.label}</Badge></TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex items-center justify-end gap-1">
+                        {a.verified !== true && (
+                          <Button size="sm" onClick={() => setVerified(a, true)} disabled={busy} className="hidden sm:inline-flex">
+                            {busy ? <Loader2 className="animate-spin" /> : <Check />}
+                            Approve
+                          </Button>
+                        )}
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" aria-label="More actions" disabled={busy}>
+                              <MoreHorizontal />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onSelect={() => setViewing(a)}><Eye />View details</DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            {a.verified !== true && (
+                              <DropdownMenuItem onSelect={() => setVerified(a, true)}><Check />Approve</DropdownMenuItem>
+                            )}
+                            {a.verified === true ? (
+                              <DropdownMenuItem onSelect={() => openDecline(a)} className="text-destructive focus:text-destructive"><X />Remove verification</DropdownMenuItem>
+                            ) : (
+                              <DropdownMenuItem onSelect={() => openDecline(a)} className="text-destructive focus:text-destructive"><X />Decline</DropdownMenuItem>
+                            )}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+          </Table>
         )}
-      </div>
-    </div>
+      </Card>
+
+      {/* Detail dialog */}
+      <Dialog open={!!viewing} onOpenChange={(o) => !o && setViewing(null)}>
+        <DialogContent>
+          {viewing && (
+            <>
+              <DialogHeader>
+                <DialogTitle>{viewing.name || 'Unnamed agent'}</DialogTitle>
+                <DialogDescription>{viewing.email}</DialogDescription>
+              </DialogHeader>
+              <dl className="grid grid-cols-[120px_1fr] gap-y-2 text-sm">
+                <dt className="text-muted-foreground">Status</dt>
+                <dd><Badge variant={agentState(viewing).variant}>{agentState(viewing).label}</Badge></dd>
+                <dt className="text-muted-foreground">Company</dt>
+                <dd>{viewing.company || '—'}</dd>
+                <dt className="text-muted-foreground">Phone</dt>
+                <dd className="tabular-nums">{viewing.phoneNumber || '—'}</dd>
+                <dt className="text-muted-foreground">Licence</dt>
+                <dd>{viewing.licenseNumber || viewing.license || '—'}</dd>
+                <dt className="text-muted-foreground">Experience</dt>
+                <dd>{viewing.experience ? `${viewing.experience} years` : '—'}</dd>
+                <dt className="text-muted-foreground">Requested</dt>
+                <dd>{formatDate(requestedAt(viewing))}</dd>
+                <dt className="text-muted-foreground">Verified on</dt>
+                <dd>{formatDate(viewing.verifiedAt)}</dd>
+                {viewing.bio && (
+                  <>
+                    <dt className="text-muted-foreground">About</dt>
+                    <dd className="whitespace-pre-wrap">{viewing.bio}</dd>
+                  </>
+                )}
+                {viewing.adminNotes && (
+                  <>
+                    <dt className="text-muted-foreground">Admin note</dt>
+                    <dd className="whitespace-pre-wrap">{viewing.adminNotes}</dd>
+                  </>
+                )}
+              </dl>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => openDecline(viewing)} disabled={busyId === viewing.id}>
+                  <X />{viewing.verified ? 'Remove verification' : 'Decline'}
+                </Button>
+                {viewing.verified !== true && (
+                  <Button onClick={() => setVerified(viewing, true)} disabled={busyId === viewing.id}>
+                    {busyId === viewing.id ? <Loader2 className="animate-spin" /> : <Check />}
+                    Approve
+                  </Button>
+                )}
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Decline dialog with an optional note */}
+      <Dialog open={!!declining} onOpenChange={(o) => !o && setDeclining(null)}>
+        <DialogContent>
+          {declining && (
+            <>
+              <DialogHeader>
+                <DialogTitle>{declining.verified ? 'Remove verification' : 'Decline request'}</DialogTitle>
+                <DialogDescription>
+                  {declining.name || declining.email} will {declining.verified ? 'lose the verified badge' : 'stay unverified'}. You can leave a note for the record.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-2">
+                <Label htmlFor="decline-note">Note (optional)</Label>
+                <Textarea id="decline-note" rows={3} value={declineNote} onChange={(e) => setDeclineNote(e.target.value)} placeholder="Missing licence number, wrong company details…" />
+              </div>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setDeclining(null)}>Cancel</Button>
+                <Button variant="destructive" onClick={() => setVerified(declining, false, declineNote.trim())} disabled={busyId === declining.id}>
+                  {busyId === declining.id ? <Loader2 className="animate-spin" /> : <X />}
+                  {declining.verified ? 'Remove' : 'Decline'}
+                </Button>
+              </DialogFooter>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

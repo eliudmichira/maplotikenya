@@ -1,29 +1,24 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import {
-  collection,
-  getDocs,
-  doc,
-  setDoc,
-  deleteDoc,
-  serverTimestamp,
-  writeBatch,
-} from 'firebase/firestore';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { collection, getDocs, doc, setDoc, deleteDoc, serverTimestamp, writeBatch } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
 import { blogPosts as defaultPosts } from '../../../data/blogPosts';
 import { normaliseBlogDoc, slugify, parseBodyText } from '../../../lib/blogUtils';
-import {
-  BookOpen,
-  Plus,
-  Pencil,
-  Trash2,
-  Save,
-  X,
-  ExternalLink,
-  Download,
-  Loader2,
-  Eye,
-  EyeOff,
-} from 'lucide-react';
+import { BookOpen, Plus, Search, MoreHorizontal, Pencil, Trash2, Eye, EyeOff, Download, ExternalLink, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import { Input, Textarea } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/table';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
+import { Skeleton } from '@/components/ui/skeleton';
+import { PageHeader, Toolbar, EmptyState, Pagination, statusVariant, formatDate } from '@/components/admin/primitives';
+
+const PAGE_SIZE = 25;
 
 const emptyForm = () => ({
   slug: '',
@@ -39,16 +34,26 @@ const emptyForm = () => ({
 const BlogManagement = () => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [importing, setImporting] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [search, setSearch] = useState('');
+  const [status, setStatus] = useState('all');
+  const [page, setPage] = useState(1);
+  const [error, setError] = useState('');
+
+  // create / edit
+  const [editorOpen, setEditorOpen] = useState(false);
   const [editingSlug, setEditingSlug] = useState(null);
   const [form, setForm] = useState(emptyForm());
-  const [error, setError] = useState(null);
+  const [formError, setFormError] = useState('');
+  const [saving, setSaving] = useState(false);
+
+  // delete / import
+  const [deleting, setDeleting] = useState(null); // post
+  const [importOpen, setImportOpen] = useState(false);
+  const [busy, setBusy] = useState(false);
 
   const loadPosts = useCallback(async () => {
     setLoading(true);
-    setError(null);
+    setError('');
     try {
       const snap = await getDocs(collection(db, 'blogPosts'));
       const list = snap.docs
@@ -57,23 +62,42 @@ const BlogManagement = () => {
         .sort((a, b) => (b.date || '').localeCompare(a.date || ''));
       setPosts(list);
     } catch (e) {
-      console.error(e);
-      setError(e.message || 'Failed to load blog posts');
+      setError('Could not load blog posts. ' + (e.message || ''));
       setPosts([]);
     } finally {
       setLoading(false);
     }
   }, []);
 
-  useEffect(() => {
-    loadPosts();
-  }, [loadPosts]);
+  useEffect(() => { loadPosts(); }, [loadPosts]);
 
+  const stats = useMemo(() => ({
+    published: posts.filter((p) => p.published !== false).length,
+    draft: posts.filter((p) => p.published === false).length,
+  }), [posts]);
+
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return posts.filter((p) => {
+      if (status === 'published' && p.published === false) return false;
+      if (status === 'draft' && p.published !== false) return false;
+      if (!q) return true;
+      return [p.title, p.slug, p.category, p.excerpt].some((v) => String(v).toLowerCase().includes(q));
+    });
+  }, [posts, search, status]);
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount);
+  const visible = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+
+  useEffect(() => { setPage(1); }, [search, status]);
+
+  // ── editor ──
   const openCreate = () => {
     setEditingSlug(null);
     setForm(emptyForm());
-    setModalOpen(true);
-    setError(null);
+    setFormError('');
+    setEditorOpen(true);
   };
 
   const openEdit = (post) => {
@@ -88,30 +112,33 @@ const BlogManagement = () => {
       bodyText: (post.body || []).join('\n\n'),
       published: post.published !== false,
     });
-    setModalOpen(true);
-    setError(null);
+    setFormError('');
+    setEditorOpen(true);
   };
 
-  const closeModal = () => {
-    setModalOpen(false);
+  const closeEditor = () => {
+    setEditorOpen(false);
     setEditingSlug(null);
     setForm(emptyForm());
+    setFormError('');
   };
+
+  const setField = (key) => (value) => setForm((f) => ({ ...f, [key]: value }));
 
   const handleSave = async (e) => {
     e.preventDefault();
     const slug = editingSlug || slugify(form.slug || form.title);
     if (!slug) {
-      setError('Add a title or slug so the post has a URL.');
+      setFormError('Add a title or slug so the post has a URL.');
       return;
     }
     const body = parseBodyText(form.bodyText);
     if (body.length === 0) {
-      setError('Add at least one paragraph in the body (separate paragraphs with a blank line).');
+      setFormError('Add at least one paragraph in the body (separate paragraphs with a blank line).');
       return;
     }
     setSaving(true);
-    setError(null);
+    setFormError('');
     try {
       await setDoc(
         doc(db, 'blogPosts', slug),
@@ -129,37 +156,54 @@ const BlogManagement = () => {
         { merge: true }
       );
       await loadPosts();
-      closeModal();
+      closeEditor();
     } catch (err) {
-      console.error(err);
-      setError(err.message || 'Save failed. Check Firestore rules and network.');
+      setFormError(err.message || 'Save failed. Check Firestore rules and network.');
     } finally {
       setSaving(false);
     }
   };
 
-  const handleDelete = async (slug) => {
-    if (!window.confirm(`Delete post "${slug}"? This cannot be undone.`)) return;
-    setError(null);
+  // ── publish / unpublish ──
+  const setPublished = async (post, published) => {
+    setBusy(true);
+    setError('');
+    setPosts((prev) => prev.map((p) => (p.slug === post.slug ? { ...p, published } : p)));
     try {
-      await deleteDoc(doc(db, 'blogPosts', slug));
-      await loadPosts();
+      await setDoc(doc(db, 'blogPosts', post.slug), { published, updatedAt: serverTimestamp() }, { merge: true });
     } catch (err) {
-      console.error(err);
-      setError(err.message || 'Delete failed');
+      setPosts((prev) => prev.map((p) => (p.slug === post.slug ? { ...p, published: post.published } : p)));
+      setError(`Could not ${published ? 'publish' : 'unpublish'} "${post.title}". ${err.message || ''}`);
+    } finally {
+      setBusy(false);
     }
   };
 
-  const handleImportDefaults = async () => {
-    if (!window.confirm(`Import ${defaultPosts.length} sample posts from the app bundle? Existing posts with the same slug will be overwritten.`)) return;
-    setImporting(true);
-    setError(null);
+  // ── delete ──
+  const confirmDelete = async () => {
+    if (!deleting) return;
+    setBusy(true);
+    setError('');
+    try {
+      await deleteDoc(doc(db, 'blogPosts', deleting.slug));
+      setPosts((prev) => prev.filter((p) => p.slug !== deleting.slug));
+    } catch (err) {
+      setError('Delete failed. ' + (err.message || ''));
+    } finally {
+      setBusy(false);
+      setDeleting(null);
+    }
+  };
+
+  // ── import bundled samples ──
+  const confirmImport = async () => {
+    setBusy(true);
+    setError('');
     try {
       const batch = writeBatch(db);
       for (const p of defaultPosts) {
-        const ref = doc(db, 'blogPosts', p.slug);
         batch.set(
-          ref,
+          doc(db, 'blogPosts', p.slug),
           {
             slug: p.slug,
             title: p.title,
@@ -177,252 +221,208 @@ const BlogManagement = () => {
       await batch.commit();
       await loadPosts();
     } catch (err) {
-      console.error(err);
-      setError(err.message || 'Import failed');
+      setError('Import failed. ' + (err.message || ''));
     } finally {
-      setImporting(false);
+      setBusy(false);
+      setImportOpen(false);
     }
   };
 
-  return (
-    <div className="space-y-6">
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-900/40">
-              <BookOpen className="w-6 h-6 text-emerald-700 dark:text-emerald-400" />
-            </div>
-            <div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">Blog</h2>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                Create and edit articles. They appear on{' '}
-                <a
-                  href="/desktop/blog"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-emerald-600 dark:text-emerald-400 inline-flex items-center gap-1"
-                >
-                  /desktop/blog <ExternalLink className="w-3 h-3" />
-                </a>
-                .
-              </p>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={handleImportDefaults}
-              disabled={importing}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 text-sm font-medium disabled:opacity-50"
-            >
-              {importing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-              Import samples
-            </button>
-            <button
-              type="button"
-              onClick={openCreate}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 text-sm font-medium"
-            >
-              <Plus className="w-4 h-4" />
-              New post
-            </button>
-          </div>
-        </div>
+  const isPublished = (p) => p.published !== false;
 
-        {error && !modalOpen && (
-          <div className="mb-4 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 text-sm">
-            {error}
-          </div>
+  return (
+    <>
+      <PageHeader
+        title="Blog"
+        description={(
+          <>
+            Articles shown on{' '}
+            <a href="/desktop/blog" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-foreground underline underline-offset-2">
+              /desktop/blog <ExternalLink className="h-3 w-3" />
+            </a>
+            . {stats.published} published, {stats.draft} draft.
+          </>
         )}
+      >
+        <Button variant="outline" size="sm" onClick={() => setImportOpen(true)} disabled={busy || defaultPosts.length === 0}><Download />Import samples</Button>
+        <Button size="sm" onClick={openCreate}><Plus />New post</Button>
+      </PageHeader>
+
+      {error && <p className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>}
+
+      <Card className="overflow-hidden">
+        <div className="p-3 md:p-4">
+          <Toolbar>
+            <div className="relative min-w-[220px] flex-1">
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search title, slug or category" className="pl-8" />
+            </div>
+            <Select value={status} onValueChange={setStatus}>
+              <SelectTrigger className="w-[150px]"><SelectValue placeholder="Status" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All posts</SelectItem>
+                <SelectItem value="published">Published</SelectItem>
+                <SelectItem value="draft">Draft</SelectItem>
+              </SelectContent>
+            </Select>
+            <span className="ml-auto text-xs tabular-nums text-muted-foreground">{filtered.length.toLocaleString()} result{filtered.length === 1 ? '' : 's'}</span>
+          </Toolbar>
+        </div>
 
         {loading ? (
-          <div className="flex justify-center py-16 text-gray-500">
-            <Loader2 className="w-8 h-8 animate-spin" />
-          </div>
-        ) : posts.length === 0 ? (
-          <p className="text-gray-600 dark:text-gray-400 text-center py-12">
-            No posts in Firestore yet. Use <strong>Import samples</strong> or <strong>New post</strong>. Until then, the
-            site still shows bundled sample articles as a fallback.
-          </p>
+          <div className="space-y-2 p-4">{Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-12" />)}</div>
+        ) : visible.length === 0 ? (
+          <EmptyState
+            icon={BookOpen}
+            title={posts.length === 0 ? 'No posts yet' : 'No posts match'}
+            description={posts.length === 0
+              ? 'Until a post is saved here, the public blog shows the bundled sample articles as a fallback.'
+              : 'Try clearing the search or the status filter.'}
+            action={posts.length === 0 ? <Button size="sm" onClick={openCreate}><Plus />New post</Button> : null}
+          />
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm text-left">
-              <thead>
-                <tr className="border-b border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400">
-                  <th className="py-3 pr-4 font-medium">Title</th>
-                  <th className="py-3 pr-4 font-medium">Slug</th>
-                  <th className="py-3 pr-4 font-medium">Date</th>
-                  <th className="py-3 pr-4 font-medium">Status</th>
-                  <th className="py-3 font-medium text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {posts.map((p) => (
-                  <tr key={p.slug} className="border-b border-gray-100 dark:border-gray-700/80">
-                    <td className="py-3 pr-4 font-medium text-gray-900 dark:text-white max-w-[200px] truncate">
-                      {p.title}
-                    </td>
-                    <td className="py-3 pr-4 text-gray-600 dark:text-gray-300 font-mono text-xs">{p.slug}</td>
-                    <td className="py-3 pr-4 text-gray-600 dark:text-gray-300">{p.date}</td>
-                    <td className="py-3 pr-4">
-                      {p.published !== false ? (
-                        <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400">
-                          <Eye className="w-3.5 h-3.5" /> Live
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1 text-gray-500">
-                          <EyeOff className="w-3.5 h-3.5" /> Draft
-                        </span>
-                      )}
-                    </td>
-                    <td className="py-3 text-right whitespace-nowrap">
-                      <button
-                        type="button"
-                        onClick={() => openEdit(p)}
-                        className="p-2 rounded-lg text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/30"
-                        title="Edit"
-                      >
-                        <Pencil className="w-4 h-4" />
+          <>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="pl-4">Post</TableHead>
+                  <TableHead className="hidden lg:table-cell">Category</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="hidden md:table-cell">Date</TableHead>
+                  <TableHead className="w-12 pr-3 text-right"><span className="sr-only">Actions</span></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {visible.map((p) => (
+                  <TableRow key={p.slug}>
+                    <TableCell className="pl-4">
+                      <button type="button" onClick={() => openEdit(p)} className="block min-w-0 max-w-[420px] text-left">
+                        <span className="block truncate text-sm font-medium text-foreground">{p.title}</span>
+                        <span className="block truncate font-mono text-xs text-muted-foreground">{p.slug}</span>
                       </button>
-                      <button
-                        type="button"
-                        onClick={() => handleDelete(p.slug)}
-                        className="p-2 rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30"
-                        title="Delete"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
+                    </TableCell>
+                    <TableCell className="hidden lg:table-cell text-muted-foreground">{p.category}</TableCell>
+                    <TableCell><Badge variant={statusVariant(isPublished(p) ? 'published' : 'draft')}>{isPublished(p) ? 'Published' : 'Draft'}</Badge></TableCell>
+                    <TableCell className="hidden md:table-cell whitespace-nowrap text-muted-foreground">{formatDate(p.date)}</TableCell>
+                    <TableCell className="pr-3 text-right">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" aria-label="Row actions"><MoreHorizontal /></Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onSelect={() => openEdit(p)}><Pencil />Edit</DropdownMenuItem>
+                          {isPublished(p)
+                            ? <DropdownMenuItem disabled={busy} onSelect={() => setPublished(p, false)}><EyeOff />Unpublish</DropdownMenuItem>
+                            : <DropdownMenuItem disabled={busy} onSelect={() => setPublished(p, true)}><Eye />Publish</DropdownMenuItem>}
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="text-destructive focus:text-destructive" onSelect={() => setDeleting(p)}><Trash2 />Delete…</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </TableBody>
+            </Table>
+            <Pagination page={safePage} pageCount={pageCount} onPage={setPage} total={filtered.length} pageSize={PAGE_SIZE} />
+          </>
         )}
-      </div>
+      </Card>
 
-      {modalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50">
-          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-gray-700">
-            <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                {editingSlug ? 'Edit post' : 'New post'}
-              </h3>
-              <button type="button" onClick={closeModal} className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
-                <X className="w-5 h-5" />
-              </button>
+      {/* Create / edit */}
+      <Dialog open={editorOpen} onOpenChange={(o) => !o && closeEditor()}>
+        <DialogContent className="max-h-[90vh] max-w-2xl overflow-y-auto">
+          <form onSubmit={handleSave} className="space-y-4">
+            <DialogHeader>
+              <DialogTitle>{editingSlug ? 'Edit post' : 'New post'}</DialogTitle>
+              <DialogDescription>{editingSlug ? 'Changes go live as soon as you save.' : 'Paragraphs in the body are separated by a blank line.'}</DialogDescription>
+            </DialogHeader>
+
+            {formError && <p className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">{formError}</p>}
+
+            <div className="space-y-1.5">
+              <Label htmlFor="blog-slug">{editingSlug ? 'Slug' : 'URL slug (optional)'}</Label>
+              <Input
+                id="blog-slug"
+                value={form.slug}
+                readOnly={!!editingSlug}
+                onChange={(e) => setField('slug')(e.target.value)}
+                placeholder="auto from title if empty"
+                className={editingSlug ? 'bg-muted font-mono text-sm text-muted-foreground' : ''}
+              />
             </div>
-            <form onSubmit={handleSave} className="p-4 space-y-4">
-              {error && (
-                <div className="p-3 rounded-lg bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300 text-sm">{error}</div>
-              )}
-              {!editingSlug && (
-                <div>
-                  <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">URL slug (optional)</label>
-                  <input
-                    value={form.slug}
-                    onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))}
-                    placeholder="auto from title if empty"
-                    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                  />
-                </div>
-              )}
-              {editingSlug && (
-                <div>
-                  <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Slug</label>
-                  <input value={form.slug} readOnly className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-600 bg-gray-100 dark:bg-gray-900/50 text-gray-600 dark:text-gray-400 font-mono text-sm" />
-                </div>
-              )}
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Title *</label>
-                <input
-                  required
-                  value={form.title}
-                  onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-                  className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                />
+
+            <div className="space-y-1.5">
+              <Label htmlFor="blog-title">Title</Label>
+              <Input id="blog-title" required value={form.title} onChange={(e) => setField('title')(e.target.value)} />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="blog-excerpt">Excerpt</Label>
+              <Textarea id="blog-excerpt" required rows={2} value={form.excerpt} onChange={(e) => setField('excerpt')(e.target.value)} />
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="blog-category">Category</Label>
+                <Input id="blog-category" value={form.category} onChange={(e) => setField('category')(e.target.value)} />
               </div>
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Excerpt *</label>
-                <textarea
-                  required
-                  rows={2}
-                  value={form.excerpt}
-                  onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))}
-                  className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                />
+              <div className="space-y-1.5">
+                <Label htmlFor="blog-date">Date</Label>
+                <Input id="blog-date" type="date" value={form.date} onChange={(e) => setField('date')(e.target.value)} />
               </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Category</label>
-                  <input
-                    value={form.category}
-                    onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Date</label>
-                  <input
-                    type="date"
-                    value={form.date}
-                    onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
-                    className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                  />
-                </div>
+              <div className="space-y-1.5">
+                <Label htmlFor="blog-readtime">Read time</Label>
+                <Input id="blog-readtime" value={form.readTime} onChange={(e) => setField('readTime')(e.target.value)} placeholder="5 min read" />
               </div>
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">Read time label</label>
-                <input
-                  value={form.readTime}
-                  onChange={(e) => setForm((f) => ({ ...f, readTime: e.target.value }))}
-                  placeholder="5 min read"
-                  className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1">
-                  Body — paragraphs separated by a blank line *
-                </label>
-                <textarea
-                  required
-                  rows={12}
-                  value={form.bodyText}
-                  onChange={(e) => setForm((f) => ({ ...f, bodyText: e.target.value }))}
-                  className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 text-gray-900 dark:text-white font-mono text-sm"
-                />
-              </div>
-              <label className="flex items-center gap-2 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={form.published}
-                  onChange={(e) => setForm((f) => ({ ...f, published: e.target.checked }))}
-                  className="rounded border-gray-300"
-                />
-                <span className="text-sm text-gray-700 dark:text-gray-300">Published (visible on public blog)</span>
-              </label>
-              <div className="flex justify-end gap-2 pt-2">
-                <button
-                  type="button"
-                  onClick={closeModal}
-                  className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-200"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 disabled:opacity-50"
-                >
-                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-    </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="blog-body">Body</Label>
+              <Textarea id="blog-body" required rows={12} value={form.bodyText} onChange={(e) => setField('bodyText')(e.target.value)} className="font-mono text-sm" />
+              <p className="text-xs text-muted-foreground">Separate paragraphs with a blank line.</p>
+            </div>
+
+            <div className="flex items-center gap-3">
+              <Switch id="blog-published" checked={form.published} onCheckedChange={setField('published')} />
+              <Label htmlFor="blog-published">Published (visible on the public blog)</Label>
+            </div>
+
+            <DialogFooter>
+              <Button type="button" variant="outline" onClick={closeEditor}>Cancel</Button>
+              <Button type="submit" disabled={saving}>{saving ? <Loader2 className="animate-spin" /> : null}{editingSlug ? 'Save changes' : 'Create post'}</Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete */}
+      <AlertDialog open={!!deleting} onOpenChange={(o) => !o && setDeleting(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete “{deleting?.title}”?</AlertDialogTitle>
+            <AlertDialogDescription>This removes the post from Firestore permanently. It cannot be undone.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction className="bg-destructive text-destructive-foreground hover:bg-destructive/90" disabled={busy} onClick={(e) => { e.preventDefault(); confirmDelete(); }}>Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Import samples */}
+      <AlertDialog open={importOpen} onOpenChange={(o) => !o && !busy && setImportOpen(false)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Import {defaultPosts.length} sample post{defaultPosts.length === 1 ? '' : 's'}?</AlertDialogTitle>
+            <AlertDialogDescription>The bundled sample articles are written to Firestore as published posts. Existing posts with the same slug are overwritten.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={busy}>Cancel</AlertDialogCancel>
+            <AlertDialogAction disabled={busy} onClick={(e) => { e.preventDefault(); confirmImport(); }}>{busy ? <Loader2 className="animate-spin" /> : null}Import</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 };
 

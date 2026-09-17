@@ -11,6 +11,7 @@ export default defineConfig({
   resolve: {
     dedupe: ['react', 'react-dom', 'react/jsx-runtime', 'react-is'],
     alias: {
+      '@': path.resolve(__dirname, 'src'),
       // Force a single React instance
       react: path.resolve(__dirname, 'node_modules/react'),
       'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),

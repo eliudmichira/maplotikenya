@@ -1,718 +1,338 @@
-import React, { useState, useEffect } from 'react';
-import { collection, getDocs, updateDoc, doc, query, orderBy, deleteDoc } from 'firebase/firestore';
+import React, { useEffect, useMemo, useState } from 'react';
+import { collection, getDocs, updateDoc, doc, deleteDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '../../../lib/firebase';
-import { getPropertyImage } from '../../../utils/imageUtils';
-import {
-  Home,
-  Search,
-  Filter,
-  Check,
-  X,
-  Eye,
-  Edit,
-  Trash2,
-  Clock,
-  AlertCircle,
-  Star,
-  MapPin,
-  DollarSign,
-  Bed,
-  Bath,
-  Square,
-  Calendar,
-  User,
-  Shield,
-  Download,
-  Upload,
-  MoreVertical
-} from 'lucide-react';
+import { getPropertyImage, handleImageError } from '../../../utils/imageUtils';
+import { Home, Search, MoreHorizontal, Eye, Check, X, Trash2, EyeOff, Download, Bed, Bath, MapPin } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import { Input, Textarea } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
+import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from '@/components/ui/table';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
+import { AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from '@/components/ui/alert-dialog';
+import { Skeleton } from '@/components/ui/skeleton';
+import { PageHeader, StatGrid, Toolbar, SelectionBar, EmptyState, Pagination, statusVariant, formatKsh, formatDate } from '@/components/admin/primitives';
+
+const PAGE_SIZE = 25;
+const ACTIVE = new Set(['active', 'approved', 'published', 'live']);
+
+const normalise = (id, data) => {
+  const rawLoc = data.location;
+  const location = typeof rawLoc === 'string'
+    ? rawLoc
+    : rawLoc && typeof rawLoc === 'object'
+      ? [rawLoc.address || rawLoc.area, rawLoc.city || rawLoc.county].filter(Boolean).join(', ')
+      : [data.address, data.city].filter(Boolean).join(', ');
+  return {
+    id,
+    title: data.title || (typeof data.address === 'string' ? data.address : 'Untitled listing'),
+    price: Number(data.price) || 0,
+    location: location || '—',
+    status: String(data.status || 'pending').toLowerCase(),
+    submittedBy: data.submittedBy || data.ownerEmail || data.agentEmail || data.agent?.email || data.owner || '—',
+    createdAt: data.createdAt,
+    images: Array.isArray(data.images) ? data.images : [],
+    image: data.image, coverPhoto: data.coverPhoto,
+    bedrooms: Number(data.bedrooms || data.beds || 0),
+    bathrooms: Number(data.bathrooms || data.baths || 0),
+    description: data.description || '',
+    rejectionReason: data.rejectionReason || '',
+    listingType: String(data.listingType || data.listing_type || '').toLowerCase(),
+    views: Number(data.views || 0),
+  };
+};
+
+const statusLabel = (s) => (ACTIVE.has(s) ? 'Active' : s === 'pending' ? 'Pending' : s === 'rejected' ? 'Rejected' : s === 'inactive' ? 'Unpublished' : s);
 
 const PropertyModeration = () => {
-  const [properties, setProperties] = useState([]);
-  const [filteredProperties, setFilteredProperties] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedProperties, setSelectedProperties] = useState([]);
-  const [showPropertyModal, setShowPropertyModal] = useState(false);
-  const [selectedProperty, setSelectedProperty] = useState(null);
-  const [rejectionReason, setRejectionReason] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [propertyToDelete, setPropertyToDelete] = useState(null);
+  const [rows, setRows] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [status, setStatus] = useState('all');
+  const [selected, setSelected] = useState(() => new Set());
+  const [page, setPage] = useState(1);
+  const [detail, setDetail] = useState(null);
+  const [rejecting, setRejecting] = useState(null);
+  const [reason, setReason] = useState('');
+  const [deleting, setDeleting] = useState(null); // { ids: [] }
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState('');
 
-  // Load real properties from Firestore
   useEffect(() => {
-    const loadProperties = async () => {
+    (async () => {
       try {
-        const q = query(collection(db, 'listings'), orderBy('createdAt', 'desc'));
-        const snapshot = await getDocs(q);
-        const rows = snapshot.docs.map((d) => {
-          const data = d.data();
-          const submittedAt = data.createdAt?.toDate ? data.createdAt.toDate() : new Date();
-          const rawLoc = data.location;
-          const loc = typeof rawLoc === 'string'
-            ? rawLoc
-            : (rawLoc && typeof rawLoc === 'object')
-              ? [rawLoc.address, rawLoc.city, rawLoc.state].filter(Boolean).join(', ')
-              : [data.city, data.state].filter(Boolean).join(', ');
-          const title = data.title || (typeof data.address === 'string' ? data.address : (data.address?.address || data.address?.city || 'Untitled'));
-          return {
-            id: d.id,
-            title,
-            price: data.price || 0,
-            location: loc,
-            status: data.status || 'pending',
-            submittedBy: data.submittedBy || data.ownerEmail || data.owner || data.agentEmail || '',
-            submittedAt,
-            images: Array.isArray(data.images) && data.images.length ? data.images : ['https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=300&fit=crop'],
-            bedrooms: data.bedrooms || data.beds || 0,
-            bathrooms: data.bathrooms || data.baths || 0,
-            area: data.area || data.sqft || 0,
-            description: data.description || '',
-            verified: !!data.verified,
-            rejectionReason: data.rejectionReason || ''
-          };
-        });
-        setProperties(rows);
-        setFilteredProperties(rows);
+        const snap = await getDocs(collection(db, 'listings'));
+        const list = snap.docs.map((d) => normalise(d.id, d.data()));
+        const t = (v) => (v?.toDate ? v.toDate().getTime() : v ? new Date(v).getTime() : 0);
+        list.sort((a, b) => t(b.createdAt) - t(a.createdAt));
+        setRows(list);
       } catch (e) {
-        setProperties([]);
-        setFilteredProperties([]);
+        setError('Could not load listings. ' + (e.message || ''));
+      } finally {
+        setLoading(false);
       }
-    };
-    loadProperties();
+    })();
   }, []);
 
-  useEffect(() => {
-    filterProperties();
-  }, [properties, searchTerm, statusFilter]);
+  const stats = useMemo(() => ({
+    total: rows.length,
+    active: rows.filter((r) => ACTIVE.has(r.status)).length,
+    pending: rows.filter((r) => r.status === 'pending').length,
+    rejected: rows.filter((r) => r.status === 'rejected').length,
+  }), [rows]);
 
-  const filterProperties = () => {
-    let filtered = properties;
+  const filtered = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    return rows.filter((r) => {
+      if (status === 'active' && !ACTIVE.has(r.status)) return false;
+      if (status !== 'all' && status !== 'active' && r.status !== status) return false;
+      if (!q) return true;
+      return [r.title, r.location, r.submittedBy].some((v) => String(v).toLowerCase().includes(q));
+    });
+  }, [rows, search, status]);
 
-    // Search filter
-    if (searchTerm) {
-      filtered = filtered.filter(property =>
-        property.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        property.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        property.submittedBy.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+  const safePage = Math.min(page, pageCount);
+  const visible = filtered.slice((safePage - 1) * PAGE_SIZE, safePage * PAGE_SIZE);
+  const allVisibleSelected = visible.length > 0 && visible.every((r) => selected.has(r.id));
+  const someVisibleSelected = visible.some((r) => selected.has(r.id));
 
-    // Status filter
-    if (statusFilter !== 'all') {
-      filtered = filtered.filter(property => property.status === statusFilter);
-    }
+  useEffect(() => { setPage(1); }, [search, status]);
 
-    setFilteredProperties(filtered);
+  const toggleAll = () => {
+    setSelected((prev) => {
+      const next = new Set(prev);
+      if (allVisibleSelected) visible.forEach((r) => next.delete(r.id));
+      else visible.forEach((r) => next.add(r.id));
+      return next;
+    });
   };
+  const toggleOne = (id) => setSelected((prev) => { const next = new Set(prev); next.has(id) ? next.delete(id) : next.add(id); return next; });
 
-  const handleApprove = async (propertyId) => {
+  // ── writes ──
+  const patch = async (ids, data) => {
+    setBusy(true); setError('');
     try {
-      await updatedoc(doc(db, 'listings', propertyId), { status: 'approved', rejectionReason: '' });
-      setProperties(properties.map(property => property.id === propertyId ? { ...property, status: 'approved', rejectionReason: '' } : property));
+      await Promise.all(ids.map((id) => updateDoc(doc(db, 'listings', id), { ...data, updatedAt: serverTimestamp() })));
+      setRows((prev) => prev.map((r) => (ids.includes(r.id) ? { ...r, ...data } : r)));
     } catch (e) {
-      console.error('Error approving property:', e);
-    }
-  };
-
-  const handleReject = async (propertyId) => {
-    if (!rejectionReason.trim()) return;
-    try {
-      await updatedoc(doc(db, 'listings', propertyId), { status: 'rejected', rejectionReason });
-      setProperties(properties.map(property => property.id === propertyId ? { ...property, status: 'rejected', rejectionReason } : property));
-    } catch (e) {
-      console.error('Error rejecting property:', e);
+      setError('Update failed. ' + (e.message || ''));
     } finally {
-      setRejectionReason('');
-      setShowPropertyModal(false);
-      setSelectedProperty(null);
+      setBusy(false);
     }
   };
-
-  const handleDelete = async (propertyId) => {
-    try {
-      await deletedoc(doc(db, 'listings', propertyId));
-      setProperties(properties.filter(property => property.id !== propertyId));
-      setShowDeleteModal(false);
-      setPropertyToDelete(null);
-    } catch (e) {
-      console.error('Error deleting property:', e);
-    }
+  const approve = (ids) => patch(ids, { status: 'active', rejectionReason: '' });
+  const unpublish = (ids) => patch(ids, { status: 'inactive' });
+  const reject = async () => {
+    if (!rejecting || !reason.trim()) return;
+    await patch(rejecting, { status: 'rejected', rejectionReason: reason.trim() });
+    setRejecting(null); setReason(''); setDetail(null);
   };
-
-  const handleBulkDelete = async () => {
-    if (selectedProperties.length === 0) return;
-
+  const confirmDelete = async () => {
+    if (!deleting) return;
+    setBusy(true); setError('');
     try {
-      await Promise.all(selectedProperties.map(id => deletedoc(doc(db, 'listings', id))));
-      setProperties(properties.filter(property => !selectedProperties.includes(property.id)));
+      await Promise.all(deleting.ids.map((id) => deleteDoc(doc(db, 'listings', id))));
+      setRows((prev) => prev.filter((r) => !deleting.ids.includes(r.id)));
+      setSelected((prev) => { const next = new Set(prev); deleting.ids.forEach((id) => next.delete(id)); return next; });
+      setDetail(null);
     } catch (e) {
-      console.error('Error performing bulk delete:', e);
+      setError('Delete failed. ' + (e.message || ''));
     } finally {
-      setSelectedProperties([]);
+      setBusy(false); setDeleting(null);
     }
   };
 
-  const handleBulkAction = async (action) => {
-    if (selectedProperties.length === 0) return;
-
-    try {
-      if (action === 'approve') {
-        await Promise.all(selectedProperties.map(id => updatedoc(doc(db, 'listings', id), { status: 'approved', rejectionReason: '' })));
-        setProperties(properties.map(property => selectedProperties.includes(property.id) ? { ...property, status: 'approved', rejectionReason: '' } : property));
-      } else if (action === 'reject') {
-        await Promise.all(selectedProperties.map(id => updatedoc(doc(db, 'listings', id), { status: 'rejected', rejectionReason: 'Bulk rejection' })));
-        setProperties(properties.map(property => selectedProperties.includes(property.id) ? { ...property, status: 'rejected', rejectionReason: 'Bulk rejection' } : property));
-      } else if (action === 'delete') {
-        await handleBulkDelete();
-      }
-    } catch (e) {
-      console.error('Error performing bulk action:', e);
-    } finally {
-      setSelectedProperties([]);
-    }
+  const exportCsv = () => {
+    const header = ['id', 'title', 'status', 'price', 'location', 'submittedBy', 'createdAt'];
+    const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`;
+    const lines = [header.join(','), ...filtered.map((r) => [r.id, r.title, r.status, r.price, r.location, r.submittedBy, formatDate(r.createdAt)].map(esc).join(','))];
+    const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = Object.assign(document.createElement('a'), { href: url, download: `listings-${new Date().toISOString().slice(0, 10)}.csv` });
+    a.click(); URL.revokeObjectURL(url);
   };
 
-  const handleSelectAll = () => {
-    if (selectedProperties.length === filteredProperties.length) {
-      setSelectedProperties([]);
-    } else {
-      setSelectedProperties(filteredProperties.map(p => p.id));
-    }
-  };
-
-  const handleSelectProperty = (propertyId) => {
-    setSelectedProperties(prev =>
-      prev.includes(propertyId)
-        ? prev.filter(id => id !== propertyId)
-        : [...prev, propertyId]
-    );
-  };
-
-  const getStatusBadgeColor = (status) => {
-    switch (status) {
-      case 'approved': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-      case 'rejected': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
-      case 'pending': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
-      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
-    }
-  };
-
-  const StatCard = ({ title, value, icon, color }) => (
-    <div className="bg-white dark:bg-dark-800 rounded-xl p-6 border border-gray-200 dark:border-dark-700 shadow-sm">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
-          <p className="text-2xl font-bold text-gray-900 dark:text-white">{value}</p>
-        </div>
-        <div className={`p-3 rounded-full ${color}`}>
-          {icon}
-        </div>
-      </div>
-    </div>
-  );
-
-  const propertyStats = {
-    total: properties.length,
-    pending: properties.filter(p => p.status === 'pending').length,
-    approved: properties.filter(p => ['approved', 'active', 'published', 'live'].includes(String(p.status || '').toLowerCase())).length,
-    rejected: properties.filter(p => p.status === 'rejected').length
-  };
+  const selectedIds = [...selected];
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Property Moderation</h2>
-          <p className="text-gray-600 dark:text-gray-400">Approve, reject, and manage property listings</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors">
-            <Download className="w-4 h-4" />
-            Export
-          </button>
-        </div>
-      </div>
+    <>
+      <PageHeader title="Listings" description="Every listing on the site. Approve, unpublish, reject with a reason, or remove.">
+        <Button variant="outline" size="sm" onClick={exportCsv} disabled={filtered.length === 0}><Download />Export CSV</Button>
+      </PageHeader>
 
-      {/* Stats Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title="Total Properties"
-          value={propertyStats.total}
-          icon={<Home className="w-6 h-6 text-emerald-600" />}
-          color="bg-emerald-100 dark:bg-emerald-900/30"
-        />
-        <StatCard
-          title="Pending Review"
-          value={propertyStats.pending}
-          icon={<Clock className="w-6 h-6 text-yellow-600" />}
-          color="bg-yellow-100 dark:bg-yellow-900/30"
-        />
-        <StatCard
-          title="Approved"
-          value={propertyStats.approved}
-          icon={<Check className="w-6 h-6 text-green-600" />}
-          color="bg-green-100 dark:bg-green-900/30"
-        />
-        <StatCard
-          title="Rejected"
-          value={propertyStats.rejected}
-          icon={<X className="w-6 h-6 text-red-600" />}
-          color="bg-red-100 dark:bg-red-900/30"
-        />
-      </div>
+      <StatGrid
+        loading={loading}
+        items={[
+          { label: 'All listings', value: stats.total, icon: Home },
+          { label: 'Active', value: stats.active, note: 'visible on the site' },
+          { label: 'Pending review', value: stats.pending, note: stats.pending ? 'waiting on you' : 'nothing waiting' },
+          { label: 'Rejected', value: stats.rejected },
+        ]}
+      />
 
-      {/* Filters and Search */}
-      <div className="bg-white dark:bg-dark-800 rounded-xl p-6 border border-gray-200 dark:border-dark-700">
-        <div className="flex flex-col md:flex-row gap-4">
-          {/* Search */}
-          <div className="flex-1">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search properties by title, location, or submitter..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-              />
+      {error && <p className="rounded-md border border-destructive/30 bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p>}
+
+      <Card className="overflow-hidden">
+        <div className="space-y-3 p-3 md:p-4">
+          <Toolbar>
+            <div className="relative min-w-[220px] flex-1">
+              <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search title, area or submitter" className="pl-8" />
             </div>
-          </div>
+            <Select value={status} onValueChange={setStatus}>
+              <SelectTrigger className="w-[160px]"><SelectValue placeholder="Status" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All statuses</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="inactive">Unpublished</SelectItem>
+                <SelectItem value="rejected">Rejected</SelectItem>
+              </SelectContent>
+            </Select>
+            <span className="ml-auto text-xs tabular-nums text-muted-foreground">{filtered.length.toLocaleString()} result{filtered.length === 1 ? '' : 's'}</span>
+          </Toolbar>
 
-          {/* Status Filter */}
-          <select
-            value={statusFilter}
-            onChange={(e) => setStatusFilter(e.target.value)}
-            className="px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white"
-          >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="approved">Approved</option>
-            <option value="rejected">Rejected</option>
-          </select>
+          <SelectionBar count={selectedIds.length} onClear={() => setSelected(new Set())}>
+            <Button size="sm" variant="outline" disabled={busy} onClick={() => approve(selectedIds)}><Check />Approve</Button>
+            <Button size="sm" variant="outline" disabled={busy} onClick={() => unpublish(selectedIds)}><EyeOff />Unpublish</Button>
+            <Button size="sm" variant="outline" disabled={busy} onClick={() => { setRejecting(selectedIds); setReason(''); }}><X />Reject</Button>
+            <Button size="sm" variant="destructive" disabled={busy} onClick={() => setDeleting({ ids: selectedIds })}><Trash2 />Delete</Button>
+          </SelectionBar>
         </div>
-      </div>
 
-      {/* Bulk Actions */}
-      {selectedProperties.length > 0 && (
-        <div className="bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-700 rounded-xl p-4">
-          <div className="flex items-center justify-between">
-            <p className="text-emerald-800 dark:text-emerald-200">
-              {selectedProperties.length} property(ies) selected
-            </p>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => handleBulkAction('approve')}
-                className="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-              >
-                <Check className="w-4 h-4" />
-                Approve All
-              </button>
-              <button
-                onClick={() => handleBulkAction('reject')}
-                className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-              >
-                <X className="w-4 h-4" />
-                Reject All
-              </button>
-              <button
-                onClick={() => handleBulkAction('delete')}
-                className="flex items-center gap-2 px-4 py-2 bg-red-800 text-white rounded-lg hover:bg-red-900 transition-colors"
-              >
-                <Trash2 className="w-4 h-4" />
-                Delete All
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Properties List - Responsive */}
-      <div className="bg-white dark:bg-dark-800 rounded-xl border border-gray-200 dark:border-dark-700 overflow-hidden">
-        {/* Mobile View - Cards */}
-        <div className="md:hidden divide-y divide-gray-200 dark:divide-dark-700">
-          {filteredProperties.length === 0 ? (
-            <div className="p-4 text-center text-gray-500 dark:text-gray-400">No properties found</div>
-          ) : (
-            filteredProperties.map((property) => (
-              <div key={property.id} className="p-4 space-y-3">
-                <div className="flex items-start gap-4">
-                  {/* Selection Checkbox */}
-                  <input
-                    type="checkbox"
-                    checked={selectedProperties.includes(property.id)}
-                    onChange={() => handleSelectProperty(property.id)}
-                    className="mt-1 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                  />
-
-                  {/* Image */}
-                  <img
-                    src={getPropertyImage(property)}
-                    alt={property.title}
-                    className="w-20 h-20 rounded-lg object-cover flex-shrink-0 bg-gray-100"
-                  />
-
-                  {/* Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between">
-                      <h4 className="text-sm font-semibold text-gray-900 dark:text-white truncate pr-2">
-                        {property.title}
-                      </h4>
-                      <span className={`flex-shrink-0 inline-flex px-2 py-0.5 text-xs font-semibold rounded-full ${getStatusBadgeColor(property.status)}`}>
-                        {property.status}
-                      </span>
-                    </div>
-
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 truncate">
-                      {(() => {
-                        if (typeof property.location === 'string') return property.location;
-                        if (property.location && typeof property.location === 'object') {
-                          return property.location.address || property.location.city || property.location.state || '';
-                        }
-                        return property.address || 'No location';
-                      })()}
-                    </p>
-
-                    <p className="text-sm font-bold text-green-600 mt-1">
-                      Ksh {property.price.toLocaleString()}
-                    </p>
-                  </div>
-                </div>
-
-                {/* Metadata Row */}
-                <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-dark-700/50 p-2 rounded-lg">
-                  <div className="flex items-center gap-1">
-                    <User className="w-3 h-3" />
-                    <span className="truncate max-w-[100px]">{property.submittedBy}</span>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Calendar className="w-3 h-3" />
-                    <span>{property.submittedAt.toLocaleDateString()}</span>
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="flex items-center gap-2 pt-1">
-                  <button
-                    onClick={() => {
-                      setSelectedProperty(property);
-                      setShowPropertyModal(true);
-                    }}
-                    className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 rounded-lg text-sm font-medium"
-                  >
-                    <Eye className="w-4 h-4" />
-                    View
-                  </button>
-
-                  {property.status === 'pending' && (
-                    <>
-                      <button
-                        onClick={() => handleApprove(property.id)}
-                        className="flex items-center justify-center p-2 bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-lg"
-                        title="Approve"
-                      >
-                        <Check className="w-4 h-4" />
+        {loading ? (
+          <div className="space-y-2 p-4">{Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-14" />)}</div>
+        ) : visible.length === 0 ? (
+          <EmptyState icon={Home} title="No listings match" description={search || status !== 'all' ? 'Try clearing the search or the status filter.' : 'Listings will appear here as they are added.'} />
+        ) : (
+          <>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-10 pl-4">
+                    <Checkbox checked={allVisibleSelected ? true : someVisibleSelected ? 'indeterminate' : false} onCheckedChange={toggleAll} aria-label="Select all on this page" />
+                  </TableHead>
+                  <TableHead>Listing</TableHead>
+                  <TableHead className="hidden md:table-cell">Price</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead className="hidden lg:table-cell">Submitted by</TableHead>
+                  <TableHead className="hidden md:table-cell">Added</TableHead>
+                  <TableHead className="w-12 text-right pr-3"><span className="sr-only">Actions</span></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {visible.map((r) => (
+                  <TableRow key={r.id} data-state={selected.has(r.id) ? 'selected' : undefined}>
+                    <TableCell className="pl-4">
+                      <Checkbox checked={selected.has(r.id)} onCheckedChange={() => toggleOne(r.id)} aria-label={`Select ${r.title}`} />
+                    </TableCell>
+                    <TableCell>
+                      <button type="button" onClick={() => setDetail(r)} className="flex min-w-0 items-center gap-3 text-left">
+                        <img src={getPropertyImage(r)} alt="" loading="lazy" onError={(e) => handleImageError(e, null, r)} className="h-11 w-16 shrink-0 rounded-md object-cover bg-muted" />
+                        <span className="min-w-0">
+                          <span className="block truncate text-sm font-medium text-foreground">{r.title}</span>
+                          <span className="block truncate text-xs text-muted-foreground">{r.location}</span>
+                          <span className="block text-xs text-muted-foreground md:hidden">{formatKsh(r.price)}</span>
+                        </span>
                       </button>
-                      <button
-                        onClick={() => {
-                          setSelectedProperty(property);
-                          setShowPropertyModal(true);
-                        }}
-                        className="flex items-center justify-center p-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg"
-                        title="Reject"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </>
-                  )}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell whitespace-nowrap tabular-nums">{formatKsh(r.price)}</TableCell>
+                    <TableCell><Badge variant={statusVariant(r.status)}>{statusLabel(r.status)}</Badge></TableCell>
+                    <TableCell className="hidden lg:table-cell max-w-[180px] truncate text-muted-foreground">{r.submittedBy}</TableCell>
+                    <TableCell className="hidden md:table-cell whitespace-nowrap text-muted-foreground">{formatDate(r.createdAt)}</TableCell>
+                    <TableCell className="text-right pr-3">
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" aria-label="Row actions"><MoreHorizontal /></Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onSelect={() => setDetail(r)}><Eye />View details</DropdownMenuItem>
+                          {!ACTIVE.has(r.status) && <DropdownMenuItem onSelect={() => approve([r.id])}><Check />Approve</DropdownMenuItem>}
+                          {ACTIVE.has(r.status) && <DropdownMenuItem onSelect={() => unpublish([r.id])}><EyeOff />Unpublish</DropdownMenuItem>}
+                          {r.status !== 'rejected' && <DropdownMenuItem onSelect={() => { setRejecting([r.id]); setReason(''); }}><X />Reject…</DropdownMenuItem>}
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem className="text-destructive focus:text-destructive" onSelect={() => setDeleting({ ids: [r.id] })}><Trash2 />Delete…</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <Pagination page={safePage} pageCount={pageCount} onPage={setPage} total={filtered.length} pageSize={PAGE_SIZE} />
+          </>
+        )}
+      </Card>
 
-                  <button
-                    onClick={() => {
-                      setPropertyToDelete(property);
-                      setShowDeleteModal(true);
-                    }}
-                    className="flex items-center justify-center p-2 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg ml-auto"
-                    title="Delete"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div>
+      {/* Detail */}
+      <Dialog open={!!detail} onOpenChange={(o) => !o && setDetail(null)}>
+        <DialogContent className="max-w-2xl">
+          {detail && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="pr-8">{detail.title}</DialogTitle>
+                <DialogDescription className="flex items-center gap-1"><MapPin className="h-3.5 w-3.5" />{detail.location}</DialogDescription>
+              </DialogHeader>
+              <img src={getPropertyImage(detail)} alt="" onError={(e) => handleImageError(e, null, detail)} className="h-56 w-full rounded-md object-cover bg-muted" />
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+                <span className="font-semibold tabular-nums">{formatKsh(detail.price)}{detail.listingType.includes('rent') ? <span className="font-normal text-muted-foreground"> / month</span> : null}</span>
+                <span className="flex items-center gap-1 text-muted-foreground"><Bed className="h-4 w-4" />{detail.bedrooms || '—'}</span>
+                <span className="flex items-center gap-1 text-muted-foreground"><Bath className="h-4 w-4" />{detail.bathrooms || '—'}</span>
+                <Badge variant={statusVariant(detail.status)}>{statusLabel(detail.status)}</Badge>
+                <span className="text-muted-foreground">{detail.views.toLocaleString()} views</span>
               </div>
-            ))
+              {detail.description && <p className="max-h-40 overflow-y-auto text-sm leading-relaxed text-muted-foreground">{detail.description}</p>}
+              {detail.rejectionReason && <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">Rejected: {detail.rejectionReason}</p>}
+              <dl className="grid grid-cols-2 gap-2 text-xs text-muted-foreground">
+                <div><dt className="uppercase tracking-wide">Submitted by</dt><dd className="mt-0.5 truncate text-foreground">{detail.submittedBy}</dd></div>
+                <div><dt className="uppercase tracking-wide">Added</dt><dd className="mt-0.5 text-foreground">{formatDate(detail.createdAt)}</dd></div>
+              </dl>
+              <DialogFooter>
+                <Button variant="destructive" size="sm" onClick={() => setDeleting({ ids: [detail.id] })}><Trash2 />Delete</Button>
+                {detail.status !== 'rejected' && <Button variant="outline" size="sm" onClick={() => { setRejecting([detail.id]); setReason(''); }}><X />Reject</Button>}
+                {ACTIVE.has(detail.status)
+                  ? <Button variant="outline" size="sm" disabled={busy} onClick={() => { unpublish([detail.id]); setDetail({ ...detail, status: 'inactive' }); }}><EyeOff />Unpublish</Button>
+                  : <Button size="sm" disabled={busy} onClick={() => { approve([detail.id]); setDetail({ ...detail, status: 'active' }); }}><Check />Approve</Button>}
+              </DialogFooter>
+            </>
           )}
-        </div>
+        </DialogContent>
+      </Dialog>
 
-        {/* Desktop View - Table */}
-        <div className="hidden md:block overflow-x-auto">
-          <table className="w-full">
-            <thead className="bg-gray-50 dark:bg-dark-700">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  <input
-                    type="checkbox"
-                    checked={selectedProperties.length === filteredProperties.length && filteredProperties.length > 0}
-                    onChange={handleSelectAll}
-                    className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                  />
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Property
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Submitted By
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Submitted Date
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white dark:bg-dark-800 divide-y divide-gray-200 dark:divide-dark-700">
-              {filteredProperties.map((property) => (
-                <tr key={property.id} className="hover:bg-gray-50 dark:hover:bg-dark-700 transition-colors">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <input
-                      type="checkbox"
-                      checked={selectedProperties.includes(property.id)}
-                      onChange={() => handleSelectProperty(property.id)}
-                      className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
-                    />
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <img
-                        className="h-12 w-16 rounded-lg object-cover"
-                        src={getPropertyImage(property)}
-                        alt={property.title}
-                      />
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900 dark:text-white">
-                          {property.title}
-                        </div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                          {(() => {
-                            if (typeof property.location === 'string') {
-                              return property.location;
-                            } else if (property.location && typeof property.location === 'object') {
-                              return property.location.address || property.location.city || property.location.state || '';
-                            }
-                            return property.address || 'Location not specified';
-                          })()}
-                        </div>
-                        <div className="text-sm font-semibold text-green-600">
-                          Ksh {property.price.toLocaleString()}
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusBadgeColor(property.status)}`}>
-                      {property.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                    {property.submittedBy}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                    {property.submittedAt.toLocaleDateString()}
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => {
-                          setSelectedProperty(property);
-                          setShowPropertyModal(true);
-                        }}
-                        className="text-emerald-600 hover:text-emerald-900 dark:text-emerald-400 dark:hover:text-emerald-300"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
-                      {property.status === 'pending' && (
-                        <>
-                          <button
-                            onClick={() => handleApprove(property.id)}
-                            className="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300"
-                          >
-                            <Check className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => {
-                              setSelectedProperty(property);
-                              setShowPropertyModal(true);
-                            }}
-                            className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                        </>
-                      )}
-                      <button
-                        onClick={() => {
-                          setPropertyToDelete(property);
-                          setShowDeleteModal(true);
-                        }}
-                        className="text-red-800 hover:text-red-900 dark:text-red-600 dark:hover:text-red-500"
-                        title="Delete Property"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      {/* Reject with reason */}
+      <Dialog open={!!rejecting} onOpenChange={(o) => !o && setRejecting(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Reject {rejecting?.length === 1 ? 'this listing' : `${rejecting?.length} listings`}</DialogTitle>
+            <DialogDescription>The reason is stored on the listing and shown to the agent.</DialogDescription>
+          </DialogHeader>
+          <Textarea value={reason} onChange={(e) => setReason(e.target.value)} placeholder="e.g. Photos don't show the property, or the price is missing." rows={4} autoFocus />
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setRejecting(null)}>Cancel</Button>
+            <Button variant="destructive" disabled={!reason.trim() || busy} onClick={reject}>Reject</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
-      {/* Property Detail Modal */}
-      {showPropertyModal && selectedProperty && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-dark-800 rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Property Details
-              </h3>
-              <button
-                onClick={() => setShowPropertyModal(false)}
-                className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            <div className="space-y-4">
-              <img
-                src={getPropertyImage(selectedProperty)}
-                alt={selectedProperty.title}
-                className="w-full h-48 object-cover rounded-lg"
-              />
-
-              <div>
-                <h4 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  {selectedProperty.title}
-                </h4>
-                <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  {selectedProperty.description}
-                </p>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm text-gray-600 dark:text-gray-400">{selectedProperty.location}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <DollarSign className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm font-semibold text-green-600">Ksh {selectedProperty.price.toLocaleString()}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Bed className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm text-gray-600 dark:text-gray-400">{selectedProperty.bedrooms} bedrooms</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Bath className="w-4 h-4 text-gray-400" />
-                  <span className="text-sm text-gray-600 dark:text-gray-400">{selectedProperty.bathrooms} bathrooms</span>
-                </div>
-              </div>
-
-              {selectedProperty.status === 'pending' && (
-                <div className="border-t border-gray-200 dark:border-dark-700 pt-4">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Rejection Reason (if rejecting)
-                  </label>
-                  <textarea
-                    value={rejectionReason}
-                    onChange={(e) => setRejectionReason(e.target.value)}
-                    placeholder="Enter reason for rejection..."
-                    className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white"
-                    rows="3"
-                  />
-                </div>
-              )}
-
-              <div className="flex items-center justify-end gap-3 pt-4">
-                <button
-                  onClick={() => setShowPropertyModal(false)}
-                  className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
-                >
-                  Close
-                </button>
-                <button
-                  onClick={() => {
-                    setPropertyToDelete(selectedProperty);
-                    setShowDeleteModal(true);
-                    setShowPropertyModal(false);
-                  }}
-                  className="px-4 py-2 bg-red-800 text-white rounded-lg hover:bg-red-900 transition-colors flex items-center gap-2"
-                >
-                  <Trash2 className="w-4 h-4" />
-                  Delete
-                </button>
-                {selectedProperty.status === 'pending' && (
-                  <>
-                    <button
-                      onClick={() => handleApprove(selectedProperty.id)}
-                      className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                    >
-                      Approve
-                    </button>
-                    <button
-                      onClick={() => handleReject(selectedProperty.id)}
-                      className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                    >
-                      Reject
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {showDeleteModal && propertyToDelete && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white dark:bg-dark-800 rounded-xl p-6 w-full max-w-md">
-            <div className="text-center">
-              <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 dark:bg-red-900/30 mb-4">
-                <Trash2 className="h-6 w-6 text-red-600 dark:text-red-400" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Delete Property</h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Are you sure you want to delete "{propertyToDelete.title}"? This action cannot be undone.
-              </p>
-              <div className="flex gap-3">
-                <button
-                  onClick={() => handleDelete(propertyToDelete.id)}
-                  className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                >
-                  Delete
-                </button>
-                <button
-                  onClick={() => {
-                    setShowDeleteModal(false);
-                    setPropertyToDelete(null);
-                  }}
-                  className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                >
-                  Cancel
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
+      {/* Delete confirmation */}
+      <AlertDialog open={!!deleting} onOpenChange={(o) => !o && setDeleting(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete {deleting?.ids.length === 1 ? 'this listing' : `${deleting?.ids.length} listings`}?</AlertDialogTitle>
+            <AlertDialogDescription>This removes the listing from Firestore permanently. It cannot be undone.</AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction className="bg-destructive text-destructive-foreground hover:bg-destructive/90" disabled={busy} onClick={(e) => { e.preventDefault(); confirmDelete(); }}>Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 };
 
-export default PropertyModeration; 
+export default PropertyModeration;
