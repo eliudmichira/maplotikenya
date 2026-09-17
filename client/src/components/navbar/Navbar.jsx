@@ -418,7 +418,7 @@ const Navbar = () => {
 
             {currentUser ? (
               <motion.div
-                className="relative"
+                className="relative hidden lg:block"
                 ref={profileDropdownRef}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -620,7 +620,7 @@ const Navbar = () => {
                             onClick={() => setIsProfileDropdownOpen(false)}
                             className="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                           >
-                            <BarChart3 className="w-4 h-4 text-emerald-500" />
+                            <BarChart3 className="w-4 h-4 text-amber-500" />
                             <span>Agent Dashboard</span>
                           </Link>
 
@@ -707,7 +707,7 @@ const Navbar = () => {
                         <Link
                           to="/agent-verification"
                           onClick={() => setIsProfileDropdownOpen(false)}
-                          className="flex items-center gap-3 px-3 py-2 rounded-xl text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors"
+                          className="flex items-center gap-3 px-3 py-2 rounded-xl text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors"
                         >
                           <Building2 className="w-4 h-4" />
                           <span>Become an Agent</span>
@@ -733,7 +733,7 @@ const Navbar = () => {
               </motion.div>
             ) : (
               <motion.div
-                className="flex items-center gap-3"
+                className="hidden lg:flex items-center gap-3"
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.3, delay: 0.8 }}
@@ -776,7 +776,7 @@ const Navbar = () => {
             {/* Mobile menu toggle: the nav links are hidden below lg */}
             <button
               type="button"
-              onClick={() => setIsMenuOpen((open) => !open)}
+              onClick={() => { setIsProfileDropdownOpen(false); setIsMenuOpen((open) => !open); }}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
               className={`lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-full transition-colors ${isDark ? 'text-white hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'}`}
@@ -935,7 +935,7 @@ const Navbar = () => {
                         onClick={() => setIsMenuOpen(false)}
                         className="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                       >
-                        <BarChart3 className="w-4 h-4 text-emerald-500" />
+                        <BarChart3 className="w-4 h-4 text-amber-500" />
                         <span>Agent Dashboard</span>
                       </Link>
 
@@ -1022,7 +1022,7 @@ const Navbar = () => {
                     <Link
                       to="/agent-verification"
                       onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2 rounded-xl text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors"
+                      className="flex items-center gap-3 px-3 py-2 rounded-xl text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors"
                     >
                       <Building2 className="w-4 h-4" />
                       <span>Become an Agent</span>
