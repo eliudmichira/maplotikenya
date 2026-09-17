@@ -1,885 +1,256 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
 import { useAuth } from '../../context/AuthContext';
-import { useTheme } from '../../context/ThemeContext';
 import { accountDashboardAPI } from '../../lib/firebaseAPI';
+import { getPropertyImage, handleImageError } from '../../utils/imageUtils';
+import WorkspaceShell from '../../components/workspace/WorkspaceShell';
 import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip as RechartsTooltip,
-  ResponsiveContainer
-} from 'recharts';
-import { useProperties } from '../../hooks/useProperties';
-import { SimpleSpinner, SimpleLoadingDots } from '../../components/SimpleLoadingStates';
-import {
-  Home,
-  MessageCircle,
-  Settings,
-  Heart,
-  Search,
-  Eye,
-  Calendar,
-  MapPin,
-  Star,
-  TrendingUp,
-  Building2,
-  User,
-  Bell,
-  Filter,
-  Bookmark,
-  Clock,
-  DollarSign
+  Home, Heart, Calendar, Search, Eye, Mail, User, Bed, Bath, X, Loader2, MapPin
 } from 'lucide-react';
-import { DashboardLoader } from '../../components/Preloader';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
+import { PageHeader, StatGrid, EmptyState, SectionHeader, statusVariant, formatKsh, formatDate } from '@/components/admin/primitives';
+
+// A home-seeker's workspace: what they saved, what they asked to view, and
+// what they looked at recently. Every number is a count of real records.
+
+const SECTIONS = [
+  { id: 'overview', label: 'Overview', icon: Home },
+  { id: 'favorites', label: 'Saved homes', icon: Heart },
+  { id: 'bookings', label: 'Viewing requests', icon: Calendar },
+];
+
+const LINKS = [
+  { label: 'Messages', icon: Mail, to: '/messages' },
+  { label: 'Profile', icon: User, to: '/profile/update' },
+];
+
+const areaOf = (p) => p.location?.address || p.location?.area || p.address || p.city || '';
 
 const UserDashboard = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { currentUser, favorites, savedSearches, userPreferences } = useAuth();
-  const { isDark } = useTheme();
-  const [activeSection, setActiveSection] = useState('overview');
-  const [isLoading, setIsLoading] = useState(true);
-  const [userFavorites, setUserFavorites] = useState([]);
-  const [userBookings, setUserBookings] = useState([]);
-  const [userProperties, setUserProperties] = useState([]);
-  const [userAnalytics, setUserAnalytics] = useState({
-    totalFavorites: 0,
-    totalBookings: 0,
-    totalProperties: 0,
-    totalViews: 0
-  });
-  const [recommendedProperties, setRecommendedProperties] = useState([]);
-  const [recentActivity, setRecentActivity] = useState([]);
-  const [viewedProperties, setViewedProperties] = useState([]);
+  const { currentUser, favorites, toggleFavorite } = useAuth();
 
-  // Get section from URL params or default to overview
   const sectionFromUrl = searchParams.get('section');
+  const [active, setActive] = useState(SECTIONS.some((s) => s.id === sectionFromUrl) ? sectionFromUrl : 'overview');
+  useEffect(() => {
+    if (active !== sectionFromUrl) setSearchParams({ section: active }, { replace: true });
+  }, [active, sectionFromUrl, setSearchParams]);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const [bookings, setBookings] = useState([]);
+  const [viewed, setViewed] = useState([]);
+  const [busyId, setBusyId] = useState(null);
 
   useEffect(() => {
-    if (sectionFromUrl) {
-      setActiveSection(sectionFromUrl);
-    }
-  }, [sectionFromUrl]);
+    if (!currentUser?.id) return;
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      const [bk, vw] = await Promise.all([
+        accountDashboardAPI.getUserBookings(currentUser.id).catch(() => null),
+        accountDashboardAPI.getUserViewHistory(currentUser.id).catch(() => []),
+      ]);
+      if (cancelled) return;
+      if (bk === null) setError('Some of your data could not be loaded. Check your connection and refresh.');
+      setBookings(bk || []);
+      setViewed(Array.isArray(vw) ? vw : []);
+      setLoading(false);
+    })();
+    return () => { cancelled = true; };
+  }, [currentUser?.id]);
 
-  // Update URL when section changes
-  useEffect(() => {
-    if (activeSection !== sectionFromUrl) {
-      setSearchParams({ section: activeSection });
-    }
-  }, [activeSection, sectionFromUrl, setSearchParams]);
+  const saved = useMemo(() => (Array.isArray(favorites) ? favorites.filter((f) => f && f.id) : []), [favorites]);
+  const pendingBookings = useMemo(() => bookings.filter((b) => (b.status || 'pending') === 'pending'), [bookings]);
+  const upcoming = useMemo(() => bookings.filter((b) => ['pending', 'confirmed'].includes(b.status || 'pending')).slice(0, 5), [bookings]);
 
-  // Load user data from Firebase
-  useEffect(() => {
-    const loadUserData = async () => {
-      if (!currentUser?.id) return;
+  const removeSaved = async (p) => {
+    setBusyId(p.id);
+    try { await toggleFavorite(p); } catch (e) { setError(`Could not update saved homes. ${e.message || ''}`); } finally { setBusyId(null); }
+  };
 
-      setIsLoading(true);
-      try {
-        // Essential data fetching
-        const [properties, bookings] = await Promise.all([
-          accountDashboardAPI.getUserProperties(currentUser.id).catch(() => []),
-          accountDashboardAPI.getUserBookings(currentUser.id).catch(() => [])
-        ]);
-
-        setUserProperties(properties);
-        setUserBookings(bookings);
-        
-        // Use favorites from AuthContext for analytics
-        setUserAnalytics({
-          totalFavorites: favorites?.length || 0,
-          totalBookings: bookings.length,
-          totalProperties: properties.length,
-          totalViews: properties.reduce((sum, prop) => sum + (prop.views || 0), 0)
-        });
-
-        // Auxiliary data fetching (non-critical)
-        try {
-          const [viewedData, recommendedData, activityData] = await Promise.all([
-            accountDashboardAPI.getUserViewHistory(currentUser.id).catch(() => []),
-            accountDashboardAPI.getRecommendedProperties(currentUser.id).catch(() => []),
-            accountDashboardAPI.getUserActivity(currentUser.id).catch(() => [])
-          ]);
-          
-          setViewedProperties(viewedData);
-          setRecommendedProperties(recommendedData);
-          setRecentActivity(activityData);
-        } catch (auxError) {
-          console.warn('Some non-critical dashboard data failed to load', auxError);
-        }
-
-      } catch (error) {
-        console.error('Error loading dashboard data:', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadUserData();
-  }, [currentUser, favorites]);
-
-  const sections = [
-    {
-      id: 'overview',
-      label: 'Overview',
-      icon: Home,
-      description: 'Your dashboard summary'
-    },
-    {
-      id: 'favorites',
-      label: 'Favorites',
-      icon: Heart,
-      description: 'Your saved properties'
-    },
-    {
-      id: 'searches',
-      label: 'Saved Searches',
-      icon: Search,
-      description: 'Your search criteria'
-    },
-    {
-      id: 'activity',
-      label: 'Recent Activity',
-      icon: Clock,
-      description: 'Your recent actions'
-    },
-    {
-      id: 'recommendations',
-      label: 'Recommendations',
-      icon: Star,
-      description: 'Properties for you'
-    },
-    {
-      id: 'insights',
-      label: 'Insights',
-      icon: TrendingUp,
-      description: 'Market data & trends'
-    },
-    {
-      id: 'bookings',
-      label: 'Bookings',
-      icon: Calendar,
-      description: 'Your viewing appointments'
-    }
-  ];
-
-  const renderSection = () => {
-    switch (activeSection) {
-      case 'overview':
-        return <OverviewSection />;
-      case 'favorites':
-        return <FavoritesSection />;
-      case 'searches':
-        return <SearchesSection />;
-      case 'activity':
-        return <ActivitySection />;
-      case 'recommendations':
-        return <RecommendationsSection />;
-      case 'insights':
-        return <InsightsSection />;
-      case 'bookings':
-        return <BookingsSection />;
-      default:
-        return <OverviewSection />;
+  const cancelBooking = async (b) => {
+    setBusyId(b.id);
+    try {
+      await updateDoc(doc(db, 'bookings', b.id), { status: 'cancelled', updatedAt: serverTimestamp() });
+      setBookings((prev) => prev.map((x) => (x.id === b.id ? { ...x, status: 'cancelled' } : x)));
+    } catch (e) {
+      setError(`Could not cancel that request. ${e.message || ''}`);
+    } finally {
+      setBusyId(null);
     }
   };
 
-  // Overview Section Component
-  const OverviewSection = () => (
-    <div className="space-y-6">
-
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-900/20 flex items-center justify-center">
-              <Heart className="w-6 h-6 text-red-500" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Favorites</p>
-              <p className="text-2xl md:text-3xl font-bold tabular-nums text-gray-900 dark:text-white">{userAnalytics.totalFavorites}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-[#fbbf24]/15 flex items-center justify-center">
-              <Search className="w-6 h-6 text-[#f59e0b]" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Saved Searches</p>
-              <p className="text-2xl md:text-3xl font-bold tabular-nums text-gray-900 dark:text-white">{savedSearches?.length || 0}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-[#fbbf24]/15 flex items-center justify-center">
-              <Eye className="w-6 h-6 text-[#f59e0b]" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Properties Viewed</p>
-              <p className="text-2xl md:text-3xl font-bold tabular-nums text-gray-900 dark:text-white">{viewedProperties.length}</p>
-            </div>
-          </div>
-        </div>
-
-        <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-[#fbbf24]/15 flex items-center justify-center">
-              <Star className="w-6 h-6 text-[#f59e0b]" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Recommendations</p>
-              <p className="text-2xl md:text-3xl font-bold tabular-nums text-gray-900 dark:text-white">{recommendedProperties.length}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button
-            onClick={() => navigate('/desktop/properties')}
-            className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] hover:shadow-lg transition-all"
-          >
-            <Search className="w-5 h-5" />
-            <span className="font-medium">Search Properties</span>
-          </button>
-
-          <button
-            onClick={() => setActiveSection('favorites')}
-            className="flex items-center gap-3 p-4 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all"
-          >
-            <Heart className="w-5 h-5" />
-            <span className="font-medium">View Favorites</span>
-          </button>
-
-          <button
-            onClick={() => navigate('/messages')}
-            className="flex items-center gap-3 p-4 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all"
-          >
-            <MessageCircle className="w-5 h-5" />
-            <span className="font-medium">Messages</span>
-          </button>
-        </div>
-      </div>
-    </div>
+  const browseButton = (
+    <Button size="sm" asChild><Link to="/desktop/properties"><Search />Browse listings</Link></Button>
   );
 
-  // Favorites Section Component
-  const FavoritesSection = () => (
-    <div className="space-y-6">
-      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Your Favorites</h2>
-          <span className="text-sm text-gray-600 dark:text-gray-400">{userFavorites.length} properties</span>
-        </div>
-
-        {userFavorites.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {userFavorites.slice(0, 6).map((property) => (
-              <div key={property.id} className="group cursor-pointer">
-                <div className="relative overflow-hidden rounded-xl">
-                  <img
-                    src={property.images?.[0] || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=300&fit=crop'}
-                    alt={property.title}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-3 right-3">
-                    <button className="p-2 rounded-full bg-white/90 hover:bg-white transition-colors">
-                      <Heart className="w-4 h-4 text-red-500 fill-current" />
-                    </button>
-                  </div>
-                </div>
-                <div className="mt-3">
-                  <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-[#f59e0b] transition-colors">
-                    {property.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1 mt-1">
-                    <MapPin className="w-3 h-3" />
-                    {property.location?.address || 'Location not specified'}
-                  </p>
-                  <p className={`text-lg font-bold mt-2 ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>
-                    KES {property.price?.toLocaleString() || '0'}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <Heart className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No favorites yet</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              Start exploring properties and save your favorites
-            </p>
+  // ── pieces ──
+  const HomeCard = ({ p, onRemove }) => (
+    <Card className="group overflow-hidden">
+      <Link to={`/property/${p.id}`} className="block">
+        <div className="relative aspect-[4/3] bg-muted">
+          <img src={getPropertyImage(p)} alt="" loading="lazy" onError={(e) => handleImageError(e, null, p)} className="h-full w-full object-cover" />
+          {onRemove && (
             <button
-              onClick={() => navigate('/desktop/properties')}
-              className="px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
+              type="button"
+              onClick={(e) => { e.preventDefault(); onRemove(p); }}
+              disabled={busyId === p.id}
+              aria-label="Remove from saved homes"
+              className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-background/90 text-foreground shadow-sm backdrop-blur hover:bg-background disabled:opacity-50"
             >
-              Browse Properties
+              {busyId === p.id ? <Loader2 className="h-4 w-4 animate-spin" /> : <X className="h-4 w-4" />}
             </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-
-  // Searches Section Component
-  const SearchesSection = () => (
-    <div className="space-y-6">
-      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Saved Searches</h2>
-          <span className="text-sm text-gray-600 dark:text-gray-400">{savedSearches?.length || 0} searches</span>
-        </div>
-
-        {savedSearches && savedSearches.length > 0 ? (
-          <div className="space-y-4">
-            {savedSearches.map((search) => (
-              <div key={search.id} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-xl bg-gray-50 dark:bg-gray-700">
-                <div className="flex items-center gap-3 min-w-0">
-                  <Search className="w-5 h-5 text-gray-500" />
-                  <div>
-                    <p className="font-medium text-gray-900 dark:text-white">{search.query}</p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Saved {new Date(search.createdAt).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-                <button className="w-full sm:w-auto min-h-[44px] px-4 py-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-medium rounded-lg hover:shadow-lg transition-all">
-                  Search Again
-                </button>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <Search className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No saved searches</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              Your saved searches will appear here
-            </p>
-            <button
-              onClick={() => navigate('/desktop/properties')}
-              className="px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
-            >
-              Start Searching
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-
-  // Activity Section Component
-  const ActivitySection = () => (
-    <div className="space-y-6">
-      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
-        <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-6">Recent Activity</h2>
-
-        <div className="space-y-4">
-          {recentActivity.length > 0 ? (
-            recentActivity.map((activity) => {
-              // Select the icon component based on the icon name
-              let IconComponent = Eye; // default
-              if (activity.icon === 'Heart') IconComponent = Heart;
-              if (activity.icon === 'Search') IconComponent = Search;
-              if (activity.icon === 'Eye') IconComponent = Eye;
-
-              return (
-                <div key={activity.id} className="flex items-center gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-700">
-                  <div className="w-10 h-10 rounded-full bg-[#fbbf24]/20 flex items-center justify-center flex-shrink-0">
-                    <IconComponent className={`w-5 h-5 ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`} />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 dark:text-white break-words">
-                      {activity.description}
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {activity.timestamp.toLocaleString()}
-                    </p>
-                  </div>
-                </div>
-              );
-            })
-          ) : (
-            <div className="text-center py-12">
-              <Clock className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No recent activity</h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                Your activity history will appear here as you use the platform
-              </p>
-            </div>
           )}
         </div>
-      </div>
-    </div>
-  );
-
-  // Recommendations Section Component
-  const RecommendationsSection = () => (
-    <div className="space-y-6">
-      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
-        <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-6">Recommended for You</h2>
-
-        {recommendedProperties.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {recommendedProperties.map((property) => (
-              <div key={property.id} className="group cursor-pointer">
-                <div className="relative overflow-hidden rounded-xl">
-                  <img
-                    src={property.images?.[0] || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=400&h=300&fit=crop'}
-                    alt={property.title}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-3 right-3">
-                    <button className="p-2 rounded-full bg-white/90 hover:bg-white transition-colors">
-                      <Heart className="w-4 h-4 text-gray-400 hover:text-red-500 transition-colors" />
-                    </button>
-                  </div>
-                  {property.reason && (
-                    <div className="absolute bottom-3 left-3">
-                      <div className="px-2 py-1 rounded-full bg-black/90 text-white dark:bg-white/90 dark:text-black text-xs font-medium">
-                        {property.reason}
-                      </div>
-                    </div>
-                  )}
-                </div>
-                <div className="mt-3">
-                  <h3 className="font-semibold text-gray-900 dark:text-white group-hover:text-[#f59e0b] transition-colors">
-                    {property.title}
-                  </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 flex items-center gap-1 mt-1">
-                    <MapPin className="w-3 h-3" />
-                    {property.location?.address || property.location?.city || 'Location not specified'}
-                  </p>
-                  <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 mt-2">
-                    <p className={`text-lg font-bold ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>
-                      KES {property.price?.toLocaleString() || '0'}
-                    </p>
-                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-                      <span>{property.bedrooms || 0} beds</span>
-                      <span>•</span>
-                      <span>{property.bathrooms || 0} baths</span>
-                      {property.area && (
-                        <>
-                          <span>•</span>
-                          <span>{property.area}m²</span>
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+        <div className="p-3">
+          <p className="truncate text-sm font-medium text-foreground">{p.title || 'Untitled listing'}</p>
+          {areaOf(p) && <p className="mt-0.5 flex items-center gap-1 truncate text-xs text-muted-foreground"><MapPin className="h-3 w-3 shrink-0" />{areaOf(p)}</p>}
+          <div className="mt-2 flex items-center justify-between gap-2">
+            <span className="text-sm font-semibold tabular-nums text-foreground">{formatKsh(p.price)}</span>
+            <span className="flex items-center gap-2 text-xs text-muted-foreground tabular-nums">
+              {p.bedrooms ? <span className="flex items-center gap-1"><Bed className="h-3.5 w-3.5" />{p.bedrooms}</span> : null}
+              {p.bathrooms ? <span className="flex items-center gap-1"><Bath className="h-3.5 w-3.5" />{p.bathrooms}</span> : null}
+            </span>
           </div>
-        ) : (
-          <div className="text-center py-12">
-            <Star className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No recommendations yet</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-4">
-              Browse properties to get personalized recommendations
-            </p>
-            <button
-              onClick={() => navigate('/desktop/properties')}
-              className="px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
-            >
-              Explore Properties
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-
-  // Bookings Section Component
-  const BookingsSection = () => (
-    <div className="space-y-6">
-      <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
-        <div className="flex flex-wrap items-center justify-between gap-2 mb-6">
-          <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Your Bookings</h2>
-          <span className="text-sm text-gray-600 dark:text-gray-400">{userBookings.length} appointments</span>
         </div>
-
-        {userBookings.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {userBookings.map((booking) => (
-              <div key={booking.id} className="p-4 rounded-xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-700/50">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-xl overflow-hidden flex-shrink-0">
-                    <img 
-                      src={booking.propertyImage || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=400&h=300'} 
-                      alt="" 
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-gray-900 dark:text-white truncate">{booking.propertyTitle}</h3>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">Agent: {booking.agentName}</p>
-                  </div>
-                </div>
-                
-                <div className="space-y-3 mb-4">
-                  <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                    <Calendar className={`w-4 h-4 ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`} />
-                    <span>{booking.viewingDate}</span>
-                  </div>
-                  <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                    <Clock className={`w-4 h-4 ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`} />
-                    <span>{booking.viewingTime}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      booking.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                      booking.status === 'confirmed' ? 'bg-green-100 text-green-800' :
-                      'bg-gray-100 text-gray-800'
-                    }`}>
-                      {booking.status || 'pending'}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="flex gap-2">
-                  <button 
-                    onClick={() => navigate(`/property/${booking.propertyId}`)}
-                    className="flex-1 min-h-[44px] sm:min-h-0 px-3 py-2 text-xs bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 transition-colors"
-                  >
-                    View Property
-                  </button>
-                  <button className="flex-1 min-h-[44px] sm:min-h-0 px-3 py-2 text-xs bg-red-500/10 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all">
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12">
-            <Calendar className="w-16 h-16 mx-auto text-gray-400 mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">No bookings yet</h3>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Book a viewing for properties you're interested in
-            </p>
-            <button
-              onClick={() => navigate('/desktop/properties')}
-              className="px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
-            >
-              Explore Properties
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+      </Link>
+    </Card>
   );
 
-  // Insights Section Component
-  const InsightsSection = () => {
-    const { data, isLoading: isPropertiesLoading } = useProperties({ limit: 1000 });
-    
-    const stats = React.useMemo(() => {
-      const list = data?.properties || [];
-      const withPrice = list.filter((p) => p.price != null && p.price > 0);
-      const avgPrice = withPrice.length ? withPrice.reduce((s, p) => s + p.price, 0) / withPrice.length : 0;
-      
-      const byType = {};
-      const byLocation = {};
-      
-      list.forEach((p) => {
-          const t = p.type || p.propertyType || 'Other';
-          byType[t] = (byType[t] || 0) + 1;
-          const loc = p.location || p.city || p.address || 'Other';
-          const locStr = typeof loc === 'string' ? loc : (loc?.city || loc?.name || 'Other');
-          byLocation[locStr] = (byLocation[locStr] || 0) + 1;
-      });
-      
-      const topTypesData = Object.entries(byType).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([name, count]) => ({ name, count }));
-      const topLocationsData = Object.entries(byLocation).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([name, count]) => ({ name, count }));
-      
-      return { total: list.length, avgPrice, topTypesData, topLocationsData, withPrice: withPrice.length };
-    }, [data]);
-
-    if (isPropertiesLoading) {
-       return <div className="flex justify-center py-12"><SimpleSpinner size="md" /></div>;
-    }
-
+  const BookingItem = ({ b }) => {
+    const status = b.status || 'pending';
     return (
-      <div className="space-y-6">
-        <div className={`p-4 sm:p-6 rounded-2xl border ${isDark ? 'bg-[#111111] border-white/10' : 'bg-white border-gray-200'} shadow-sm`}>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-12 h-12 rounded-xl bg-[#fbbf24]/20 flex items-center justify-center flex-shrink-0">
-              <TrendingUp className={`w-6 h-6 ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`} />
-            </div>
-            <div>
-              <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">Market Insights</h2>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Overview of current property listings</p>
-            </div>
+      <li className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-2">
+            <Link to={b.propertyId ? `/property/${b.propertyId}` : '#'} className="text-sm font-medium text-foreground hover:underline">{b.propertyTitle || 'Listing'}</Link>
+            <Badge variant={statusVariant(status)}>{status}</Badge>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
-            <div className={`p-5 rounded-2xl border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-gray-50 border-gray-200'}`}>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Total Market Listings</p>
-              <p className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
-            </div>
-            <div className={`p-5 rounded-2xl border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-gray-50 border-gray-200'}`}>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">Average Market Price</p>
-              <p className={`text-2xl md:text-3xl font-bold break-words ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}>
-                {stats.avgPrice ? new Intl.NumberFormat('en-KE', { style: 'currency', currency: 'KES', maximumFractionDigits: 0 }).format(stats.avgPrice) : '—'}
-              </p>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-8">
-             <div className={`p-5 rounded-2xl border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-gray-50 border-gray-200'}`}>
-                <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Listings by area</h3>
-                <div className="h-64 w-full">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={stats.topLocationsData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                            <CartesianGrid vertical={false} stroke={isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)'} />
-                            <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: isDark ? '#9ca3af' : '#6b7280', fontSize: 12}} dy={10} />
-                            <YAxis axisLine={false} tickLine={false} tick={{fill: isDark ? '#9ca3af' : '#6b7280', fontSize: 12}} />
-                            <RechartsTooltip 
-                                cursor={{fill: isDark ? '#374151' : '#f3f4f6'}}
-                                contentStyle={{ backgroundColor: isDark ? '#1f2937' : '#ffffff', borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
-                            />
-                            <Bar dataKey="count" name="Properties" fill="#fbbf24" radius={[4, 4, 0, 0]} maxBarSize={40} />
-                        </BarChart>
-                    </ResponsiveContainer>
-                 </div>
-            </div>
-
-            <div className={`p-5 rounded-2xl border ${isDark ? 'bg-white/[0.03] border-white/10' : 'bg-gray-50 border-gray-200'}`}>
-                <h3 className={`text-sm font-semibold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}>Listings by type</h3>
-                <div className="h-64 w-full">
-                    <ResponsiveContainer width="100%" height="100%">
-                        <BarChart data={stats.topTypesData} layout="vertical" margin={{ top: 4, right: 40, left: 0, bottom: 4 }} barCategoryGap={10}>
-                            <XAxis type="number" hide />
-                            <YAxis type="category" dataKey="name" width={110} axisLine={false} tickLine={false} tick={{ fill: isDark ? '#a3a3a3' : '#6b6b6b', fontSize: 12 }} />
-                            <RechartsTooltip cursor={{ fill: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)' }} contentStyle={{ backgroundColor: isDark ? '#111111' : '#ffffff', borderRadius: 10, border: `1px solid ${isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.1)'}`, color: isDark ? '#f2f2f2' : '#111111', fontSize: 13 }} />
-                            <Bar dataKey="count" name="Listings" fill="#fbbf24" radius={[0, 4, 4, 0]} barSize={14} />
-                        </BarChart>
-                    </ResponsiveContainer>
-                 </div>
-            </div>
-          </div>
+          <p className="mt-0.5 text-xs text-muted-foreground">
+            {b.viewingDate || formatDate(b.date)}{b.viewingTime ? ` at ${b.viewingTime}` : ''}{b.agentName ? ` · with ${b.agentName}` : ''}
+          </p>
         </div>
-      </div>
+        {['pending', 'confirmed'].includes(status) && (
+          <Button size="sm" variant="outline" onClick={() => cancelBooking(b)} disabled={busyId === b.id}>
+            {busyId === b.id ? <Loader2 className="animate-spin" /> : <X />}Cancel
+          </Button>
+        )}
+      </li>
     );
   };
 
-  if (isLoading) {
-    return (
-      <motion.div
-        className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20 overflow-x-hidden"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {/* Enhanced loading with skeleton cards */}
-          <div className="space-y-8">
-            {/* Header skeleton */}
-            <div className="space-y-4">
-              <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded-lg w-1/3 relative overflow-hidden">
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 dark:via-gray-600/60 to-transparent -skew-x-12"
-                  animate={{ x: ['-100%', '100%'] }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
-                />
-              </div>
-              <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 relative overflow-hidden">
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 dark:via-gray-600/60 to-transparent -skew-x-12"
-                  animate={{ x: ['-100%', '100%'] }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: 'linear', delay: 0.2 }}
-                />
-              </div>
-            </div>
+  // ── sections ──
+  const Overview = () => (
+    <>
+      <PageHeader title={`Welcome back, ${(currentUser?.name || 'there').split(' ')[0]}`} description="Your saved homes, viewing requests and recent activity in one place.">
+        {browseButton}
+      </PageHeader>
+      <StatGrid
+        loading={loading}
+        columns={3}
+        items={[
+          { label: 'Saved homes', value: saved.length, note: 'Listings you have hearted', icon: Heart },
+          { label: 'Viewing requests', value: bookings.length, note: `${pendingBookings.length.toLocaleString()} awaiting confirmation`, icon: Calendar },
+          { label: 'Recently viewed', value: viewed.length, note: 'Listings you have opened', icon: Eye },
+        ]}
+      />
 
-            {/* Stats grid skeleton */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[...Array(4)].map((_, i) => (
-                <motion.div
-                  key={i}
-                  className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-elevation-2"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: i * 0.1 }}
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-2">
-                      <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-16" />
-                      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-20" />
-                    </div>
-                    <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-lg" />
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* Property cards skeleton */}
-            <div>
-              <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-48 mb-6" />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Enhanced skeleton loading */}
-                {[...Array(6)].map((_, i) => (
-                  <motion.div
-                    key={i}
-                    className="bg-white dark:bg-gray-800 rounded-2xl h-96 overflow-hidden relative"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                  >
-                    <div className="h-48 bg-gray-200 dark:bg-gray-700 relative">
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 dark:via-gray-600/40 to-transparent -skew-x-12"
-                        animate={{ x: ['-100%', '100%'] }}
-                        transition={{
-                          duration: 1.5,
-                          repeat: Infinity,
-                          ease: 'linear',
-                          delay: i * 0.2
-                        }}
-                      />
-                    </div>
-                    <div className="p-4 space-y-3">
-                      <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4" />
-                      <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2" />
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Loading indicator */}
-          <div className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 bg-white dark:bg-gray-800 p-3 sm:p-4 rounded-full shadow-elevation-3 border border-gray-200 dark:border-gray-700">
-            <div className="flex items-center gap-3">
-              <SimpleSpinner size="sm" />
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Loading dashboard...
-              </span>
-            </div>
-          </div>
+      <Card>
+        <div className="flex items-center justify-between border-b border-border p-4">
+          <SectionHeader title="Saved homes" description={saved.length ? `${saved.length.toLocaleString()} saved` : undefined} />
+          {saved.length > 4 && <Button variant="ghost" size="sm" onClick={() => setActive('favorites')}>View all</Button>}
         </div>
-      </motion.div>
-    );
-  }
+        {saved.length === 0 ? (
+          <EmptyState icon={Heart} title="Nothing saved yet" description="Tap the heart on any listing to keep it here." action={browseButton} />
+        ) : (
+          <div className="grid grid-cols-2 gap-3 p-4 md:grid-cols-4">
+            {saved.slice(0, 4).map((p) => <HomeCard key={p.id} p={p} />)}
+          </div>
+        )}
+      </Card>
+
+      <div className="grid gap-4 md:gap-6 lg:grid-cols-2">
+        <Card>
+          <div className="flex items-center justify-between border-b border-border p-4">
+            <SectionHeader title="Upcoming viewings" />
+            {bookings.length > 0 && <Button variant="ghost" size="sm" onClick={() => setActive('bookings')}>View all</Button>}
+          </div>
+          {loading ? (
+            <div className="space-y-2 p-4">{Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-10" />)}</div>
+          ) : upcoming.length === 0 ? (
+            <EmptyState icon={Calendar} title="No viewings booked" description="Request a viewing from any listing page." className="py-10" />
+          ) : (
+            <ul className="divide-y divide-border px-4">{upcoming.map((b) => <BookingItem key={b.id} b={b} />)}</ul>
+          )}
+        </Card>
+
+        <Card>
+          <div className="border-b border-border p-4"><SectionHeader title="Recently viewed" /></div>
+          {loading ? (
+            <div className="space-y-2 p-4">{Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-10" />)}</div>
+          ) : viewed.length === 0 ? (
+            <EmptyState icon={Eye} title="Nothing viewed yet" description="Listings you open will show up here so you can find them again." className="py-10" />
+          ) : (
+            <ul className="divide-y divide-border px-4">
+              {viewed.slice(0, 5).map((p, i) => (
+                <li key={p.id || i} className="flex items-center gap-3 py-3">
+                  <img src={getPropertyImage(p)} alt="" loading="lazy" onError={(e) => handleImageError(e, null, p)} className="h-10 w-14 shrink-0 rounded-md object-cover" />
+                  <div className="min-w-0 flex-1">
+                    <Link to={p.id ? `/property/${p.id}` : '#'} className="block truncate text-sm font-medium text-foreground hover:underline">{p.title || 'Listing'}</Link>
+                    <p className="truncate text-xs text-muted-foreground">{areaOf(p) || formatDate(p.viewedAt || p.timestamp)}</p>
+                  </div>
+                  <span className="text-sm tabular-nums text-foreground">{formatKsh(p.price)}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Card>
+      </div>
+    </>
+  );
+
+  const Favorites = () => (
+    <>
+      <PageHeader title="Saved homes" description="Listings you hearted. Remove one with the cross on its photo.">{browseButton}</PageHeader>
+      {saved.length === 0 ? (
+        <Card><EmptyState icon={Heart} title="Nothing saved yet" description="Tap the heart on any listing to keep it here." action={browseButton} /></Card>
+      ) : (
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
+          {saved.map((p) => <HomeCard key={p.id} p={p} onRemove={removeSaved} />)}
+        </div>
+      )}
+    </>
+  );
+
+  const Bookings = () => (
+    <>
+      <PageHeader title="Viewing requests" description="Viewings you have asked for and what the agent said." />
+      <Card>
+        {loading ? (
+          <div className="space-y-2 p-4">{Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-12" />)}</div>
+        ) : bookings.length === 0 ? (
+          <EmptyState icon={Calendar} title="No viewing requests yet" description="Request a viewing from any listing page and track it here." action={browseButton} />
+        ) : (
+          <ul className="divide-y divide-border px-4">{bookings.map((b) => <BookingItem key={b.id} b={b} />)}</ul>
+        )}
+      </Card>
+    </>
+  );
+
+  const body = { overview: <Overview />, favorites: <Favorites />, bookings: <Bookings /> }[active] || <Overview />;
 
   return (
-    <motion.div
-      className="min-h-screen bg-gray-50 dark:bg-gray-900 pt-20 overflow-x-hidden"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Enhanced Google-Level Header */}
-        <motion.div
-          className="mb-8"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
-        >
-          <motion.h1
-            className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-200 bg-clip-text text-transparent mb-2 break-words"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            Welcome back, {currentUser?.name || 'User'}!
-          </motion.h1>
-          <motion.p
-            className="text-gray-600 dark:text-gray-400 text-base md:text-lg"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-          >
-            Here's what's happening with your property search
-          </motion.p>
-        </motion.div>
-
-        {/* Google-Level Navigation Tabs */}
-        <motion.div
-          className="mb-8"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <div className="flex flex-wrap gap-2 md:gap-3">
-            {sections.map((section, index) => (
-              <motion.button
-                key={section.id}
-                onClick={() => setActiveSection(section.id)}
-                className={`relative flex items-center gap-2 md:gap-3 px-4 py-2.5 md:px-6 md:py-3 min-h-[44px] rounded-2xl text-sm md:text-base font-semibold transition-all duration-300 overflow-hidden ${activeSection === section.id
-                  ? 'bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] shadow-lg shadow-[#fbbf24]/25'
-                  : `${isDark ? 'bg-[#111111] border border-white/10 text-gray-300 hover:border-[#fbbf24]/40 hover:text-white' : 'bg-white border border-gray-200 text-gray-700 hover:border-[#fbbf24]/60 hover:text-gray-900'}`
-                  }`}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.5 + index * 0.05 }}
-                whileHover={{
-                  scale: 1.05,
-                  y: -2,
-                  transition: { duration: 0.2 }
-                }}
-                whileTap={{
-                  scale: 0.98,
-                  transition: { duration: 0.1 }
-                }}
-              >
-                {/* Shimmer effect for active tab */}
-                {activeSection === section.id && (
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
-                    animate={{ x: ['-100%', '200%'] }}
-                    transition={{
-                      duration: 2,
-                      repeat: Infinity,
-                      repeatDelay: 3,
-                      ease: "linear"
-                    }}
-                  />
-                )}
-
-                <motion.div
-                  animate={{
-                    rotate: activeSection === section.id ? 360 : 0,
-                    scale: activeSection === section.id ? 1.1 : 1
-                  }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <section.icon className="w-5 h-5 relative z-10" />
-                </motion.div>
-                <span className="relative z-10">{section.label}</span>
-
-                {/* Active indicator */}
-                {activeSection === section.id && (
-                  <motion.div
-                    className="absolute bottom-0 left-0 right-0 h-1 bg-white/30 rounded-full"
-                    layoutId="activeTab"
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  />
-                )}
-              </motion.button>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Content */}
-        <div className="mb-8">
-          {renderSection()}
-        </div>
-      </div>
-    </motion.div>
+    <WorkspaceShell root="My account" navLabel="Workspace" sections={SECTIONS} links={LINKS} active={active} onSelect={setActive}>
+      {error && <p className="text-sm text-destructive">{error}</p>}
+      {body}
+    </WorkspaceShell>
   );
 };
 

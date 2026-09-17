@@ -9,7 +9,6 @@ import MobileAgentProfile from '../../mobile/pages/MobileAgentProfile';
 import MobileLayoutWrapper from '../../mobile/components/MobileLayoutWrapper';
 import { DashboardLoader } from '../../components/Preloader';
 import { Loader2 } from 'lucide-react';
-import FloatingDashboardNav from '../../components/FloatingDashboardNav';
 import logoPadded from '../../assets/logo_padded.png';
 
 const DashboardRouter = () => {
@@ -37,7 +36,6 @@ const DashboardRouter = () => {
       try {
         // Get user role
         const role = getUserRole ? getUserRole() : 'user';
-        console.log('DashboardRouter: User role determined as:', role);
         setUserRole(role);
       } catch (error) {
         console.error('Error determining user role:', error);
@@ -88,32 +86,20 @@ const DashboardRouter = () => {
         if (isMobile) {
           return <MobileAgentProfile />;
         }
-        return (
-          <div className="relative">
-            <FloatingDashboardNav variant="agent" />
-            <AgentDashboard />
-          </div>
-        );
+        return <AgentDashboard />;
       } else {
-        // Show agent verification request or pending status
+        // Verification still pending: show a quiet holding page.
         return (
-          <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center pt-20">
-            <div className="max-w-md mx-auto text-center p-8">
-              <div className="w-16 h-16 rounded-full bg-yellow-100 dark:bg-yellow-900/20 flex items-center justify-center mx-auto mb-4">
-                <Loader2 className="w-8 h-8 text-yellow-500 animate-spin" />
+          <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 dark:bg-[#0A0A0A]">
+            <div className="w-full max-w-md rounded-lg border border-gray-200 bg-white p-8 text-center dark:border-white/10 dark:bg-[#111111]">
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#fbbf24]/15">
+                <Loader2 className="h-6 w-6 animate-spin text-[#f59e0b]" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                Agent Verification Pending
-              </h2>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Your agent verification request is being reviewed. You'll have access to the agent dashboard once approved.
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Verification pending</h2>
+              <p className="mt-2 text-sm text-gray-600 dark:text-white/60">
+                We are reviewing your agent details. Your dashboard opens as soon as an admin approves the request.
               </p>
-              <button
-                onClick={() => window.history.back()}
-                className="px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-medium hover:shadow-lg transition-all"
-              >
-                Go Back
-              </button>
+              <a href="/" className="mt-6 inline-flex h-10 items-center justify-center rounded-md bg-[#fbbf24] px-5 text-sm font-semibold text-[#111]">Back to the site</a>
             </div>
           </div>
         );
@@ -129,12 +115,7 @@ const DashboardRouter = () => {
           </MobileLayoutWrapper>
         );
       }
-      return (
-        <div className="relative">
-          <FloatingDashboardNav variant="user" />
-          <UserDashboard />
-        </div>
-      );
+      return <UserDashboard />;
   }
 };
 
