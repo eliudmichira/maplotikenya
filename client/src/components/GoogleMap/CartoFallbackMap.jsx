@@ -19,7 +19,7 @@ L.Icon.Default.mergeOptions({
 
 // CARTO (CartoDB) basemap tiles — free to use with attribution, powered by OpenStreetMap data.
 // https://carto.com/basemaps/
-const CARTO_LIGHT_TILES = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+const CARTO_LIGHT_TILES = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 const CARTO_DARK_TILES = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png';
 const CARTO_SUBDOMAINS = 'abcd';
 const CARTO_ATTRIBUTION =
@@ -176,11 +176,20 @@ const CartoFallbackMap = ({
         scrollWheelZoom
       >
         <MapResizeHandler />
+        {/* key forces a clean tile swap when the theme changes. updateWhenIdle
+            and keepBuffer are Leaflet's equivalent of a cancellable tile
+            provider: tiles are only requested once panning settles and a
+            small ring outside the viewport is kept, so a marker-heavy map
+            does not flood the tile CDN on every drag. */}
         <TileLayer
+          key={dark ? 'dark' : 'light'}
           attribution={CARTO_ATTRIBUTION}
           url={dark ? CARTO_DARK_TILES : CARTO_LIGHT_TILES}
           subdomains={CARTO_SUBDOMAINS}
           maxZoom={20}
+          updateWhenIdle
+          updateWhenZooming={false}
+          keepBuffer={2}
         />
         {fitToItems && <FitBounds items={items} />}
         {/* Cluster + cull: removeOutsideVisibleBounds (default) only keeps

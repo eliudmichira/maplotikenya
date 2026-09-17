@@ -6,6 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { accountDashboardAPI } from '../../lib/firebaseAPI';
 import { getPropertyImage, handleImageError } from '../../utils/imageUtils';
 import WorkspaceShell from '../../components/workspace/WorkspaceShell';
+import ProfileSection from './sections/ProfileSection';
 import ListingCard from '../../components/listing/ListingCard';
 import { Home, Heart, Calendar, Search, Eye, Mail, User, X, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -21,11 +22,11 @@ const SECTIONS = [
   { id: 'overview', label: 'Overview', icon: Home },
   { id: 'favorites', label: 'Saved homes', icon: Heart },
   { id: 'bookings', label: 'Viewing requests', icon: Calendar },
+  { id: 'profile', label: 'Profile', icon: User },
 ];
 
 const LINKS = [
   { label: 'Messages', icon: Mail, to: '/messages' },
-  { label: 'Profile', icon: User, to: '/profile/update' },
 ];
 
 const areaOf = (p) => p.location?.address || p.location?.area || p.address || p.city || '';
@@ -206,7 +207,7 @@ const UserDashboard = () => {
     </>
   );
 
-  const body = { overview: <Overview />, favorites: <Favorites />, bookings: <Bookings /> }[active] || <Overview />;
+  const body = { overview: <Overview />, favorites: <Favorites />, bookings: <Bookings />, profile: <ProfileSection role="user" /> }[active] || <Overview />;
 
   return (
     <WorkspaceShell root="My account" navLabel="Workspace" sections={SECTIONS} links={LINKS} active={active} onSelect={setActive}>

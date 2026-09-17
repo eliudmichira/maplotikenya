@@ -40,6 +40,7 @@ import AdvancedFiltersSidebar from '../../components/enhanced/AdvancedFiltersSid
 import Logo from '../../components/Logo';
 import EnhancedMapComponent from '../../components/listPage/Map';
 import CartoFallbackMap from '../../components/GoogleMap/CartoFallbackMap';
+import { useGoogleMapsAuthFailed } from '../../lib/mapsStatus';
 import { getPropertyImages, handleImageError } from '../../utils/imageUtils';
 
 // Normalize coordinates to { lat, lng } using global bounds
@@ -2394,6 +2395,8 @@ export default function MapView() {
   }, [GOOGLE_MAPS_API_KEY]);
 
   // Google Maps JS loader with enhanced error handling
+  // True once Google rejects the key (unbilled / restricted); the CARTO map takes over.
+  const mapsAuthFailed = useGoogleMapsAuthFailed();
   const { isLoaded, loadError } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
@@ -3670,7 +3673,7 @@ export default function MapView() {
               >
                 <X className="w-4 h-4" />
               </button>
-              {!HAS_GOOGLE_MAPS_KEY || mapsApiError || !!loadError ? (
+              {!HAS_GOOGLE_MAPS_KEY || mapsApiError || !!loadError || mapsAuthFailed ? (
                 <CartoFallbackView
                   propertyData={filteredData}
                   onPropertySelect={handlePropertySelect}
@@ -3903,9 +3906,7 @@ function CartoFallbackView({ propertyData, onPropertySelect }) {
         showCountBadge
         count={propertyData?.length || 0}
       />
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[1000] bg-gray-900/85 text-white text-xs font-medium px-3 py-1.5 rounded-full shadow-lg pointer-events-none whitespace-nowrap">
-        OpenStreetMap view Ã‚Â· Google Maps unavailable
-      </div>
+
     </div>
   );
 }

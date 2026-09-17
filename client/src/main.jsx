@@ -6,6 +6,7 @@ import "./index.css"
 import { AuthProvider } from './context/AuthContext.jsx'
 import { SocketContextProvider } from './context/SocketContext.jsx'
 import { ThemeProvider } from './context/ThemeContext.jsx'
+import { LanguageProvider } from './lib/i18n.jsx'
 import 'leaflet/dist/leaflet.css';
 import { initializeCleanup } from './utils/clearCache';
 import { initSentry } from './lib/sentry';
@@ -48,13 +49,15 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <RootWrapper>
     {import.meta.env && import.meta.env.PROD ? (console.debug = () => { }, console.info = () => { }, null) : null}
     <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <SocketContextProvider>
-            <App />
-          </SocketContextProvider>
-        </AuthProvider>
-      </QueryClientProvider>
+      <LanguageProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <SocketContextProvider>
+              <App />
+            </SocketContextProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </LanguageProvider>
     </ThemeProvider>
   </RootWrapper>,
 )
