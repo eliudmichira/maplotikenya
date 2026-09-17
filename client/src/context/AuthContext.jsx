@@ -15,12 +15,6 @@ import { GoogleAuthProvider, signInWithCredential } from 'firebase/auth';
 
 const AuthContext = createContext();
 
-// Centralized admin email list – single source of truth
-const ADMIN_EMAILS = [
-  "eddmichira@gmail.com",
-  "eliudsamwels7@gmail.com",
-  "admin@bogani.com",
-];
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -55,7 +49,7 @@ export const useAuth = () => {
   // Ensure getUserRole is always available
   const safeContext = {
     ...context,
-    getUserRole: context.getUserRole || (() => "admin"),
+    getUserRole: context.getUserRole || (() => "user"),
   };
 
   return safeContext;
@@ -107,7 +101,7 @@ export const AuthProvider = ({ children }) => {
             // Preserve Google avatar if Firestore profile has none
             avatar: profile?.avatar || basicUserData.avatar || "",
             // If verified in agents collection, treat as agent regardless of users.role
-            ...(isVerified ? { role: 'agent' } : {})
+            ...(isVerified && profile?.role !== 'admin' ? { role: 'agent' } : {})
           };
           setCurrentUser(enrichedUserData);
         } catch (error) {
@@ -291,8 +285,9 @@ export const AuthProvider = ({ children }) => {
 
       // Create/update user document in Firestore
       const userRef = doc(db, 'users', userData.id);
+      const { role, ...safeData } = userData;
       await setDoc(userRef, {
-        ...userData,
+        ...safeData,
         lastSeen: serverTimestamp(),
         isOnline: true,
         updatedAt: serverTimestamp()
@@ -345,9 +340,7 @@ export const AuthProvider = ({ children }) => {
             avatar: result.user.photoURL || "",
             createdAt: result.user.metadata.creationTime,
             provider: result.user.providerData[0]?.providerId || "email",
-            role: ADMIN_EMAILS.includes(result.user.email)
-              ? "admin"
-              : (additionalData.role || "user"), // Use provided role
+            role: additionalData.role || "user", // Use provided role
             ...additionalData // Merge any other data
           };
           setCurrentUser(userData);
@@ -390,7 +383,7 @@ export const AuthProvider = ({ children }) => {
             avatar: result.user.photoURL || "",
             createdAt: result.user.metadata.creationTime,
             provider: result.user.providerData[0]?.providerId || "email",
-            role: ADMIN_EMAILS.includes(result.user.email) ? "admin" : "user",
+            role: "user", // Enriched from Firestore doc
           };
           setCurrentUser(userData);
         }
@@ -448,7 +441,7 @@ export const AuthProvider = ({ children }) => {
             avatar: result.user.photoURL || "",
             createdAt: result.user.metadata.creationTime,
             provider: result.user.providerData[0]?.providerId || "google.com",
-            role: ADMIN_EMAILS.includes(result.user.email) ? "admin" : "user",
+            role: "user", // Enriched from Firestore doc
           };
           setCurrentUser(userData);
           saveUserDataToBackend(userData);
@@ -586,8 +579,8 @@ export const AuthProvider = ({ children }) => {
   const getUserRole = () => {
     if (!currentUser) return "user";
 
-    // Allow override for specific emails if not set in DB
-    if (ADMIN_EMAILS.includes(currentUser.email)) {
+    // Firestore role is the sole authority
+    if (currentUser.role === "admin") {
       return "admin";
     }
 
