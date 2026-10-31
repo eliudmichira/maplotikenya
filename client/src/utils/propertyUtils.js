@@ -43,9 +43,28 @@ export const VERIFIED_INSTAGRAM_PRICES = {
   '7r9T0stX5qCToMwdsS0b': { price: 45000, title: '3 Bedroom House To Let in Juja', listingType: 'rent', area: 'Juja' },
   'yvMwInNa5abrPDPc4E0T': { price: 75000, title: '5 Bedroom House To Let in Juja', listingType: 'rent', area: 'Juja' },
 
-  // Safaripark / USIU
+  // Safaripark / USIU / Thika Road Sales & Rentals
   'H9wcqon1rEOle5hPpvgY': { price: 95000, title: '3 Bedroom House To Let in Safaripark', listingType: 'rent', area: 'Safaripark' },
   'DZt87v4LnLCHx9uvzfB1': { price: 140000, title: '4 Bedroom House To Let in Safaripark', listingType: 'rent', area: 'Safaripark' },
+  'ig_DWZbjVdl6Dx': { price: 2500000, title: 'Studio Apartment For Sale on Thika Road (Safari Park Area)', listingType: 'sale', area: 'Thika Road' },
+  'ig_DSSfO4JjOoc': { price: 2500000, title: 'Studio Apartment For Sale on Thika Road (Safari Park Area)', listingType: 'sale', area: 'Thika Road' },
+  'ig_DSSVXxMDBZw': { price: 2500000, title: 'Studio Apartment For Sale on Thika Road (Safari Park Area)', listingType: 'sale', area: 'Thika Road' },
+  'ig_DeYlcSPiGZM': { price: 3900000, title: 'Studio Apartment For Sale in Syokimau', listingType: 'sale', area: 'Syokimau' },
+  'ig_DampckPCEFg': { price: 3000000, title: 'Studio Apartment For Sale in Kilimani', listingType: 'sale', area: 'Kilimani' },
+  'ig_DWD5Gt3jjX5': { price: 10500000, title: '2 Bedroom Apartment For Sale in Kiambu Road', listingType: 'sale', area: 'Kiambu Road' },
+  'ig_DWD42OdF4JX': { price: 10500000, title: '2 Bedroom Apartment For Sale in Kiambu Road', listingType: 'sale', area: 'Kiambu Road' },
+  'ig_DVp1NCEF0DF': { price: 8100000, title: '1 Bedroom Serviced Apartment For Sale in Westlands', listingType: 'sale', area: 'Westlands' },
+  'ig_DVSy0vgDGBq': { price: 6200000, title: 'Studio Apartment For Sale in Westlands', listingType: 'sale', area: 'Westlands' },
+  'ig_DUqaljmjASP': { price: 6900000, title: '1 Bedroom Apartment For Sale in Kilimani', listingType: 'sale', area: 'Kilimani' },
+  'ig_DT7U6REjGbT': { price: 6600000, title: '1 Bedroom Apartment For Sale in Kilimani', listingType: 'sale', area: 'Kilimani' },
+  'ig_DTuXPj1DCbe': { price: 5000000, title: '1 Bedroom Apartment For Sale in Kitisuru', listingType: 'sale', area: 'Kitisuru' },
+  'ig_DTsFq5IDMHF': { price: 5800000, title: 'Studio Apartment For Sale in Westlands', listingType: 'sale', area: 'Westlands' },
+  'ig_DS4Q0VLDIPf': { price: 6500000, title: '1 Bedroom Duplex For Sale in Westlands', listingType: 'sale', area: 'Westlands' },
+  'ig_DSj-Kc8jCwt': { price: 18500000, title: '2 Bedroom Apartment For Sale in Westlands', listingType: 'sale', area: 'Westlands' },
+  'ig_DRuCbgbDGNn': { price: 6830000, title: '1 Bedroom Apartment For Sale in Westlands', listingType: 'sale', area: 'Westlands' },
+  'ig_DRmH6W-jMbr': { price: 2500000, title: 'Studio Apartment For Sale in New Kitisuru', listingType: 'sale', area: 'Kitisuru' },
+  'ig_DQq-Vj2DHKQ': { price: 85000000, title: '4 Bedroom Townhouse For Sale in Kileleshwa', listingType: 'sale', area: 'Kileleshwa' },
+  'ig_DPeph8qCL7N': { price: 155000000, title: '5 Bedroom House with DSQ For Sale in Lavington', listingType: 'sale', area: 'Lavington' },
 
   // Mirema
   'FwGi1vMlFChYr1GT9xbA': { price: 150000, title: '5 Bedroom House To Let in Mirema', listingType: 'rent', area: 'Mirema' },
@@ -174,25 +193,27 @@ export function sanitizePrice(p) {
   const title = String(p.title || '');
   const type = deriveListingType(p);
 
-  // Micro-price detection (Kenya real estate prices under 500 KES do not exist)
-  if (price <= 500) {
-    // 1. Check for million expressions in description: e.g. "3.3 million", "15 million", "2.5M"
-    const mMatch = desc.match(/(?:ksh|kes|price:?)?\s*([0-9]+(?:\.[0-9]+)?)\s*(?:m|million)/i);
+  // Micro-price detection or corrupted sale prices (e.g. 2000 for sale when text says KES 2.5M)
+  if (price <= 500 || (price < 500000 && (type === 'sale' || /sale/i.test(title)))) {
+    // 1. Check for million expressions in description: e.g. "3.3 million", "15 million", "2.5M", "KES 2.5M"
+    const mMatch = desc.match(/(?:ksh|kes|price:?|from)?\s*([0-9]+(?:\.[0-9]+)?)\s*(?:m\b|million)/i);
     if (mMatch) {
       return Math.round(parseFloat(mMatch[1]) * 1000000);
     }
 
     // 2. Check for thousand / "k" expressions in description: e.g. "@ 150k", "@ 40k", "75k per month"
-    const kMatch = desc.match(/(?:@|at|kes|ksh|price:?)?\s*([0-9]{2,3})\s*(?:k|thousand)/i);
+    const kMatch = desc.match(/(?:@|at|kes|ksh|price:?)?\s*([0-9]{2,3})\s*(?:k\b|thousand)/i);
     if (kMatch) {
       return Math.round(parseFloat(kMatch[1]) * 1000);
     }
 
-    // 3. Intelligent fallback multiplier
-    if (type === 'sale' || /sale/i.test(title)) {
-      return price * 1000000; // e.g. 15 -> 15M, 2 -> 2M
-    } else {
-      return price * 1000; // e.g. 40 -> 40k, 150 -> 150k
+    // 3. Intelligent fallback multiplier if price is single or double digits
+    if (price <= 500) {
+      if (type === 'sale' || /sale/i.test(title)) {
+        return price * 1000000; // e.g. 15 -> 15M, 2 -> 2M
+      } else {
+        return price * 1000; // e.g. 40 -> 40k, 150 -> 150k
+      }
     }
   }
 
