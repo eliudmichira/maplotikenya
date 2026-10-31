@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   GoogleMap as GoogleMapComponent,
@@ -26,6 +26,7 @@ import { fetchMarketInsights, formatKes } from '../../services/aiInsights';
 import { useNavigate } from "react-router-dom";
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
+import StoriesReelsSection from '../../components/StoriesReelsSection';
 
 
 // Using real auth context
@@ -36,6 +37,7 @@ import EnhancedMobileMapNavigation from '../../mobile/components/EnhancedMobileM
 import EnhancedPropertyCard from '../../components/enhanced/PropertyCard';
 import ListingCard, { ListingCardSkeleton } from '../../components/listing/ListingCard';
 import SmartSearchBar from '../../components/enhanced/SmartSearchBar';
+import { matchesPropertySearch } from '../../utils/propertyUtils';
 import AdvancedFiltersSidebar from '../../components/enhanced/AdvancedFiltersSidebar';
 import Logo from '../../components/Logo';
 import EnhancedMapComponent from '../../components/listPage/Map';
@@ -454,7 +456,7 @@ function QuickViewModal({ property, isOpen, onClose, onFavoriteToggle, isFavorit
                   />
                   <button
                     onClick={handleContactSubmit}
-                    className="w-full px-4 py-2 bg-black text-white dark:bg-white dark:text-black font-semibold rounded-lg hover:bg-[#fbbf24] hover:text-black transition-colors text-sm"
+                    className="w-full px-4 py-2 bg-black text-white dark:bg-white dark:text-black font-semibold rounded-lg hover:bg-white hover:text-black transition-colors text-sm"
                   >
                     Send Message
                   </button>
@@ -467,7 +469,7 @@ function QuickViewModal({ property, isOpen, onClose, onFavoriteToggle, isFavorit
           <div className="bg-gray-50 dark:bg-gray-700 px-6 py-4 flex flex-col sm:flex-row gap-3 justify-between">
             <button
               onClick={() => navigate(`/property/${property.id}`)}
-              className="px-6 py-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-semibold rounded-lg hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+              className="px-6 py-2 bg-white text-black font-semibold text-[#000000] font-semibold rounded-lg hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
             >
               View Full Details
               <ArrowRight className="w-4 h-4" />
@@ -526,12 +528,12 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
 
   return (
     <div className={`rounded-xl p-1.5 md:p-2.5 mb-2 border backdrop-blur-xl transition-colors duration-500 ${isDark
-      ? 'bg-gradient-to-br from-[#000000] via-[#0e1311] to-[#000000] border-[#fbbf24]/20'
+      ? 'bg-gradient-to-br from-[#000000] via-[#0e1311] to-[#000000] border-white/15'
       : 'bg-gradient-to-br from-gray-50 via-white to-gray-50 border-gray-200'
       }`}>
       <div className={`flex items-center justify-between gap-2 ${expanded ? 'mb-1' : 'mb-0'} md:mb-1.5`}>
         <h3 className={`text-sm md:text-base font-bold flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
-          <div className="w-7 h-7 md:w-8 md:h-8 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center shadow-lg shadow-[#000000]/20">
+          <div className="w-7 h-7 md:w-8 md:h-8 bg-zinc-800 text-white border border-white/20 rounded-full flex items-center justify-center shadow-lg shadow-[#000000]/20">
             <TrendingUp className="h-3.5 w-3.5 md:h-4 md:w-4 text-[#000000]" />
           </div>
           {location} Market Insights
@@ -562,10 +564,10 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
           )}
           {/* Stat cards: collapsed by default on phones so listings stay above the fold */}
           <div className={`${expanded ? 'grid mt-1.5' : 'hidden md:grid'} grid-cols-2 md:grid-cols-3 gap-1.5 md:gap-1.5`}>
-            <div className={`backdrop-blur-sm rounded-lg p-2.5 md:p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-[#0e1311]/80 border-[#fbbf24]/10' : 'bg-white/80 border-gray-200'
+            <div className={`backdrop-blur-sm rounded-lg p-2.5 md:p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-black/80 border-white/15' : 'bg-white/80 border-gray-200'
               }`}>
               <div className="flex items-center gap-1 mb-1">
-                <Home className="w-3 h-3 md:w-3.5 md:h-3.5 text-black dark:text-[#fbbf24]" />
+                <Home className="w-3 h-3 md:w-3.5 md:h-3.5 text-black dark:text-white" />
                 <p className={`text-[10px] md:text-[11px] font-medium ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Average Rent</p>
               </div>
               {rent?.avg_range?.min != null && rent?.avg_range?.max != null ? (
@@ -593,10 +595,10 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
               )}
             </div>
 
-            <div className={`backdrop-blur-sm rounded-lg p-2.5 md:p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-[#0e1311]/80 border-[#fbbf24]/10' : 'bg-white/80 border-gray-200'
+            <div className={`backdrop-blur-sm rounded-lg p-2.5 md:p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-black/80 border-white/15' : 'bg-white/80 border-gray-200'
               }`}>
               <div className="flex items-center gap-1 mb-1">
-                <DollarSign className="w-3 h-3 md:w-3.5 md:h-3.5 text-black dark:text-[#fbbf24]" />
+                <DollarSign className="w-3 h-3 md:w-3.5 md:h-3.5 text-black dark:text-white" />
                 <p className={`text-[10px] md:text-[11px] font-medium ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Plot Prices</p>
               </div>
 
@@ -679,10 +681,10 @@ function MarketInsights({ location, propertyCount, searchQuery }) {
               )}
             </div>
 
-            <div className={`backdrop-blur-sm rounded-lg p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-[#0e1311]/80 border-[#fbbf24]/10' : 'bg-white/80 border-gray-200'
+            <div className={`backdrop-blur-sm rounded-lg p-3 hover:shadow-md transition-all duration-300 border ${isDark ? 'bg-black/80 border-white/15' : 'bg-white/80 border-gray-200'
               }`}>
               <div className="flex items-center gap-1 mb-1">
-                <MapPin className="w-3.5 h-3.5 text-black dark:text-[#fbbf24]" />
+                <MapPin className="w-3.5 h-3.5 text-black dark:text-white" />
                 <p className={`text-xs font-medium ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Hotspot Areas</p>
               </div>
               <p className={`text-sm font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}>{insights?.hotspots?.length ?? 0} Areas</p>
@@ -882,7 +884,7 @@ function EnhancedSearchBar({ searchQuery, setSearchQuery, propertyCount, filters
       transition={{ duration: 0.5, delay: 0.3 }}
     >
       <motion.div
-        className={`relative bg-white/95 dark:bg-gray-800/95 rounded-full shadow-lg border-2 backdrop-blur-sm transition-all duration-300 ${isFocused ? 'border-[#fbbf24] shadow-xl shadow-[#000000]/20' : 'border-gray-200 dark:border-gray-700'
+        className={`relative bg-white/95 dark:bg-gray-800/95 rounded-full shadow-lg border-2 backdrop-blur-sm transition-all duration-300 ${isFocused ? 'border-white/30 shadow-xl shadow-[#000000]/20' : 'border-gray-200 dark:border-gray-700'
           }`}
         animate={{
           scale: isFocused ? 1.02 : 1,
@@ -899,7 +901,7 @@ function EnhancedSearchBar({ searchQuery, setSearchQuery, propertyCount, filters
               }}
               transition={{ duration: 0.2 }}
             >
-              <Search className={`w-4 h-4 ml-3 transition-colors ${isFocused ? (isDark ? 'text-[#fbbf24]' : 'text-gray-900') : 'text-gray-400'
+              <Search className={`w-4 h-4 ml-3 transition-colors ${isFocused ? (isDark ? 'text-white' : 'text-gray-900') : 'text-gray-400'
                 }`} />
             </motion.div>
             <motion.input
@@ -960,7 +962,7 @@ function EnhancedSearchBar({ searchQuery, setSearchQuery, propertyCount, filters
             </button>
             <button
               onClick={handleSaveSearch}
-              className="px-3 py-1.5 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-full text-xs font-medium hover:shadow-lg transition-all duration-300"
+              className="px-3 py-1.5 bg-white text-black font-semibold text-[#000000] rounded-full text-xs font-medium hover:shadow-lg transition-all duration-300"
             >
               Save Search
             </button>
@@ -2155,7 +2157,7 @@ function FiltersSidebar({ filters, setFilters, showFilters, onClose }) {
 
         {/* Enhanced Apply Filters Button */}
         <motion.button
-          className="w-full bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-semibold py-3 px-6 rounded-xl hover:shadow-lg hover:shadow-[#000000]/25 transition-all duration-300 relative overflow-hidden"
+          className="w-full bg-white text-black font-semibold text-[#000000] font-semibold py-3 px-6 rounded-xl hover:shadow-lg hover:shadow-[#000000]/25 transition-all duration-300 relative overflow-hidden"
           whileHover={{
             scale: 1.02,
             y: -2
@@ -2453,7 +2455,15 @@ export default function MapView() {
   const mapsReady = isLoaded || (typeof window !== 'undefined' && window.google && window.google.maps) || mapLoaded;
 
   // All other state variables - moved to top to avoid hooks order violation
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(() => {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const s = urlParams.get('search') || urlParams.get('location') || urlParams.get('q');
+      return s ? decodeURIComponent(s) : '';
+    } catch (_) {
+      return '';
+    }
+  });
   const [filters, setFilters] = useState({
     listingType: 'all', // 'all' | 'rent' | 'sale'
     propertyType: '', // 'apartment' | 'house' | 'villa' | 'plot' (from the area directory)
@@ -2492,7 +2502,7 @@ export default function MapView() {
   // Desktop map drawer â€” collapsed by default so the full listings page gets
   // the room; toggled via the floating "Show map" button.
   const [showMap, setShowMap] = useState(false);
-  // "Map is hidden" hint â€” shown once on first visit until the user opens the
+  // "Map pins hidden to protect agent — Click to watch Site Tours" hint â€” shown once on first visit until the user opens the
   // map or dismisses it (persisted so it doesn't nag on later visits).
   const [mapHintDismissed, setMapHintDismissed] = useState(
     () => { try { return localStorage.getItem('bm_map_hint_seen') === '1'; } catch (_) { return false; } }
@@ -2598,26 +2608,35 @@ export default function MapView() {
   // Handle URL search parameters
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
-    const searchParam = urlParams.get('search');
-    if (searchParam) {
-      setSearchQuery(decodeURIComponent(searchParam));
+    const searchParam = urlParams.get('search') || urlParams.get('location') || urlParams.get('q');
+    setSearchQuery(searchParam ? decodeURIComponent(searchParam) : '');
+
+    const listingType = urlParams.get('listingType') || urlParams.get('dealType');
+    const propertyType = urlParams.get('propertyType') || urlParams.get('type');
+    const minBeds = urlParams.get('minBeds') || urlParams.get('beds');
+    let minPrice = urlParams.get('minPrice');
+    let maxPrice = urlParams.get('maxPrice');
+    const priceParam = urlParams.get('price');
+    if (priceParam && !minPrice && !maxPrice) {
+      if (priceParam.includes('-')) {
+        const parts = priceParam.split('-');
+        minPrice = parts[0] || undefined;
+        maxPrice = parts[1] || undefined;
+      } else if (priceParam.endsWith('+')) {
+        minPrice = priceParam.replace('+', '');
+      }
     }
-    // Filters carried over from the area directory (and shareable links).
-    const listingType = urlParams.get('listingType');
-    const propertyType = urlParams.get('propertyType');
-    const minBeds = urlParams.get('minBeds');
-    const minPrice = urlParams.get('minPrice');
-    const maxPrice = urlParams.get('maxPrice');
-    if (listingType || propertyType || minBeds || minPrice || maxPrice) {
-      setFilters((prev) => ({
-        ...prev,
-        ...(listingType && ['rent', 'sale', 'all'].includes(listingType) ? { listingType } : {}),
-        ...(propertyType ? { propertyType: propertyType.toLowerCase() } : {}),
-        ...(minBeds ? { minBeds } : {}),
-        ...(minPrice ? { minPrice } : {}),
-        ...(maxPrice ? { maxPrice } : {}),
-      }));
-    }
+
+    setFilters((prev) => ({
+      ...prev,
+      ...(listingType && ['rent', 'sale', 'all', 'for-rent', 'for-sale'].includes(listingType.toLowerCase())
+        ? { listingType: listingType.toLowerCase().includes('rent') ? 'rent' : (listingType.toLowerCase().includes('sale') ? 'sale' : 'all') }
+        : {}),
+      ...(propertyType ? { propertyType: propertyType.toLowerCase() } : {}),
+      ...(minBeds ? { minBeds } : {}),
+      ...(minPrice ? { minPrice } : {}),
+      ...(maxPrice ? { maxPrice } : {}),
+    }));
   }, [location.search]);
 
   // Initialize geocode cache
@@ -2705,232 +2724,86 @@ export default function MapView() {
     return null;
   };
 
-  // Load property data
+  // Instant non-blocking property data processing
   useEffect(() => {
-    const loadProperties = async () => {
-      if (!properties) {
-        return;
-      }
-      setIsLoading(true);
-      try {
+    if (!properties || properties.length === 0) {
+      if (!propertiesLoading) setIsLoading(false);
+      return;
+    }
 
-        // Process properties to ensure they have required fields for maps; geocode when missing
-        const processedProperties = await Promise.all(properties.map(async (property, index) => {
-          // Highest priority: stored coordinates (support nested shapes)
-          const rawLat = property.latitude ?? property.lat ?? property.location?.coordinates?.lat;
-          const rawLng = property.longitude ?? property.lng ?? property.location?.coordinates?.lng;
-          let lat = typeof rawLat === 'string' ? parseFloat(rawLat) : rawLat;
-          let lng = typeof rawLng === 'string' ? parseFloat(rawLng) : rawLng;
-
-          // Debug logging to see what coordinates we're working with
-          console.log(`Property ${property.id || index}:`, {
-            title: property.title,
-            rawLat, rawLng,
-            parsedLat: lat, parsedLng: lng,
-            address: property.address,
-            city: property.city,
-            hasStoredCoords: !!(rawLat && rawLng && rawLat !== 0 && rawLng !== 0)
-          });
-
-          // Validate coordinate ranges (Kenya is roughly -4.7 to 4.6 lat, 33.9 to 41.9 lng)
-          const isValidKenyanCoordinate = (lat, lng) => {
-            return Number.isFinite(lat) && Number.isFinite(lng) &&
-              lat >= -5 && lat <= 5 && lng >= 33 && lng <= 42 &&
-              lat !== 0 && lng !== 0; // Exclude 0,0 coordinates
-          };
-
-          // Only geocode if we don't have valid stored coordinates
-          if (!isValidKenyanCoordinate(lat, lng)) {
-            if (import.meta.env.DEV) console.log(`Property ${property.id || index}: No valid stored coordinates, attempting geocoding...`);
-
-            // Try multiple geocoding strategies for better precision
-            let geo = null;
-
-            // Strategy 1: Try with full address
-            const addrStr = buildAddressString(property);
-            if (import.meta.env.DEV) console.log(`Geocoding address: "${addrStr}"`);
-            geo = await geocodeAddress(addrStr);
-
-            // Strategy 2: If that fails, try with just city + Kenya for more general location
-            if (!geo && property.city) {
-              const cityStr = `${property.city}, Kenya`;
-              if (import.meta.env.DEV) console.log(`Trying city-only geocoding: "${cityStr}"`);
-              geo = await geocodeAddress(cityStr);
-            }
-
-            if (geo && isValidKenyanCoordinate(geo.lat, geo.lng)) {
-              if (import.meta.env.DEV) console.log(`Geocoding successful: ${geo.lat}, ${geo.lng}`);
-              lat = geo.lat;
-              lng = geo.lng;
-            } else {
-              if (import.meta.env.DEV) console.log(`Geocoding failed for property ${property.id || index}`);
-            }
-          } else {
-            if (import.meta.env.DEV) console.log(`Property ${property.id || index}: Using stored coordinates ${lat}, ${lng}`);
-          }
-
-          if (!isValidKenyanCoordinate(lat, lng)) {
-            // Fallback near Nairobi with larger offset to avoid overlapping
-            // Use a more spread out pattern to ensure visible separation
-            const offsetLat = (index % 10) * 0.02; // 0.02 degrees ≈ 2.2km
-            const offsetLng = Math.floor(index / 10) * 0.02;
-            lat = -1.2921 + offsetLat;
-            lng = 36.8219 + offsetLng;
-          }
-
-          return {
-            ...property,
-            latitude: lat,
-            longitude: lng,
-            // Ensure other required fields exist with real data or sensible defaults
-            images: property.images || [],
-            features: property.features || [],
-            agent: property.agent || null,
-            listing_agent: property.listing_agent || null,
-            neighborhood: property.neighborhood || null,
-            schools: property.schools || [],
-            price_history: property.price_history || [],
-            virtual_tour: property.virtual_tour || false,
-            is_new: property.is_new || false,
-            is_price_reduced: property.is_price_reduced || false,
-            petFriendly: property.petFriendly || false,
-            open_house: property.open_house || null,
-            days_on_market: property.days_on_market || 0,
-            // Kenyan-focused properties
-            isRecentlyRenovated: property.isRecentlyRenovated || lower(property.condition) === 'renovated',
-            isServicedApartment: property.isServicedApartment || false,
-            isFurnished: property.isFurnished || false,
-            isStudentFriendly: property.isStudentFriendly || false,
-            isShortTermLease: property.isShortTermLease || false,
-            // listing_type + the quick-filter flags, derived from the
-            // amenities / utilities / condition / parking the data carries
-            ...deriveListingFlags(property),
-            // Location properties
-            isNearCBD: property.isNearCBD || false,
-            isNearUniversity: property.isNearUniversity || false,
-            isNearMajorRoads: property.isNearMajorRoads || false,
-            estate: property.estate || ''
-          };
-        }));
-
-        // Handle duplicate coordinates by adding small offsets
-        const coordinateMap = {}; // Use plain object instead of Map constructor
-        const finalProperties = processedProperties.map((property, index) => {
-          const lat = property.latitude;
-          const lng = property.longitude;
-          const coordKey = `${lat},${lng}`; // Use full precision for grouping
-
-          if (coordinateMap[coordKey]) {
-            // This coordinate already exists, add a small offset
-            const existingCount = coordinateMap[coordKey];
-            coordinateMap[coordKey] = existingCount + 1;
-
-            // Create a small circular offset pattern
-            const angle = (existingCount * 2 * Math.PI) / 8; // 8 positions around a circle
-            const offsetDistance = 0.0005; // Very small offset (about 50 meters)
-            const offsetLat = lat + (offsetDistance * Math.cos(angle));
-            const offsetLng = lng + (offsetDistance * Math.sin(angle));
-
-            return {
-              ...property,
-              latitude: offsetLat,
-              longitude: offsetLng,
-              originalLatitude: lat, // Keep original for reference
-              originalLongitude: lng
-            };
-          } else {
-            coordinateMap[coordKey] = 1;
-            return property;
-          }
-        });
-
-        // Log summary of coordinate sources
-        const storedCoords = finalProperties.filter(p => !p.originalLatitude).length;
-        const geocodedCoords = finalProperties.filter(p => p.originalLatitude).length;
-        const fallbackCoords = finalProperties.filter(p =>
-          p.latitude >= -1.3 && p.latitude <= -1.2 && p.longitude >= 36.8 && p.longitude <= 36.9
-        ).length;
-
-        if (import.meta.env.DEV) console.log('Coordinate Summary:', {
-          total: finalProperties.length,
-          storedCoordinates: storedCoords,
-          geocodedCoordinates: geocodedCoords,
-          fallbackCoordinates: fallbackCoords
-        });
-
-        if (import.meta.env.DEV) console.log('Processed properties:', finalProperties);
-        setPropertyData(finalProperties);
-      }
-      catch (error) {
-        console.error('Error loading properties:', error);
-      } finally {
-        setIsLoading(false);
-      }
+    // Fast synchronous normalization without blocking HTTP network calls
+    const isValidKenyanCoordinate = (lat, lng) => {
+      return Number.isFinite(lat) && Number.isFinite(lng) &&
+        lat >= -5 && lat <= 5 && lng >= 33 && lng <= 42 &&
+        lat !== 0 && lng !== 0;
     };
 
-    loadProperties();
-  }, [properties]);
+    const finalProperties = properties.map((property, index) => {
+      const rawLat = property.latitude ?? property.lat ?? property.location?.coordinates?.lat;
+      const rawLng = property.longitude ?? property.lng ?? property.location?.coordinates?.lng;
+      let lat = typeof rawLat === 'string' ? parseFloat(rawLat) : rawLat;
+      let lng = typeof rawLng === 'string' ? parseFloat(rawLng) : rawLng;
+
+      if (!isValidKenyanCoordinate(lat, lng)) {
+        // Deterministic spread around Nairobi center to display markers immediately
+        const offsetLat = ((index % 12) - 6) * 0.015;
+        const offsetLng = (Math.floor(index / 12) % 12 - 6) * 0.015;
+        lat = -1.2921 + offsetLat;
+        lng = 36.8219 + offsetLng;
+      }
+
+      return {
+        ...property,
+        latitude: lat,
+        longitude: lng,
+        images: property.images || [],
+        features: property.features || [],
+        agent: property.agent || null,
+        listing_agent: property.listing_agent || null,
+        neighborhood: property.neighborhood || null,
+        schools: property.schools || [],
+        price_history: property.price_history || [],
+        virtual_tour: property.virtual_tour || false,
+        is_new: property.is_new || false,
+        is_price_reduced: property.is_price_reduced || false,
+        petFriendly: property.petFriendly || false,
+        open_house: property.open_house || null,
+        days_on_market: property.days_on_market || 0,
+        isRecentlyRenovated: property.isRecentlyRenovated || lower(property.condition) === 'renovated',
+        isServicedApartment: property.isServicedApartment || false,
+        isFurnished: property.isFurnished || false,
+        isStudentFriendly: property.isStudentFriendly || false,
+        isShortTermLease: property.isShortTermLease || false,
+        ...deriveListingFlags(property),
+        isNearCBD: property.isNearCBD || false,
+        isNearUniversity: property.isNearUniversity || false,
+        isNearMajorRoads: property.isNearMajorRoads || false,
+        estate: property.estate || ''
+      };
+    });
+
+    setPropertyData(finalProperties);
+    setIsLoading(false);
+  }, [properties, propertiesLoading]);
 
   // Apply filters
   useEffect(() => {
     let filtered = Array.isArray(propertyData) ? [...propertyData] : []
 
-    if (searchQuery) {
-      const searchTerm = searchQuery.toLowerCase().trim();
-
-      filtered = filtered.filter(property => {
-        // Create a comprehensive search string from all relevant property fields
-        const searchableFields = [
-          // Basic location fields
-          property.address || '',
-          property.city || '',
-          property.state || '',
-          property.zipCode || '',
-
-          // Property description and title
-          property.description || '',
-          property.title || '',
-
-          // Neighborhood and estate information
-          (typeof property.neighborhood === 'string' ? property.neighborhood : property.neighborhood?.name) || '',
-          property.estate || '',
-
-          // Location object fields (if property uses nested location structure)
-          property.location?.address || '',
-          property.location?.city || '',
-          property.location?.state || '',
-          property.location?.neighborhood || '',
-          property.location?.estate || '',
-
-          // Property features and amenities
-          Array.isArray(property.features) ? property.features.join(' ') : '',
-          Array.isArray(property.amenities) ? property.amenities.join(' ') : '',
-
-          // Property type and listing type
-          property.property_type || '',
-          property.listing_type || '',
-          property.type || '',
-
-          // Additional location-related fields
-          property.area_name || '',
-          property.district || '',
-          property.region || '',
-          property.county || '',
-
-          // Agent information (sometimes includes location context)
-          property.agent?.name || '',
-          property.listing_agent?.name || ''
-        ].join(' ').toLowerCase();
-
-        return searchableFields.includes(searchTerm);
-      });
+    const urlParamsCheck = new URLSearchParams(location.search);
+    if (urlParamsCheck.get('hasVideo') === 'true') {
+      filtered = filtered.filter(p => p.tiktok_url || p.video_url || p.videoUrl || p.hasVideo || (Array.isArray(p.media) && p.media.some(m => m.type === 'video')));
     }
 
-    // Apply all other filters
+    if (searchQuery) {
+      filtered = filtered.filter(property => matchesPropertySearch(property, searchQuery));
+    }
+
+    // Apply listingType filter (For Rent / For Sale)
     if (filters.listingType && filters.listingType !== 'all') {
       filtered = filtered.filter(p => {
-        const t = String(p.listing_type || p.type || '').toLowerCase();
-        const isRent = t === 'rent' || t === 'rental' || t === 'for-rent' || t === 'for rent';
+        const t = String(p.listingType || p.listing_type || p.type || p.title || '').toLowerCase();
+        const isRent = t.includes('rent') || t.includes('let') || t.includes('rental');
         return filters.listingType === 'rent' ? isRent : !isRent;
       });
     }
@@ -2952,7 +2825,15 @@ export default function MapView() {
     if (filters.minBeds) {
       filtered = filtered.filter(property => {
         const beds = parseInt(property.bedrooms) || 0;
-        return beds >= parseInt(filters.minBeds);
+        const pt = String(property.propertyType || property.property_type || property.type || property.title || '').toLowerCase();
+        if (filters.minBeds === 'studio') {
+          return beds === 0 || pt.includes('studio') || pt.includes('bedsitter');
+        }
+        if (filters.minBeds === '4+') {
+          return beds >= 4;
+        }
+        const req = parseInt(filters.minBeds);
+        return isNaN(req) ? true : beds >= req;
       });
     }
 
@@ -2964,13 +2845,17 @@ export default function MapView() {
     }
 
     if (filters.propertyType) {
+      const reqType = filters.propertyType.toLowerCase();
       filtered = filtered.filter(property => {
-        const propertyType = String(property.propertyType || property.property_type || property.type || '').toLowerCase();
-        return propertyType.includes(filters.propertyType);
+        const pt = String(property.propertyType || property.property_type || property.type || property.title || '').toLowerCase();
+        if (reqType === 'land' || reqType === 'plot') {
+          return pt.includes('land') || pt.includes('plot') || pt.includes('shamba');
+        }
+        return pt.includes(reqType);
       });
     }
 
-    if (filters.homeTypes.length > 0) {
+    if (filters.homeTypes && filters.homeTypes.length > 0) {
       filtered = filtered.filter(property => {
         const propertyType = property.propertyType || property.property_type || property.type || '';
         return filters.homeTypes.some(type =>
@@ -3489,7 +3374,7 @@ export default function MapView() {
               {currentUser ? (
                 <div className="flex items-center gap-3">
                   <a href="/desktop/dashboard" className="flex items-center gap-2 px-3 py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                    <span className="inline-flex w-8 h-8 rounded-full overflow-hidden bg-gradient-to-br from-[#fbbf24] to-[#f59e0b]">
+                    <span className="inline-flex w-8 h-8 rounded-full overflow-hidden bg-white text-black font-semibold">
                       {currentUser.photoURL ? (
                         <img src={currentUser.photoURL} alt={currentUser.displayName || currentUser.email} width="40" height="40" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                       ) : (
@@ -3506,7 +3391,7 @@ export default function MapView() {
                   <a href="/login" className="px-5 py-2.5 text-base font-semibold text-gray-700 dark:text-gray-200 hover:text-black dark:hover:text-white transition-colors rounded-full hover:bg-black/10 dark:hover:bg-white/10">
                     Sign In
                   </a>
-                  <a href="/register" className="px-6 py-2.5 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-full text-base font-semibold hover:shadow-lg hover:shadow-[#000000]/30 transition-all duration-300">
+                  <a href="/register" className="px-6 py-2.5 bg-white text-black rounded-full text-base font-semibold hover:bg-zinc-200 shadow-sm transition-all duration-300">
                     Get Started
                   </a>
                 </div>
@@ -3662,38 +3547,8 @@ export default function MapView() {
         }`}>
         <ErrorBoundary>
           {(viewMode === 'map' || showMap) && (
-            // Fade the map in as it mounts, synced with the list's 300ms shrink
-            // so the full-width -> split morph feels smooth.
-            <div className="relative animate-[mapFadeIn_0.4s_ease-out]">
-              {/* Collapse back to the full listings page (desktop only) */}
-              <button
-                onClick={() => setShowMap(false)}
-                className="hidden lg:flex absolute top-3 right-3 z-[1200] w-9 h-9 rounded-full bg-gray-900/80 text-white items-center justify-center shadow-lg hover:bg-gray-700 transition-colors"
-                aria-label="Hide map"
-              >
-                <X className="w-4 h-4" />
-              </button>
-              {!USE_GOOGLE_MAPS || !HAS_GOOGLE_MAPS_KEY || mapsApiError || !!loadError || mapsAuthFailed ? (
-                <CartoFallbackView
-                  propertyData={filteredData}
-                  onPropertySelect={handlePropertySelect}
-                />
-              ) : (
-                <EnhancedMap
-                  propertyData={filteredData}
-                  highlightedProperty={highlightedProperty}
-                  onMarkerHover={handlePropertyHover}
-                  onPropertySelect={handlePropertySelect}
-                  drawnBounds={drawnBounds}
-                  setDrawnBounds={setDrawnBounds}
-                  mapTheme={mapTheme}
-                  setMapTheme={setMapTheme}
-                  mapCenter={mapCenter}
-                  setMapCenter={setMapCenter}
-                  mapZoom={mapZoom}
-                  setMapZoom={setMapZoom}
-                />
-              )}
+            <div className="relative h-[calc(100vh-99px)] animate-[mapFadeIn_0.4s_ease-out]">
+              <StoriesReelsSection isSplitView={true} propertyData={filteredData} onClose={() => setShowMap(false)} />
             </div>
           )}
         </ErrorBoundary>
@@ -3705,11 +3560,11 @@ export default function MapView() {
         onClick={() => { setShowMap((v) => !v); dismissMapHint(); }}
         className={`hidden lg:flex fixed bottom-6 right-6 z-40 items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${showMap
           ? 'bg-gray-900/80 text-white hover:bg-gray-700 shadow-xl'
-          : 'bg-gradient-to-b from-[#fbbf24] to-[#f59e0b] text-[#0e1311] shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_20px_-6px_rgba(251,191,36,0.45)] hover:brightness-110 hover:-translate-y-0.5'
+          : 'bg-gradient-to-b from-[#27272a] to-[#141416] text-white border border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_4px_12px_rgba(0,0,0,0.35)] hover:border-white/35 hover:-translate-y-0.5'
           }`}
       >
         {showMap ? <X className="w-4 h-4" /> : <MapPin className="w-4 h-4" />}
-        <span>{showMap ? 'Hide map' : 'Show map'}</span>
+        <span>{showMap ? 'Close Video Tours' : '🎥 Watch Site Tours'}</span>
       </button>
 
       {/* Fixed Listings Container - Only this scrolls. Full width by default;
@@ -3725,16 +3580,12 @@ export default function MapView() {
                 title={searchQuery ? `Results for "${searchQuery}"` : 'Properties found'}
                 onClick={() => { try { const el = document.getElementById('listings-scroll'); if (el) el.scrollTo({ top: 0, behavior: 'smooth' }); } catch (_) { } }}
               >
-                <div className="w-5 h-5 rounded-full flex items-center justify-center bg-gradient-to-r from-emerald-500 to-emerald-400">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-2.5 h-2.5 text-[#000000]">
-                    <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path>
-                    <path d="M5 3v4"></path>
-                    <path d="M19 17v4"></path>
-                    <path d="M3 5h4"></path>
-                    <path d="M17 19h4"></path>
-                  </svg>
+                <div className="w-5 h-5 rounded-full flex items-center justify-center bg-black dark:bg-white text-white dark:text-black">
+                  <Sparkles className="w-3 h-3 text-white dark:text-black" />
                 </div>
-                <span className="text-xs font-semibold text-gray-900 dark:text-white">{filteredData.length} properties</span>
+                <span className="text-xs font-semibold text-gray-900 dark:text-white">
+                  {isLoading || propertiesLoading ? 'Loading properties...' : `${filteredData.length.toLocaleString()} properties`}
+                </span>
               </button>
               {searchQuery && (
                 <span className="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full bg-gray-100 dark:bg-gray-700 text-xs font-medium text-gray-600 dark:text-gray-300 border border-gray-200/60 dark:border-gray-600/50 truncate">
@@ -3777,12 +3628,13 @@ export default function MapView() {
 
         {!showMap && !mapHintDismissed && (
           <button
-            onClick={dismissMapHint}
-            className="hidden lg:flex mt-2 w-full items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-medium bg-emerald-50 dark:bg-white/10 text-emerald-700 dark:text-white border border-emerald-200/60 dark:border-[#fbbf24]/20 hover:bg-emerald-100 dark:hover:bg-white/20 transition-colors"
+            onClick={() => { setShowMap(true); dismissMapHint(); }}
+            className="hidden lg:flex mt-2 w-full items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-medium bg-white/5 text-white/90 border border-white/10 hover:bg-white/10 transition-colors cursor-pointer"
           >
-            <MapPin className="w-3.5 h-3.5 shrink-0" />
-            <span className="flex-1 text-left">Map is hidden â€” show it to view locations</span>
-            <X className="w-3.5 h-3.5 opacity-70 shrink-0" />
+            <Video className="w-3.5 h-3.5 shrink-0 text-white" />
+            <span className="flex-1 text-left">Site Walkthroughs & Video Tours available</span>
+            <span className="text-[10px] uppercase font-bold tracking-wider underline">Watch Tours</span>
+            <X className="w-3.5 h-3.5 opacity-70 shrink-0 hover:text-white" onClick={(e) => { e.stopPropagation(); dismissMapHint(); }} />
           </button>
         )}
 

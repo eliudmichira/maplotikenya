@@ -69,7 +69,7 @@ const MobilePropertyMatchPage = () => {
                 </motion.div>
 
                 {isLoading ? (
-                    <div className="flex justify-center py-8"><div className="w-8 h-8 border-2 border-[#fbbf24] border-t-transparent rounded-full animate-spin" /></div>
+                    <div className="flex justify-center py-8"><div className="w-8 h-8 border-2 border-white/30 border-t-transparent rounded-full animate-spin" /></div>
                 ) : matches.length === 0 ? (
                     <motion.div className={`rounded-2xl border p-8 text-center ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-200'}`}>
                         <Target className="w-12 h-12 text-[#000000] mx-auto mb-3" />

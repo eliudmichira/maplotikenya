@@ -109,8 +109,8 @@ const MobileEditAgentSocial = () => {
                                     value={formData.whatsappNumber}
                                     onChange={(e) => handleInputChange('whatsappNumber', e.target.value)}
                                     className={`w-full bg-transparent border-0 border-b pl-8 pr-2 py-3 text-[15px] outline-none transition-colors ${isDark
-                                            ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#fbbf24]'
-                                            : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#fbbf24]'
+                                            ? 'border-white/10 text-white placeholder-gray-600 focus:border-white/30'
+                                            : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-white/30'
                                         }`}
                                     placeholder="e.g. +254 7..."
                                 />
@@ -128,8 +128,8 @@ const MobileEditAgentSocial = () => {
                                     value={formData.linkedinUrl}
                                     onChange={(e) => handleInputChange('linkedinUrl', e.target.value)}
                                     className={`w-full bg-transparent border-0 border-b pl-8 pr-2 py-3 text-[15px] outline-none transition-colors ${isDark
-                                            ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#fbbf24]'
-                                            : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#fbbf24]'
+                                            ? 'border-white/10 text-white placeholder-gray-600 focus:border-white/30'
+                                            : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-white/30'
                                         }`}
                                     placeholder="https://linkedin.com/in/..."
                                 />
@@ -147,8 +147,8 @@ const MobileEditAgentSocial = () => {
                                     value={formData.facebookUrl}
                                     onChange={(e) => handleInputChange('facebookUrl', e.target.value)}
                                     className={`w-full bg-transparent border-0 border-b pl-8 pr-2 py-3 text-[15px] outline-none transition-colors ${isDark
-                                            ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#fbbf24]'
-                                            : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#fbbf24]'
+                                            ? 'border-white/10 text-white placeholder-gray-600 focus:border-white/30'
+                                            : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-white/30'
                                         }`}
                                     placeholder="https://facebook.com/..."
                                 />
@@ -160,7 +160,7 @@ const MobileEditAgentSocial = () => {
                 <motion.button
                     onClick={handleSave}
                     disabled={saving}
-                    className="w-full py-4 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-2xl text-[#111] font-bold shadow-lg shadow-[#fbbf24]/20 shadow-xl shadow-[#000000]/20 flex items-center justify-center gap-2"
+                    className="w-full py-4 bg-white text-black font-semibold rounded-2xl text-[#111] font-bold shadow-lg shadow-black/20 shadow-xl shadow-[#000000]/20 flex items-center justify-center gap-2"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                 >

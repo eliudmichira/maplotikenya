@@ -4,25 +4,22 @@ import { Heart, Bed, Bath, Ruler, MapPin, Eye, ZoomIn, ChevronLeft, ChevronRight
 import { useAuth } from '../../context/AuthContext';
 import { getPropertyImages, handleImageError } from '../../utils/imageUtils';
 import { cn } from '@/lib/utils';
+import { deriveListingType, sanitizePrice, formatPropertyArea } from '../../utils/propertyUtils';
 
 // The one listing card for the whole site: the browse grid, the map list
 // and the user's saved homes. Price is the hero, the title is one line,
 // meta sits on one row, and the photo carries a rent/sale badge and the
 // save button. Arrows show on hover; dots do the job otherwise.
 
-const listingKind = (p) => {
-  const raw = String(p?.listingType || p?.listing_type || p?.purpose || p?.type || '').toLowerCase();
-  if (/rent|let/.test(raw)) return 'rent';
-  if (/sale|sell|buy/.test(raw)) return 'sale';
-  const title = String(p?.title || '').toLowerCase();
-  if (/to let|for rent|rental/.test(title)) return 'rent';
-  if (/for sale/.test(title)) return 'sale';
-  return '';
-};
+const listingKind = (p) => deriveListingType(p);
 
 const formatKsh = (v) => {
-  const n = Number(v);
-  return Number.isFinite(n) && n > 0 ? `Ksh ${n.toLocaleString()}` : 'Price on request';
+  let val = v;
+  if (typeof v === 'object' && v !== null) {
+    val = sanitizePrice(v);
+  }
+  const n = Number(val);
+  return Number.isFinite(n) && n > 0 ? 'Ksh ' + n.toLocaleString() : 'Price on request';
 };
 
 export const listingArea = (p) => {
@@ -195,15 +192,30 @@ export default function ListingCard({
       {/* Body */}
       <div className={cn('min-w-0 p-3', row && 'flex flex-1 flex-col justify-center')}>
         <p className="flex items-baseline gap-1 text-base font-semibold tabular-nums leading-tight text-foreground">
-          {formatKsh(property.price)}
-          {kind === 'rent' && Number(property.price) > 0 && <span className="text-xs font-normal text-muted-foreground">/month</span>}
+          {formatKsh(property)}
+          {kind === 'rent' && sanitizePrice(property) > 0 && <span className="text-xs font-normal text-muted-foreground">/month</span>}
         </p>
         <p className="mt-1 truncate text-sm text-foreground/90">{property.title || 'Untitled listing'}</p>
         <p className="mt-1.5 flex min-w-0 items-center gap-x-3 text-xs text-muted-foreground">
           <span className="flex min-w-0 items-center gap-1 truncate"><MapPin className="h-3.5 w-3.5 shrink-0" />{listingArea(property)}</span>
-          {Number(property.bedrooms) > 0 && <span className="flex shrink-0 items-center gap-1 tabular-nums"><Bed className="h-3.5 w-3.5" />{property.bedrooms}</span>}
-          {Number(property.bathrooms) > 0 && <span className="flex shrink-0 items-center gap-1 tabular-nums"><Bath className="h-3.5 w-3.5" />{property.bathrooms}</span>}
-          {sqm > 0 && <span className="hidden shrink-0 items-center gap-1 tabular-nums sm:flex"><Ruler className="h-3.5 w-3.5" />{sqm.toLocaleString()} m²</span>}
+          {Number(property.bedrooms) > 0 && (
+            <span className="flex shrink-0 items-center gap-1 tabular-nums">
+              <Bed className="h-3.5 w-3.5" />
+              <span>{property.bedrooms} {property.bedrooms === 1 ? 'bed' : 'beds'}</span>
+            </span>
+          )}
+          {Number(property.bathrooms) > 0 && (
+            <span className="flex shrink-0 items-center gap-1 tabular-nums">
+              <Bath className="h-3.5 w-3.5" />
+              <span>{property.bathrooms} {property.bathrooms === 1 ? 'bath' : 'baths'}</span>
+            </span>
+          )}
+          {formatPropertyArea(property) && (
+            <span className="hidden shrink-0 items-center gap-1 tabular-nums sm:flex">
+              <Ruler className="h-3.5 w-3.5" />
+              <span>{formatPropertyArea(property)}</span>
+            </span>
+          )}
         </p>
         {(views > 0 || verified) && (
           <p className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">

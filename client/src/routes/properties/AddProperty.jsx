@@ -988,7 +988,7 @@ const DesktopAddProperty = () => {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-8">
           {/* Basic Information */}
-          <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border`}>
+          <div className={`${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border`}>
             <h2 className={`text-xl font-outfit font-semibold mb-6 flex items-center gap-3 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
               <div className="w-10 h-10 bg-[#000000]/20 rounded-lg flex items-center justify-center">
                 <Building2 className="w-5 h-5 text-[#000000]" />
@@ -1102,7 +1102,7 @@ const DesktopAddProperty = () => {
             {/* Multi-Unit Toggle (Only for Apartments/Commercial) */}
             {(formData.propertyType === 'apartment' || formData.propertyType === 'commercial') && (
               <div className={`mt-8 p-6 rounded-2xl border flex items-center justify-between transition-all ${formData.hasMultipleUnits
-                ? isDark ? 'bg-[#000000]/10 border-[#fbbf24]/30' : 'bg-[#000000]/5 border-[#fbbf24]/20'
+                ? isDark ? 'bg-[#000000]/10 border-white/15' : 'bg-[#000000]/5 border-white/15'
                 : isDark ? 'bg-[#000000] border-[rgba(251,191,36,0.1)]' : 'bg-gray-50 border-gray-200'
                 }`}>
                 <div className="flex items-center gap-4">
@@ -1152,7 +1152,7 @@ const DesktopAddProperty = () => {
           </div>
 
           {/* Location */}
-          <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border`}>
+          <div className={`${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border`}>
             <h2 className={`text-xl font-outfit font-semibold mb-6 flex items-center gap-3 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
               <div className="w-10 h-10 bg-[#000000]/20 rounded-lg flex items-center justify-center">
                 <MapPin className="w-5 h-5 text-[#000000]" />
@@ -1334,7 +1334,7 @@ const DesktopAddProperty = () => {
           </div>
 
           {/* Property Details */}
-          <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border`}>
+          <div className={`${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border`}>
             <h2 className={`text-xl font-outfit font-semibold mb-6 flex items-center gap-3 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
               <div className="w-10 h-10 bg-[#000000]/20 rounded-lg flex items-center justify-center">
                 <FileText className="w-5 h-5 text-[#000000]" />
@@ -1494,7 +1494,7 @@ const DesktopAddProperty = () => {
                   <button
                     type="button"
                     onClick={() => setShowAddUnit(true)}
-                    className="flex items-center gap-2 px-4 py-2 bg-black/10 text-black dark:bg-white/10 dark:text-white border border-[#fbbf24]/30 rounded-xl hover:bg-[#000000]/20 transition-all font-outfit font-medium"
+                    className="flex items-center gap-2 px-4 py-2 bg-black/10 text-black dark:bg-white/10 dark:text-white border border-white/15 rounded-xl hover:bg-[#000000]/20 transition-all font-outfit font-medium"
                   >
                     <Plus className="w-4 h-4" /> Add Configuration
                   </button>
@@ -1504,7 +1504,7 @@ const DesktopAddProperty = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {formData.units && formData.units.length > 0 ? (
                     formData.units.map((unit) => (
-                      <div key={unit.id} className={`p-5 rounded-2xl border relative group transition-all hover:shadow-lg ${isDark ? 'bg-[#000000] border-[#fbbf24]/20 hover:border-[#fbbf24]/40' : 'bg-gray-50 border-gray-200 hover:border-[#fbbf24]/40'}`}>
+                      <div key={unit.id} className={`p-5 rounded-2xl border relative group transition-all hover:shadow-lg ${isDark ? 'bg-[#000000] border-white/15 hover:border-white/15' : 'bg-gray-50 border-gray-200 hover:border-white/15'}`}>
                         <div className="flex justify-between items-start mb-3">
                           <div>
                             <div className="flex items-center gap-2 mb-1">
@@ -1538,7 +1538,7 @@ const DesktopAddProperty = () => {
                       </div>
                     ))
                   ) : (
-                    <div className={`md:col-span-2 py-12 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center ${isDark ? 'border-[#fbbf24]/20 text-[#ccc]/50' : 'border-gray-200 text-gray-400'}`}>
+                    <div className={`md:col-span-2 py-12 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center ${isDark ? 'border-white/15 text-[#ccc]/50' : 'border-gray-200 text-gray-400'}`}>
                       <Layers className="w-12 h-12 mb-4 opacity-20" />
                       <p className="font-outfit font-medium text-lg">No unit configurations added yet.</p>
                       <p className="font-outfit text-sm">Add unit types like "Studio", "1 Bedroom Apartment", etc.</p>
@@ -1562,7 +1562,7 @@ const DesktopAddProperty = () => {
 
                 {/* Add Unit Inline Form */}
                 {showAddUnit && (
-                  <div className={`p-8 rounded-2xl border animate-in fade-in slide-in-from-top-4 ${isDark ? 'bg-[#000000] border-[#fbbf24]/30 shadow-2xl' : 'bg-white border-gray-200 shadow-2xl'}`}>
+                  <div className={`p-8 rounded-2xl border animate-in fade-in slide-in-from-top-4 ${isDark ? 'bg-[#000000] border-white/15 shadow-2xl' : 'bg-white border-gray-200 shadow-2xl'}`}>
                     <div className="flex justify-between items-center mb-8">
                       <div>
                         <h3 className={`font-outfit font-bold text-xl ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>New Unit Configuration</h3>
@@ -1679,7 +1679,7 @@ const DesktopAddProperty = () => {
                       <button
                         type="button"
                         onClick={handleAddUnit}
-                        className="flex-[2] py-4 rounded-xl bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-bold hover:shadow-xl hover:shadow-[#000000]/25 transition-all flex items-center justify-center gap-2"
+                        className="flex-[2] py-4 rounded-xl bg-white text-black font-semibold text-[#111] font-outfit font-bold hover:shadow-xl hover:shadow-[#000000]/25 transition-all flex items-center justify-center gap-2"
                       >
                         <Check className="w-5 h-5" /> Add Configuration
                       </button>
@@ -1691,7 +1691,7 @@ const DesktopAddProperty = () => {
           </div>
 
           {/* Amenities */}
-          <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border`}>
+          <div className={`${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border`}>
             <h2 className={`text-xl font-outfit font-semibold mb-6 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
               Amenities
             </h2>
@@ -1723,7 +1723,7 @@ const DesktopAddProperty = () => {
           </div>
 
           {/* Images */}
-          <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border`}>
+          <div className={`${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border`}>
             <h2 className={`text-xl font-outfit font-semibold mb-6 flex items-center gap-3 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
               <div className="w-10 h-10 bg-[#000000]/20 rounded-lg flex items-center justify-center">
                 <Camera className="w-5 h-5 text-[#000000]" />
@@ -1751,7 +1751,7 @@ const DesktopAddProperty = () => {
                 />
                 <label
                   htmlFor="image-upload"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#feffff] rounded-xl hover:shadow-lg hover:shadow-[#000000]/25 transition-all duration-300 cursor-pointer font-outfit font-semibold"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-white text-black font-semibold text-[#feffff] rounded-xl hover:shadow-lg hover:shadow-[#000000]/25 transition-all duration-300 cursor-pointer font-outfit font-semibold"
                 >
                   <Plus className="w-4 h-4" />
                   Choose Images
@@ -1784,7 +1784,7 @@ const DesktopAddProperty = () => {
           </div>
 
           {/* Contact Information */}
-          <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border`}>
+          <div className={`${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border`}>
             <h2 className={`text-xl font-outfit font-semibold mb-6 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
               Contact Information
             </h2>

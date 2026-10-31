@@ -1,5 +1,113 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+
+function PropertyDetailsSkeleton({ isDark }) {
+  return (
+    <div className={`min-h-screen pt-28 pb-16 ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Top bar skeleton */}
+        <div className="flex items-center justify-between mb-6 animate-pulse">
+          <div className={`h-8 w-32 rounded-lg ${isDark ? 'bg-zinc-800/80' : 'bg-gray-200'}`}></div>
+          <div className="flex items-center gap-3">
+            <div className={`h-9 w-9 rounded-lg ${isDark ? 'bg-zinc-800/80' : 'bg-gray-200'}`}></div>
+            <div className={`h-9 w-9 rounded-lg ${isDark ? 'bg-zinc-800/80' : 'bg-gray-200'}`}></div>
+            <div className={`h-9 w-9 rounded-full ${isDark ? 'bg-zinc-800/80' : 'bg-gray-200'}`}></div>
+          </div>
+        </div>
+
+        {/* Two-column layout matching the real page */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main content column */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Hero Photo Gallery skeleton */}
+            <div className={`relative rounded-3xl overflow-hidden aspect-[16/10] sm:aspect-[16/9] border ${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-gray-200 border-gray-300'}`}>
+              {/* Shimmer effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse"></div>
+              {/* Center Brand Spinner */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <div className="relative flex items-center justify-center mb-3">
+                  <div className="w-14 h-14 rounded-full border-2 border-white/10 border-t-white animate-spin"></div>
+                  <div className="absolute w-8 h-8 rounded-full bg-white/5 backdrop-blur-md flex items-center justify-center">
+                    <div className="w-2.5 h-2.5 rounded-full bg-white shadow-[0_0_8px_white]"></div>
+                  </div>
+                </div>
+                <div className="text-center">
+                  <span className={`text-xs font-semibold tracking-wider uppercase ${isDark ? 'text-zinc-300' : 'text-gray-700'}`}>
+                    Loading Property Details...
+                  </span>
+                  <div className="text-[11px] text-zinc-500 mt-0.5">Fetching verified listing & tour media</div>
+                </div>
+              </div>
+              {/* Badges placeholder */}
+              <div className="absolute top-4 left-4 flex gap-2">
+                <div className={`h-6 w-20 rounded-md ${isDark ? 'bg-zinc-800/90' : 'bg-white/80'}`}></div>
+                <div className={`h-6 w-16 rounded-md ${isDark ? 'bg-zinc-800/90' : 'bg-white/80'}`}></div>
+              </div>
+            </div>
+
+            {/* Thumbnail strip skeleton */}
+            <div className="flex gap-2.5 overflow-hidden animate-pulse">
+              {[1, 2, 3, 4, 5].map(i => (
+                <div key={i} className={`h-16 w-20 rounded-xl flex-shrink-0 ${isDark ? 'bg-zinc-800/60' : 'bg-gray-200'}`}></div>
+              ))}
+            </div>
+
+            {/* Title & Price Card skeleton */}
+            <div className={`rounded-2xl p-6 border ${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-gray-200'} space-y-4 animate-pulse`}>
+              <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                <div className="space-y-2 flex-1">
+                  <div className={`h-7 w-3/4 rounded-lg ${isDark ? 'bg-zinc-800' : 'bg-gray-200'}`}></div>
+                  <div className={`h-4 w-1/3 rounded-md ${isDark ? 'bg-zinc-800/60' : 'bg-gray-100'}`}></div>
+                </div>
+                <div className={`h-8 w-36 rounded-lg ${isDark ? 'bg-zinc-800' : 'bg-gray-200'}`}></div>
+              </div>
+
+              {/* 4 Feature stats */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 border-t border-white/5">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className={`h-20 rounded-xl ${isDark ? 'bg-zinc-900/60' : 'bg-gray-100'}`}></div>
+                ))}
+              </div>
+            </div>
+
+            {/* Description Card skeleton */}
+            <div className={`rounded-2xl p-6 border ${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-gray-200'} space-y-3 animate-pulse`}>
+              <div className={`h-5 w-28 rounded ${isDark ? 'bg-zinc-800' : 'bg-gray-200'}`}></div>
+              <div className={`h-4 w-full rounded ${isDark ? 'bg-zinc-800/60' : 'bg-gray-100'}`}></div>
+              <div className={`h-4 w-5/6 rounded ${isDark ? 'bg-zinc-800/60' : 'bg-gray-100'}`}></div>
+              <div className={`h-4 w-3/4 rounded ${isDark ? 'bg-zinc-800/60' : 'bg-gray-100'}`}></div>
+            </div>
+          </div>
+
+          {/* Right column: Sticky Agent Card skeleton */}
+          <div className="space-y-6">
+            <div className={`rounded-2xl p-6 border ${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-gray-200'} space-y-4 text-center animate-pulse`}>
+              <div className={`w-20 h-20 rounded-full mx-auto ${isDark ? 'bg-zinc-800' : 'bg-gray-200'}`}></div>
+              <div className={`h-5 w-32 rounded mx-auto ${isDark ? 'bg-zinc-800' : 'bg-gray-200'}`}></div>
+              <div className={`h-3 w-40 rounded mx-auto ${isDark ? 'bg-zinc-800/60' : 'bg-gray-100'}`}></div>
+              <div className="space-y-2.5 pt-2">
+                <div className={`h-11 w-full rounded-full ${isDark ? 'bg-zinc-800' : 'bg-gray-300'}`}></div>
+                <div className={`h-11 w-full rounded-full ${isDark ? 'bg-zinc-800/60' : 'bg-gray-200'}`}></div>
+                <div className={`h-11 w-full rounded-full ${isDark ? 'bg-zinc-800/60' : 'bg-gray-200'}`}></div>
+              </div>
+            </div>
+
+            <div className={`rounded-2xl p-6 border ${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-gray-200'} space-y-3 animate-pulse`}>
+              <div className={`h-5 w-32 rounded ${isDark ? 'bg-zinc-800' : 'bg-gray-200'}`}></div>
+              {[1, 2, 3].map(i => (
+                <div key={i} className="flex justify-between items-center py-1.5">
+                  <div className={`h-3.5 w-20 rounded ${isDark ? 'bg-zinc-800/60' : 'bg-gray-100'}`}></div>
+                  <div className={`h-3.5 w-16 rounded ${isDark ? 'bg-zinc-800' : 'bg-gray-200'}`}></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+import React, { useState, useEffect, useContext, useMemo } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import './propertyDetails.scss';
 import useAnalytics from '../../hooks/useAnalytics';
 import {
@@ -29,6 +137,7 @@ import {
   X,
   MessageCircle,
   CheckCircle,
+  Check,
   AlertCircle,
   Sun,
   Moon
@@ -37,6 +146,7 @@ import { AuthContext } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { getPropertyCoords } from '../../utils/imageUtils';
 import { getProperty } from '../../utils/api';
+import { cleanAndDeduplicateProperties } from '../../utils/propertyUtils';
 import { useProperty } from '../../hooks/useProperties';
 import { messagesAPI } from '../../lib/firebaseAPI';
 import { incrementPropertyView } from '../../lib/propertyViews';
@@ -250,7 +360,7 @@ function PhotoGallery({ images = [], title, property }) {
               key={index}
               onClick={() => setCurrentImage(index)}
               className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${currentImage === index
-                ? 'border-[#fbbf24]'
+                ? 'border-white/30'
                 : 'border-gray-200 dark:border-gray-600'
                 }`}
             >
@@ -303,6 +413,16 @@ function PhotoGallery({ images = [], title, property }) {
   );
 }
 
+// Owner Fallback for Eric Kamau (Site Owner & Principal)
+const OWNER_FALLBACK = {
+  id: 'mZDSsIrn9DgnFfDYymRgyUPlwem1',
+  name: 'Eric Kamau',
+  email: 'kamaueric711@gmail.com',
+  phone: '+254705906024',
+  company: 'Maploti Real Estate',
+  avatar: 'https://lh3.googleusercontent.com/a/ACg8ocIi53wSeH2LJ-9clfTiFfJZHDqj2QsSU41UDf25W-XmA7-kzw=s96-c'
+};
+
 // Agent Contact Card Component
 function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage, propertyPrice }) {
   const { isDark } = useTheme();
@@ -311,24 +431,21 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
   const [isSending, setIsSending] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
 
-  // Build an SVG avatar when no agent photo is available
-  const getInitials = (name) => {
-    if (!name || typeof name !== 'string') return 'A';
-    const parts = name.trim().split(/\s+/).slice(0, 2);
-    return parts.map(p => p.charAt(0).toUpperCase()).join('') || 'A';
-  };
+  // Fallback mechanisms: prioritize agent's specific info, defaulting to Eric Kamau
+  const agentName = (agent?.name && !/contact agent|no_agent/i.test(agent.name.trim()))
+    ? (agent.name.trim().toLowerCase() === 'maploti real estate' ? OWNER_FALLBACK.name : agent.name.trim())
+    : OWNER_FALLBACK.name;
 
-  const buildSvgAvatar = (name) => {
-    const initials = getInitials(name);
-    const bg = '#fbbf24';
-    const fg = '#0e1311';
-    const svg = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150">
-  <rect width="150" height="150" rx="16" fill="${bg}"/>
-  <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="700" fill="${fg}">${initials}</text>
-</svg>`;
-    return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
-  };
+  const agentEmail = (agent?.email && agent.email.trim())
+    ? agent.email.trim()
+    : OWNER_FALLBACK.email;
+
+  const agentPhone = (agent?.phone || agent?.phoneNumber || '').trim()
+    ? (agent.phone || agent.phoneNumber).trim()
+    : OWNER_FALLBACK.phone;
+
+  const agentAvatar = agent?.image || agent?.photo || agent?.avatar || OWNER_FALLBACK.avatar;
+  const agentId = agent?.id || agent?.userId || agent?.agentId || OWNER_FALLBACK.id;
 
   const handleSendMessage = async () => {
     console.log('handleSendMessage called with propertyId:', propertyId, 'propertyTitle:', propertyTitle);
@@ -343,18 +460,7 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
       return;
     }
 
-    // If agent doesn't have an ID, we'll use the current user as the agent
-    // This handles cases where properties were added without proper agent ID
-    const agentId = agent.id || agent?.userId || agent?.agentId;
-
-    if (!agentId) {
-      showToast({
-        type: 'error',
-        title: 'Agent Not Found',
-        message: 'Agent information is not available for this property.'
-      });
-      return;
-    }
+    const effectiveAgentId = agentId || OWNER_FALLBACK.id;
 
     setIsSending(true);
 
@@ -365,7 +471,7 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
 
       // Look for existing conversation with this agent
       for (const conv of existingConversations.conversations) {
-        if (conv.participants && conv.participants.includes(agentId)) {
+        if (conv.participants && conv.participants.includes(effectiveAgentId)) {
           conversationId = conv.id;
           break;
         }
@@ -373,8 +479,8 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
 
       // Create new conversation if none exists
       if (!conversationId) {
-        console.log('Creating conversation with participants:', [currentUser.id, agentId], 'propertyId:', propertyId);
-        conversationId = await messagesAPI.createConversation([currentUser.id, agentId], propertyId);
+        console.log('Creating conversation with participants:', [currentUser.id, effectiveAgentId], 'propertyId:', propertyId);
+        conversationId = await messagesAPI.createConversation([currentUser.id, effectiveAgentId], propertyId);
         console.log('Created conversation with ID:', conversationId);
       }
 
@@ -391,7 +497,7 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
       showToast({
         type: 'success',
         title: 'Message Sent Successfully!',
-        message: `Your message has been sent to ${agent.name || 'the agent'}. You can view your conversations in the Messages section.`
+        message: `Your message has been sent to ${agentName}. You can view your conversations in the Messages section.`
       });
 
       // Navigate to messages page after a short delay
@@ -412,59 +518,43 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
   };
 
   const handleCallAgent = () => {
-    if (agent.phone) {
-      window.location.href = `tel:${agent.phone}`;
-    } else {
-      showToast({
-        type: 'error',
-        title: 'Phone Not Available',
-        message: 'Phone number is not available for this agent.'
-      });
-    }
+    window.location.href = `tel:${agentPhone}`;
   };
 
   const handleEmailAgent = () => {
-    if (agent.email) {
-      window.location.href = `mailto:${agent.email}?subject=Inquiry about ${propertyTitle}`;
-    } else {
-      showToast({
-        type: 'error',
-        title: 'Email Not Available',
-        message: 'Email address is not available for this agent.'
-      });
-    }
+    window.location.href = `mailto:${agentEmail}?subject=Inquiry about ${propertyTitle}`;
   };
 
-
-
   return (
-    <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
+    <div className={`${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
       <div className="text-center mb-4">
         <img
-          src={agent.image || agent.photo || agent.avatar || buildSvgAvatar(agent.name)}
-          alt={agent.name || "Agent"}
-          className="w-20 h-20 rounded-full mx-auto mb-3 object-cover"
+          src={agentAvatar}
+          alt={agentName}
+          className="w-20 h-20 rounded-full mx-auto mb-3 object-cover shadow-sm border border-white/10"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = OWNER_FALLBACK.avatar;
+          }}
         />
         <h3 className={`text-lg font-outfit font-semibold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
-          {agent.name || "Contact Agent"}
+          {agentName}
         </h3>
-        {agent.email && (
-          <p className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>
-            {agent.email}
-          </p>
-        )}
+        <p className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>
+          {agentEmail}
+        </p>
+        <p className="text-xs text-zinc-500 mt-0.5">
+          {agent?.company || 'Maploti Real Estate'}
+        </p>
       </div>
 
       <div className="space-y-3">
         <button
           onClick={handleCallAgent}
-          className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl font-outfit font-medium transition-all duration-200 ${isDark
-            ? 'bg-black text-white dark:bg-white dark:text-black hover:bg-[#45e595]'
-            : 'bg-emerald-600 text-white hover:bg-emerald-700'
-            }`}
+          className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-full font-outfit font-bold transition-all duration-200 ${isDark ? 'bg-white text-black hover:bg-zinc-200' : 'bg-black text-white hover:bg-zinc-800'} shadow-md`}
         >
           <Phone className="w-4 h-4" />
-          {agent.phone || "+254 700 000 000"}
+          {agentPhone}
         </button>
 
         <button
@@ -472,9 +562,7 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
           disabled={isSending}
           className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-full font-outfit font-semibold transition-all duration-200 ${isSending
             ? 'opacity-50 cursor-not-allowed'
-            : isDark
-              ? 'border border-[#fbbf24] text-[#fbbf24] hover:bg-[rgba(251,191,36,0.1)]'
-              : 'border border-[#fbbf24] text-[#b45309] hover:bg-[rgba(251,191,36,0.08)]'
+            : isDark ? 'border border-white/20 text-white hover:bg-white/10' : 'border border-zinc-300 text-zinc-900 hover:bg-zinc-100'
             }`}
         >
           {isSending ? (
@@ -492,9 +580,7 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
 
         <button
           onClick={handleEmailAgent}
-          className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-full font-outfit font-semibold transition-all duration-200 ${isDark
-            ? 'border border-[#fbbf24] text-[#fbbf24] hover:bg-[rgba(251,191,36,0.1)]'
-            : 'border border-[#fbbf24] text-[#b45309] hover:bg-[rgba(251,191,36,0.08)]'
+          className={`w-full flex items-center justify-center gap-2 py-3 px-4 rounded-full font-outfit font-semibold transition-all duration-200 ${isDark ? 'border border-white/20 text-white hover:bg-white/10' : 'border border-zinc-300 text-zinc-900 hover:bg-zinc-100'
             }`}
         >
           <Mail className="w-4 h-4" />
@@ -503,7 +589,7 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
 
         <button
           onClick={() => setIsBookingOpen(true)}
-          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-full font-outfit font-bold transition-all duration-200 bg-gradient-to-b from-[#fbbf24] to-[#f59e0b] text-[#0e1311] shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_20px_-6px_rgba(251,191,36,0.45)] hover:brightness-110 hover:-translate-y-0.5"
+          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-full font-outfit font-bold transition-all duration-200 bg-white text-black font-bold shadow-md hover:bg-zinc-200 hover:-translate-y-0.5"
         >
           <Calendar className="w-4 h-4" />
           Book Viewing
@@ -519,7 +605,12 @@ function AgentContactCard({ agent = {}, propertyId, propertyTitle, propertyImage
           images: propertyImage ? [propertyImage] : [],
           price: propertyPrice
         }}
-        agent={agent}
+        agent={{
+          name: agentName,
+          email: agentEmail,
+          phone: agentPhone,
+          avatar: agentAvatar
+        }}
       />
     </div>
   );
@@ -622,7 +713,7 @@ function SimilarProperties({ properties = [] }) {
   }
 
   return (
-    <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
+    <div className={`${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
       <h3 className={`text-lg font-outfit font-semibold mb-4 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Similar Properties</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {properties.map((property, index) => (
@@ -651,8 +742,8 @@ function LocationCard({ latitude, longitude, address, city }) {
   const mapLink = `https://www.google.com/maps/search/?api=1&query=${qParam}`;
 
   return (
-    <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl border transition-colors duration-300`}>
-      <div className={`p-6 border-b ${isDark ? 'border-[rgba(251,191,36,0.1)]' : 'border-gray-200'}`}>
+    <div className={`${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl border transition-colors duration-300`}>
+      <div className={`p-6 border-b ${isDark ? 'border-white/10' : 'border-gray-200'}`}>
         <h3 className={`text-lg font-outfit font-semibold mb-2 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Location</h3>
         <p className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>{address || 'Address not available'}</p>
       </div>
@@ -672,14 +763,14 @@ function LocationCard({ latitude, longitude, address, city }) {
 
       {/* Clickable Link */}
       <div className={`px-6 py-3 border-t text-center ${isDark
-        ? 'bg-[#000000] border-[rgba(251,191,36,0.1)]'
+        ? 'bg-[#000000] border-white/10'
         : 'bg-gray-50 border-gray-200'
         }`}>
         <a
           href={mapLink}
           target="_blank"
           rel="noopener noreferrer"
-          className={`font-outfit font-semibold hover:underline ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`}
+          className={`font-outfit font-semibold hover:underline ${isDark ? 'text-white' : 'text-gray-900'}`}
         >
           View on Google Maps
         </a>
@@ -760,10 +851,80 @@ const listingLabel = (property) => {
 function PropertyDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const { currentUser } = useContext(AuthContext);
-  const [property, setProperty] = useState(null);
+
+  // Initialize immediately from router state if available to prevent any stale flicker or redirect issues
+  const initialProp = useMemo(() => {
+    if (location.state?.property && (location.state.property.id === id || location.state.property.code === id || String(location.state.property.id).includes(id))) {
+      const [cleaned] = cleanAndDeduplicateProperties([location.state.property]);
+      return cleaned || location.state.property;
+    }
+    return null;
+  }, [id, location.state]);
+
+  const [property, setProperty] = useState(initialProp);
   const [isFavorite, setIsFavorite] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
+  const [copied, setCopied] = useState(false);
+
+  // When id changes, reset property or adopt fresh router state
+  useEffect(() => {
+    if (initialProp) {
+      setProperty(initialProp);
+    } else {
+      setProperty(null);
+    }
+  }, [id, initialProp]);
+
+  const handleShare = async () => {
+    const url = window.location.href;
+    const shareTitle = property?.title || safeProperty?.title || 'Property on Maploti';
+    const shareText = `Check out ${shareTitle} on Maploti: ${url}`;
+
+    if (navigator.share && navigator.canShare && navigator.canShare({ url })) {
+      try {
+        await navigator.share({
+          title: shareTitle,
+          text: shareText,
+          url
+        });
+        return;
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+      showToast({
+        type: 'success',
+        title: 'Link Copied!',
+        message: 'Property link copied to clipboard.'
+      });
+    } catch (_) {
+      const el = document.createElement('textarea');
+      el.value = url;
+      document.body.appendChild(el);
+      el.select();
+      try {
+        document.execCommand('copy');
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2500);
+        showToast({
+          type: 'success',
+          title: 'Link Copied!',
+          message: 'Property link copied to clipboard.'
+        });
+      } catch (err) {
+        prompt('Copy property link:', url);
+      }
+      document.body.removeChild(el);
+    }
+  };
+
   const { isDark, toggleTheme } = useTheme();
   const { trackPropertyView } = useAnalytics();
 
@@ -792,9 +953,11 @@ function PropertyDetails() {
 
   useEffect(() => {
     if (data) {
-      setProperty(data);
+      const [cleaned] = cleanAndDeduplicateProperties([data]);
+      const finalProp = cleaned || data;
+      setProperty(finalProp);
       // Track property view for analytics
-      trackPropertyView(data);
+      trackPropertyView(cleaned || data);
       // Increment view count in database
       incrementPropertyView(id);
     }
@@ -815,13 +978,13 @@ function PropertyDetails() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <button
               onClick={() => navigate(-1)}
-              className={`inline-flex items-center justify-center min-h-[44px] px-6 py-3 rounded-full font-semibold border-2 border-[#fbbf24] transition-colors hover:bg-[#fbbf24] hover:text-[#111] ${isDark ? 'text-white' : 'text-gray-900'}`}
+              className={`inline-flex items-center justify-center min-h-[44px] px-6 py-3 rounded-full font-semibold border border-white/20 text-white hover:bg-white hover:text-black transition-all ${isDark ? 'text-white' : 'text-gray-900'}`}
             >
               Go back
             </button>
             <a
               href="/properties"
-              className="inline-flex items-center justify-center min-h-[44px] px-6 py-3 rounded-full font-semibold bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] hover:shadow-lg transition-all"
+              className="inline-flex items-center justify-center min-h-[44px] px-6 py-3 rounded-full font-semibold bg-white text-black font-semibold hover:shadow-lg transition-all"
             >
               Browse properties
             </a>
@@ -832,16 +995,7 @@ function PropertyDetails() {
   }
 
   if (!property) {
-    return (
-      <div className={`min-h-screen pt-32 pb-8 overflow-y-auto ${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className={`w-16 h-16 ${isDark ? 'bg-[#0e1311]' : 'bg-gray-200'} rounded-full mx-auto mb-4 animate-pulse`}></div>
-            <div className={isDark ? 'text-[#ccc]' : 'text-gray-500'}>Loading property details...</div>
-          </div>
-        </div>
-      </div>
-    );
+    return <PropertyDetailsSkeleton isDark={isDark} />;
   }
 
   const formatPrice = (price) => {
@@ -855,6 +1009,12 @@ function PropertyDetails() {
 
   // Safe property data with fallbacks
   const safeProperty = {
+    ...property,
+    tiktokId: property?.tiktokId || null,
+    videoUrl: property?.videoUrl || null,
+    hasVideo: property?.hasVideo || false,
+    embedUrl: property?.embedUrl || null,
+    videoThumbnail: property?.videoThumbnail || null,
     title: property.title || 'Property Title Not Available',
     description: property.description || 'No description available.',
     price: property.price || 0,
@@ -899,7 +1059,7 @@ function PropertyDetails() {
     <div className={`${isDark ? 'bg-[#000000]' : 'bg-gray-50'}`}>
 
       {/* Header */}
-      <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.1)]' : 'bg-white border-gray-200'} border-b sticky top-0 z-40 transition-colors duration-300`}
+      <div className={`${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-gray-200'} border-b sticky top-0 z-40 transition-colors duration-300`}
         style={{ paddingTop: 'max(1rem, calc(env(safe-area-inset-top, 0px) + 0.5rem))' }}
       >
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -918,17 +1078,22 @@ function PropertyDetails() {
                 aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
                 title={isDark ? 'Light mode' : 'Dark mode'}
                 className={`p-2 rounded-lg transition-colors ${isDark
-                  ? 'text-[#fbbf24] hover:text-[#fcd34d] hover:bg-[rgba(251,191,36,0.1)]'
+                  ? 'text-white hover:text-white hover:bg-white/10'
                   : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                   }`}
               >
                 {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
-              <button className={`p-2 rounded-lg transition-colors ${isDark
-                ? 'text-[#ccc] hover:text-white hover:bg-[rgba(251,191,36,0.1)]'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}>
-                <Share2 className="w-5 h-5" />
+              <button
+                onClick={handleShare}
+                title={copied ? 'Link Copied!' : 'Share listing'}
+                aria-label="Share listing"
+                className={`p-2 rounded-lg transition-colors flex items-center justify-center ${isDark
+                  ? 'text-[#ccc] hover:text-white hover:bg-white/10'
+                  : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                  }`}
+              >
+                {copied ? <Check className="w-5 h-5 text-emerald-400" /> : <Share2 className="w-5 h-5" />}
               </button>
               <button
                 onClick={() => setIsFavorite(!isFavorite)}
@@ -956,7 +1121,7 @@ function PropertyDetails() {
             <PhotoGallery images={safeProperty.images} title={safeProperty.title} property={safeProperty} />
 
             {/* Property Info */}
-            <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
+            <div className={`${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
               <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
                 <div className="min-w-0">
                   <h1 className={`text-3xl font-outfit font-bold mb-2 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.title}</h1>
@@ -965,7 +1130,7 @@ function PropertyDetails() {
                 </div>
                 <div className="flex flex-wrap items-center gap-3 sm:flex-col sm:items-end sm:gap-1 sm:text-right sm:flex-shrink-0">
                   {safeProperty.listingLabel && (
-                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${isDark ? 'bg-[#fbbf24]/15 text-[#fbbf24]' : 'bg-amber-100 text-amber-800'}`}>
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${isDark ? 'bg-white/10 text-white' : 'bg-zinc-100 text-zinc-900 border border-zinc-200'}`}>
                       {safeProperty.listingLabel}
                     </span>
                   )}
@@ -981,22 +1146,22 @@ function PropertyDetails() {
               {/* Property Stats */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-6">
                 <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-emerald-50'}`}>
-                  <Bed className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#fbbf24]' : 'text-emerald-600'}`} />
+                  <Bed className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-white' : 'text-emerald-600'}`} />
                   <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.bedrooms}</div>
                   <div className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Bedrooms</div>
                 </div>
                 <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-green-50'}`}>
-                  <Bath className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#fbbf24]' : 'text-green-600'}`} />
+                  <Bath className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-white' : 'text-green-600'}`} />
                   <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.bathrooms}</div>
                   <div className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Bathrooms</div>
                 </div>
                 <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-purple-50'}`}>
-                  <Building2 className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#fbbf24]' : 'text-purple-600'}`} />
+                  <Building2 className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-white' : 'text-purple-600'}`} />
                   <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.area > 0 ? safeProperty.area.toLocaleString() : '—'}</div>
                   <div className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Sq Ft</div>
                 </div>
                 <div className={`text-center p-4 rounded-xl ${isDark ? 'bg-[rgba(251,191,36,0.1)]' : 'bg-orange-50'}`}>
-                  <Car className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-[#fbbf24]' : 'text-orange-600'}`} />
+                  <Car className={`w-6 h-6 mx-auto mb-2 ${isDark ? 'text-white' : 'text-orange-600'}`} />
                   <div className={`text-xl font-outfit font-bold ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>{safeProperty.parkingSpaces ? safeProperty.parkingSpaces : '—'}</div>
                   <div className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Parking</div>
                 </div>
@@ -1015,7 +1180,7 @@ function PropertyDetails() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {safeProperty.features.map((feature, index) => (
                       <div key={index} className={`flex items-center gap-2 ${isDark ? 'text-[#ccc]' : 'text-gray-700'}`}>
-                        <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-[#fbbf24]' : 'bg-gray-900'}`}></div>
+                        <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-white' : 'bg-gray-900'}`}></div>
                         {humanizeLabel(feature)}
                       </div>
                     ))}
@@ -1030,7 +1195,7 @@ function PropertyDetails() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                     {safeProperty.amenities.map((amenity, index) => (
                       <div key={index} className={`flex items-center gap-2 ${isDark ? 'text-[#ccc]' : 'text-gray-700'}`}>
-                        <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-[#fbbf24]' : 'bg-gray-900'}`}></div>
+                        <div className={`w-2 h-2 rounded-full ${isDark ? 'bg-white' : 'bg-gray-900'}`}></div>
                         {humanizeLabel(amenity)}
                       </div>
                     ))}
@@ -1047,7 +1212,7 @@ function PropertyDetails() {
                 isEditable={true}
               />
             ) : (
-              <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
+              <div className={`${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
                 <div className="text-center">
                   <h3 className={`text-lg font-outfit font-semibold mb-2 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Vacancy Information</h3>
                   <p className={`text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>
@@ -1069,8 +1234,8 @@ function PropertyDetails() {
 
 
             {/* Tabs */}
-            <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl border transition-colors duration-300`}>
-              <div className={`border-b ${isDark ? 'border-[rgba(251,191,36,0.1)]' : 'border-gray-200'}`}>
+            <div className={`${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl border transition-colors duration-300`}>
+              <div className={`border-b ${isDark ? 'border-white/10' : 'border-gray-200'}`}>
                 <nav
                   className="flex gap-4 sm:gap-8 px-4 sm:px-6 overflow-x-auto [&::-webkit-scrollbar]:hidden"
                   style={{ scrollbarWidth: 'none' }}
@@ -1085,7 +1250,7 @@ function PropertyDetails() {
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
                       className={`flex items-center gap-2 py-4 px-1 border-b-2 font-outfit font-medium text-sm whitespace-nowrap flex-shrink-0 transition-colors ${activeTab === tab.id
-                        ? `border-[#fbbf24] ${isDark ? 'text-[#fbbf24]' : 'text-gray-900'}`
+                        ? `border-white/30 ${isDark ? 'text-white' : 'text-gray-900'}`
                         : isDark
                           ? 'border-transparent text-[#ccc] hover:text-white hover:border-[rgba(251,191,36,0.3)]'
                           : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -1160,7 +1325,7 @@ function PropertyDetails() {
 
 
             {/* Quick Stats */}
-            <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
+            <div className={`${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
               <h3 className={`text-lg font-outfit font-semibold mb-4 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Property Stats</h3>
               <div className="space-y-3">
                 {(String(safeProperty.type).toLowerCase() !== 'apartment' && safeProperty.pricePerSqft > 0) && (

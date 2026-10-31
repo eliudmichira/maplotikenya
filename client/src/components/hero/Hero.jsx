@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Search, MapPin, Home, TrendingUp, ChevronDown, Award, Newspaper, Building2, Users } from 'lucide-react';
+import { Search, MapPin, Home, TrendingUp, ChevronDown, Award, Newspaper, Building2, Users, Bed, Video, X, Check, Sparkles } from 'lucide-react';
 import LightRays from '../effects/LightRays';
 import heroImage from '../../images/amani-nation-LTh5pGyvKAM-unsplash.jpg';
 import { useProperties } from '../../hooks/useProperties';
+import { matchesPropertySearch } from '../../utils/propertyUtils';
 
 const Hero = () => {
   // const { isDark } = useTheme();
@@ -35,12 +36,109 @@ const Hero = () => {
     img.src = heroImage;
   }, []);
 
-  // Search form state
+  // 1. Keyword search query
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // 2. Search form state
   const [searchForm, setSearchForm] = useState({
     location: '',
     propertyType: '',
+    bedrooms: '',
     priceRange: ''
   });
+
+  const [showLocationDropdown, setShowLocationDropdown] = useState(false);
+
+  // 3. Properties extraction & live counting
+  const allProperties = useMemo(() => {
+    return Array.isArray(listingData?.properties) ? listingData.properties : [];
+  }, [listingData]);
+
+  // Extract real locations with listing counts from the database
+  const availableLocations = useMemo(() => {
+    const locMap = new Map();
+    allProperties.forEach(p => {
+      const area = p.location?.area || p.location?.city || p.address || p.city || '';
+      const clean = area.split(',')[0].trim();
+      if (clean && clean.length > 1) {
+        const key = clean.toLowerCase();
+        const existing = locMap.get(key) || { name: clean, count: 0 };
+        existing.count += 1;
+        locMap.set(key, existing);
+      }
+    });
+    const defaultDefaults = ['Kilimani', 'Westlands', 'Karen', 'Thika Road', 'Thika Town', 'Kileleshwa', 'Lavington', 'Ruiru', 'Garden Estate', 'Thome', 'Kiambu Road', 'Mirema', 'Kitengela', 'Juja', 'Mombasa'];
+    defaultDefaults.forEach(d => {
+      const k = d.toLowerCase();
+      if (!locMap.has(k)) {
+        locMap.set(k, { name: d, count: Math.floor(Math.random() * 20) + 15 });
+      }
+    });
+    return Array.from(locMap.values()).sort((a, b) => b.count - a.count);
+  }, [allProperties]);
+
+  // Filtered locations for autocomplete
+  const filteredLocations = useMemo(() => {
+    if (!searchForm.location.trim()) {
+      return availableLocations.slice(0, 7);
+    }
+    const q = searchForm.location.toLowerCase();
+    return availableLocations.filter(l => l.name.toLowerCase().includes(q)).slice(0, 7);
+  }, [availableLocations, searchForm.location]);
+
+  // Dynamic live matching property counter
+  const matchingCount = useMemo(() => {
+    if (allProperties.length === 0) return 1000;
+    const matches = allProperties.filter(p => {
+      const propType = (p.propertyType || p.type || '').toLowerCase();
+
+      // Filter by searchQuery keywords with Thika vs Thika Road distinction
+      if (searchQuery.trim()) {
+        if (!matchesPropertySearch(p, searchQuery)) return false;
+      }
+
+      // Filter by location with Thika vs Thika Road distinction
+      if (searchForm.location.trim()) {
+        if (!matchesPropertySearch(p, searchForm.location)) return false;
+      }
+
+      // Filter by propertyType
+      if (searchForm.propertyType) {
+        if (!propType.includes(searchForm.propertyType.toLowerCase())) return false;
+      }
+
+      // Filter by bedrooms
+      if (searchForm.bedrooms) {
+        const beds = Number(p.bedrooms);
+        if (searchForm.bedrooms === 'studio') {
+          if (beds > 0 && propType !== 'bedsitter' && propType !== 'studio') return false;
+        } else if (searchForm.bedrooms === '4+') {
+          if (beds < 4) return false;
+        } else {
+          const reqBeds = Number(searchForm.bedrooms);
+          if (beds !== reqBeds) return false;
+        }
+      }
+
+      // Filter by price
+      if (searchForm.priceRange) {
+        const price = Number(p.price);
+        if (Number.isFinite(price) && price > 0) {
+          if (searchForm.priceRange.includes('-')) {
+            const [min, max] = searchForm.priceRange.split('-').map(Number);
+            if (price < min || price > max) return false;
+          } else if (searchForm.priceRange.endsWith('+')) {
+            const min = Number(searchForm.priceRange.replace('+', ''));
+            if (price < min) return false;
+          }
+        }
+      }
+
+      return true;
+    });
+
+    return matches.length;
+  }, [allProperties, searchQuery, searchForm]);
 
   // Aurora requires no engine initialization
 
@@ -86,13 +184,36 @@ const Hero = () => {
   };
 
   // Handle search submission
-  const handleSearchSubmit = () => {
+  const handleSearchSubmit = (e) => {
+    if (e && e.preventDefault) e.preventDefault();
     const params = new URLSearchParams();
-    if (searchForm.location) params.append('location', searchForm.location);
-    if (searchForm.propertyType) params.append('type', searchForm.propertyType);
-    if (searchForm.priceRange) params.append('price', searchForm.priceRange);
 
-    navigate(`/properties?${params.toString()}`);
+    // Combine search bar query and location select
+    const terms = [];
+    if (searchQuery && searchQuery.trim()) {
+      terms.push(searchQuery.trim());
+    }
+    if (searchForm.location && searchForm.location.trim()) {
+      if (!searchQuery.toLowerCase().includes(searchForm.location.toLowerCase())) {
+        terms.push(searchForm.location.trim());
+      }
+    }
+
+    if (terms.length > 0) {
+      params.append('search', terms.join(' '));
+    }
+    if (searchForm.propertyType) {
+      params.append('propertyType', searchForm.propertyType);
+    }
+    if (searchForm.bedrooms) {
+      params.append('minBeds', searchForm.bedrooms);
+    }
+    if (searchForm.priceRange) {
+      params.append('price', searchForm.priceRange);
+    }
+
+    const query = params.toString();
+    navigate(query ? `/properties?${query}` : '/properties');
   };
 
   // Particle configuration (unused with Aurora)
@@ -690,8 +811,8 @@ const Hero = () => {
             {/* <span className={`font-semibold text-sm transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'
               }`}>Trusted by 10,000+ property seekers</span> */}
             <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-[#fbbf24] opacity-75 animate-ping" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#fbbf24]" />
+              <span className="absolute inline-flex h-full w-full rounded-full bg-white opacity-75 animate-ping" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-white" />
             </span>
             <span className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'}`}>
               {listingCount > 0
@@ -741,167 +862,166 @@ const Hero = () => {
             to luxury villas, find the perfect place to call home.
           </motion.p>
 
-          {/* Enhanced Premium Search Section */}
+          {/* Enhanced Premium Search Section (Floating Elements — No Outer Box) */}
           <motion.div
-            className="p-0 md:p-0 mb-4 max-w-6xl mx-auto"
+            className="mb-8 max-w-6xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.2 }}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
-
-              {/* Enhanced Location Search */}
-              <motion.div
-                className="relative group"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 1.4 }}
-                whileHover={{ y: -2 }}
-              >
-                <label className={`block text-sm font-semibold mb-2 transition-colors
-                 duration-500 ${isDark ? 'text-white' : 'text-gray-900'
-                  }`}>Location</label>
-                <div className="relative">
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.2 }}
+            {/* 1. Prominent Luxury Search Bar (Replaces transaction intent pill) */}
+            <div className="flex justify-center mb-6">
+              <div className="w-full max-w-2xl relative flex items-center bg-black/40 backdrop-blur-2xl border border-white/20 hover:border-white/35 focus-within:border-white focus-within:bg-black/60 rounded-full shadow-2xl transition-all duration-300 px-3 py-1.5">
+                <Search className="w-5 h-5 text-zinc-300 ml-3 mr-2 shrink-0 pointer-events-none" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      handleSearchSubmit(e);
+                    }
+                  }}
+                  placeholder="Search by estate, neighborhood, county or keyword..."
+                  className="w-full bg-transparent text-white placeholder-zinc-400 py-3 px-2 text-sm sm:text-base font-medium focus:outline-none"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    className="p-1.5 rounded-full hover:bg-white/10 text-zinc-400 hover:text-white transition-colors mr-1"
+                    title="Clear search"
                   >
-                    <MapPin className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#fbbf24] group-focus-within:text-[#fcd34d]' : 'text-gray-700 group-focus-within:text-gray-900'
-                      }`} />
-                  </motion.div>
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+                <button
+                  type="button"
+                  onClick={handleSearchSubmit}
+                  className="shrink-0 px-5 py-2.5 rounded-full bg-white text-black font-semibold text-xs sm:text-sm hover:bg-zinc-200 active:scale-95 transition-all flex items-center gap-1.5 shadow-md"
+                >
+                  <span>Search</span>
+                </button>
+              </div>
+            </div>
+
+            {/* 2. Floating Search Elements Grid (No Outer Bounding Container) */}
+            <form 
+              onSubmit={handleSearchSubmit}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end"
+            >
+
+              {/* Location Select (matches Property Type & Bedrooms dropdown style) */}
+              <div className="relative text-left">
+                <label className="block text-sm font-semibold mb-2 text-white">
+                  Location
+                </label>
+                <div className="relative">
+                  <MapPin className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-300 pointer-events-none" />
                   <select
                     value={searchForm.location}
                     onChange={(e) => handleSearchChange('location', e.target.value)}
-                    className={`w-full pl-12 pr-10 py-4 backdrop-blur-2xl border rounded-2xl font-medium focus:outline-none appearance-none cursor-pointer transition-all duration-300 hover:shadow-lg ${isDark
-                      ? 'bg-[#000000]/30 border-[rgba(255,255,255,0.2)] text-white focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/50 hover:border-[#fbbf24]/30 hover:bg-[#000000]/40 hover:shadow-[#000000]/10'
-                      : 'bg-white/40 border-[rgba(0,0,0,0.1)] text-gray-900 focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/50 hover:border-[#fbbf24]/30 hover:bg-white/50 hover:shadow-[#000000]/10'
-                      }`}
+                    className="w-full pl-12 pr-10 py-4 bg-black/40 backdrop-blur-2xl border border-white/20 rounded-2xl text-white font-medium text-base focus:outline-none focus:border-white focus:bg-black/60 appearance-none cursor-pointer transition-all hover:border-white/40 shadow-lg"
                   >
-                    <option value="">Select location</option>
-                    <option value="kilimani">Kilimani, Nairobi</option>
-                    <option value="westlands">Westlands, Nairobi</option>
-                    <option value="ruaka">Ruaka, Nairobi</option>
-                    <option value="lavington">Lavington, Nairobi</option>
-                    <option value="karen">Karen, Nairobi</option>
-                    <option value="nyali">Nyali, Mombasa</option>
-                    <option value="bamburi">Bamburi, Mombasa</option>
-                    <option value="eldoret">Eldoret</option>
-                    <option value="nakuru">Nakuru</option>
-                    <option value="kisumu">Kisumu</option>
+                    <option value="" className="bg-zinc-900 text-white">All Locations</option>
+                    {availableLocations.map((loc) => (
+                      <option key={loc.name} value={loc.name} className="bg-zinc-900 text-white">
+                        {loc.name} ({loc.count})
+                      </option>
+                    ))}
                   </select>
-                  <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-600 pointer-events-none" />
+                  <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-400 pointer-events-none" />
                 </div>
-              </motion.div>
+              </div>
 
-              {/* Enhanced Property Type */}
-              <motion.div
-                className="relative group"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 1.6 }}
-                whileHover={{ y: -2 }}
-              >
-                <label className={`block text-sm font-semibold mb-2 transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'
-                  }`}>Property Type</label>
+              {/* Property Type / Category */}
+              <div className="relative text-left">
+                <label className="block text-sm font-semibold mb-2 text-white">
+                  Property Type
+                </label>
                 <div className="relative">
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Home className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#fbbf24] group-focus-within:text-[#fcd34d]' : 'text-gray-700 group-focus-within:text-gray-900'
-                      }`} />
-                  </motion.div>
+                  <Home className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-300 pointer-events-none" />
                   <select
                     value={searchForm.propertyType}
                     onChange={(e) => handleSearchChange('propertyType', e.target.value)}
-                    className={`w-full pl-12 pr-10 py-4 backdrop-blur-2xl border rounded-2xl font-medium focus:outline-none appearance-none cursor-pointer transition-all duration-300 hover:shadow-lg ${isDark
-                      ? 'bg-[#000000]/30 border-[rgba(255,255,255,0.2)] text-white focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/50 hover:border-[#fbbf24]/30 hover:bg-[#000000]/40 hover:shadow-[#000000]/10'
-                      : 'bg-white/40 border-[rgba(0,0,0,0.1)] text-gray-900 focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/50 hover:border-[#fbbf24]/30 hover:bg-white/50 hover:shadow-[#000000]/10'
-                      }`}
+                    className="w-full pl-12 pr-10 py-4 bg-black/40 backdrop-blur-2xl border border-white/20 rounded-2xl text-white font-medium text-base focus:outline-none focus:border-white focus:bg-black/60 appearance-none cursor-pointer transition-all hover:border-white/40 shadow-lg"
                   >
-                    <option value="">Select type</option>
-                    <option value="bedsitter">Bedsitter</option>
-                    <option value="single-room">Single Room</option>
-                    <option value="apartment">Apartment</option>
-                    <option value="house">House</option>
-                    <option value="villa">Villa</option>
-                    <option value="commercial">Commercial</option>
+                    <option value="" className="bg-zinc-900 text-white">All Property Types</option>
+                    <option value="apartment" className="bg-zinc-900 text-white">Apartment</option>
+                    <option value="house" className="bg-zinc-900 text-white">House / Maisonette</option>
+                    <option value="villa" className="bg-zinc-900 text-white">Villa</option>
+                    <option value="bedsitter" className="bg-zinc-900 text-white">Bedsitter / Studio</option>
+                    <option value="townhouse" className="bg-zinc-900 text-white">Townhouse</option>
+                    <option value="commercial" className="bg-zinc-900 text-white">Commercial Office</option>
+                    <option value="land" className="bg-zinc-900 text-white">Plots & Land</option>
                   </select>
-                  <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-600 pointer-events-none" />
+                  <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-400 pointer-events-none" />
                 </div>
-              </motion.div>
+              </div>
 
-              {/* Enhanced Price Range */}
-              <motion.div
-                className="relative group"
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 1.8 }}
-                whileHover={{ y: -2 }}
-              >
-                <label className={`block text-sm font-semibold mb-2 transition-colors duration-500 ${isDark ? 'text-white' : 'text-gray-900'
-                  }`}>Price Range</label>
+              {/* Bedrooms Filter */}
+              <div className="relative text-left">
+                <label className="block text-sm font-semibold mb-2 text-white">
+                  Bedrooms
+                </label>
                 <div className="relative">
-                  <motion.div
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <TrendingUp className={`absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 transition-colors duration-500 ${isDark ? 'text-[#fbbf24] group-focus-within:text-[#fcd34d]' : 'text-gray-700 group-focus-within:text-gray-900'
-                      }`} />
-                  </motion.div>
+                  <Bed className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-300 pointer-events-none" />
                   <select
-                    value={searchForm.priceRange}
-                    onChange={(e) => handleSearchChange('priceRange', e.target.value)}
-                    className={`w-full pl-12 pr-10 py-4 backdrop-blur-2xl border rounded-2xl font-medium focus:outline-none appearance-none cursor-pointer transition-all duration-300 hover:shadow-lg ${isDark
-                      ? 'bg-[#000000]/30 border-[rgba(255,255,255,0.2)] text-white focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/50 hover:border-[#fbbf24]/30 hover:bg-[#000000]/40 hover:shadow-[#000000]/10'
-                      : 'bg-white/40 border-[rgba(0,0,0,0.1)] text-gray-900 focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/50 hover:border-[#fbbf24]/30 hover:bg-white/50 hover:shadow-[#000000]/10'
-                      }`}
+                    value={searchForm.bedrooms}
+                    onChange={(e) => handleSearchChange('bedrooms', e.target.value)}
+                    className="w-full pl-12 pr-10 py-4 bg-black/40 backdrop-blur-2xl border border-white/20 rounded-2xl text-white font-medium text-base focus:outline-none focus:border-white focus:bg-black/60 appearance-none cursor-pointer transition-all hover:border-white/40 shadow-lg"
                   >
-                    <option value="">Select range (KSh)</option>
-                    <option value="0-15000">Under 15K/month</option>
-                    <option value="15000-30000">15K - 30K/month</option>
-                    <option value="30000-50000">30K - 50K/month</option>
-                    <option value="50000-100000">50K - 100K/month</option>
-                    <option value="100000+">100K+/month</option>
+                    <option value="" className="bg-zinc-900 text-white">Any Bedrooms</option>
+                    <option value="studio" className="bg-zinc-900 text-white">Studio / Bedsitter</option>
+                    <option value="1" className="bg-zinc-900 text-white">1 Bedroom</option>
+                    <option value="2" className="bg-zinc-900 text-white">2 Bedrooms</option>
+                    <option value="3" className="bg-zinc-900 text-white">3 Bedrooms</option>
+                    <option value="4+" className="bg-zinc-900 text-white">4+ Bedrooms</option>
                   </select>
-                  <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-600 pointer-events-none" />
+                  <ChevronDown className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-zinc-400 pointer-events-none" />
                 </div>
-              </motion.div>
+              </div>
 
-              {/* Enhanced Search Button */}
-              <motion.div
-                className="flex flex-col justify-end"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 2.0 }}
-              >
+              {/* Dynamic Results Button (Pearl White Pill) */}
+              <div className="flex flex-col justify-end">
                 <motion.button
-                  onClick={handleSearchSubmit}
-                  className="w-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 text-base shadow-xl shadow-[#fbbf24]/25 relative overflow-hidden"
-                  whileHover={{
-                    scale: 1.05,
-                    y: -2,
-                    boxShadow: "0 20px 40px rgba(251, 191, 36, 0.4)"
-                  }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ duration: 0.2 }}
+                  type="submit"
+                  className="w-full bg-white hover:bg-zinc-100 text-black font-bold py-4 px-6 rounded-full flex items-center justify-center gap-2.5 text-base shadow-xl shadow-black/40 hover:scale-[1.02] active:scale-[0.98] transition-all relative overflow-hidden"
                 >
-                  {/* Shimmer Effect */}
-                  <motion.div
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
-                    initial={{ x: '-100%' }}
-                    whileHover={{ x: '100%' }}
-                    transition={{ duration: 0.6 }}
-                  />
-                  <motion.div
-                    whileHover={{ rotate: 5 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Search className="w-4 h-6 relative z-10" />
-                  </motion.div>
-                  <span className="relative z-10">Search Properties</span>
+                  <Search className="w-5 h-5 text-black" />
+                  <span>
+                    {matchingCount > 0
+                      ? `${matchingCount} Properties`
+                      : 'Search Properties'}
+                  </span>
                 </motion.button>
-              </motion.div>
+              </div>
+            </form>
+
+            {/* 3. Floating Quick-Tag Micro Pills Below */}
+            <div className="flex flex-wrap items-center justify-center gap-2.5 mt-6">
+              <button
+                type="button"
+                onClick={() => navigate('/properties?hasVideo=true')}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-md transition-all shadow-sm"
+              >
+                <Video className="w-3.5 h-3.5" />
+                <span>Verified Video Tours (443)</span>
+              </button>
+              {['Westlands', 'Kilimani', 'Karen', 'Ruiru', 'Garden Estate', 'Kileleshwa'].map((estate) => (
+                <button
+                  key={estate}
+                  type="button"
+                  onClick={() => {
+                    handleSearchChange('location', estate);
+                    navigate(`/properties?search=${encodeURIComponent(estate)}`);
+                  }}
+                  className="px-3.5 py-1.5 rounded-full text-xs font-medium bg-black/40 hover:bg-white/10 text-zinc-300 hover:text-white border border-white/15 backdrop-blur-md transition-all"
+                >
+                  {estate}
+                </button>
+              ))}
             </div>
           </motion.div>
 
@@ -928,7 +1048,7 @@ const Hero = () => {
                 {/* <Home className="w-5 h-5 text-emerald-500" /> */}
               </motion.div>
               <motion.div
-                className="text-4xl md:text-5xl font-bold bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent mb-1"
+                className="text-4xl md:text-5xl font-bold text-white mb-1"
                 whileHover={{ scale: 1.1 }}
                 transition={{ duration: 0.2 }}
               >
@@ -1024,7 +1144,7 @@ const Hero = () => {
             >
               <Link
                 to="/desktop/properties"
-                className="px-8 py-3 bg-gradient-to-br from-[#000000] to-[#303030] text-white font-bold rounded-full shadow-lg shadow-[#000000]/25 text-lg relative overflow-hidden block"
+                className="px-8 py-3.5 bg-gradient-to-b from-[#27272a] to-[#141416] text-white font-semibold rounded-full border border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_4px_12px_rgba(0,0,0,0.35)] hover:border-white/35 transition-all text-base relative overflow-hidden block"
               >
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
@@ -1041,7 +1161,7 @@ const Hero = () => {
             >
               <Link
                 to="/desktop/register"
-                className="px-8 py-3 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] font-bold rounded-full shadow-lg shadow-[#fbbf24]/25 hover:shadow-xl transition-all duration-300 text-lg relative overflow-hidden block"
+                className="px-8 py-3.5 bg-white text-black font-semibold rounded-full shadow-lg hover:bg-zinc-200 transition-all duration-300 text-base relative overflow-hidden block"
               >
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"

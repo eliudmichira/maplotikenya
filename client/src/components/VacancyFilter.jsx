@@ -82,7 +82,7 @@ const VacancyFilter = ({ onFilterChange, activeFilters = {} }) => {
         onClick={() => setIsOpen(!isOpen)}
         className={`flex items-center space-x-2 px-4 py-2 rounded-lg border transition-all ${
           activeFilterCount > 0
-            ? 'bg-black text-white dark:bg-white dark:text-black border-[#fbbf24]'
+            ? 'bg-black text-white dark:bg-white dark:text-black border-white/30'
             : isDark
               ? 'bg-gray-800 text-gray-300 border-gray-600 hover:bg-gray-700'
               : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
@@ -140,7 +140,7 @@ const VacancyFilter = ({ onFilterChange, activeFilters = {} }) => {
                     onClick={() => handleFilterToggle(option.key)}
                     className={`w-full flex items-start space-x-3 p-3 rounded-lg transition-all ${
                       isActive
-                        ? `${option.bgColor} border-2 border-[#fbbf24]`
+                        ? `${option.bgColor} border-2 border-white/30`
                         : isDark
                           ? 'hover:bg-gray-700 border border-gray-600'
                           : 'hover:bg-gray-50 border border-gray-200'

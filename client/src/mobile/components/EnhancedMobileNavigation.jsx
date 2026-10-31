@@ -326,7 +326,7 @@ const EnhancedMobileNavigation = () => {
                       placeholder="Search by location, address, or ZIP"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 focus:outline-none focus:border-[#fbbf24] transition-all duration-200 ${isDark
+                      className={`w-full pl-10 pr-4 py-3 rounded-xl border-2 focus:outline-none focus:border-white/30 transition-all duration-200 ${isDark
                         ? 'bg-gray-800/50 border-gray-700/50 text-white placeholder-gray-400'
                         : 'bg-white border-gray-200 text-gray-900 placeholder-gray-500'
                         }`}
@@ -335,7 +335,7 @@ const EnhancedMobileNavigation = () => {
 
                   <motion.button
                     type="submit"
-                    className="w-full py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-xl font-semibold shadow-lg"
+                    className="w-full py-3 bg-white text-black font-semibold text-[#000000] rounded-xl font-semibold shadow-lg"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                   >
@@ -426,7 +426,7 @@ const EnhancedMobileNavigation = () => {
                       transition={{ delay: 0.1 }}
                     >
                       <div className="flex items-center space-x-3">
-                        <div className="w-12 h-12 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center">
+                        <div className="w-12 h-12 bg-white text-black font-semibold rounded-full flex items-center justify-center">
                           <User className="w-6 h-6 text-[#000000]" />
                         </div>
                         <div className="flex-1">
@@ -468,7 +468,7 @@ const EnhancedMobileNavigation = () => {
                             <motion.div
                               key={notification.id}
                               className={`p-3 rounded-lg ${isDark ? 'bg-gray-800/50' : 'bg-gray-100/50'
-                                } ${notification.unread ? 'border-l-4 border-[#fbbf24]' : ''}`}
+                                } ${notification.unread ? 'border-l-4 border-white/30' : ''}`}
                               initial={{ opacity: 0, x: -20 }}
                               animate={{ opacity: 1, x: 0 }}
                             >
@@ -595,7 +595,7 @@ const EnhancedMobileNavigation = () => {
                   >
                     <Link
                       to="/auth"
-                      className="w-full py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-xl font-semibold text-center shadow-lg"
+                      className="w-full py-3 bg-white text-black font-semibold text-[#000000] rounded-xl font-semibold text-center shadow-lg"
                     >
                       Login
                     </Link>

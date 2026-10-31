@@ -17,7 +17,7 @@ const StepReview = ({ formData }) => {
 
     return (
         <div className="space-y-6">
-            <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#0e1311]' : 'bg-white shadow-sm'}`}>
+            <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#0a0a0a]' : 'bg-white shadow-sm'}`}>
                 <h2 className={`text-xl font-bold mb-6 flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                     <CheckCircle className="w-6 h-6 text-[#000000]" /> Review Details
                 </h2>

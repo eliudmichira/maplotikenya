@@ -151,7 +151,7 @@ const RentaKenyaPage = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#000000]/20 to-[#f0f0f0]/20 border border-[#fbbf24]/30 mb-8">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-[#000000]/20 to-[#f0f0f0]/20 border border-white/15 mb-8">
               <Building2 className="w-4 h-4 text-[#000000]" />
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 Africa's First AI-Powered Rental Management Platform
@@ -326,7 +326,7 @@ const RentaKenyaPage = () => {
           </div>
 
           {/* Unit Economics */}
-          <div className="mt-16 p-8 rounded-2xl bg-gradient-to-br from-[#000000]/10 to-[#f0f0f0]/10 border border-[#fbbf24]/20">
+          <div className="mt-16 p-8 rounded-2xl bg-gradient-to-br from-[#000000]/10 to-[#f0f0f0]/10 border border-white/15">
             <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
               Unit Economics
             </h3>

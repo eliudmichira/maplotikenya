@@ -166,7 +166,7 @@ const SmartSearchBar = ({
       <motion.div
         ref={searchRef}
         className={`relative bg-white dark:bg-gray-800 rounded-full border-2 transition-all duration-300 ${isFocused
-          ? 'border-[#fbbf24] shadow-lg shadow-[#000000]/20'
+          ? 'border-white/30 shadow-lg shadow-[#000000]/20'
           : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
           }`}
         variants={containerVariants}

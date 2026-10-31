@@ -126,13 +126,13 @@ const PropertyOwnerPortal = () => {
       icon: Shield,
       title: "Legal Compliance",
       description: "KRA-ready reports and Kenya-specific agreements",
-      color: "from-[#fbbf24] to-[#f59e0b]"
+      color: "from-white to-zinc-300"
     },
     {
       icon: Users,
       title: "Tenant Portal",
       description: "Self-service platform for rent payments and requests",
-      color: "from-[#fbbf24] to-[#f59e0b]"
+      color: "from-white to-zinc-300"
     }
   ];
 
@@ -205,7 +205,7 @@ const PropertyOwnerPortal = () => {
               transition={{ duration: 0.6 }}
               className="mb-6"
             >
-              <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 text-[#000000] dark:text-white border border-[#fbbf24]/20 dark:border-[#fbbf24]/30">
+              <span className="inline-flex items-center px-4 py-2 rounded-full text-sm font-medium bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 text-[#000000] dark:text-white border border-white/15 dark:border-white/15">
                 <Crown className="w-4 h-4 mr-2" />
                 Property Owner Portal
               </span>
@@ -240,7 +240,7 @@ const PropertyOwnerPortal = () => {
             >
               <button
                 onClick={() => setShowTrialModal(true)}
-                className="px-8 py-4 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-bold rounded-2xl shadow-2xl hover:shadow-[#000000]/25 transition-all duration-300 flex items-center gap-3 group"
+                className="px-8 py-4 bg-white text-black font-semibold text-[#000000] font-bold rounded-2xl shadow-2xl hover:shadow-[#000000]/25 transition-all duration-300 flex items-center gap-3 group"
               >
                 <Crown className="w-5 h-5 group-hover:scale-110 transition-transform" />
                 Start Free Trial
@@ -291,7 +291,7 @@ const PropertyOwnerPortal = () => {
               >
                 <div className={`w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center ${
                   stat.color === '[#000000]' 
-                    ? 'bg-gradient-to-br from-[#fbbf24] to-[#f59e0b]' 
+                    ? 'bg-white text-black font-semibold' 
                     : 'bg-gradient-to-br from-[#f0f0f0] to-[#d4c99e]'
                 }`}>
                   <stat.icon className="w-6 h-6 text-white" />
@@ -505,7 +505,7 @@ const PropertyOwnerPortal = () => {
           >
             <button 
               onClick={() => setShowTrialModal(true)}
-              className="px-8 py-4 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group"
+              className="px-8 py-4 bg-white text-black font-semibold text-[#000000] font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 group"
             >
               <Crown className="w-5 h-5 group-hover:scale-110 transition-transform" />
               Start Free Trial

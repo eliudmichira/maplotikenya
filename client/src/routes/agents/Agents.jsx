@@ -212,7 +212,7 @@ const Agents = () => {
     const [isFavorite, setIsFavorite] = useState(false);
 
     return (
-      <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-all duration-300 hover:shadow-xl hover:scale-[1.02] group`}>
+      <div className={`${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-all duration-300 hover:shadow-xl hover:scale-[1.02] group`}>
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div
@@ -224,7 +224,7 @@ const Agents = () => {
                 <img
                   src={agent.image}
                   alt={agent.name}
-                  className="w-16 h-16 rounded-full object-cover border-2 border-[#fbbf24]"
+                  className="w-16 h-16 rounded-full object-cover border-2 border-white/30"
                   onError={(e) => {
                     e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'flex';
@@ -334,7 +334,7 @@ const Agents = () => {
           <button
             onClick={() => handleContactAgent(agent)}
             disabled={contactingAgent === agent.id || authLoading}
-            className="flex-1 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] py-2 px-4 rounded-xl font-outfit font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-[#000000]/25 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 bg-white text-black font-semibold text-[#111] py-2 px-4 rounded-xl font-outfit font-semibold transition-all duration-200 hover:shadow-lg hover:shadow-[#000000]/25 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {authLoading ? (
               <>
@@ -378,7 +378,7 @@ const Agents = () => {
         </div>
 
         {/* Filters and Search */}
-        <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border mb-8`}>
+        <div className={`${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border mb-8`}>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Search */}
             <div className="relative">
@@ -511,7 +511,7 @@ const Agents = () => {
       {modalAgent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-black/60" onClick={() => setModalAgent(null)}></div>
-          <div className={`relative z-10 w-full max-w-2xl mx-4 rounded-2xl ${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200'} border shadow-xl`}>
+          <div className={`relative z-10 w-full max-w-2xl mx-4 rounded-2xl ${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200'} border shadow-xl`}>
             <div className="p-6 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 {modalAgent.image ? (
@@ -545,7 +545,7 @@ const Agents = () => {
               </div>
             </div>
             <div className="p-6 border-t border-gray-200 dark:border-gray-700 flex items-center justify-end gap-2">
-              <a href={`mailto:${modalAgent.email || ''}`} className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] py-2 px-4 rounded-xl font-outfit font-semibold">Email Agent</a>
+              <a href={`mailto:${modalAgent.email || ''}`} className="bg-white text-black font-semibold text-[#111] py-2 px-4 rounded-xl font-outfit font-semibold">Email Agent</a>
               <button onClick={() => setModalAgent(null)} className={`${isDark ? 'bg-[rgba(251,191,36,0.1)] text-[#ccc] hover:bg-[rgba(251,191,36,0.2)]' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'} py-2 px-4 rounded-xl`}>Close</button>
             </div>
           </div>

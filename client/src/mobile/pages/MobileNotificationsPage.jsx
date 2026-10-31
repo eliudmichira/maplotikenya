@@ -44,7 +44,7 @@ const MobileNotificationsPage = () => {
             onClick={() => handleNotificationClick(notification)}
         >
             {!notification.read && (
-                <div className="absolute top-5 right-5 w-2.5 h-2.5 rounded-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] shadow-lg shadow-[#000000]/40" />
+                <div className="absolute top-5 right-5 w-2.5 h-2.5 rounded-full bg-white text-black font-semibold shadow-lg shadow-[#000000]/40" />
             )}
 
             <div className="flex gap-4">
@@ -152,7 +152,7 @@ const MobileNotificationsPage = () => {
                         <p className={`text-xs mb-4 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Enable push notifications to get instant property alerts.</p>
                         <button 
                             onClick={requestPermission}
-                            className="w-full py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-black rounded-xl text-xs uppercase tracking-widest shadow-lg shadow-[#000000]/20"
+                            className="w-full py-3 bg-white text-black font-semibold text-[#000000] font-black rounded-xl text-xs uppercase tracking-widest shadow-lg shadow-[#000000]/20"
                         >
                             Enable Notifications
                         </button>

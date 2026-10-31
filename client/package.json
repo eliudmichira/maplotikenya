@@ -18,6 +18,7 @@
     "deploy:storage": "firebase deploy --only storage",
     "serve": "firebase serve",
     "clean": "rm -rf dist",
+    "sync:tiktok": "node scripts/syncTikTokToFirestore.js",
     "analyze": "npm run build && npx vite-bundle-analyzer dist",
     "firebase:init": "firebase init",
     "firebase:login": "firebase login",

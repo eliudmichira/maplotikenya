@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import logoImage from '../../../assets/android-chrome-512x512.png';
+import logoWhiteContour from '../../assets/logo_white_contour.png';
+import logoDarkContour from '../../assets/logo_dark_contour.png';
 import { User, Lock, Mail, Eye, EyeOff, ArrowRight, Building2, Check, Star, Shield, Sparkles, AlertCircle, Loader2, ChevronRight, Zap, Award, TrendingUp, UserCheck, Briefcase, Moon, Sun } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
@@ -444,7 +446,21 @@ function ModernRegister() {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex justify-center mb-6">
-              <img src={logoImage} alt="MaplotiKenya" className="h-24 w-auto object-contain" />
+              <div className="relative inline-flex items-center justify-center">
+                <img src={isDark ? logoWhiteContour : logoDarkContour} alt="MaplotiKenya" className="h-28 w-auto object-contain drop-shadow-xl" />
+                <button
+                  type="button"
+                  onClick={toggleTheme}
+                  className="absolute -top-2 -right-7 p-2 rounded-full cursor-pointer hover:scale-110 transition-transform focus:outline-none"
+                  title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                >
+                  {isDark ? (
+                    <Sun className="w-7 h-7 text-amber-400 drop-shadow-[0_0_12px_rgba(251,191,36,0.8)] animate-[spin_12s_linear_infinite]" />
+                  ) : (
+                    <Moon className="w-7 h-7 text-gray-800 drop-shadow-md" />
+                  )}
+                </button>
+              </div>
             </div>
             <h1 className={`text-4xl md:text-5xl font-bold tracking-tight mb-4 transition-colors duration-700 ease-out ${isDark ? 'text-gray-100' : 'text-gray-900'
               }`}>

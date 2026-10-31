@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import logoImage from '../../../assets/android-chrome-512x512.png';
+import logoWhiteContour from '../../assets/logo_white_contour.png';
+import logoDarkContour from '../../assets/logo_dark_contour.png';
 import { useTheme } from '../../context/ThemeContext';
 import {
     signInWithPopup,
@@ -696,7 +698,7 @@ const AuthIllustration = ({ mode, isDark, onToggleTheme }) => {
             <foreignObject x="175" y="25" width="30" height="30">
                 <div className="flex items-center justify-center w-full h-full">
                     {isDark ? (
-                        <Sun size={24} className="text-[#fbbf24] animate-[spin_10s_linear_infinite]" />
+                        <Sun size={24} className="text-white animate-[spin_10s_linear_infinite]" />
                     ) : (
                         <Moon size={24} className="text-black" />
                     )}
@@ -708,57 +710,34 @@ const AuthIllustration = ({ mode, isDark, onToggleTheme }) => {
     if (mode === 'login') {
         return (
             <div className="w-full h-44 relative flex items-center justify-center mb-4 overflow-hidden">
-                <svg width="240" height="180" viewBox="0 0 240 180" fill="none" xmlns="http://www.w3.org/2000/svg" className="relative z-10 drop-shadow-xl">
-                    {/* Ground */}
-                    <path d="M40 160H200" stroke={primaryColor} strokeWidth="2" strokeLinecap="round" opacity="0.3" />
-
-                    {/* Modern House Body */}
-                    <motion.rect
-                        x="70" y="60" width="100" height="100" rx="4"
-                        animate={{
-                            fill: isDark ? '#18181b' : '#ffffff',
-                            stroke: primaryColor
-                        }}
-                        transition={springConfig}
-                        strokeWidth="3"
-                    />
-                    <motion.path
-                        d="M60 60L120 20L180 60"
-                        animate={{
-                            fill: isDark ? '#18181b' : '#ffffff',
-                            stroke: primaryColor
-                        }}
-                        transition={springConfig}
-                        strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"
+                <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={springConfig}
+                    className="relative flex items-center justify-center"
+                >
+                    <img
+                        src={isDark ? logoWhiteContour : logoDarkContour}
+                        alt="Maploti"
+                        className="w-32 h-32 object-contain drop-shadow-2xl"
                     />
 
-                    {/* Doorway */}
-                    <rect x="105" y="110" width="30" height="50" rx="1" fill={secondaryColor} stroke={primaryColor} strokeWidth="0" />
-                    <rect x="105" y="110" width="30" height="50" rx="1" stroke={primaryColor} strokeWidth="2" />
-                    <circle cx="130" cy="135" r="2" fill={accentColor} />
-
-                    {/* Window Lights */}
-                    <motion.rect
-                        x="85" y="80" width="20" height="20" rx="1"
-                        animate={{
-                            fill: isDark ? '#000000' : '#f4f4f5',
-                            stroke: isDark ? '#000000' : primaryColor,
-                        }}
-                        transition={springConfig}
-                        strokeWidth="2"
-                    />
-                    <path d="M95 80V100M85 90H105" stroke={isDark ? "#000000" : primaryColor} strokeWidth="1" opacity="0.5" />
-
-                    {/* Celestial Body Toggle */}
-                    {renderCelestialBody()}
-
-                    {/* Plants/Nature */}
-                    <path d="M150 160V140" stroke={primaryColor} strokeWidth="2" />
-                    <circle cx="150" cy="135" r="8" fill={primaryColor} opacity="0.8" />
-
-                    {/* Welcome Mat */}
-                    <rect x="100" y="160" width="40" height="3" rx="1.5" fill={accentColor} />
-                </svg>
+                    {/* Sun/Moon Theme Toggle floating by the roof */}
+                    <motion.button
+                        type="button"
+                        onClick={onToggleTheme}
+                        whileHover={{ scale: 1.15 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="absolute -top-1 -right-6 p-2 rounded-full cursor-pointer focus:outline-none transition-transform z-30"
+                        title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                    >
+                        {isDark ? (
+                            <Sun size={28} className="text-amber-400 drop-shadow-[0_0_10px_rgba(251,191,36,0.8)] animate-[spin_12s_linear_infinite]" />
+                        ) : (
+                            <Moon size={28} className="text-zinc-800 drop-shadow-[0_0_6px_rgba(0,0,0,0.3)]" />
+                        )}
+                    </motion.button>
+                </motion.div>
             </div>
         );
     }
@@ -838,7 +817,7 @@ const AuthIllustration = ({ mode, isDark, onToggleTheme }) => {
                         <foreignObject x="180" y="30" width="30" height="30">
                             <div className="flex items-center justify-center w-full h-full">
                                 {isDark ? (
-                                    <Sun size={20} className="text-[#fbbf24] drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]" />
+                                    <Sun size={20} className="text-white drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]" />
                                 ) : (
                                     <Moon size={20} className="text-black" />
                                 )}
@@ -871,7 +850,7 @@ const AuthIllustration = ({ mode, isDark, onToggleTheme }) => {
                         <foreignObject x="85" y="25" width="30" height="30">
                             <div className="flex items-center justify-center w-full h-full">
                                 {isDark ? (
-                                    <Sun size={24} className="text-[#fbbf24]" />
+                                    <Sun size={24} className="text-white" />
                                 ) : (
                                     <Moon size={24} className="text-black" />
                                 )}

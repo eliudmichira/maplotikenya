@@ -82,7 +82,7 @@ const AgentVerificationPage = () => {
                 <ArrowLeft className="w-5 h-5 text-gray-600 dark:text-gray-400" />
               </button>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-white text-black font-semibold flex items-center justify-center">
                   <Building2 className="w-6 h-6 text-[#111]" />
                 </div>
                 <div>
@@ -128,7 +128,7 @@ const AgentVerificationPage = () => {
             {/* Hero Section */}
             <div className={`p-8 rounded-2xl ${isDark ? 'bg-gray-800' : 'bg-white'} shadow-lg`}>
               <div className="text-center mb-8">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] flex items-center justify-center mx-auto mb-4">
+                <div className="w-20 h-20 rounded-full bg-white text-black font-semibold flex items-center justify-center mx-auto mb-4">
                   <Shield className="w-10 h-10 text-[#111]" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
@@ -150,7 +150,7 @@ const AgentVerificationPage = () => {
                 ) : (
                   <button
                     onClick={() => setShowForm(true)}
-                    className="px-8 py-4 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-semibold hover:shadow-lg transition-all"
+                    className="px-8 py-4 bg-white text-black font-semibold text-[#111] rounded-xl font-semibold hover:shadow-lg transition-all"
                   >
                     Start Verification Process
                   </button>

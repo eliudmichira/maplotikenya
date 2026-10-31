@@ -84,7 +84,7 @@ const MobileEditProfilePage = () => {
                     <button 
                         onClick={handleSave} 
                         disabled={saving} 
-                        className="px-4 py-1.5 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-bold rounded-full disabled:opacity-50 text-sm shadow-lg shadow-[#000000]/20"
+                        className="px-4 py-1.5 bg-white text-black font-semibold text-[#000000] font-bold rounded-full disabled:opacity-50 text-sm shadow-lg shadow-[#000000]/20"
                     >
                         {saving ? <Loader2 size={18} className="animate-spin" /> : 'Save'}
                     </button>
@@ -109,7 +109,7 @@ const MobileEditProfilePage = () => {
                         whileHover={{ scale: 1.05 }}
                         transition={{ type: 'spring', stiffness: 300 }}
                     >
-                        <div className="w-32 h-32 rounded-full overflow-hidden p-1 bg-gradient-to-br from-[#fbbf24] via-[#f59e0b] to-[#fbbf24] shadow-2xl">
+                        <div className="w-32 h-32 rounded-full overflow-hidden p-1 bg-gradient-to-br from-white via-zinc-400 to-[#fbbf24] shadow-2xl">
                             <div className={`w-full h-full rounded-full overflow-hidden flex items-center justify-center text-4xl font-black ${isDark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}`}>
                                 {photoSrc ? (
                                     <img src={photoSrc} alt="" className="w-full h-full object-cover" />
@@ -119,7 +119,7 @@ const MobileEditProfilePage = () => {
                             </div>
                         </div>
                         <motion.span 
-                            className="absolute bottom-1 right-1 w-10 h-10 rounded-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#000000] flex items-center justify-center shadow-xl border-4 border-[#fbbf24]"
+                            className="absolute bottom-1 right-1 w-10 h-10 rounded-full bg-white text-black font-semibold text-[#000000] flex items-center justify-center shadow-xl border-4 border-white/30"
                             whileHover={{ rotate: 15 }}
                         >
                             <Camera size={20} />
@@ -140,8 +140,8 @@ const MobileEditProfilePage = () => {
                             placeholder="Enter your name"
                             className={`w-full bg-transparent border-0 border-b py-3 text-[15px] outline-none transition-colors ${
                                 isDark
-                                ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#fbbf24]'
-                                : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#fbbf24]'
+                                ? 'border-white/10 text-white placeholder-gray-600 focus:border-white/30'
+                                : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-white/30'
                             }`}
                         />
                     </div>

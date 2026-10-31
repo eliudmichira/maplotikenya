@@ -115,7 +115,7 @@ function ContactPage() {
       {notification && (
         <div className={`fixed top-32 right-6 z-50 p-6 rounded-2xl shadow-2xl transform transition-all duration-500 max-w-md ${
           notification.type === 'success' 
-            ? 'bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111]' 
+            ? 'bg-white text-black font-semibold text-[#111]' 
             : 'bg-red-500 text-white'
         }`}>
           <div className="flex items-start justify-between">
@@ -168,14 +168,14 @@ function ContactPage() {
         <div className="grid xl:grid-cols-3 gap-8">
           {/* Contact Form */}
           <div className="xl:col-span-2">
-            <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border transition-colors duration-300`}>
+            <div className={`${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-8 border transition-colors duration-300`}>
               <div className="mb-8">
                 <h2 className={`text-2xl font-outfit font-bold mb-3 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Send Us a Message</h2>
-                <div className="w-20 h-1 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-full"></div>
+                <div className="w-20 h-1 bg-white text-black font-semibold rounded-full"></div>
               </div>
               
               {contactData?.propertyTitle && (
-                <div className={`${isDark ? 'bg-[rgba(251,191,36,0.1)] border-[rgba(251,191,36,0.2)]' : 'bg-emerald-50 border-emerald-200'} border-l-4 border-[#fbbf24] rounded-xl p-6 mb-8 transition-colors duration-300`}>
+                <div className={`${isDark ? 'bg-[rgba(251,191,36,0.1)] border-[rgba(251,191,36,0.2)]' : 'bg-emerald-50 border-emerald-200'} border-l-4 border-white/30 rounded-xl p-6 mb-8 transition-colors duration-300`}>
                   <div className="flex items-center gap-3 mb-2">
                     <div className="w-10 h-10 bg-[#000000] rounded-full flex items-center justify-center">
                       <MapPin className="w-5 h-5 text-[#111]" />
@@ -330,7 +330,7 @@ function ContactPage() {
                   type="button"
                   onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold py-4 px-8 rounded-xl hover:shadow-lg hover:shadow-[#000000]/25 transform hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-3 text-lg"
+                  className="w-full bg-white text-black font-semibold text-[#111] font-outfit font-semibold py-4 px-8 rounded-xl hover:shadow-lg hover:shadow-[#000000]/25 transform hover:scale-[1.02] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center gap-3 text-lg"
                 >
                   {isSubmitting ? (
                     <>
@@ -351,12 +351,12 @@ function ContactPage() {
           {/* Agent Info Sidebar */}
           <div className="space-y-6">
             {/* Agent Card */}
-            <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
+            <div className={`${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl p-6 border transition-colors duration-300`}>
               <h2 className={`text-xl font-outfit font-bold mb-6 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Your Agent</h2>
               
               <div className="text-center mb-8">
                 <div className="relative inline-block">
-                  <div className="w-20 h-20 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center shadow-lg mb-4">
+                  <div className="w-20 h-20 bg-white text-black font-semibold rounded-full flex items-center justify-center shadow-lg mb-4">
                     <span className="text-[#111] font-outfit font-bold text-2xl">
                       {contactData?.agentName?.[0] || 'G'}
                     </span>
@@ -442,12 +442,12 @@ function ContactPage() {
             </div>
 
             {/* Why Choose Us */}
-            <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-gradient-to-br from-emerald-50 via-purple-50 to-emerald-50 border-emerald-200'} rounded-2xl p-6 border transition-colors duration-300`}>
+            <div className={`${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-gradient-to-br from-emerald-50 via-purple-50 to-emerald-50 border-emerald-200'} rounded-2xl p-6 border transition-colors duration-300`}>
               <h3 className={`text-xl font-outfit font-bold mb-6 text-center ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Why Choose Our Team?</h3>
               
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-white text-black font-semibold rounded-full flex items-center justify-center flex-shrink-0">
                     <Award className="w-6 h-6 text-[#111]" />
                   </div>
                   <div>
@@ -457,7 +457,7 @@ function ContactPage() {
                 </div>
                 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-white text-black font-semibold rounded-full flex items-center justify-center flex-shrink-0">
                     <Users className="w-6 h-6 text-[#111]" />
                   </div>
                   <div>
@@ -467,7 +467,7 @@ function ContactPage() {
                 </div>
                 
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-white text-black font-semibold rounded-full flex items-center justify-center flex-shrink-0">
                     <Shield className="w-6 h-6 text-[#111]" />
                   </div>
                   <div>

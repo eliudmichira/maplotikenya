@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, useSearchParams } from 'react-router-dom';
-import { Users, Shield, BarChart3, FileText, Settings, UserCheck, BookOpen } from 'lucide-react';
+import { Users, Shield, BarChart3, FileText, Settings, UserCheck, BookOpen, Sparkles } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import WorkspaceShell from '../../components/workspace/WorkspaceShell';
 
@@ -12,9 +12,11 @@ import AgentVerification from './sections/AgentVerification';
 import ContentManagement from './sections/ContentManagement';
 import BlogManagement from './sections/BlogManagement';
 import SettingsPanel from './sections/SettingsPanel';
+import LeadsSection from '../dashboard/sections/LeadsSection';
 
 const SECTIONS = [
   { id: 'analytics', label: 'Analytics', icon: BarChart3, component: AnalyticsDashboard },
+  { id: 'leads', label: 'Leads radar', icon: Sparkles, component: LeadsSection },
   { id: 'moderation', label: 'Listings', icon: Shield, component: PropertyModeration },
   { id: 'users', label: 'Users', icon: Users, component: UserManagement },
   { id: 'verification', label: 'Agent verification', icon: UserCheck, component: AgentVerification },

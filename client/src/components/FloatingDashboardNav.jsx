@@ -133,7 +133,7 @@ const FloatingDashboardNav = ({ variant = 'dashboard' }) => {
         {/* User Avatar */}
         <div className="relative z-10">
           <motion.div
-            className="w-10 h-10 rounded-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] p-0.5"
+            className="w-10 h-10 rounded-full bg-white text-black font-semibold p-0.5"
             animate={{
               rotate: isOpen ? 15 : 0
             }}
@@ -168,7 +168,7 @@ const FloatingDashboardNav = ({ variant = 'dashboard' }) => {
           transition={{ duration: 0.3, type: "spring" }}
           className="relative z-10"
         >
-          <ChevronDown className="w-4 h-4 transition-colors duration-300 group-hover:text-[#fbbf24]" />
+          <ChevronDown className="w-4 h-4 transition-colors duration-300 group-hover:text-white" />
         </motion.div>
       </motion.button>
 
@@ -206,11 +206,11 @@ const FloatingDashboardNav = ({ variant = 'dashboard' }) => {
             }}
           >
             {/* Elegant Header */}
-            <div className={`p-5 sm:p-6 bg-gradient-to-r from-[#fbbf24]/10 to-[#f59e0b]/10 ${isDark ? 'border-b border-gray-700/30' : 'border-b border-gray-200/30'
+            <div className={`p-5 sm:p-6 bg-gradient-to-r from-muted/40 to-muted/20 ${isDark ? 'border-b border-gray-700/30' : 'border-b border-gray-200/30'
               }`}>
               <div className="flex items-center gap-4">
                 <div className="relative">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] p-0.5">
+                  <div className="w-14 h-14 rounded-full bg-white text-black font-semibold p-0.5">
                     <img
                       src={currentUser?.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser?.name || 'User')}&background=00b4d8&color=0a0c19`}
                       alt={currentUser?.name || 'User'}
@@ -289,10 +289,10 @@ const FloatingDashboardNav = ({ variant = 'dashboard' }) => {
                     className={`p-2 rounded-xl relative z-10 ${item.highlight
                         ? item.label === 'Admin Panel'
                           ? 'bg-gradient-to-br from-purple-500 to-purple-600 text-white'
-                          : 'bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111]'
+                          : 'bg-white text-black font-semibold text-[#111]'
                         : isDark
-                          ? 'bg-gray-700/50 group-hover:bg-[#fbbf24]/20'
-                          : 'bg-gray-100 group-hover:bg-[#fbbf24]/20'
+                          ? 'bg-gray-700/50 group-hover:bg-white/10'
+                          : 'bg-gray-100 group-hover:bg-white/10'
                       }`}
                     whileHover={{
                       rotate: 5,

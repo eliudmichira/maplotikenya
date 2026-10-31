@@ -19,6 +19,7 @@ const RentBuyKenyaPage = lazy(() => import('./routes/rentakenya/PropertyOwnerPor
 const Contact = lazy(() => import('./routes/contact/contact'));
 const Agents = lazy(() => import('./routes/agents/Agents'));
 const Blog = lazy(() => import('./routes/blog/Blog'));
+const ServicesPage = lazy(() => import('./routes/services/ServicesPage'));
 const MobileResponsiveWrapper = lazy(() => import('./mobile/components/MobileResponsiveWrapper'));
 const MobileLayoutWrapper = lazy(() => import('./mobile/components/MobileLayoutWrapper'));
 
@@ -327,9 +328,22 @@ function AppContent() {
           />
         } />
 
+        <Route path="/services" element={
+          <ResponsiveComponent
+            desktopComponent={
+              <Layout>
+                <ServicesPage />
+              </Layout>
+            }
+            mobileComponent={
+              <MobileLayoutWrapper title="Services"><ServicesPage /></MobileLayoutWrapper>
+            }
+          />
+        } />
         {/* Desktop routes WITH layout (navbar + footer) */}
         <Route path="/desktop" element={<Layout />}>
           <Route index element={<HomePage />} />
+          <Route path="services" element={<ServicesPage />} />
           <Route path="rentakenya" element={<RentBuyKenyaPage />} />
           <Route path="contact" element={<Contact />} />
           <Route path="agents" element={<Agents />} />

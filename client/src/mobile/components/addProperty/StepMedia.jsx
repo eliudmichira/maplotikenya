@@ -7,7 +7,7 @@ const StepMedia = ({ previewImages, handleImageUpload, removeImage }) => {
 
     return (
         <div className="space-y-6">
-            <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#0e1311]' : 'bg-white shadow-sm'}`}>
+            <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#0a0a0a]' : 'bg-white shadow-sm'}`}>
                 <h2 className={`text-xl font-bold mb-2 flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                     <Camera className="w-6 h-6 text-[#000000]" /> Property Images
                 </h2>
@@ -16,7 +16,7 @@ const StepMedia = ({ previewImages, handleImageUpload, removeImage }) => {
                 </p>
 
                 {/* Main Upload Button */}
-                <label className={`w-full aspect-video rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all mb-6 ${isDark ? 'border-gray-700 bg-[#1a1d2d] hover:bg-[#252a40] hover:border-[#fbbf24]/50' : 'border-gray-300 bg-gray-50 hover:bg-gray-100 hover:border-[#fbbf24]/50'}`}>
+                <label className={`w-full aspect-video rounded-2xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all mb-6 ${isDark ? 'border-gray-700 bg-[#1a1d2d] hover:bg-[#252a40] hover:border-white/15' : 'border-gray-300 bg-gray-50 hover:bg-gray-100 hover:border-white/15'}`}>
                     <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-3 ${isDark ? 'bg-[#000000]/10' : 'bg-[#000000]/10'}`}>
                         <Plus className="w-8 h-8 text-[#000000]" />
                     </div>

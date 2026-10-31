@@ -333,7 +333,7 @@ const CartoFallbackMap = ({
           )}
 
           {showCountBadge && (
-            <div className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] px-5 py-2.5 rounded-2xl shadow-lg flex items-center gap-2.5">
+            <div className="bg-white text-black font-semibold text-[#000000] px-5 py-2.5 rounded-2xl shadow-lg flex items-center gap-2.5">
               <Home className="w-4 h-4" />
               <span className="font-semibold">{count} properties</span>
             </div>

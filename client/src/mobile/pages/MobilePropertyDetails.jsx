@@ -19,6 +19,7 @@ import {
   PropertyMobileButton
 } from '../components/PropertyMobileNav';
 import { MobilePage } from '../components/PropertyMobileLayout';
+import { cleanAndDeduplicateProperties } from '../../utils/propertyUtils';
 import { useProperty, useProperties } from '../../hooks/useProperties';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -94,7 +95,7 @@ const MobilePhotoGallery = ({ images = [], title, currentImageIndex, setCurrentI
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setCurrentImageIndex(idx)}
                 className={`relative flex-shrink-0 w-16 h-16 rounded-2xl overflow-hidden border-2 transition-all shadow-lg ${idx === currentImageIndex
-                  ? 'border-[#fbbf24] scale-110'
+                  ? 'border-white/30 scale-110'
                   : 'border-white/20 opacity-70 backdrop-blur-md'
                   }`}
               >
@@ -170,8 +171,8 @@ const SimilarPropertyCard = ({ property, isDark, formatPrice, onClick }) => {
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
       className={`flex-shrink-0 w-[280px] rounded-[32px] overflow-hidden border cursor-pointer transition-all shadow-sm ${isDark
-        ? 'bg-gray-800/40 border-white/5 hover:border-[#fbbf24]/30 hover:bg-gray-800/60'
-        : 'bg-white/80 border-gray-100 hover:border-[#fbbf24]/40 hover:shadow-md hover:bg-white'
+        ? 'bg-gray-800/40 border-white/5 hover:border-white/15 hover:bg-gray-800/60'
+        : 'bg-white/80 border-gray-100 hover:border-white/15 hover:shadow-md hover:bg-white'
         }`}
     >
       {/* Image */}
@@ -298,7 +299,7 @@ const MobileAgentCard = ({ agent = {}, propertyId, propertyTitle, propertyImage,
             if (agentId) navigate(`/agent/${agentId}`);
           }}
         >
-          <div className={`w-24 h-24 rounded-full overflow-hidden border-3 ${isDark ? 'border-[#fbbf24]/40' : 'border-[#fbbf24]/50'
+          <div className={`w-24 h-24 rounded-full overflow-hidden border-3 ${isDark ? 'border-white/15' : 'border-white/15'
             }`}>
             {!imageError && (agent.avatar || agent.photo || agent.image) ? (
               <img
@@ -349,12 +350,12 @@ const MobileAgentCard = ({ agent = {}, propertyId, propertyTitle, propertyImage,
           disabled={isSending}
           whileTap={{ scale: 0.97 }}
           className={`flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border-2 font-bold text-sm transition-all disabled:opacity-50 ${isDark
-            ? 'border-[#fbbf24]/30 text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
-            : 'border-[#fbbf24]/40 text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5'
+            ? 'border-white/15 text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
+            : 'border-white/15 text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5'
             }`}
         >
           {isSending ? (
-            <div className="w-5 h-5 border-2 border-[#fbbf24] border-t-transparent rounded-full animate-spin" />
+            <div className="w-5 h-5 border-2 border-white/30 border-t-transparent rounded-full animate-spin" />
           ) : (
             <>
               <MessageCircle className="w-5 h-5" />
@@ -369,8 +370,8 @@ const MobileAgentCard = ({ agent = {}, propertyId, propertyTitle, propertyImage,
             href={`mailto:${agent.email}?subject=${encodeURIComponent(`Inquiry about ${propertyTitle || 'your property'}`)}`}
             whileTap={{ scale: 0.97 }}
             className={`flex items-center justify-center gap-2 w-full py-3.5 rounded-xl border-2 font-bold text-sm transition-all ${isDark
-              ? 'border-[#fbbf24]/30 text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
-              : 'border-[#fbbf24]/40 text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5'
+              ? 'border-white/15 text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
+              : 'border-white/15 text-black hover:bg-black/5 dark:text-white dark:hover:bg-white/5'
               }`}
           >
             <Mail className="w-5 h-5" />
@@ -593,7 +594,7 @@ const StickyActionBar = ({ agent, propertyId, propertyTitle, propertyPrice, prop
               whileTap={{ scale: 0.92 }}
               onClick={() => setIsBookingOpen(true)}
               className={`h-14 w-14 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${isDark
-                ? 'bg-black/10 border-[#fbbf24]/30 text-black dark:bg-white/10 dark:text-white hover:bg-[#000000]/20'
+                ? 'bg-black/10 border-white/15 text-black dark:bg-white/10 dark:text-white hover:bg-[#000000]/20'
                 : 'bg-emerald-50 border-emerald-200 text-[#000000] hover:bg-emerald-100'
                 }`}
             >
@@ -852,7 +853,7 @@ const ReviewsSection = ({ property, isDark, propertyId }) => {
       {/* Reviews List */}
       {loadingReviews ? (
         <div className="p-8 flex justify-center">
-          <div className="w-8 h-8 border-2 border-[#fbbf24] border-t-transparent rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-white/30 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : reviews.length > 0 ? (
         <div className={`divide-y ${isDark ? 'divide-white/5' : 'divide-gray-200'}`}>
@@ -1009,7 +1010,7 @@ const MobilePropertyDetails = () => {
   const { trackPropertyView } = useAnalytics();
   const { isDark } = useTheme();
 
-  const property = propertyData;
+  const property = propertyData ? (cleanAndDeduplicateProperties([propertyData])[0] || propertyData) : null;
 
   useEffect(() => {
     if (property) {
@@ -1136,8 +1137,8 @@ const MobilePropertyDetails = () => {
         <div className="flex items-center justify-center h-[70vh]">
           <div className="flex flex-col items-center gap-4">
             <div className="relative w-16 h-16">
-              <div className="absolute inset-0 border-4 border-[#fbbf24]/20 rounded-full"></div>
-              <div className="absolute inset-0 border-4 border-[#fbbf24] border-t-transparent rounded-full animate-spin"></div>
+              <div className="absolute inset-0 border-4 border-white/15 rounded-full"></div>
+              <div className="absolute inset-0 border-4 border-white/30 border-t-transparent rounded-full animate-spin"></div>
             </div>
             <p className={`text-sm font-medium ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
               Loading property details...
@@ -1277,14 +1278,14 @@ const MobilePropertyDetails = () => {
             <div>
               <div className="flex items-center gap-2 mb-3">
                 {property.type && (
-                  <span className="px-3 py-1 bg-black/15 text-black dark:bg-white/15 dark:text-white text-[10px] font-bold uppercase tracking-[0.12em] rounded-full border border-[#fbbf24]/20">
+                  <span className="px-3 py-1 bg-black/15 text-black dark:bg-white/15 dark:text-white text-[10px] font-bold uppercase tracking-[0.12em] rounded-full border border-white/15">
                     {property.type}
                   </span>
                 )}
                 {property.status && (
                   <span className={`px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] rounded-full border ${property.status.toLowerCase().includes('rent')
                     ? 'bg-emerald-500/15 text-emerald-400 border-emerald-400/20'
-                    : 'bg-black/15 text-black dark:bg-white/15 dark:text-white border-[#fbbf24]/20'
+                    : 'bg-black/15 text-black dark:bg-white/15 dark:text-white border-white/15'
                     }`}>
                     {property.status.replace(/-/g, ' ')}
                   </span>
@@ -1543,7 +1544,7 @@ const MobilePropertyDetails = () => {
                     whileTap={{ scale: 0.95 }}
                     onClick={() => navigate('/properties')}
                     className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-wider border-2 transition-all ${isDark
-                      ? 'border-[#fbbf24]/20 text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
+                      ? 'border-white/15 text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
                       : 'border-gray-200 text-gray-600 hover:bg-gray-50'}`}
                   >
                     View all

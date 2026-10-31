@@ -201,12 +201,12 @@ const Overview = ({ tenant, cribbyScore, streak, monthlyRent, dueDate }) => {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .6 }} className="p-6 rounded-3xl bg-white dark:bg-gray-800 border border-gray-200/50 dark:border-gray-700/50 shadow">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Status</h3>
-            <span className={`px-3 py-1 rounded-full text-sm font-semibold ${isPaid ? 'bg-green-100 text-green-700' : (isOverdue ? 'bg-red-100 text-red-700' : 'bg-amber-100 text-amber-800')}`}>{statusChip}</span>
+            <span className={`px-3 py-1 rounded-full text-sm font-semibold ${isPaid ? 'bg-green-100 text-green-700' : (isOverdue ? 'bg-red-100 text-red-700' : 'bg-zinc-800 text-amber-800')}`}>{statusChip}</span>
           </div>
           <p className="text-sm text-gray-600 dark:text-gray-300">Next action: {nextAction}</p>
           <div className="mt-4 flex gap-3">
             {!isPaid && (
-              <Link to="/tenant-dashboard/payments" className="px-4 py-2 rounded-xl bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-semibold">Pay Now</Link>
+              <Link to="/tenant-dashboard/payments" className="px-4 py-2 rounded-xl bg-white text-black font-semibold text-[#000000] font-semibold">Pay Now</Link>
             )}
             {!isPaid && !safeTenant.autoPayEnabled && (
               <button onClick={() => setShowAutoPayModal(true)} className="px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200">Set up Auto‑Pay</button>
@@ -253,15 +253,15 @@ const Overview = ({ tenant, cribbyScore, streak, monthlyRent, dueDate }) => {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: .8 }} className="mt-8 p-6 rounded-3xl bg-white dark:bg-gray-800 border border-gray-200/50 dark:border-gray-700/50 shadow">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">⚡ Quick Actions</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button onClick={() => setShowAutoPayModal(true)} className="text-left p-5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50 bg-gray-50 dark:bg-gray-700/40 hover:border-[#fbbf24]/50 transition">
+          <button onClick={() => setShowAutoPayModal(true)} className="text-left p-5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50 bg-gray-50 dark:bg-gray-700/40 hover:border-white/15 transition">
             <p className="font-semibold text-gray-900 dark:text-white">Set Up Auto‑Pay</p>
             <p className="text-sm text-gray-600 dark:text-gray-300">Never miss a payment again</p>
           </button>
-          <button onClick={() => setShowMaintenanceModal(true)} className="text-left p-5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50 bg-gray-50 dark:bg-gray-700/40 hover:border-[#fbbf24]/50 transition">
+          <button onClick={() => setShowMaintenanceModal(true)} className="text-left p-5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50 bg-gray-50 dark:bg-gray-700/40 hover:border-white/15 transition">
             <p className="font-semibold text-gray-900 dark:text-white">Request Maintenance</p>
             <p className="text-sm text-gray-600 dark:text-gray-300">Report any issues quickly</p>
           </button>
-          <Link to="/tenant-dashboard/receipts" className="p-5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50 bg-gray-50 dark:bg-gray-700/40 hover:border-[#fbbf24]/50 transition">
+          <Link to="/tenant-dashboard/receipts" className="p-5 rounded-2xl border border-gray-200/50 dark:border-gray-700/50 bg-gray-50 dark:bg-gray-700/40 hover:border-white/15 transition">
             <p className="font-semibold text-gray-900 dark:text-white">Download Receipts</p>
             <p className="text-sm text-gray-600 dark:text-gray-300">Get payment confirmations</p>
           </Link>
@@ -286,7 +286,7 @@ const Overview = ({ tenant, cribbyScore, streak, monthlyRent, dueDate }) => {
             </div>
             <div className="mt-6 flex items-center justify-end gap-3">
               <button onClick={() => setShowAutoPayModal(false)} className="px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200">Cancel</button>
-              <button onClick={enableAutoPayFromModal} className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-semibold">Enable Auto‑Pay</button>
+              <button onClick={enableAutoPayFromModal} className="px-5 py-2.5 rounded-xl bg-white text-black font-semibold text-[#000000] font-semibold">Enable Auto‑Pay</button>
             </div>
           </div>
         </div>
@@ -319,7 +319,7 @@ const Overview = ({ tenant, cribbyScore, streak, monthlyRent, dueDate }) => {
             </div>
             <div className="mt-6 flex items-center justify-end gap-3">
               <button onClick={() => setShowMaintenanceModal(false)} className="px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200">Cancel</button>
-              <button onClick={submitMaintenanceFromModal} className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-semibold">Submit Request</button>
+              <button onClick={submitMaintenanceFromModal} className="px-5 py-2.5 rounded-xl bg-white text-black font-semibold text-[#000000] font-semibold">Submit Request</button>
             </div>
           </div>
         </div>

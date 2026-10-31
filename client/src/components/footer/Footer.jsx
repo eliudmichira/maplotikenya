@@ -44,7 +44,7 @@ const Footer = () => {
                   key={index}
                   href={social.href}
                   aria-label={social.label}
-                  className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/5 border border-white/10 hover:border-[#fbbf24]/50 hover:bg-[#fbbf24]/10 hover:text-[#fbbf24] text-gray-300 transition-all duration-200"
+                  className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/5 border border-white/10 hover:border-white/15 hover:bg-white/10 hover:text-white text-gray-300 transition-all duration-200"
                 >
                   <social.icon className="w-4 h-4" />
                 </a>
@@ -70,7 +70,7 @@ const Footer = () => {
                   <li key={index}>
                     <Link
                       to={link.to}
-                      className={`hover:text-[#fbbf24] transition-colors duration-200 font-outfit text-sm inline-block py-0.5 ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}
+                      className={`hover:text-white transition-colors duration-200 font-outfit text-sm inline-block py-0.5 ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}
                     >
                       {link.label}
                     </Link>
@@ -93,7 +93,7 @@ const Footer = () => {
                   <li key={index}>
                     <Link
                       to={service.to}
-                      className={`hover:text-[#fbbf24] transition-colors duration-200 font-outfit text-sm inline-block py-0.5 ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}
+                      className={`hover:text-white transition-colors duration-200 font-outfit text-sm inline-block py-0.5 ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}
                     >
                       {service.label}
                     </Link>
@@ -108,7 +108,7 @@ const Footer = () => {
             <h3 className="text-white font-outfit font-semibold text-base sm:text-lg">Contact Info</h3>
             <div className="space-y-3">
               <div className="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/5">
-                <MapPin className="w-5 h-5 text-[#fbbf24] mt-0.5 flex-shrink-0" />
+                <MapPin className="w-5 h-5 text-white mt-0.5 flex-shrink-0" />
                 <p className={`font-outfit text-sm leading-snug ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}>
                   Nairobi, Kenya<br />
                   <span className="text-xs opacity-75">Westlands, 8th Floor</span>
@@ -117,20 +117,20 @@ const Footer = () => {
 
               <a
                 href="tel:+254700000000"
-                className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-[#fbbf24]/50 hover:bg-[#fbbf24]/10 transition-all group"
+                className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/15 hover:bg-white/10 transition-all group"
               >
-                <Phone className="w-4 h-4 text-[#fbbf24] flex-shrink-0 group-hover:scale-110 transition-transform" />
-                <span className={`font-outfit text-sm group-hover:text-[#fbbf24] transition-colors ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}>
+                <Phone className="w-4 h-4 text-white flex-shrink-0 group-hover:scale-110 transition-transform" />
+                <span className={`font-outfit text-sm group-hover:text-white transition-colors ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}>
                   +254 700 000 000
                 </span>
               </a>
 
               <a
                 href="mailto:support@maplotikenya.com"
-                className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-[#fbbf24]/50 hover:bg-[#fbbf24]/10 transition-all group"
+                className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/15 hover:bg-white/10 transition-all group"
               >
-                <Mail className="w-4 h-4 text-[#fbbf24] flex-shrink-0 group-hover:scale-110 transition-transform" />
-                <span className={`font-outfit text-sm break-all group-hover:text-[#fbbf24] transition-colors ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}>
+                <Mail className="w-4 h-4 text-white flex-shrink-0 group-hover:scale-110 transition-transform" />
+                <span className={`font-outfit text-sm break-all group-hover:text-white transition-colors ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}>
                   support@maplotikenya.com
                 </span>
               </a>
@@ -149,14 +149,14 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className={`flex-1 min-h-[44px] px-4 py-2.5 rounded-xl font-outfit text-sm focus:outline-none focus:border-[#fbbf24] transition-colors ${isDark
+                className={`flex-1 min-h-[44px] px-4 py-2.5 rounded-xl font-outfit text-sm focus:outline-none focus:border-white/30 transition-colors ${isDark
                   ? 'bg-[#111111] border border-white/10 text-white placeholder-gray-500'
                   : 'bg-gray-800 border border-gray-700 text-white placeholder-gray-400'
                   }`}
               />
               <button
                 type="submit"
-                className="min-h-[44px] px-6 py-2.5 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] font-outfit font-semibold rounded-xl shadow-[0px_-2px_0px_rgba(17,17,17,0.32)_inset] hover:shadow-lg hover:shadow-[#fbbf24]/20 transition-all duration-300 active:scale-95"
+                className="min-h-[44px] px-6 py-2.5 bg-white text-black font-semibold text-[#111] font-outfit font-semibold rounded-xl shadow-[0px_-2px_0px_rgba(17,17,17,0.32)_inset] hover:shadow-lg hover:shadow-black/20 transition-all duration-300 active:scale-95"
               >
                 Subscribe
               </button>
@@ -171,16 +171,16 @@ const Footer = () => {
               &copy; {new Date().getFullYear()} MaplotiKenya. All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center md:justify-end gap-x-6 gap-y-2">
-              <Link to="/privacy" className={`hover:text-[#fbbf24] transition-colors duration-200 font-outfit text-xs sm:text-sm ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
+              <Link to="/privacy" className={`hover:text-white transition-colors duration-200 font-outfit text-xs sm:text-sm ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
                 Privacy Policy
               </Link>
-              <Link to="/terms" className={`hover:text-[#fbbf24] transition-colors duration-200 font-outfit text-xs sm:text-sm ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
+              <Link to="/terms" className={`hover:text-white transition-colors duration-200 font-outfit text-xs sm:text-sm ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
                 Terms of Service
               </Link>
-              <Link to="/cookies" className={`hover:text-[#fbbf24] transition-colors duration-200 font-outfit text-xs sm:text-sm ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
+              <Link to="/cookies" className={`hover:text-white transition-colors duration-200 font-outfit text-xs sm:text-sm ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
                 Cookie Policy
               </Link>
-              <Link to="/account-deletion" className={`hover:text-[#fbbf24] transition-colors duration-200 font-outfit text-xs sm:text-sm ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
+              <Link to="/account-deletion" className={`hover:text-white transition-colors duration-200 font-outfit text-xs sm:text-sm ${isDark ? 'text-[#aaa]' : 'text-gray-400'}`}>
                 Delete Data
               </Link>
             </div>

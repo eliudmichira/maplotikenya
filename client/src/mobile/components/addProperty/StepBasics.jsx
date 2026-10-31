@@ -14,7 +14,7 @@ const StepBasics = ({ formData, handleInputChange, errors }) => {
 
     return (
         <div className="space-y-6">
-            <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#0e1311]' : 'bg-white shadow-sm'}`}>
+            <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#0a0a0a]' : 'bg-white shadow-sm'}`}>
                 <h2 className={`text-xl font-bold mb-6 flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                     <Building2 className="w-6 h-6 text-[#000000]" /> Basic Details
                 </h2>
@@ -50,7 +50,7 @@ const StepBasics = ({ formData, handleInputChange, errors }) => {
                                         type="button"
                                         onClick={() => handleInputChange('propertyType', type.value)}
                                         className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all duration-200 ${isSelected
-                                            ? 'border-[#fbbf24] bg-[#000000]/10'
+                                            ? 'border-white/30 bg-[#000000]/10'
                                             : isDark
                                                 ? 'border-gray-700 bg-[#1a1d2d] hover:border-gray-600'
                                                 : 'border-gray-200 bg-gray-50 hover:border-gray-300'
@@ -70,7 +70,7 @@ const StepBasics = ({ formData, handleInputChange, errors }) => {
                     {/* Multi-Unit Toggle (Only for Apartments/Commercial) */}
                     {(formData.propertyType === 'apartment' || formData.propertyType === 'commercial') && (
                         <div className={`p-4 rounded-xl border flex items-center justify-between transition-all ${formData.hasMultipleUnits
-                            ? 'bg-[#000000]/10 border-[#fbbf24]/30'
+                            ? 'bg-[#000000]/10 border-white/15'
                             : isDark ? 'bg-[#1a1d2d] border-gray-700' : 'bg-gray-50 border-gray-200'
                             }`}>
                             <div className="flex items-center gap-3">
@@ -104,7 +104,7 @@ const StepBasics = ({ formData, handleInputChange, errors }) => {
                                     type="button"
                                     onClick={() => handleInputChange('status', status)}
                                     className={`p-3 rounded-xl border-2 font-bold uppercase tracking-wide transition-all ${formData.status === status
-                                        ? 'border-[#fbbf24] bg-black text-white dark:bg-white dark:text-black'
+                                        ? 'border-white/30 bg-black text-white dark:bg-white dark:text-black'
                                         : isDark
                                             ? 'border-gray-700 bg-[#1a1d2d] text-gray-400'
                                             : 'border-gray-200 bg-gray-50 text-gray-500'

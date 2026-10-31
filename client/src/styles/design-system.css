@@ -3,16 +3,16 @@
 /* CSS Variables for Design System */
 :root {
   /* Primary Colors */
-  --primary-green: #fbbf24;    /* now amber */
-  --primary-gold:  #f59e0b;
+  --primary-green: #ffffff;    /* now amber */
+  --primary-gold:  #e4e4e7;
   --dark-bg: #000000;
 
   /* Gradient Combinations — AMBER (was gray/black) */
-  --gradient-primary:      linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
-  --gradient-primary-br:   linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  --gradient-card:         linear-gradient(to bottom right, rgba(251,191,36,0.10), rgba(245,158,11,0.06));
-  --gradient-card-gold:    linear-gradient(to bottom right, rgba(251,191,36,0.12), rgba(245,158,11,0.08));
-  --gradient-mixed:        linear-gradient(to bottom right, rgba(251,191,36,0.10), rgba(245,158,11,0.06));
+  --gradient-primary: linear-gradient(180deg, #ffffff 0%, #e4e4e7 100%);
+  --gradient-primary-br: linear-gradient(135deg, #ffffff 0%, #d4d4d8 100%);
+  --gradient-card:         linear-gradient(to bottom right, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+  --gradient-card-gold:    linear-gradient(to bottom right, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
+  --gradient-mixed:        linear-gradient(to bottom right, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.08));
   
   /* Background Colors - Light Theme (mono) */
   --bg-primary:   #ffffff;
@@ -116,12 +116,12 @@ html.dark {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10px 25px rgba(251, 191, 36, 0.25);
+  box-shadow: 0 10px 25px rgba(255, 255, 255, 0.15);
   transition: var(--transition);
 }
 
 .logo-icon:hover {
-  box-shadow: 0 20px 40px rgba(251, 191, 36, 0.4);
+  box-shadow: 0 20px 40px rgba(255, 255, 255, 0.15);
   transform: translateY(-2px);
 }
 
@@ -139,8 +139,8 @@ html.dark {
 
 /* Button Styles — Amber pill + embossed (matches sign-in feel) */
 .btn-primary {
-  background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
-  color: #0e1311;
+  background: #ffffff;
+  color: #000000;
   padding: 0.75rem 1.5rem;
   border-radius: 9999px;
   font-weight: 600;
@@ -152,7 +152,7 @@ html.dark {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.55),
     0 1px 2px rgba(0, 0, 0, 0.15),
-    0 8px 20px -6px rgba(251, 191, 36, 0.45);
+    0 8px 20px -6px rgba(255, 255, 255, 0.15);
 }
 .btn-primary:hover {
   transform: translateY(-2px);
@@ -160,7 +160,7 @@ html.dark {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.65),
     0 2px 4px rgba(0, 0, 0, 0.2),
-    0 12px 28px -8px rgba(251, 191, 36, 0.6);
+    0 12px 28px -8px rgba(255, 255, 255, 0.15);
 }
 
 .btn-primary:hover {
@@ -181,7 +181,7 @@ html.dark {
 }
 
 .btn-secondary:hover {
-  background: rgba(251, 191, 36, 0.2);
+  background: rgba(255, 255, 255, 0.15);
   color: var(--dark-bg);
 }
 
@@ -225,7 +225,7 @@ html.dark {
   padding: 1rem;
   text-align: center;
   transition: var(--transition);
-  border: 1px solid rgba(251, 191, 36, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .feature-card:hover {
@@ -259,7 +259,7 @@ html.dark {
 .input-field:focus {
   outline: none;
   border-color: var(--primary-green);
-  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
 }
 
 .select-field {
@@ -277,7 +277,7 @@ html.dark {
 .select-field:focus {
   outline: none;
   border-color: var(--primary-green);
-  box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.1);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.15);
 }
 
 /* Modal/Overlay Components */
@@ -320,7 +320,7 @@ html.dark {
 .filter-badge.active {
   background: var(--primary-green);
   color: var(--dark-bg);
-  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.2);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.15);
 }
 
 .filter-badge.inactive {
@@ -356,7 +356,7 @@ html.dark {
 }
 
 .hover-glow:hover {
-  box-shadow: 0 0 20px rgba(251, 191, 36, 0.3);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
 }
 
 /* Keyframe Animations */
@@ -514,7 +514,7 @@ html.dark {
 /* Focus Styles */
 .focus-ring:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.3);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
 }
 
 /* Loading States */

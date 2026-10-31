@@ -71,7 +71,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
     if (!formData.hasMultipleUnits) {
         return (
             <div className="space-y-6">
-                <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#0e1311]' : 'bg-white shadow-sm'}`}>
+                <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#0a0a0a]' : 'bg-white shadow-sm'}`}>
                     <h2 className={`text-xl font-bold mb-6 flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                         <FileText className="w-6 h-6 text-[#000000]" /> Property Details
                     </h2>
@@ -149,7 +149,7 @@ const StepDetails = ({ formData, handleInputChange }) => {
     // Multi-Unit Mode
     return (
         <div className="space-y-6">
-            <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#0e1311]' : 'bg-white shadow-sm'}`}>
+            <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#0a0a0a]' : 'bg-white shadow-sm'}`}>
                 <div className="flex justify-between items-center mb-6">
                     <h2 className={`text-xl font-bold flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                         <Layers className="w-6 h-6 text-[#000000]" /> Unit Configurations

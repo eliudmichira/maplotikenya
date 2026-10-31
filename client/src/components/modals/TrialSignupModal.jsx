@@ -240,7 +240,7 @@ const TrialSignupModal = ({ isOpen, onClose }) => {
                         type="text"
                         value={formData.fullName}
                         onChange={(e) => handleInputChange('fullName', e.target.value)}
-                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#000000] focus:border-[#fbbf24] transition-all duration-200"
+                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#000000] focus:border-white/30 transition-all duration-200"
                         placeholder="Enter your full name"
                       />
                     </div>
@@ -253,7 +253,7 @@ const TrialSignupModal = ({ isOpen, onClose }) => {
                         type="email"
                         value={formData.email}
                         onChange={(e) => handleInputChange('email', e.target.value)}
-                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#000000] focus:border-[#fbbf24] transition-all duration-200"
+                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#000000] focus:border-white/30 transition-all duration-200"
                         placeholder="your.email@example.com"
                       />
                     </div>
@@ -266,7 +266,7 @@ const TrialSignupModal = ({ isOpen, onClose }) => {
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => handleInputChange('phone', e.target.value)}
-                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#000000] focus:border-[#fbbf24] transition-all duration-200"
+                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#000000] focus:border-white/30 transition-all duration-200"
                         placeholder="+254 7XX XXX XXX"
                       />
                     </div>
@@ -308,8 +308,8 @@ const TrialSignupModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInputChange('businessType', type.value)}
                               className={`p-4 rounded-xl border-2 transition-all duration-200 text-left ${
                                 formData.businessType === type.value
-                                  ? 'border-[#fbbf24] bg-[#000000]/10'
-                                  : 'border-gray-300 dark:border-gray-600 hover:border-[#fbbf24]/50'
+                                  ? 'border-white/30 bg-[#000000]/10'
+                                  : 'border-gray-300 dark:border-gray-600 hover:border-white/15'
                               }`}
                             >
                               <IconComponent className={`w-6 h-6 mb-2 ${
@@ -338,8 +338,8 @@ const TrialSignupModal = ({ isOpen, onClose }) => {
                             onClick={() => handleInputChange('propertyCount', option.value)}
                             className={`w-full p-4 rounded-xl border-2 transition-all duration-200 text-left ${
                               formData.propertyCount === option.value
-                                ? 'border-[#fbbf24] bg-[#000000]/10'
-                                : 'border-gray-300 dark:border-gray-600 hover:border-[#fbbf24]/50'
+                                ? 'border-white/30 bg-[#000000]/10'
+                                : 'border-gray-300 dark:border-gray-600 hover:border-white/15'
                             }`}
                           >
                             <div className={`font-medium ${
@@ -363,7 +363,7 @@ const TrialSignupModal = ({ isOpen, onClose }) => {
                       <select
                         value={formData.location}
                         onChange={(e) => handleInputChange('location', e.target.value)}
-                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#000000] focus:border-[#fbbf24] transition-all duration-200"
+                        className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-[#000000] focus:border-white/30 transition-all duration-200"
                       >
                         <option value="">Select your primary location</option>
                         <option value="nairobi">Nairobi</option>
@@ -414,8 +414,8 @@ const TrialSignupModal = ({ isOpen, onClose }) => {
                               onClick={() => handleInterestToggle(interest.id)}
                               className={`p-4 rounded-xl border-2 transition-all duration-200 text-left ${
                                 isSelected
-                                  ? 'border-[#fbbf24] bg-[#000000]/10'
-                                  : 'border-gray-300 dark:border-gray-600 hover:border-[#fbbf24]/50'
+                                  ? 'border-white/30 bg-[#000000]/10'
+                                  : 'border-gray-300 dark:border-gray-600 hover:border-white/15'
                               }`}
                             >
                               <div className="flex items-center gap-3">
@@ -454,8 +454,8 @@ const TrialSignupModal = ({ isOpen, onClose }) => {
                             onClick={() => handleInputChange('timeline', option.value)}
                             className={`w-full p-4 rounded-xl border-2 transition-all duration-200 text-left ${
                               formData.timeline === option.value
-                                ? 'border-[#fbbf24] bg-[#000000]/10'
-                                : 'border-gray-300 dark:border-gray-600 hover:border-[#fbbf24]/50'
+                                ? 'border-white/30 bg-[#000000]/10'
+                                : 'border-gray-300 dark:border-gray-600 hover:border-white/15'
                             }`}
                           >
                             <div className={`font-medium ${

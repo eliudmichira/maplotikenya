@@ -37,7 +37,7 @@ export const PropertyMobileNavItem = ({
         flex flex-col items-center justify-center w-16 h-16 rounded-xl
         transition-all duration-200 relative
         ${active
-          ? 'bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#000000] shadow-lg shadow-[#000000]/30'
+          ? 'bg-white text-black font-semibold text-[#000000] shadow-lg shadow-[#000000]/30'
           : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
         }
       `}
@@ -400,9 +400,9 @@ export const PropertyMobileButton = ({
   const { isDark } = useTheme();
 
   const variantClasses = {
-    primary: 'bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] hover:shadow-lg',
+    primary: 'bg-white text-black font-semibold text-[#000000] hover:shadow-lg',
     secondary: isDark ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-gray-200 text-gray-900 hover:bg-gray-300',
-    outline: 'border-2 border-[#fbbf24] text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black',
+    outline: 'border-2 border-white/30 text-black hover:bg-black hover:text-white dark:text-white dark:hover:bg-white dark:hover:text-black',
     ghost: isDark ? 'text-gray-400 hover:text-white hover:bg-gray-800' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100',
     danger: 'bg-red-500 text-white hover:bg-red-600'
   };

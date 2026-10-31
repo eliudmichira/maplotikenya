@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
-import { getPropertyImages, handleImageError } from '../utils/imageUtils';
+import { getPropertyImages, handleImageError as handleFallbackImageError } from '../utils/imageUtils';
 import VacancyTracker from './VacancyTracker';
 
 const EnhancedPropertyCard = ({ property, onFavoriteToggle, isFavorite, onVacancyUpdate }) => {
@@ -32,8 +32,9 @@ const EnhancedPropertyCard = ({ property, onFavoriteToggle, isFavorite, onVacanc
     setIsImageLoading(false);
   };
 
-  const handleImageError = () => {
+  const onImageError = (e) => {
     setIsImageLoading(false);
+    handleFallbackImageError(e, null, property);
   };
 
   const nextImage = () => {
@@ -94,7 +95,7 @@ const EnhancedPropertyCard = ({ property, onFavoriteToggle, isFavorite, onVacanc
               src={propertyImages[imageIndex]}
               alt={property.title}
               onLoad={handleImageLoad}
-              onError={(e) => handleImageError(e, null, property)}
+              onError={onImageError}
               className={`w-full h-full object-cover transition-all duration-500 ${isImageLoading ? 'blur-sm' : 'blur-0'
                 }`}
             />
@@ -316,7 +317,7 @@ const EnhancedPropertyCard = ({ property, onFavoriteToggle, isFavorite, onVacanc
         <div className="flex space-x-2">
           <Link
             to={`/property/${property.id}`}
-            className="flex-1 flex items-center justify-center space-x-2 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-xl font-semibold transition-all hover:shadow-lg"
+            className="flex-1 flex items-center justify-center space-x-2 py-3 bg-white text-black font-semibold text-[#000000] rounded-xl font-semibold transition-all hover:shadow-lg"
           >
             <Eye className="w-4 h-4" />
             <span>View Details</span>

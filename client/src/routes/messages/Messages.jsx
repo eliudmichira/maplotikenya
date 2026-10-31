@@ -325,7 +325,7 @@ const Messages = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 h-[calc(100vh-280px)]">
           {/* Conversations List */}
-          <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl border overflow-hidden`}>
+          <div className={`${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl border overflow-hidden`}>
             {/* Search */}
             <div className={`p-4 border-b ${isDark ? 'border-[rgba(251,191,36,0.1)]' : 'border-gray-200'}`}>
               <div className="relative">
@@ -376,13 +376,13 @@ const Messages = () => {
                 >
                   <div className="flex items-start gap-3">
                     <div className="relative">
-                      <div className="w-12 h-12 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center">
+                      <div className="w-12 h-12 bg-white text-black font-semibold rounded-full flex items-center justify-center">
                         <span className="text-[#111] font-outfit font-bold text-lg">
                           {(conversation.user?.name || conversation.user?.username || 'U')[0]}
                         </span>
                       </div>
                       {isUserOnline(conversation.user?.id) && (
-                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#000000] border-2 border-white dark:border-[#fbbf24] rounded-full">
+                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-[#000000] border-2 border-white dark:border-white/30 rounded-full">
                           <div className="w-full h-full bg-[#000000] rounded-full animate-pulse"></div>
                         </div>
                       )}
@@ -404,7 +404,7 @@ const Messages = () => {
                       
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded flex items-center justify-center">
+                          <div className="w-8 h-8 bg-white text-black font-semibold rounded flex items-center justify-center">
                             <Home className="w-4 h-4 text-[#111]" />
                           </div>
                           <span className={`text-xs font-outfit truncate ${isDark ? 'text-[#ccc]' : 'text-gray-500'}`}>
@@ -436,7 +436,7 @@ const Messages = () => {
           </div>
 
           {/* Chat Area */}
-          <div className={`lg:col-span-2 ${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl border overflow-hidden flex flex-col`}>
+          <div className={`lg:col-span-2 ${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'} rounded-2xl border overflow-hidden flex flex-col`}>
             {selectedConversation ? (
               <>
                 {/* Chat Header */}
@@ -444,13 +444,13 @@ const Messages = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div className="relative">
-                        <div className="w-10 h-10 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center">
+                        <div className="w-10 h-10 bg-white text-black font-semibold rounded-full flex items-center justify-center">
                           <span className="text-[#111] font-outfit font-bold text-sm">
                             {(selectedConversation.user?.name || selectedConversation.user?.username || 'U')[0]}
                           </span>
                         </div>
                         {isUserOnline(selectedConversation.user?.id) && (
-                          <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#000000] border-2 border-white dark:border-[#fbbf24] rounded-full">
+                          <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-[#000000] border-2 border-white dark:border-white/30 rounded-full">
                             <div className="w-full h-full bg-[#000000] rounded-full animate-pulse"></div>
                           </div>
                         )}
@@ -534,7 +534,7 @@ const Messages = () => {
                             <div
                               className={`max-w-xs lg:max-w-md px-4 py-2 rounded-xl font-outfit ${
                                 isOwnMessage
-                                  ? 'bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111]'
+                                  ? 'bg-white text-black font-semibold text-[#111]'
                                   : isDark
                                     ? 'bg-[#000000] text-[#feffff] border border-[rgba(251,191,36,0.2)]'
                                     : 'bg-gray-100 text-gray-900'
@@ -605,7 +605,7 @@ const Messages = () => {
                     <button
                       onClick={handleSendMessage}
                       disabled={!newMessage.trim() || sendingMessage}
-                      className="p-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl hover:shadow-lg hover:shadow-[#000000]/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-outfit font-semibold"
+                      className="p-2 bg-white text-black font-semibold text-[#111] rounded-xl hover:shadow-lg hover:shadow-[#000000]/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 font-outfit font-semibold"
                     >
                       {sendingMessage ? (
                         <Loader2 className="w-5 h-5 animate-spin" />

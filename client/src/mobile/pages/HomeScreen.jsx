@@ -856,7 +856,7 @@ const HomeScreen = () => {
                             setShowFilters(true);
                         }}
                         className={`flex-shrink-0 px-3 py-1.5 rounded-full border text-[11px] font-bold transition-all flex items-center gap-1.5 ${filters.minPrice || filters.maxPrice
-                            ? 'bg-[#000000] border-[#fbbf24] text-gray-900 shadow-md scale-105'
+                            ? 'bg-[#000000] border-white/30 text-gray-900 shadow-md scale-105'
                             : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 shadow-sm hover:border-gray-300'
                             }`}
                     >
@@ -876,7 +876,7 @@ const HomeScreen = () => {
                                 }));
                             }}
                             className={`flex-shrink-0 px-3 py-1.5 rounded-full border text-[11px] font-bold transition-all flex items-center gap-1.5 ${filters.minBedrooms === num.toString()
-                                ? 'bg-[#000000] border-[#fbbf24] text-gray-900 shadow-md scale-105'
+                                ? 'bg-[#000000] border-white/30 text-gray-900 shadow-md scale-105'
                                 : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 shadow-sm hover:border-gray-300'
                                 }`}
                         >
@@ -898,7 +898,7 @@ const HomeScreen = () => {
                                 setFilters(prev => ({ ...prev, [attr.key]: !prev[attr.key] }));
                             }}
                             className={`flex-shrink-0 px-3 py-1.5 rounded-full border text-[11px] font-bold transition-all flex items-center gap-1.5 ${filters[attr.key]
-                                ? 'bg-[#000000] border-[#fbbf24] text-gray-900 shadow-md scale-105'
+                                ? 'bg-[#000000] border-white/30 text-gray-900 shadow-md scale-105'
                                 : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 shadow-sm hover:border-gray-300'
                                 }`}
                         >
@@ -919,7 +919,7 @@ const HomeScreen = () => {
                                 }));
                             }}
                             className={`flex-shrink-0 px-3 py-1.5 rounded-full border text-[11px] font-bold transition-all flex items-center gap-1.5 ${filters.propertyType.toLowerCase() === type.toLowerCase()
-                                ? 'bg-[#000000] border-[#fbbf24] text-gray-900 shadow-md scale-105'
+                                ? 'bg-[#000000] border-white/30 text-gray-900 shadow-md scale-105'
                                 : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 shadow-sm hover:border-gray-300'
                                 }`}
                         >
@@ -1086,7 +1086,7 @@ const HomeScreen = () => {
                     <FloatingActionButton
                         icon={Pencil}
                         variant="secondary"
-                        className={isDrawingMode ? "!bg-[#000000] !text-[#111] !border-[#fbbf24] shadow-xl" : "shadow-lg"}
+                        className={isDrawingMode ? "!bg-[#000000] !text-[#111] !border-white/30 shadow-xl" : "shadow-lg"}
                         onClick={() => {
                             hapticFeedback(ImpactStyle.Light);
                             if (!isDrawingMode) {
@@ -1190,7 +1190,7 @@ const HomeScreen = () => {
                             <div className="p-6">
                                 <div className="flex items-center justify-between mb-6">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-1 h-6 bg-gradient-to-b from-[#fbbf24] to-[#f59e0b] rounded-full" />
+                                        <div className="w-1 h-6 bg-white text-black font-semibold rounded-full" />
                                         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Filters</h2>
                                         {activeFilterCount > 0 && (
                                             <span className="px-2 py-1 bg-[#000000] text-[#111] text-xs font-bold rounded-full">
@@ -1218,14 +1218,14 @@ const HomeScreen = () => {
                                                 placeholder="Min Price"
                                                 value={filters.minPrice}
                                                 onChange={(e) => setFilters(prev => ({ ...prev, minPrice: e.target.value }))}
-                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-[#fbbf24]"
+                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-white/30"
                                             />
                                             <input
                                                 type="number"
                                                 placeholder="Max Price"
                                                 value={filters.maxPrice}
                                                 onChange={(e) => setFilters(prev => ({ ...prev, maxPrice: e.target.value }))}
-                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-[#fbbf24]"
+                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-white/30"
                                             />
                                         </div>
                                     </div>
@@ -1237,7 +1237,7 @@ const HomeScreen = () => {
                                             <select
                                                 value={filters.minBedrooms}
                                                 onChange={(e) => setFilters(prev => ({ ...prev, minBedrooms: e.target.value }))}
-                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-[#fbbf24]"
+                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-white/30"
                                             >
                                                 <option value="">Any</option>
                                                 {[1, 2, 3, 4, 5, 6].map(num => (
@@ -1250,7 +1250,7 @@ const HomeScreen = () => {
                                             <select
                                                 value={filters.minBathrooms}
                                                 onChange={(e) => setFilters(prev => ({ ...prev, minBathrooms: e.target.value }))}
-                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-[#fbbf24]"
+                                                className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-white/30"
                                             >
                                                 <option value="">Any</option>
                                                 {[1, 2, 3, 4, 5].map(num => (
@@ -1266,7 +1266,7 @@ const HomeScreen = () => {
                                         <select
                                             value={filters.propertyType}
                                             onChange={(e) => setFilters(prev => ({ ...prev, propertyType: e.target.value }))}
-                                            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-[#fbbf24]"
+                                            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-white/30"
                                         >
                                             <option value="">All Types</option>
                                             <option value="apartment">Apartment</option>
@@ -1282,7 +1282,7 @@ const HomeScreen = () => {
                                         <select
                                             value={filters.status}
                                             onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value }))}
-                                            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-[#fbbf24]"
+                                            className="w-full px-4 py-3 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:outline-none focus:border-white/30"
                                         >
                                             <option value="">All Status</option>
                                             <option value="for-sale">For Sale</option>
@@ -1302,7 +1302,7 @@ const HomeScreen = () => {
                                         </motion.button>
                                         <motion.button
                                             onClick={() => setShowFilters(false)}
-                                            className="flex-1 px-4 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-xl font-bold shadow-lg hover:shadow-xl transition-all"
+                                            className="flex-1 px-4 py-3 bg-white text-black font-semibold text-[#111] rounded-xl font-bold shadow-lg hover:shadow-xl transition-all"
                                             whileHover={{ scale: 1.02 }}
                                             whileTap={{ scale: 0.98 }}
                                         >

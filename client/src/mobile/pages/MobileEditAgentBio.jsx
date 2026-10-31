@@ -89,8 +89,8 @@ const MobileEditAgentBio = () => {
                             onChange={(e) => setBio(e.target.value)}
                             rows={15}
                             className={`w-full bg-transparent border-0 border-b py-3 text-[15px] leading-relaxed outline-none transition-colors resize-none ${isDark
-                                    ? 'border-white/10 text-white placeholder-gray-600 focus:border-[#fbbf24]'
-                                    : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-[#fbbf24]'
+                                    ? 'border-white/10 text-white placeholder-gray-600 focus:border-white/30'
+                                    : 'border-gray-200 text-gray-900 placeholder-gray-400 focus:border-white/30'
                                 }`}
                             placeholder="Tell potential clients about your expertise, successful deals, and professional background..."
                         />
@@ -103,7 +103,7 @@ const MobileEditAgentBio = () => {
                 <motion.button
                     onClick={handleSave}
                     disabled={saving}
-                    className="w-full py-4 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-2xl text-[#111] font-bold shadow-lg shadow-[#fbbf24]/20 shadow-xl shadow-[#000000]/20 flex items-center justify-center gap-2"
+                    className="w-full py-4 bg-white text-black font-semibold rounded-2xl text-[#111] font-bold shadow-lg shadow-black/20 shadow-xl shadow-[#000000]/20 flex items-center justify-center gap-2"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                 >

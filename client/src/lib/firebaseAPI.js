@@ -1,3 +1,4 @@
+import instagramCatalog from '../utils/instagramCatalog.json';
 ﻿import {
   collection,
   doc,
@@ -26,6 +27,7 @@ import {
 import { db, storage } from './firebase';
 import { hasRealPhoto } from '../utils/imageUtils';
 import { getCountyFromCoords, getGeohash } from '../utils/locationUtils';
+import { cleanAndDeduplicateProperties } from '../utils/propertyUtils';
 
 // Dev-only logger â€” keeps the production console clean. console.error/warn are left intact.
 const devLog = (...args) => { if (import.meta.env.DEV) console.log(...args); };
@@ -136,13 +138,18 @@ export const propertiesAPI = {
         firstProperty: properties[0] ? properties[0].title || properties[0].name : 'No properties'
       });
 
+      const allCombined = [
+        ...(Array.isArray(instagramCatalog) ? instagramCatalog : []),
+        ...properties
+      ];
+      const cleaned = cleanAndDeduplicateProperties(allCombined);
       return {
-        properties,
+        properties: cleaned,
         pagination: {
           page,
           limit: pageSize,
-          total: properties.length,
-          pages: Math.ceil(properties.length / pageSize)
+          total: cleaned.length,
+          pages: Math.ceil(cleaned.length / pageSize)
         }
       };
     } catch (error) {
@@ -183,12 +190,17 @@ export const propertiesAPI = {
           count: properties.length
         });
 
+        const allFallback = [
+          ...(Array.isArray(instagramCatalog) ? instagramCatalog : []),
+          ...properties
+        ];
+        const cleanedFallback = cleanAndDeduplicateProperties(allFallback);
         return {
-          properties,
+          properties: cleanedFallback,
           pagination: {
             page: 1,
-            limit: properties.length,
-            total: properties.length,
+            limit: cleanedFallback.length,
+            total: cleanedFallback.length,
             pages: 1
           }
         };
@@ -291,7 +303,8 @@ export const propertiesAPI = {
         });
       }
 
-      const selected = properties.slice(0, limitCount);
+      const cleanedFeatured = cleanAndDeduplicateProperties(properties);
+      const selected = cleanedFeatured.slice(0, limitCount);
       devLog('Total properties to return:', selected.length);
       return { properties: selected };
     } catch (error) {
@@ -307,20 +320,49 @@ export const propertiesAPI = {
     }
   },
 
-  // Get property by ID
+  // Get property by ID (supports Firestore documents, Instagram listings, and TikToks)
   getById: async (id) => {
     try {
-      const docRef = doc(db, 'listings', id);
+      if (!id) throw new Error('Property ID is required');
+
+      const cleanId = String(id).trim();
+      const lowerId = cleanId.toLowerCase();
+      const rawCode = lowerId.replace(/^ig_/, '');
+
+      // 1. Direct match in Instagram catalog by exact id or code
+      if (Array.isArray(instagramCatalog)) {
+        const igMatch = instagramCatalog.find(
+          p => String(p.id).toLowerCase() === lowerId ||
+               String(p.code || '').toLowerCase() === rawCode ||
+               String(p.id).toLowerCase() === `ig_${rawCode}`
+        );
+        if (igMatch) {
+          const [cleaned] = cleanAndDeduplicateProperties([igMatch]);
+          return cleaned || igMatch;
+        }
+      }
+
+      // 2. Query Firestore listings by document ID
+      const docRef = doc(db, 'listings', cleanId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        return {
-          id: docSnap.id,
-          ...docSnap.data()
-        };
-      } else {
-        throw new Error('Property not found');
+        const raw = { id: docSnap.id, ...docSnap.data() };
+        const [cleaned] = cleanAndDeduplicateProperties([raw]);
+        return cleaned || raw;
       }
+
+      // 3. Fallback: Search Firestore listings by tiktokId, code, or custom id field
+      const tiktokQuery = query(collection(db, 'listings'), where('tiktokId', '==', cleanId), limit(1));
+      const tiktokSnap = await getDocs(tiktokQuery);
+      if (!tiktokSnap.empty) {
+        const docObj = tiktokSnap.docs[0];
+        const raw = { id: docObj.id, ...docObj.data() };
+        const [cleaned] = cleanAndDeduplicateProperties([raw]);
+        return cleaned || raw;
+      }
+
+      throw new Error('Property not found');
     } catch (error) {
       console.error('Error fetching property:', error);
       throw error;

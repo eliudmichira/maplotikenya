@@ -7,8 +7,9 @@ import { accountDashboardAPI } from '../../lib/firebaseAPI';
 import { getPropertyImage, handleImageError } from '../../utils/imageUtils';
 import WorkspaceShell from '../../components/workspace/WorkspaceShell';
 import ProfileSection from './sections/ProfileSection';
+import LeadsSection from './sections/LeadsSection';
 import ListingCard from '../../components/listing/ListingCard';
-import { Home, Heart, Calendar, Search, Eye, Mail, User, X, Loader2 } from 'lucide-react';
+import { Home, Heart, Calendar, Search, Eye, Mail, User, X, Loader2, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card } from '@/components/ui/card';
@@ -20,6 +21,7 @@ import { PageHeader, StatGrid, EmptyState, SectionHeader, statusVariant, formatK
 
 const SECTIONS = [
   { id: 'overview', label: 'Overview', icon: Home },
+  { id: 'leads', label: 'Leads radar', icon: Sparkles },
   { id: 'favorites', label: 'Saved homes', icon: Heart },
   { id: 'bookings', label: 'Viewing requests', icon: Calendar },
   { id: 'profile', label: 'Profile', icon: User },
@@ -83,7 +85,7 @@ const UserDashboard = () => {
   };
 
   const browseButton = (
-    <Button size="sm" asChild><Link to="/desktop/properties"><Search />Browse listings</Link></Button>
+    <Button size="sm" asChild className="bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 font-semibold shadow-sm"><Link to="/desktop/properties"><Search />Browse listings</Link></Button>
   );
 
   // ── pieces ──
@@ -207,7 +209,13 @@ const UserDashboard = () => {
     </>
   );
 
-  const body = { overview: <Overview />, favorites: <Favorites />, bookings: <Bookings />, profile: <ProfileSection role="user" /> }[active] || <Overview />;
+  const body = {
+    overview: <Overview />,
+    leads: <LeadsSection />,
+    favorites: <Favorites />,
+    bookings: <Bookings />,
+    profile: <ProfileSection role="user" />,
+  }[active] || <Overview />;
 
   return (
     <WorkspaceShell root="My account" navLabel="Workspace" sections={SECTIONS} links={LINKS} active={active} onSelect={setActive}>

@@ -59,7 +59,7 @@ const MobileMenuOverlay = ({ isOpen, onClose }) => {
                                 <div className={`p-4 rounded-xl ${isDark ? 'bg-gray-800' : 'bg-gray-100'
                                     }`}>
                                     <div className="flex items-center space-x-3">
-                                        <div className="w-12 h-12 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center">
+                                        <div className="w-12 h-12 bg-white text-black font-semibold rounded-full flex items-center justify-center">
                                             <User className="w-6 h-6 text-[#000000]" />
                                         </div>
                                         <div>
@@ -148,7 +148,7 @@ const MobileMenuOverlay = ({ isOpen, onClose }) => {
                                         <Link
                                             to="/auth"
                                             onClick={onClose}
-                                            className="block w-full py-3 px-4 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-xl font-bold shadow-lg text-center"
+                                            className="block w-full py-3 px-4 bg-white text-black font-semibold text-[#000000] rounded-xl font-bold shadow-lg text-center"
                                         >
                                             Sign In
                                         </Link>
@@ -156,7 +156,7 @@ const MobileMenuOverlay = ({ isOpen, onClose }) => {
                                             to="/auth"
                                             onClick={onClose}
                                             className={`block w-full py-3 px-4 rounded-xl font-bold border-2 text-center ${isDark
-                                                ? 'border-[#fbbf24] text-[#000000]'
+                                                ? 'border-white/30 text-[#000000]'
                                                 : 'border-gray-900 text-gray-900'
                                                 }`}
                                         >

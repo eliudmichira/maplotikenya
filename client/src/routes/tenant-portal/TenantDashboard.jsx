@@ -379,7 +379,7 @@ const TenantDashboard = () => {
           <div className="sticky top-6 h-[calc(100vh-3rem)] p-6 rounded-3xl bg-white dark:bg-gray-800 border border-gray-200/50 dark:border-gray-700/50 shadow-xl space-y-6">
             {/* Brand */}
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-2xl flex items-center justify-center shadow-lg">
+              <div className="w-12 h-12 bg-white text-black font-semibold rounded-2xl flex items-center justify-center shadow-lg">
                 <Home className="w-6 h-6 text-[#000000]" />
               </div>
               <div>
@@ -392,7 +392,7 @@ const TenantDashboard = () => {
             <div className="p-4 rounded-2xl bg-gray-50 dark:bg-gray-700/50 border border-gray-200/50 dark:border-gray-600/50">
               <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">{tenantData.name}</p>
               <p className="text-xs text-gray-600 dark:text-gray-300">{tenantData.propertyName} • {tenantData.unitNumber}</p>
-              <span className="inline-block mt-2 px-3 py-1 rounded-full text-xs bg-black/20 text-black dark:bg-white/20 dark:text-white border border-[#fbbf24]/30">{tenantData.status || 'Active'}</span>
+              <span className="inline-block mt-2 px-3 py-1 rounded-full text-xs bg-black/20 text-black dark:bg-white/20 dark:text-white border border-white/15">{tenantData.status || 'Active'}</span>
             </div>
 
             {/* Nav */}
@@ -568,7 +568,7 @@ const TenantDashboard = () => {
                   onClick={handlePayRent}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full px-8 py-6 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-bold text-xl rounded-2xl hover:shadow-xl hover:shadow-[#000000]/25 transition-all duration-300 flex items-center justify-center gap-4 group"
+                  className="w-full px-8 py-6 bg-white text-black font-semibold text-[#000000] font-bold text-xl rounded-2xl hover:shadow-xl hover:shadow-[#000000]/25 transition-all duration-300 flex items-center justify-center gap-4 group"
                 >
                   <Zap className="w-7 h-7 group-hover:scale-110 transition-transform duration-300" />
                   <span>🔥 PAY RENT NOW</span>
@@ -610,7 +610,7 @@ const TenantDashboard = () => {
                     {tenantData.paymentHistory.slice(0, 3).map((payment) => (
                       <div key={payment.id} className="flex items-center justify-between p-5 bg-gray-50 rounded-2xl hover:bg-gray-100 transition-colors">
                         <div className="flex items-center space-x-4">
-                          <div className="w-14 h-14 bg-gradient-to-br from-[#000000]/20 to-[#f0f0f0]/20 border border-[#fbbf24]/30 rounded-2xl flex items-center justify-center">
+                          <div className="w-14 h-14 bg-gradient-to-br from-[#000000]/20 to-[#f0f0f0]/20 border border-white/15 rounded-2xl flex items-center justify-center">
                             <CheckCircle className="w-7 h-7 text-[#000000]" />
                           </div>
                           <div>
@@ -627,7 +627,7 @@ const TenantDashboard = () => {
                           </div>
                         </div>
                         <div className="text-right">
-                          <span className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 text-[#000000] font-semibold rounded-xl border border-[#fbbf24]/30">
+                          <span className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 text-[#000000] font-semibold rounded-xl border border-white/15">
                             ✅ Paid
                           </span>
                           <p className="text-sm text-gray-500 mt-1">#{payment.reference || payment.id}</p>
@@ -672,7 +672,7 @@ const TenantDashboard = () => {
                       <div className="flex items-start space-x-4">
                         <div className={`w-12 h-12 rounded-2xl flex items-center justify-center ${notification.urgent
                           ? 'bg-yellow-50 border border-yellow-200'
-                          : 'bg-gradient-to-br from-[#000000]/20 to-[#f0f0f0]/20 border border-[#fbbf24]/30'
+                          : 'bg-gradient-to-br from-[#000000]/20 to-[#f0f0f0]/20 border border-white/15'
                           }`}>
                           {notification.urgent ? (
                             <AlertTriangle className="w-6 h-6 text-yellow-500" />
@@ -713,9 +713,9 @@ const TenantDashboard = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setShowAutoPay(true)}
-                    className="w-full p-6 text-left bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 rounded-2xl transition-all duration-300 flex items-center space-x-4 border border-gray-200/50 hover:border-[#fbbf24]/40 group shadow-sm hover:shadow-lg"
+                    className="w-full p-6 text-left bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 rounded-2xl transition-all duration-300 flex items-center space-x-4 border border-gray-200/50 hover:border-white/15 group shadow-sm hover:shadow-lg"
                   >
-                    <div className="w-16 h-16 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-[#000000]/25">
+                    <div className="w-16 h-16 bg-white text-black font-semibold rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-[#000000]/25">
                       <RefreshCw className="w-8 h-8 text-[#000000]" />
                     </div>
                     <div>
@@ -728,9 +728,9 @@ const TenantDashboard = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setShowMaintenance(true)}
-                    className="w-full p-6 text-left bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 rounded-2xl transition-all duration-300 flex items-center space-x-4 border border-gray-200/50 hover:border-[#fbbf24]/40 group shadow-sm hover:shadow-lg"
+                    className="w-full p-6 text-left bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 rounded-2xl transition-all duration-300 flex items-center space-x-4 border border-gray-200/50 hover:border-white/15 group shadow-sm hover:shadow-lg"
                   >
-                    <div className="w-16 h-16 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-[#000000]/25">
+                    <div className="w-16 h-16 bg-white text-black font-semibold rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-[#000000]/25">
                       <Settings className="w-8 h-8 text-[#000000]" />
                     </div>
                     <div>
@@ -743,9 +743,9 @@ const TenantDashboard = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={handleDownloadReceipts}
-                    className="w-full p-6 text-left bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 rounded-2xl transition-all duration-300 flex items-center space-x-4 border border-gray-200/50 hover:border-[#fbbf24]/40 group shadow-sm hover:shadow-lg"
+                    className="w-full p-6 text-left bg-gradient-to-r from-gray-50 to-gray-100 hover:from-gray-100 hover:to-gray-200 rounded-2xl transition-all duration-300 flex items-center space-x-4 border border-gray-200/50 hover:border-white/15 group shadow-sm hover:shadow-lg"
                   >
-                    <div className="w-16 h-16 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-[#000000]/25">
+                    <div className="w-16 h-16 bg-white text-black font-semibold rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-[#000000]/25">
                       <History className="w-8 h-8 text-[#000000]" />
                     </div>
                     <div>
@@ -768,7 +768,7 @@ const TenantDashboard = () => {
                 <p className="text-gray-600 mb-4">Need help with payments, maintenance, or your account?</p>
                 <div className="flex gap-3">
                   <button className="flex-1 py-3 border-2 border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50">Help Center</button>
-                  <button className="flex-1 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-bold rounded-xl">Contact Support</button>
+                  <button className="flex-1 py-3 bg-white text-black font-semibold text-[#000000] font-bold rounded-xl">Contact Support</button>
                 </div>
               </motion.div>
             </div>
@@ -803,14 +803,14 @@ const TenantDashboard = () => {
                   className="w-full p-6 bg-gray-50 border border-gray-200 rounded-2xl hover:border-gray-300 hover:bg-gray-100 transition-all duration-300"
                 >
                   <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-gradient-to-br from-[#000000]/20 to-[#f0f0f0]/20 border border-[#fbbf24]/30 rounded-2xl flex items-center justify-center">
+                    <div className="w-12 h-12 bg-gradient-to-br from-[#000000]/20 to-[#f0f0f0]/20 border border-white/15 rounded-2xl flex items-center justify-center">
                       <Smartphone className="w-6 h-6 text-[#000000]" />
                     </div>
                     <div className="text-left flex-1">
                       <p className="font-bold text-gray-900 text-lg">M-Pesa (Instant)</p>
                       <p className="text-gray-600">STK Push to {tenantData.phone}</p>
                     </div>
-                    <div className="bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 text-[#000000] px-3 py-1 rounded-full text-sm font-medium border border-[#fbbf24]/30">
+                    <div className="bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 text-[#000000] px-3 py-1 rounded-full text-sm font-medium border border-white/15">
                       Most Popular
                     </div>
                   </div>
@@ -857,7 +857,7 @@ const TenantDashboard = () => {
             >
               {paymentProcessing ? (
                 <>
-                  <div className="w-20 h-20 bg-gradient-to-br from-[#000000]/20 to-[#f0f0f0]/20 border border-[#fbbf24]/30 rounded-3xl flex items-center justify-center mx-auto mb-8">
+                  <div className="w-20 h-20 bg-gradient-to-br from-[#000000]/20 to-[#f0f0f0]/20 border border-white/15 rounded-3xl flex items-center justify-center mx-auto mb-8">
                     <Smartphone className="w-10 h-10 text-[#000000] animate-pulse" />
                   </div>
                   <h2 className="text-3xl font-bold text-gray-900 mb-4">
@@ -878,7 +878,7 @@ const TenantDashboard = () => {
                 </>
               ) : paymentSuccess ? (
                 <>
-                  <div className="w-20 h-20 bg-gradient-to-br from-[#000000]/20 to-[#f0f0f0]/20 border border-[#fbbf24]/30 rounded-3xl flex items-center justify-center mx-auto mb-8">
+                  <div className="w-20 h-20 bg-gradient-to-br from-[#000000]/20 to-[#f0f0f0]/20 border border-white/15 rounded-3xl flex items-center justify-center mx-auto mb-8">
                     <CheckCircle className="w-10 h-10 text-[#000000]" />
                   </div>
                   <h2 className="text-3xl font-bold text-[#000000] mb-4">
@@ -887,7 +887,7 @@ const TenantDashboard = () => {
                   <p className="text-xl text-gray-600 mb-8">
                     Your rent payment of <strong>KSh {tenantData.monthlyRent.toLocaleString()}</strong> has been processed successfully.
                   </p>
-                  <div className="p-6 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 rounded-2xl border border-[#fbbf24]/30 mb-4">
+                  <div className="p-6 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 rounded-2xl border border-white/15 mb-4">
                     <div className="space-y-2 text-[#000000] font-medium">
                       <p>✅ Landlord notified</p>
                       <p>✅ Receipt sent via SMS</p>
@@ -944,7 +944,7 @@ const TenantDashboard = () => {
               </div>
               <div className="flex gap-3">
                 <button onClick={() => setShowAutoPay(false)} className="flex-1 py-3 border-2 border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50">Cancel</button>
-                <button onClick={handleSaveAutoPay} className="flex-1 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-gray-900 font-bold rounded-xl">Save</button>
+                <button onClick={handleSaveAutoPay} className="flex-1 py-3 bg-white text-black font-semibold text-gray-900 font-bold rounded-xl">Save</button>
               </div>
             </motion.div>
           </motion.div>
@@ -996,7 +996,7 @@ const TenantDashboard = () => {
               </div>
               <div className="flex gap-3">
                 <button onClick={() => setShowMaintenance(false)} className="flex-1 py-3 border-2 border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50">Cancel</button>
-                <button onClick={handleSubmitMaintenance} className="flex-1 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-gray-900 font-bold rounded-xl">Submit</button>
+                <button onClick={handleSubmitMaintenance} className="flex-1 py-3 bg-white text-black font-semibold text-gray-900 font-bold rounded-xl">Submit</button>
               </div>
             </motion.div>
           </motion.div>

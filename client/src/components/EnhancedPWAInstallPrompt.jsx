@@ -273,7 +273,7 @@ const EnhancedPWAInstallPrompt = () => {
         >
           <div className={`relative p-4 rounded-t-2xl shadow-2xl ${
             isDark 
-              ? 'bg-gradient-to-br from-gray-900 to-gray-800 border-t border-[#fbbf24]/20' 
+              ? 'bg-gradient-to-br from-gray-900 to-gray-800 border-t border-white/15' 
               : 'bg-gradient-to-br from-white to-gray-50 border-t border-gray-200'
           }`}>
             {/* Success State */}
@@ -308,7 +308,7 @@ const EnhancedPWAInstallPrompt = () => {
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    className="w-16 h-16 border-4 border-[#fbbf24] border-t-transparent rounded-full mx-auto mb-4"
+                    className="w-16 h-16 border-4 border-white/30 border-t-transparent rounded-full mx-auto mb-4"
                   />
                   <h3 className="text-lg font-bold text-white mb-2">Installing...</h3>
                   <p className="text-gray-300 text-sm">Please wait while we set up your app</p>
@@ -332,7 +332,7 @@ const EnhancedPWAInstallPrompt = () => {
                           ]
                         }}
                         transition={{ duration: 2, repeat: Infinity }}
-                        className="w-12 h-12 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-xl flex items-center justify-center"
+                        className="w-12 h-12 bg-white text-black font-semibold rounded-xl flex items-center justify-center"
                       >
                         <Download className="w-6 h-6 text-[#000000]" />
                       </motion.div>
@@ -479,7 +479,7 @@ const EnhancedPWAInstallPrompt = () => {
                   <div className="flex space-x-3">
                     <motion.button
                       onClick={handleInstall}
-                      className="flex-1 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] py-3 rounded-xl font-semibold shadow-lg flex items-center justify-center space-x-2"
+                      className="flex-1 bg-white text-black font-semibold text-[#000000] py-3 rounded-xl font-semibold shadow-lg flex items-center justify-center space-x-2"
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                     >

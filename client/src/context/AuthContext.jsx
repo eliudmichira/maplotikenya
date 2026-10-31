@@ -77,10 +77,13 @@ export const AuthProvider = ({ children }) => {
         // User is signed in
         const basicUserData = {
           id: user.uid,
+          uid: user.uid,
           email: user.email,
           username: user.displayName || user.email?.split("@")[0] || "User",
           name: user.displayName || user.email?.split("@")[0] || "User",
+          displayName: user.displayName || user.email?.split("@")[0] || "User",
           phone: user.phoneNumber || "",
+          photoURL: user.photoURL || "",
           avatar: user.photoURL || "",
           createdAt: user.metadata.creationTime,
           provider: user.providerData[0]?.providerId || "email",
@@ -95,12 +98,17 @@ export const AuthProvider = ({ children }) => {
           setIsVerifiedAgent(!!isVerified);
           setVerificationStatus(isVerified ? 'verified' : 'pending');
 
+          const userAvatar = profile?.avatar || profile?.photoURL || user.photoURL || basicUserData.avatar || "";
           const enrichedUserData = {
             ...profile,
-            id: user.uid, // Ensure ID is preserved
-            // Preserve Google avatar if Firestore profile has none
-            avatar: profile?.avatar || basicUserData.avatar || "",
-            // If verified in agents collection, treat as agent regardless of users.role
+            id: user.uid,
+            uid: user.uid,
+            email: user.email,
+            username: profile?.username || user.displayName || user.email?.split("@")[0] || "User",
+            name: profile?.name || profile?.fullName || user.displayName || basicUserData.name,
+            displayName: profile?.displayName || profile?.name || user.displayName || basicUserData.displayName,
+            avatar: userAvatar,
+            photoURL: userAvatar,
             ...(isVerified && profile?.role !== 'admin' ? { role: 'agent' } : {})
           };
           setCurrentUser(enrichedUserData);
@@ -380,7 +388,9 @@ export const AuthProvider = ({ children }) => {
               result.user.email?.split("@")[0] ||
               "User",
             phone: result.user.phoneNumber || "",
+            photoURL: result.user.photoURL || "",
             avatar: result.user.photoURL || "",
+            displayName: result.user.displayName || result.user.email?.split("@")[0] || "User",
             createdAt: result.user.metadata.creationTime,
             provider: result.user.providerData[0]?.providerId || "email",
             role: "user", // Enriched from Firestore doc

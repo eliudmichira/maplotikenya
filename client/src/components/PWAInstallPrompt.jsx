@@ -96,7 +96,7 @@ const PWAInstallPrompt = () => {
     <div className={`fixed bottom-0 left-0 right-0 z-50 lg:hidden pwa-install-prompt ${showPrompt ? 'show' : ''}`}>
       <div className={`relative p-4 rounded-t-2xl shadow-2xl ${
         isDark 
-          ? 'bg-gradient-to-br from-gray-900 to-gray-800 border-t border-[#fbbf24]/20' 
+          ? 'bg-gradient-to-br from-gray-900 to-gray-800 border-t border-white/15' 
           : 'bg-gradient-to-br from-white to-gray-50 border-t border-gray-200'
       }`}>
         {/* Close button */}
@@ -112,7 +112,7 @@ const PWAInstallPrompt = () => {
         <div className="flex items-start space-x-4 pr-8">
           {/* App Icon */}
           <div className="flex-shrink-0">
-            <div className="w-16 h-16 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-2xl flex items-center justify-center shadow-lg">
+            <div className="w-16 h-16 bg-white text-black font-semibold rounded-2xl flex items-center justify-center shadow-lg">
               <Smartphone className="w-8 h-8 text-[#000000]" />
             </div>
           </div>
@@ -165,7 +165,7 @@ const PWAInstallPrompt = () => {
             <div className="flex space-x-3">
               <button
                 onClick={handleInstall}
-                className="flex-1 flex items-center justify-center space-x-2 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-xl font-semibold shadow-lg transition-all hover:shadow-xl active:scale-95"
+                className="flex-1 flex items-center justify-center space-x-2 py-3 bg-white text-black font-semibold text-[#000000] rounded-xl font-semibold shadow-lg transition-all hover:shadow-xl active:scale-95"
               >
                 <Download className="w-4 h-4" />
                 <span>Install App</span>

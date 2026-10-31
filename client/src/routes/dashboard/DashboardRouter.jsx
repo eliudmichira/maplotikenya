@@ -55,7 +55,7 @@ const DashboardRouter = () => {
       return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-black dark:via-gray-900 dark:to-black">
           <div className="relative mx-auto w-20 h-20 mb-6">
-            <div className="w-20 h-20 rounded-full border-2 border-[#fbbf24]/20 border-t-[#000000] animate-spin" style={{ animationDuration: '1.5s' }} />
+            <div className="w-20 h-20 rounded-full border-2 border-white/15 border-t-[#000000] animate-spin" style={{ animationDuration: '1.5s' }} />
             <div className="absolute inset-3 rounded-full bg-white dark:bg-gray-900 flex items-center justify-center overflow-hidden shadow-inner">
               <img src={logoPadded} alt="MaplotiKenya" className="w-10 h-10 object-contain" />
             </div>
@@ -92,14 +92,14 @@ const DashboardRouter = () => {
         return (
           <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 dark:bg-[#0A0A0A]">
             <div className="w-full max-w-md rounded-lg border border-gray-200 bg-white p-8 text-center dark:border-white/10 dark:bg-[#111111]">
-              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-[#fbbf24]/15">
-                <Loader2 className="h-6 w-6 animate-spin text-[#f59e0b]" />
+              <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white/10">
+                <Loader2 className="h-6 w-6 animate-spin text-white/80" />
               </div>
               <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Verification pending</h2>
               <p className="mt-2 text-sm text-gray-600 dark:text-white/60">
                 We are reviewing your agent details. Your dashboard opens as soon as an admin approves the request.
               </p>
-              <a href="/" className="mt-6 inline-flex h-10 items-center justify-center rounded-md bg-[#fbbf24] px-5 text-sm font-semibold text-[#111]">Back to the site</a>
+              <a href="/" className="mt-6 inline-flex h-10 items-center justify-center rounded-md bg-white px-5 text-sm font-semibold text-[#111]">Back to the site</a>
             </div>
           </div>
         );

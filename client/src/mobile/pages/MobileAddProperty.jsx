@@ -579,7 +579,7 @@ const MobileAddProperty = () => {
                     {currentStep < totalSteps ? (
                         <button
                             onClick={handleNext}
-                            className={`flex-[2] py-3.5 rounded-xl font-bold bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] flex items-center justify-center gap-2 shadow-lg hover:shadow-[#000000]/20`}
+                            className={`flex-[2] py-3.5 rounded-xl font-bold bg-white text-black font-semibold text-[#000000] flex items-center justify-center gap-2 shadow-lg hover:shadow-[#000000]/20`}
                         >
                             Next <ChevronRight className="w-5 h-5" />
                         </button>
@@ -587,7 +587,7 @@ const MobileAddProperty = () => {
                         <button
                             onClick={handleSubmit}
                             disabled={loading}
-                            className={`flex-[2] py-3.5 rounded-xl font-bold bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] flex items-center justify-center gap-2 shadow-lg hover:shadow-[#000000]/20 disabled:opacity-70`}
+                            className={`flex-[2] py-3.5 rounded-xl font-bold bg-white text-black font-semibold text-[#000000] flex items-center justify-center gap-2 shadow-lg hover:shadow-[#000000]/20 disabled:opacity-70`}
                         >
                             {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Check className="w-5 h-5" />}
                             {isEdit ? 'Save Changes' : 'Submit Property'}

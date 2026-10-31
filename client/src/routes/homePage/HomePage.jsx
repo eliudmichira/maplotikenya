@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from 'framer-motion';
 import {
   Search, MapPin, Home, Award, Users, Building2, Star, Sparkles, Calendar,
@@ -86,8 +86,8 @@ function PropertyCard({ property, index, onClick }) {
   return (
     <div
       className={`group cursor-pointer rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 ${isDark
-        ? 'bg-[#0e1311] shadow-lg hover:shadow-2xl hover:shadow-[#000000]/20 hover:border hover:border-[#fbbf24]/30'
-        : 'bg-white shadow-lg hover:shadow-2xl hover:shadow-[#000000]/20 hover:border hover:border-[#fbbf24]/30'
+        ? 'bg-[#0a0a0a] shadow-lg hover:shadow-2xl hover:shadow-[#000000]/20 hover:border hover:border-white/20'
+        : 'bg-white shadow-lg hover:shadow-2xl hover:shadow-[#000000]/20 hover:border hover:border-white/20'
         }`}
       onClick={onClick}
     >
@@ -104,7 +104,7 @@ function PropertyCard({ property, index, onClick }) {
         {(property.featured || property.is_featured) && (
           <div className="absolute top-4 left-4">
             <span className="px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-md bg-white/90 text-gray-900 shadow-sm group-hover:shadow-lg group-hover:shadow-[#000000]/20 transition-all duration-300">
-              <Star className="w-3 h-3 inline-block -mt-0.5 mr-1 fill-current text-[#f59e0b]" />Featured
+              <Star className="w-3 h-3 inline-block -mt-0.5 mr-1 fill-current text-white/80" />Featured
             </span>
           </div>
         )}
@@ -414,6 +414,7 @@ const HomePage = () => {
       {/* Original Hero Section */}
       <Hero />
 
+
       {/* Google-Level Property Types Section */}
       <motion.section
         className={`py-14 md:py-24 transition-colors duration-500 relative overflow-hidden ${isDark ? 'bg-[#000000]' : 'bg-gray-50'
@@ -447,9 +448,7 @@ const HomePage = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <span className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent">
-                Find Your Perfect Home
-              </span>
+              <span>Find Your Perfect Home</span>
             </motion.h2>
             <motion.p
               className={`text-base md:text-xl max-w-2xl mx-auto ${isDark ? 'text-white/80' : 'text-gray-600'
@@ -469,8 +468,8 @@ const HomePage = () => {
                 key={type.id}
                 onClick={() => handlePropertyTypeClick(type.id)}
                 className={`group h-full min-h-[8.5rem] flex flex-col items-center justify-center p-5 md:p-6 rounded-2xl border border-transparent transition-all duration-300 relative overflow-hidden ${isDark
-                  ? 'bg-[#0e1311] shadow-md hover:shadow-lg hover:shadow-[#000000]/20 hover:border-[#fbbf24]/30'
-                  : 'bg-white shadow-md hover:shadow-lg hover:shadow-[#000000]/20 hover:border-[#fbbf24]/30'
+                  ? 'bg-[#0a0a0a] shadow-md hover:shadow-lg hover:shadow-[#000000]/20 hover:border-white/20'
+                  : 'bg-white shadow-md hover:shadow-lg hover:shadow-[#000000]/20 hover:border-white/20'
                   }`}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -509,16 +508,13 @@ const HomePage = () => {
       </motion.section>
 
       {/* Popular Areas Section â€” top neighborhoods by live listing count */}
-      <section className={`py-14 md:py-24 transition-colors duration-500 ${isDark ? 'bg-[#0e1311]' : 'bg-white'
+      <section className={`py-14 md:py-24 transition-colors duration-500 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'
         }`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-10 md:mb-16">
             <h2 className={`text-3xl md:text-5xl font-bold mb-4 md:mb-6 ${isDark ? 'text-white' : 'text-gray-900'
               }`}>
-              Popular{' '}
-              <span className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent">
-                Areas
-              </span>
+              Popular Areas
             </h2>
             <p className={`text-base md:text-xl max-w-2xl mx-auto ${isDark ? 'text-white/90' : 'text-[#374151]'
               }`}>
@@ -534,10 +530,10 @@ const HomePage = () => {
                 key={opt.value}
                 onClick={() => setAreaCriteria(opt.value)}
                 className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 border ${areaCriteria === opt.value
-                  ? 'bg-gradient-to-b from-[#fbbf24] to-[#f59e0b] text-[#0e1311] border-transparent shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_6px_16px_-6px_rgba(251,191,36,0.5)]'
+                  ? isDark ? 'bg-white text-black font-semibold border-white shadow-sm' : 'bg-black text-white font-semibold border-black shadow-sm'
                   : isDark
-                    ? 'bg-[#0e1311] text-gray-200 border-gray-700/60 hover:border-[#fbbf24]/40 hover:text-white'
-                    : 'bg-white text-[#374151] border-gray-300 hover:border-[#fbbf24]/60 hover:text-[#0e1311]'
+                    ? 'bg-[#0a0a0a] text-gray-200 border-gray-700/60 hover:border-white/40/40 hover:text-white'
+                    : 'bg-white text-[#374151] border-gray-300 hover:border-white/40/60 hover:text-black'
                   }`}
               >
                 {opt.label}
@@ -579,7 +575,7 @@ const HomePage = () => {
           <div className="mt-12 text-center">
             <a
               href="/desktop/areas"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 group/link bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] hover:shadow-lg hover:shadow-[#000000]/25 hover:scale-105"
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 group/link bg-gradient-to-b from-[#27272a] to-[#141416] text-white border border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_4px_12px_rgba(0,0,0,0.3)] hover:border-white/35 hover:scale-105"
             >
               Browse all areas
               <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1" />
@@ -617,7 +613,7 @@ const HomePage = () => {
               <div className="text-center space-y-4">
                 <div className="relative">
                   {/* Simple spinning ring */}
-                  <div className="w-16 h-16 rounded-full border-2 border-[#fbbf24]/20 border-t-[#000000] animate-spin" style={{ animationDuration: '2s' }} />
+                  <div className="w-16 h-16 rounded-full border-2 border-white/40/20 border-t-[#000000] animate-spin" style={{ animationDuration: '2s' }} />
 
                   {/* Center logo */}
                   <div className="absolute inset-4 w-8 h-8 rounded-full bg-[#000000] flex items-center justify-center shadow-lg">
@@ -713,14 +709,14 @@ const HomePage = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <button
                 onClick={() => window.location.href = '/contact'}
-                className="px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-medium rounded-full hover:shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center gap-2"
+                className="px-8 py-3.5 bg-white text-black font-semibold rounded-full hover:bg-zinc-200 transform hover:scale-105 transition-all duration-300 flex items-center gap-2 shadow-sm"
               >
                 <MessageCircle className="w-4 h-4" />
                 Contact Sales
               </button>
               <button
                 onClick={() => window.location.href = '/properties'}
-                className="px-6 py-3 font-semibold rounded-full transition-all duration-300 flex items-center gap-2 text-[#0e1311] bg-gradient-to-b from-[#fbbf24] to-[#f59e0b] shadow-[inset_0_1px_0_rgba(255,255,255,0.55),0_8px_20px_-6px_rgba(251,191,36,0.45)] hover:brightness-110 hover:-translate-y-0.5"
+                className="px-8 py-3.5 font-semibold rounded-full transition-all duration-300 flex items-center gap-2 text-white bg-gradient-to-b from-[#27272a] to-[#141416] border border-white/15 shadow-[inset_0_1px_0_rgba(255,255,255,0.16),0_4px_12px_rgba(0,0,0,0.3)] hover:border-white/35 hover:-translate-y-0.5"
               >
                 <Building2 className="w-4 h-4" />
                 View All
@@ -737,7 +733,7 @@ const HomePage = () => {
 
             {/* Left: the pitch */}
             <div className="lg:col-span-5 lg:sticky lg:top-28">
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#fbbf24] mb-5">Why MaplotiKenya</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white mb-5">Why MaplotiKenya</p>
               <h2 className={`text-4xl md:text-5xl font-bold leading-[1.05] tracking-tight ${isDark ? 'text-white' : 'text-gray-900'}`}>
                 Built for renting and buying in Kenya.
               </h2>
@@ -746,7 +742,7 @@ const HomePage = () => {
               </p>
               <a
                 href="/desktop/properties"
-                className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] hover:shadow-lg hover:shadow-[#fbbf24]/25 transition-all"
+                className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold bg-gradient-to-r from-[#ffffff] to-[#e4e4e7] text-[#111] hover:shadow-lg hover:shadow-black/30 transition-all"
               >
                 Browse listings
                 <ArrowRight className="w-4 h-4" />
@@ -764,7 +760,7 @@ const HomePage = () => {
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.5 }}
               >
-                <span className="text-sm font-semibold tabular-nums text-[#fbbf24] pt-1">01</span>
+                <span className="text-sm font-semibold tabular-nums text-white pt-1">01</span>
                 <div>
                   <h3 className={`text-xl md:text-2xl font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Search by estate, not just city.</h3>
                   <p className={`mt-2 max-w-lg ${isDark ? 'text-white/60' : 'text-gray-600'}`}>
@@ -777,8 +773,8 @@ const HomePage = () => {
                           key={area.name}
                           onClick={() => handleAreaClick(area.name)}
                           className={`px-3 py-1.5 rounded-full text-sm border transition-colors ${isDark
-                            ? 'border-white/15 text-white/80 hover:border-[#fbbf24]/60 hover:text-white'
-                            : 'border-gray-300 text-gray-700 hover:border-[#fbbf24] hover:text-gray-900'}`}
+                            ? 'border-white/15 text-white/80 hover:border-white/40/60 hover:text-white'
+                            : 'border-gray-300 text-gray-700 hover:border-white/40 hover:text-gray-900'}`}
                         >
                           {area.name}
                           <span className={`ml-1.5 tabular-nums ${isDark ? 'text-white/40' : 'text-gray-400'}`}>{area.count}</span>
@@ -797,7 +793,7 @@ const HomePage = () => {
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.5, delay: 0.08 }}
               >
-                <span className="text-sm font-semibold tabular-nums text-[#fbbf24] pt-1">02</span>
+                <span className="text-sm font-semibold tabular-nums text-white pt-1">02</span>
                 <div>
                   <h3 className={`text-xl md:text-2xl font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Real photos. Prices in KSh.</h3>
                   <p className={`mt-2 max-w-lg ${isDark ? 'text-white/60' : 'text-gray-600'}`}>
@@ -807,8 +803,8 @@ const HomePage = () => {
                     <button
                       onClick={() => handlePropertyCardClick(proofListing.id)}
                       className={`mt-5 flex items-center gap-4 w-full max-w-lg text-left rounded-2xl p-3 border transition-colors ${isDark
-                        ? 'border-white/10 bg-white/[0.03] hover:border-[#fbbf24]/50'
-                        : 'border-gray-200 bg-white hover:border-[#fbbf24]'}`}
+                        ? 'border-white/10 bg-white/[0.03] hover:border-white/40/50'
+                        : 'border-gray-200 bg-white hover:border-white/40'}`}
                     >
                       <img
                         src={getPropertyImage(proofListing)}
@@ -819,7 +815,7 @@ const HomePage = () => {
                       />
                       <div className="min-w-0">
                         <div className={`font-semibold truncate ${isDark ? 'text-white' : 'text-gray-900'}`}>{proofListing.title}</div>
-                        <div className="mt-1 text-[#fbbf24] font-bold tabular-nums">
+                        <div className="mt-1 text-white font-bold tabular-nums">
                           {formatKsh(proofListing.price)}
                           {String(proofListing.listing_type || '').toLowerCase() === 'rent' && (
                             <span className={`ml-1 text-xs font-normal ${isDark ? 'text-white/50' : 'text-gray-500'}`}>/ month</span>
@@ -843,7 +839,7 @@ const HomePage = () => {
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.5, delay: 0.16 }}
               >
-                <span className="text-sm font-semibold tabular-nums text-[#fbbf24] pt-1">03</span>
+                <span className="text-sm font-semibold tabular-nums text-white pt-1">03</span>
                 <div>
                   <h3 className={`text-xl md:text-2xl font-semibold ${isDark ? 'text-white' : 'text-gray-900'}`}>Reach the person who listed it.</h3>
                   <p className={`mt-2 max-w-lg ${isDark ? 'text-white/60' : 'text-gray-600'}`}>
@@ -858,10 +854,10 @@ const HomePage = () => {
                       <span
                         key={label}
                         className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-sm font-medium border ${isDark
-                          ? 'border-[#fbbf24]/30 text-white/85 bg-[#fbbf24]/5'
-                          : 'border-amber-200 text-gray-800 bg-amber-50'}`}
+                          ? 'border-white/20 text-white/85 bg-white/10'
+                          : 'border-white/15 text-gray-800 bg-white/5'}`}
                       >
-                        <Icon className="w-4 h-4 text-[#fbbf24]" />
+                        <Icon className="w-4 h-4 text-white" />
                         {label}
                       </span>
                     ))}
@@ -875,7 +871,7 @@ const HomePage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className={`py-14 md:py-24 transition-colors duration-500 ${isDark ? 'bg-[#0e1311]' : 'bg-white'
+      <section className={`py-14 md:py-24 transition-colors duration-500 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'
         }`}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center mb-10 md:mb-16">
@@ -966,9 +962,7 @@ const HomePage = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              <span className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent">
-                Ready to Find Your Dream Home?
-              </span>
+              <span>Ready to Find Your Dream Home?</span>
             </motion.h2>
 
             <motion.p
@@ -992,7 +986,7 @@ const HomePage = () => {
           >
             <motion.button
               onClick={handleStartSearching}
-              className="group relative flex items-center justify-center px-8 py-4 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-semibold rounded-full overflow-hidden"
+              className="group relative flex items-center justify-center px-8 py-4 bg-black text-white dark:bg-white dark:text-black font-semibold rounded-full hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-all shadow-md overflow-hidden"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -1011,7 +1005,7 @@ const HomePage = () => {
 
             <motion.button
               onClick={handleScheduleCall}
-              className={`flex items-center justify-center px-8 py-4 border-2 border-[#fbbf24] rounded-full font-semibold transition-colors duration-300 hover:bg-[#fbbf24] hover:text-[#111] ${isDark ? 'text-white' : 'text-gray-900'}`}
+              className={`flex items-center justify-center px-8 py-4 border-2 ${isDark ? "border-white/30 text-white hover:bg-white hover:text-black" : "border-zinc-300 text-zinc-900 hover:bg-black hover:text-white"} rounded-full font-semibold transition-colors duration-300`}
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -1072,7 +1066,7 @@ const HomePage = () => {
               </div>
               <div className="flex justify-end gap-3 pt-2">
                 <button onClick={() => setIsAddReviewOpen(false)} className={`px-4 py-2 rounded-lg ${isDark ? 'bg-white/10' : 'bg-gray-100'}`}>Cancel</button>
-                <button onClick={handleSubmitReview} className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-semibold">Submit</button>
+                <button onClick={handleSubmitReview} className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#ffffff] to-[#e4e4e7] text-[#111] font-semibold">Submit</button>
               </div>
             </div>
           </div>

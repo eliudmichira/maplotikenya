@@ -76,7 +76,7 @@ const Payments = ({ tenant, monthlyRent, dueDate, onPay, paymentHistory = [] }) 
           </div>
         </div>
         <div className="mt-4 flex gap-3">
-          <button onClick={enableAutoPay} className="px-5 py-3 rounded-xl bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-semibold">{safeTenant.autoPayEnabled ? 'Manage Auto‑Pay' : 'Enable Auto‑Pay'}</button>
+          <button onClick={enableAutoPay} className="px-5 py-3 rounded-xl bg-white text-black font-semibold text-[#000000] font-semibold">{safeTenant.autoPayEnabled ? 'Manage Auto‑Pay' : 'Enable Auto‑Pay'}</button>
           {safeTenant.autoPayEnabled && (
             <button className="px-5 py-3 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200">Pause</button>
           )}
@@ -99,7 +99,7 @@ const Payments = ({ tenant, monthlyRent, dueDate, onPay, paymentHistory = [] }) 
             <p className="text-3xl font-bold text-gray-900 dark:text-white">{safeDueDate.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric'})}</p>
           </div>
         </div>
-        <motion.button onClick={()=>setShowPayModal(true)} whileHover={{scale:1.02}} whileTap={{scale:.98}} className="w-full px-8 py-6 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-bold text-xl rounded-2xl flex items-center justify-center gap-4">
+        <motion.button onClick={()=>setShowPayModal(true)} whileHover={{scale:1.02}} whileTap={{scale:.98}} className="w-full px-8 py-6 bg-white text-black font-semibold text-[#000000] font-bold text-xl rounded-2xl flex items-center justify-center gap-4">
           <Smartphone className="w-7 h-7" />
           <span>🔥 PAY RENT NOW</span>
           <ArrowRight className="w-7 h-7" />
@@ -131,7 +131,7 @@ const Payments = ({ tenant, monthlyRent, dueDate, onPay, paymentHistory = [] }) 
               return (
               <div key={p.id} className="flex items-center justify-between p-5 bg-gray-50 rounded-2xl">
                 <div className="flex items-center space-x-4">
-                  <div className="w-14 h-14 bg-gradient-to-br from-[#000000]/20 to-[#f0f0f0]/20 border border-[#fbbf24]/30 rounded-2xl flex items-center justify-center">
+                  <div className="w-14 h-14 bg-gradient-to-br from-[#000000]/20 to-[#f0f0f0]/20 border border-white/15 rounded-2xl flex items-center justify-center">
                     <CheckCircle className="w-7 h-7 text-[#000000]" />
                   </div>
                   <div>
@@ -140,7 +140,7 @@ const Payments = ({ tenant, monthlyRent, dueDate, onPay, paymentHistory = [] }) 
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 text-[#000000] font-semibold rounded-xl border border-[#fbbf24]/30">✅ Paid</span>
+                  <span className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 text-[#000000] font-semibold rounded-xl border border-white/15">✅ Paid</span>
                   <p className="text-sm text-gray-500 mt-1">#{p?.reference || p?.id || '—'}</p>
                 </div>
               </div>
@@ -183,7 +183,7 @@ const Payments = ({ tenant, monthlyRent, dueDate, onPay, paymentHistory = [] }) 
             </div>
             <div className="mt-6 flex items-center justify-end gap-3">
               <button disabled={isProcessing} onClick={()=>setShowPayModal(false)} className="px-4 py-2 rounded-xl border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-gray-200 disabled:opacity-60">Cancel</button>
-              <button disabled={isProcessing} onClick={handleConfirmPay} className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-semibold disabled:opacity-60">{isProcessing ? 'Processing…' : 'Confirm & Pay'}</button>
+              <button disabled={isProcessing} onClick={handleConfirmPay} className="px-5 py-2.5 rounded-xl bg-white text-black font-semibold text-[#000000] font-semibold disabled:opacity-60">{isProcessing ? 'Processing…' : 'Confirm & Pay'}</button>
             </div>
           </div>
         </div>

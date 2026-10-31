@@ -269,7 +269,7 @@ const MobileMessages = () => {
 
                                         <div className="relative">
                                             <div className="absolute inset-0 bg-[#000000]/5 blur-xl rounded-full" />
-                                            <div className="relative flex items-center bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl border border-gray-200/50 dark:border-gray-700/50 px-4 py-3 focus-within:border-[#fbbf24]/50 transition-all">
+                                            <div className="relative flex items-center bg-gray-100/80 dark:bg-gray-800/80 backdrop-blur-md rounded-2xl border border-gray-200/50 dark:border-gray-700/50 px-4 py-3 focus-within:border-white/15 transition-all">
                                                 <Search className="w-5 h-5 text-gray-400 mr-3" />
                                                 <input
                                                     type="text"
@@ -316,7 +316,7 @@ const MobileMessages = () => {
 
                                                 <div className="relative flex-shrink-0">
                                                     <div className="w-14 h-14 rounded-full overflow-hidden relative shadow-lg group-hover:shadow-[#000000]/20 transition-all duration-300">
-                                                        <div className="absolute inset-0 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] opacity-80" />
+                                                        <div className="absolute inset-0 bg-white text-black font-semibold opacity-80" />
                                                         <div className="absolute inset-0 flex items-center justify-center">
                                                             <span className="text-[#000000] font-black text-xl">
                                                                 {(conv.user?.name || conv.user?.username || 'U')[0]}
@@ -326,7 +326,7 @@ const MobileMessages = () => {
                                                             <img src={conv.user.avatar} className="absolute inset-0 w-full h-full object-cover" alt="" />
                                                         )}
                                                     </div>
-                                                    <div className={`absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white dark:border-[#fbbf24] shadow-md ${conv.user?.isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
+                                                    <div className={`absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white dark:border-white/30 shadow-md ${conv.user?.isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
                                                 </div>
 
                                                 <div className="flex-1 min-w-0 py-1">
@@ -340,7 +340,7 @@ const MobileMessages = () => {
                                                         {conv.lastMessage || 'Sent a property inquiry'}
                                                     </p>
                                                     <div className="flex items-center gap-2">
-                                                        <div className="px-2 py-0.5 bg-[#000000]/10 rounded-md flex items-center gap-1.5 border border-[#fbbf24]/20">
+                                                        <div className="px-2 py-0.5 bg-[#000000]/10 rounded-md flex items-center gap-1.5 border border-white/15">
                                                             <Home className="w-3 h-3 text-[#000000]" />
                                                             <span className="text-[10px] font-black text-[#000000] truncate max-w-[120px] uppercase tracking-tighter">
                                                                 {conv.property?.title || 'General Inquiry'}
@@ -382,7 +382,7 @@ const MobileMessages = () => {
                                             </button>
                                             <div className="relative">
                                                 <div className="w-12 h-12 rounded-full overflow-hidden relative shadow-lg">
-                                                    <div className="absolute inset-0 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] opacity-80" />
+                                                    <div className="absolute inset-0 bg-white text-black font-semibold opacity-80" />
                                                     <div className="absolute inset-0 flex items-center justify-center">
                                                         <span className="text-[#000000] pt-10 font-black text-lg">
                                                             {(selectedConversation.user?.name || selectedConversation.user?.username || 'U')[0]}
@@ -392,7 +392,7 @@ const MobileMessages = () => {
                                                         <img src={selectedConversation.user.avatar} className="absolute inset-0 w-full h-full object-cover" alt="" />
                                                     )}
                                                 </div>
-                                                <div className={`absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white dark:border-[#fbbf24] ${selectedConversation.user?.isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
+                                                <div className={`absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white dark:border-white/30 ${selectedConversation.user?.isOnline ? 'bg-green-500' : 'bg-gray-400'}`} />
                                             </div>
                                             <div className="min-w-0">
                                                 <h4 className="font-black text-gray-900 dark:text-white text-base tracking-tight truncate">
@@ -476,7 +476,7 @@ const MobileMessages = () => {
                                                         className={`flex ${isOwn ? 'justify-end' : 'justify-start'}`}
                                                     >
                                                         <div className={`max-w-[80%] px-4 py-3 rounded-2xl shadow-sm relative ${isOwn
-                                                            ? 'bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-tr-none'
+                                                            ? 'bg-white text-black font-semibold text-[#000000] rounded-tr-none'
                                                             : 'bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-100 dark:border-gray-700/50 rounded-tl-none'
                                                             }`}>
                                                             {msg.imageUrl && (
@@ -534,7 +534,7 @@ const MobileMessages = () => {
                                             </button>
                                         </div>
                                     )}
-                                    <div className="flex items-end gap-3 p-2 bg-gray-100/50 dark:bg-gray-800/50 backdrop-blur-md rounded-2xl border border-gray-200/50 dark:border-gray-700/50 focus-within:border-[#fbbf24]/50 transition-all shadow-inner">
+                                    <div className="flex items-end gap-3 p-2 bg-gray-100/50 dark:bg-gray-800/50 backdrop-blur-md rounded-2xl border border-gray-200/50 dark:border-gray-700/50 focus-within:border-white/15 transition-all shadow-inner">
                                         <button
                                             type="button"
                                             onClick={() => fileInputRef.current?.click()}

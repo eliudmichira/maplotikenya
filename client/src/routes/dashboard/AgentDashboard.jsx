@@ -8,12 +8,13 @@ import { accountDashboardAPI, propertiesAPI } from '../../lib/firebaseAPI';
 import { getPropertyImage, handleImageError } from '../../utils/imageUtils';
 import WorkspaceShell from '../../components/workspace/WorkspaceShell';
 import ProfileSection from './sections/ProfileSection';
+import LeadsSection from './sections/LeadsSection';
 import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, LabelList
 } from 'recharts';
 import {
   Home, Building2, MessageCircle, Calendar, Plus, Eye, MoreHorizontal, Pencil, Trash2, ExternalLink,
-  Check, X, Mail, Phone, User, Search, Loader2
+  Check, X, Mail, Phone, User, Search, Loader2, Sparkles
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -35,6 +36,7 @@ import { PageHeader, StatGrid, EmptyState, SectionHeader, Toolbar, statusVariant
 
 const SECTIONS = [
   { id: 'overview', label: 'Overview', icon: Home },
+  { id: 'leads', label: 'Leads radar', icon: Sparkles },
   { id: 'listings', label: 'My listings', icon: Building2 },
   { id: 'inquiries', label: 'Inquiries', icon: MessageCircle },
   { id: 'bookings', label: 'Viewing requests', icon: Calendar },
@@ -293,7 +295,7 @@ const AgentDashboard = () => {
         </div>
         {status === 'pending' && (
           <div className="flex shrink-0 items-center gap-1">
-            <Button size="sm" onClick={() => setBookingStatus(b, 'confirmed')} disabled={isBusy}>
+            <Button size="sm" className="bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 font-semibold shadow-sm" onClick={() => setBookingStatus(b, 'confirmed')} disabled={isBusy}>
               {isBusy ? <Loader2 className="animate-spin" /> : <Check />}Confirm
             </Button>
             <Button size="sm" variant="outline" onClick={() => setBookingStatus(b, 'declined')} disabled={isBusy}><X />Decline</Button>
@@ -304,7 +306,7 @@ const AgentDashboard = () => {
   };
 
   const addButton = (
-    <Button size="sm" asChild><Link to="/properties/add"><Plus />Add listing</Link></Button>
+    <Button size="sm" asChild className="bg-black text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200 font-semibold shadow-sm"><Link to="/properties/add"><Plus />Add listing</Link></Button>
   );
 
   // ── sections ──
@@ -322,6 +324,31 @@ const AgentDashboard = () => {
           { label: 'Viewing requests', value: bookings.length, note: `${stats.pendingBookings.toLocaleString()} pending`, icon: Calendar },
         ]}
       />
+      <Card className="border-white/15 bg-gradient-to-r from-muted/50 via-background to-background">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 md:p-5">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white text-black">
+              <Sparkles className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-semibold text-foreground">
+                  WhatsApp Property Leads Radar
+                </span>
+                <Badge variant="outline" className="border-white/15 text-zinc-300 dark:text-white text-[10px] py-0">
+                  LIVE AUTOMATION
+                </Badge>
+              </div>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Real-time buyer &amp; tenant requests discovered from WhatsApp groups with matched YouTube/TikTok video tours.
+              </p>
+            </div>
+          </div>
+          <Button size="sm" onClick={() => setActive('leads')} className="bg-zinc-900 text-white dark:bg-white dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-100 font-semibold shrink-0">
+            Open Leads Radar
+          </Button>
+        </div>
+      </Card>
       {loading ? (
         <div className="grid gap-4 md:gap-6 lg:grid-cols-2"><Skeleton className="h-64 rounded-lg" /><Skeleton className="h-64 rounded-lg" /></div>
       ) : (
@@ -333,20 +360,20 @@ const AgentDashboard = () => {
                   <XAxis type="number" hide />
                   <YAxis type="category" dataKey="name" width={150} axisLine={false} tickLine={false} tick={{ fill: ink, fontSize: 12 }} />
                   <Tooltip cursor={{ fill: grid }} contentStyle={tooltipStyle} formatter={(v) => [v.toLocaleString(), 'Views']} />
-                  <Bar dataKey="views" fill="#fbbf24" radius={[0, 4, 4, 0]} barSize={14}>
+                  <Bar dataKey="views" fill={isDark ? "#ffffff" : "#18181b"} radius={[0, 4, 4, 0]} barSize={14}>
                     <LabelList dataKey="views" position="right" style={{ fill: ink, fontSize: 12 }} formatter={(v) => v.toLocaleString()} />
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
             </ChartCard>
-            <ChartCard title="Inquiries and viewing requests" subtitle="Last six months" legend={[{ label: 'Inquiries', color: '#fbbf24' }, { label: 'Viewing requests', color: secondBar }]} empty={!hasActivity} emptyText="No inquiries or viewing requests in the last six months.">
+            <ChartCard title="Inquiries and viewing requests" subtitle="Last six months" legend={[{ label: 'Inquiries', color: isDark ? '#ffffff' : '#18181b' }, { label: 'Viewing requests', color: secondBar }]} empty={!hasActivity} emptyText="No inquiries or viewing requests in the last six months.">
               <ResponsiveContainer width="100%" height={220}>
                 <BarChart data={activityByMonth} margin={{ top: 8, right: 8, left: -16, bottom: 0 }} barGap={2} barCategoryGap="30%">
                   <CartesianGrid vertical={false} stroke={grid} />
                   <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: ink, fontSize: 12 }} dy={6} />
                   <YAxis allowDecimals={false} axisLine={false} tickLine={false} tick={{ fill: ink, fontSize: 12 }} />
                   <Tooltip cursor={{ fill: grid }} contentStyle={tooltipStyle} />
-                  <Bar dataKey="inquiries" name="Inquiries" fill="#fbbf24" radius={[4, 4, 0, 0]} maxBarSize={22} />
+                  <Bar dataKey="inquiries" name="Inquiries" fill={isDark ? "#ffffff" : "#18181b"} radius={[4, 4, 0, 0]} maxBarSize={22} />
                   <Bar dataKey="bookings" name="Viewing requests" fill={secondBar} radius={[4, 4, 0, 0]} maxBarSize={22} />
                 </BarChart>
               </ResponsiveContainer>
@@ -436,7 +463,14 @@ const AgentDashboard = () => {
     );
   };
 
-  const body = { overview: <Overview />, listings: <Listings />, inquiries: <Inquiries />, bookings: <Bookings />, profile: <ProfileSection role="agent" /> }[active] || <Overview />;
+  const body = {
+    overview: <Overview />,
+    leads: <LeadsSection />,
+    listings: <Listings />,
+    inquiries: <Inquiries />,
+    bookings: <Bookings />,
+    profile: <ProfileSection role="agent" />,
+  }[active] || <Overview />;
 
   return (
     <WorkspaceShell root="Agent" navLabel="Workspace" sections={SECTIONS} links={LINKS} active={active} onSelect={setActive}>

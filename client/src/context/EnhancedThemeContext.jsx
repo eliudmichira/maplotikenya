@@ -43,7 +43,7 @@ const themePresets = {
   nature: {
     name: 'Nature',
     primary: '#303030',
-    secondary: '#fbbf24',
+    secondary: '#ffffff',
     background: '#f0fdf4',
     surface: '#f8f8f8',
     text: '#000000',
@@ -61,7 +61,7 @@ const themePresets = {
   sunset: {
     name: 'Sunset',
     primary: '#f97316',
-    secondary: '#fbbf24',
+    secondary: '#ffffff',
     background: '#fffbeb',
     surface: '#fef3c7',
     text: '#92400e',

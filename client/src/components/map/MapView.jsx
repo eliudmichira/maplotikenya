@@ -468,8 +468,8 @@ const MapView = ({
             {loading && (
                 <div className="absolute inset-0 z-50 pointer-events-none flex items-center justify-center bg-black/20 backdrop-blur-sm">
                     <div className="relative w-64 h-64">
-                        <div className="absolute inset-0 rounded-full border-2 border-[#fbbf24] animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] opacity-20"></div>
-                        <div className="absolute inset-0 rounded-full border-2 border-[#fbbf24] animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] opacity-10"></div>
+                        <div className="absolute inset-0 rounded-full border-2 border-white/30 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] opacity-20"></div>
+                        <div className="absolute inset-0 rounded-full border-2 border-white/30 animate-[ping_3s_cubic-bezier(0,0,0.2,1)_infinite] opacity-10"></div>
                         <div className="absolute inset-0 flex items-center justify-center">
                             <div className="w-4 h-4 bg-[#000000] rounded-full shadow-[0_0_15px_rgba(251,191,36,0.8)] animate-pulse"></div>
                         </div>

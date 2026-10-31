@@ -37,10 +37,15 @@ const Navbar = () => {
 
   // Get user role
   const userRole = getUserRole ? getUserRole() : 'user';
+  // User photo helper (Google auth profile or uploaded avatar)
+  const userPhoto = currentUser?.photoURL || currentUser?.avatar || currentUser?.photo || currentUser?.profileImage || "";
+  const userInitials = (currentUser?.displayName ? currentUser.displayName.charAt(0) : (currentUser?.name ? currentUser.name.charAt(0) : (currentUser?.email ? currentUser.email.charAt(0) : "U"))).toUpperCase();
+
 
   // Top-level navigation links (desktop + mobile menu)
   const navItems = [
     { label: 'Properties', to: '/properties' },
+    { label: 'Services', to: '/services' },
     { label: 'Blog', to: '/blog' },
     { label: 'More Locations', to: '/desktop/areas' },
   ];
@@ -195,6 +200,7 @@ const Navbar = () => {
   };
 
   const isHeroTransparent = isHomePage && !isScrolled && !isMenuOpen;
+  const useWhiteNavText = isHeroTransparent || isDark;
 
   return (
     <motion.header
@@ -203,7 +209,7 @@ const Navbar = () => {
           ? "bg-transparent border-transparent backdrop-blur-sm"
           : isDark
             ? isScrolled
-              ? "bg-[#000000]/95 shadow-[0_8px_32px_rgba(0,0,0,0.4)] border-b border-[rgba(251,191,36,0.15)] backdrop-blur-xl"
+              ? "bg-[#000000]/95 shadow-[0_8px_32px_rgba(0,0,0,0.4)] border-b border-[rgba(255, 255, 255,0.15)] backdrop-blur-xl"
               : "bg-[#0A0A0A] border-b border-white/5 lg:bg-transparent lg:border-transparent backdrop-blur-xl"
             : isScrolled
               ? "bg-white/95 shadow-[0_8px_32px_rgba(0,0,0,0.1)] border-b border-gray-200/50 backdrop-blur-xl"
@@ -225,9 +231,9 @@ const Navbar = () => {
             >
               <Link to="/" className="group">
                 <Logo
-                  className={`group-hover:opacity-80 transition-all duration-300 ${isDark ? "text-white" : "text-gray-900"
+                  className={`group-hover:opacity-80 transition-all duration-300 ${useWhiteNavText ? "text-white" : "text-gray-900"
                     } text-2xl sm:text-3xl lg:text-4xl`}
-                  isDark={isDark}
+                  isDark={useWhiteNavText}
                   responsiveCompact={false}
                   variant="ultra"
                   greenStyle="premium"
@@ -269,7 +275,7 @@ const Navbar = () => {
                 >
                   <Search
                     className={`w-5 h-5 transition-colors duration-300 ${isSearchFocused
-                      ? (isDark ? "text-[#fbbf24]" : "text-gray-900")
+                      ? (isDark ? "text-white" : "text-gray-900")
                       : (isDark ? "text-white/60" : "text-gray-400")
                       }`}
                   />
@@ -280,7 +286,7 @@ const Navbar = () => {
                   onChange={(e) => handleSearchChange(e.target.value)}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit()}
                   placeholder={`Search properties in ${typedText}${typedText.length < 1 ? '' : '…'}`}
-                  className={`w-full pl-12 pr-6 py-3.5 rounded-full focus:outline-none focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/30 transition-all duration-300 hover:shadow-lg ${isDark
+                  className={`w-full pl-12 pr-6 py-3.5 rounded-full focus:outline-none focus:ring-2 focus:ring-[#000000]/20 focus:border-white/20 transition-all duration-300 hover:shadow-lg ${isDark
                     ? "bg-white/5 border border-white/10 text-white placeholder-white/60 hover:bg-white/10 hover:border-white/20"
                     : "bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500 hover:bg-white hover:border-gray-300 hover:shadow-[#000000]/10"
                     }`}
@@ -307,7 +313,7 @@ const Navbar = () => {
                         className={`w-full px-4 py-3 text-left transition-all duration-200 ${isDark ? 'text-white hover:text-[#000000]' : 'text-gray-700 hover:text-[#000000]'
                           } ${index === 0 ? 'rounded-t-xl' : ''} ${index === searchSuggestions.length - 1 ? 'rounded-b-xl' : ''}`}
                         whileHover={{
-                          backgroundColor: isDark ? 'rgba(251, 191, 36, 0.1)' : 'rgba(251, 191, 36, 0.1)',
+                          backgroundColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(255, 255, 255, 0.1)',
                           x: 4
                         }}
                         transition={{ duration: 0.2 }}
@@ -344,10 +350,7 @@ const Navbar = () => {
                 >
                   <Link
                     to={item.to}
-                    className={`font-medium transition-all duration-300 relative group ${isDark
-                      ? "text-white hover:text-white"
-                      : "text-gray-600 hover:text-gray-900"
-                      }`}
+                    className={`font-medium transition-all duration-300 relative group ${useWhiteNavText ? "text-white hover:text-white" : "text-gray-700 hover:text-gray-900"}`}
                   >
                     <motion.span
                       whileHover={{ y: -2 }}
@@ -356,7 +359,7 @@ const Navbar = () => {
                       {item.label}
                     </motion.span>
                     <motion.span
-                      className="absolute -bottom-1 left-0 h-0.5 bg-[#000000]"
+                      className={`absolute -bottom-1 left-0 h-0.5 ${useWhiteNavText ? "bg-white" : "bg-black"}`}
                       initial={{ width: 0 }}
                       whileHover={{ width: "100%" }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -367,7 +370,7 @@ const Navbar = () => {
                       whileHover={{
                         width: "100%",
                         opacity: 0.3,
-                        boxShadow: "0 0 8px rgba(251, 191, 36, 0.5)"
+                        boxShadow: "0 0 8px rgba(255, 255, 255, 0.5)"
                       }}
                       transition={{ duration: 0.3 }}
                     />
@@ -386,9 +389,7 @@ const Navbar = () => {
           >
             <motion.button
               onClick={toggleTheme}
-              className={`relative transition-all duration-300 rounded-full p-2 overflow-hidden ${isDark
-                ? "text-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/10 hover:shadow-[0_4px_16px_rgba(251,191,36,0.3)]"
-                : "text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-100 hover:bg-gray-200/50 dark:hover:bg-gray-700/30 hover:shadow-[0_4px_16px_rgba(0,0,0,0.1)]"
+              className={`relative transition-all duration-300 rounded-full p-2 overflow-hidden ${useWhiteNavText ? "text-white hover:text-white/80 hover:bg-white/10" : "text-gray-800 dark:text-gray-200 hover:text-gray-600 dark:hover:text-gray-100 hover:bg-gray-200/50"
                 }`}
               whileHover={{
                 scale: 1.1,
@@ -403,7 +404,7 @@ const Navbar = () => {
                 className="absolute inset-0 rounded-full opacity-0"
                 whileHover={{
                   opacity: 0.1,
-                  backgroundColor: isDark ? "#fbbf24" : "#6b7280"
+                  backgroundColor: isDark ? "#ffffff" : "#6b7280"
                 }}
                 transition={{ duration: 0.3 }}
               />
@@ -440,7 +441,7 @@ const Navbar = () => {
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 >
                   {/* User Avatar */}
-                  <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-[#fbbf24]/30 group-hover:border-[#fbbf24] transition-colors">
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white/20 group-hover:border-white/50 transition-colors">
                     {/* Enhanced animated ring border with brand colors */}
                     <motion.div
                       className="absolute -inset-1 rounded-full"
@@ -465,9 +466,9 @@ const Navbar = () => {
                       style={{ background: "transparent" }}
                       animate={{
                         boxShadow: [
-                          "0 0 8px rgba(251, 191, 36, 0.4), 0 0 16px rgba(251, 191, 36, 0.3), 0 0 24px rgba(251, 191, 36, 0.2)",
-                          "0 0 10px rgba(251, 191, 36, 0.4), 0 0 20px rgba(251, 191, 36, 0.3), 0 0 30px rgba(251, 191, 36, 0.2)",
-                          "0 0 8px rgba(251, 191, 36, 0.4), 0 0 16px rgba(251, 191, 36, 0.3), 0 0 24px rgba(251, 191, 36, 0.2)"
+                          "0 0 8px rgba(255, 255, 255, 0.4), 0 0 16px rgba(255, 255, 255, 0.3), 0 0 24px rgba(255, 255, 255, 0.2)",
+                          "0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.3), 0 0 30px rgba(255, 255, 255, 0.2)",
+                          "0 0 8px rgba(255, 255, 255, 0.4), 0 0 16px rgba(255, 255, 255, 0.3), 0 0 24px rgba(255, 255, 255, 0.2)"
                         ]
                       }}
                       transition={{
@@ -478,34 +479,41 @@ const Navbar = () => {
                     />
                     {/* Profile image */}
                     <div className="relative z-10 w-full h-full rounded-full overflow-hidden">
-                      {currentUser.photoURL ? (
+                      {userPhoto ? (
                         <img
-                          src={currentUser.photoURL}
+                          src={userPhoto}
                           alt={currentUser.displayName || currentUser.email}
                           className="w-full h-full object-cover rounded-full select-none"
+                          referrerPolicy="no-referrer"
+                          crossOrigin="anonymous"
                           draggable={false}
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none';
+                            if (e.currentTarget.nextElementSibling) {
+                              e.currentTarget.nextElementSibling.style.display = 'flex';
+                            }
+                          }}
                         />
-                      ) : (
-                        <div className="w-full h-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] flex items-center justify-center">
-                          <span className="text-[#111] font-bold text-lg">
-                            {currentUser.displayName ? currentUser.displayName.charAt(0).toUpperCase() : currentUser.email.charAt(0).toUpperCase()}
-                          </span>
-                        </div>
-                      )}
+                      ) : null}
+                      <div className={`w-full h-full ${userPhoto ? 'hidden' : 'flex'} bg-zinc-900 text-white dark:bg-white dark:text-black items-center justify-center`}>
+                        <span className="font-bold text-sm">
+                          {userInitials}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                   {/* User Info */}
                   <div className="hidden md:block text-left">
-                    <p className={`text-sm font-medium ${isDark ? "text-white" : "text-gray-900"}`}>
+                    <p className={`text-sm font-semibold ${useWhiteNavText ? "text-white" : "text-gray-900"}`}>
                       {currentUser.displayName || currentUser.email.split('@')[0]}
                     </p>
-                    <p className={`text-xs ${isDark ? "text-white/60" : "text-gray-500"}`}>
+                    <p className={`text-xs ${useWhiteNavText ? "text-white/70" : "text-gray-500"}`}>
                       {currentUser.email}
                     </p>
                   </div>
 
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isProfileDropdownOpen ? 'rotate-180' : ''} ${isDark ? 'text-white/60' : 'text-gray-500'}`} />
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isProfileDropdownOpen ? 'rotate-180' : ''} ${useWhiteNavText ? 'text-white/80' : 'text-gray-500'}`} />
                 </motion.button>
 
                 {/* Enhanced Profile Dropdown */}
@@ -520,20 +528,27 @@ const Navbar = () => {
                     {/* User Header */}
                     <div className="p-4 border-b border-gray-200 dark:border-gray-700">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#fbbf24]/30">
-                          {currentUser.photoURL ? (
+                        <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/20">
+                          {userPhoto ? (
                             <img
-                              src={currentUser.photoURL}
+                              src={userPhoto}
                               alt={currentUser.displayName || currentUser.email}
                               className="w-full h-full object-cover"
+                              referrerPolicy="no-referrer"
+                              crossOrigin="anonymous"
+                              onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                if (e.currentTarget.nextElementSibling) {
+                                  e.currentTarget.nextElementSibling.style.display = 'flex';
+                                }
+                              }}
                             />
-                          ) : (
-                            <div className="w-full h-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] flex items-center justify-center">
-                              <span className="text-[#111] font-bold text-lg">
-                                {currentUser.displayName ? currentUser.displayName.charAt(0).toUpperCase() : currentUser.email.charAt(0).toUpperCase()}
-                              </span>
-                            </div>
-                          )}
+                          ) : null}
+                          <div className={`w-full h-full ${userPhoto ? 'hidden' : 'flex'} bg-zinc-900 text-white dark:bg-white dark:text-black items-center justify-center`}>
+                            <span className="font-bold text-base">
+                              {userInitials}
+                            </span>
+                          </div>
                         </div>
                         <div>
                           <p className="font-semibold text-gray-900 dark:text-white">
@@ -625,7 +640,7 @@ const Navbar = () => {
                             onClick={() => setIsProfileDropdownOpen(false)}
                             className="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                           >
-                            <BarChart3 className="w-4 h-4 text-amber-500" />
+                            <BarChart3 className="w-4 h-4 text-white" />
                             <span>Agent Dashboard</span>
                           </Link>
 
@@ -712,7 +727,7 @@ const Navbar = () => {
                         <Link
                           to="/agent-verification"
                           onClick={() => setIsProfileDropdownOpen(false)}
-                          className="flex items-center gap-3 px-3 py-2 rounded-xl text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors"
+                          className="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-300 dark:text-white hover:bg-white/5 dark:hover:bg-amber-900/20 transition-colors"
                         >
                           <Building2 className="w-4 h-4" />
                           <span>Become an Agent</span>
@@ -749,7 +764,7 @@ const Navbar = () => {
                 >
                   <Link
                     to="/login"
-                    className={`${isDark ? "text-white hover:text-[#fbbf24]" : "text-gray-600 hover:text-gray-900"} transition-colors duration-300`}
+                    className={`${useWhiteNavText ? "text-white hover:text-white/80" : "text-gray-700 hover:text-gray-900"} font-medium transition-colors duration-300`}
                   >
                     Sign In
                   </Link>
@@ -764,7 +779,7 @@ const Navbar = () => {
                 >
                   <Link
                     to="/register"
-                    className="px-5 py-2 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-full font-medium hover:shadow-lg transition-all duration-300 relative overflow-hidden block"
+                    className="px-6 py-2.5 bg-white text-black font-semibold rounded-full hover:bg-zinc-200 shadow-sm transition-all duration-300 relative overflow-hidden block"
                   >
                     {/* Shimmer effect */}
                     <motion.div
@@ -784,7 +799,7 @@ const Navbar = () => {
               onClick={() => { setIsProfileDropdownOpen(false); setIsMenuOpen((open) => !open); }}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               aria-expanded={isMenuOpen}
-              className={`lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-full transition-colors ${isDark ? 'text-white hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'}`}
+              className={`lg:hidden inline-flex items-center justify-center w-11 h-11 rounded-full transition-colors ${useWhiteNavText ? 'text-white hover:bg-white/10' : 'text-gray-900 hover:bg-gray-100'}`}
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -807,7 +822,7 @@ const Navbar = () => {
                 onChange={(e) => handleSearchChange(e.target.value, true)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSearchSubmit(null, true)}
                 placeholder="Search properties, locations..."
-                className={`w-full pl-12 pr-6 py-3.5 rounded-full focus:outline-none focus:ring-2 focus:ring-[#000000]/20 focus:border-[#fbbf24]/30 transition-all ${isDark
+                className={`w-full pl-12 pr-6 py-3.5 rounded-full focus:outline-none focus:ring-2 focus:ring-[#000000]/20 focus:border-white/20 transition-all ${isDark
                   ? "bg-white/5 border border-white/10 text-white placeholder-white/60"
                   : "bg-gray-50 border border-gray-200 text-gray-900 placeholder-gray-500"
                   }`}
@@ -857,20 +872,27 @@ const Navbar = () => {
             {currentUser ? (
               <div className="space-y-4 pt-4 border-t border-gray-200 dark:border-gray-700">
                 <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
-                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#fbbf24]/30">
-                    {currentUser.photoURL ? (
+                  <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/20">
+                    {userPhoto ? (
                       <img
-                        src={currentUser.photoURL}
+                        src={userPhoto}
                         alt={currentUser.displayName || currentUser.email}
                         className="w-full h-full object-cover"
+                        referrerPolicy="no-referrer"
+                        crossOrigin="anonymous"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                          if (e.currentTarget.nextElementSibling) {
+                            e.currentTarget.nextElementSibling.style.display = 'flex';
+                          }
+                        }}
                       />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] flex items-center justify-center">
-                        <span className="text-[#111] font-bold text-lg">
-                          {currentUser.displayName ? currentUser.displayName.charAt(0).toUpperCase() : currentUser.email.charAt(0).toUpperCase()}
-                        </span>
-                      </div>
-                    )}
+                    ) : null}
+                    <div className={`w-full h-full ${userPhoto ? 'hidden' : 'flex'} bg-zinc-900 text-white dark:bg-white dark:text-black items-center justify-center`}>
+                      <span className="font-bold text-sm">
+                        {userInitials}
+                      </span>
+                    </div>
                   </div>
                   <div>
                     <p className={`font-medium ${isDark ? "text-white" : "text-gray-900"}`}>
@@ -940,7 +962,7 @@ const Navbar = () => {
                         onClick={() => setIsMenuOpen(false)}
                         className="flex items-center gap-3 px-3 py-2 rounded-xl text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                       >
-                        <BarChart3 className="w-4 h-4 text-amber-500" />
+                        <BarChart3 className="w-4 h-4 text-white" />
                         <span>Agent Dashboard</span>
                       </Link>
 
@@ -1027,7 +1049,7 @@ const Navbar = () => {
                     <Link
                       to="/agent-verification"
                       onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center gap-3 px-3 py-2 rounded-xl text-amber-600 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 transition-colors"
+                      className="flex items-center gap-3 px-3 py-2 rounded-xl text-zinc-300 dark:text-white hover:bg-white/5 dark:hover:bg-amber-900/20 transition-colors"
                     >
                       <Building2 className="w-4 h-4" />
                       <span>Become an Agent</span>
@@ -1058,7 +1080,7 @@ const Navbar = () => {
                 <Link
                   to="/desktop/register"
                   onClick={() => setIsMenuOpen(false)}
-                  className="block w-full text-center px-5 py-3 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] text-[#111] rounded-full font-medium hover:shadow-lg transition-all"
+                  className="block w-full text-center px-6 py-3 bg-white text-black font-semibold rounded-full hover:bg-zinc-200 shadow-sm transition-all"
                 >
                   Get Started
                 </Link>

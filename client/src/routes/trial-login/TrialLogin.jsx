@@ -208,7 +208,7 @@ const TrialLogin = () => {
                 value={formData.trialId}
                 onChange={handleInputChange}
                 placeholder="trial_xxxxxxxxx_xxxxxxxxx"
-                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#000000] focus:border-transparent transition-all duration-300 hover:border-[#fbbf24]/50"
+                className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#000000] focus:border-transparent transition-all duration-300 hover:border-white/15"
                 required
               />
             </div>
@@ -225,7 +225,7 @@ const TrialLogin = () => {
                   value={formData.password}
                   onChange={handleInputChange}
                   placeholder="Enter your trial password"
-                  className="w-full px-4 py-3 pr-12 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#000000] focus:border-transparent transition-all duration-300 hover:border-[#fbbf24]/50"
+                  className="w-full px-4 py-3 pr-12 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#000000] focus:border-transparent transition-all duration-300 hover:border-white/15"
                   required
                 />
                 <button
@@ -255,7 +255,7 @@ const TrialLogin = () => {
               disabled={isLoading}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="w-full py-3 px-6 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] font-semibold rounded-xl hover:shadow-lg hover:shadow-[#000000]/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-2 group"
+              className="w-full py-3 px-6 bg-white text-black font-semibold text-[#111] font-semibold rounded-xl hover:shadow-lg hover:shadow-[#000000]/25 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-2 group"
             >
               {isLoading ? (
                 <div className="flex items-center justify-center">

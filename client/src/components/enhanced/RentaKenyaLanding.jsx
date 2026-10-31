@@ -194,7 +194,7 @@ const RentaKenyaLanding = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/10 border border-[#fbbf24]/20 text-black dark:bg-white/10 dark:text-white text-sm font-medium mb-8"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-black/10 border border-white/15 text-black dark:bg-white/10 dark:text-white text-sm font-medium mb-8"
             >
               <Award className="w-4 h-4" />
               Africa's First AI-Powered Rental Management Platform
@@ -208,7 +208,7 @@ const RentaKenyaLanding = () => {
               className="text-5xl md:text-7xl font-bold text-gray-900 dark:text-white mb-6"
             >
               The Landlord's{' '}
-              <span className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent">
+              <span className="bg-white text-black font-semibold bg-clip-text text-transparent">
                 Digital Backbone
               </span>
             </motion.h1>
@@ -398,8 +398,8 @@ const RentaKenyaLanding = () => {
                   viewport={{ once: true }}
                   className={`p-6 rounded-2xl cursor-pointer transition-all duration-300 ${
                     activeFeature === index
-                      ? 'bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 border-2 border-[#fbbf24] shadow-lg'
-                      : 'bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 hover:border-[#fbbf24]/50'
+                      ? 'bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 border-2 border-white/30 shadow-lg'
+                      : 'bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 hover:border-white/15'
                   }`}
                   onClick={() => setActiveFeature(index)}
                 >
@@ -564,7 +564,7 @@ const RentaKenyaLanding = () => {
                 viewport={{ once: true }}
                 className={`relative p-8 rounded-2xl border-2 ${
                   plan.popular
-                    ? 'bg-gradient-to-br from-[#000000]/10 to-[#f0f0f0]/10 border-[#fbbf24] shadow-xl'
+                    ? 'bg-gradient-to-br from-[#000000]/10 to-[#f0f0f0]/10 border-white/30 shadow-xl'
                     : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600'
                 }`}
               >
@@ -622,7 +622,7 @@ const RentaKenyaLanding = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b]">
+      <section className="py-20 bg-white text-black font-semibold">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -671,7 +671,7 @@ const RentaKenyaLanding = () => {
           <div className="grid md:grid-cols-4 gap-8">
             <div className="md:col-span-2">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-xl flex items-center justify-center">
+                <div className="w-10 h-10 bg-white text-black font-semibold rounded-xl flex items-center justify-center">
                   <Building2 className="w-6 h-6 text-gray-900" />
                 </div>
                 <span className="text-2xl font-bold">Rental Management</span>

@@ -135,26 +135,26 @@ const MobileNavigation = () => {
               aria-current={isActive(navItems[0].path) ? 'page' : undefined}
             >
               <div className={`relative w-12 h-12 rounded-full transition-all duration-300 shadow-lg ${isActive(navItems[0].path)
-                ? 'bg-[#fbbf24] shadow-[#fbbf24]/30'
+                ? 'bg-white shadow-black/20'
                 : isDark
                   ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151] shadow-[#6B7280]/20'
                   : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db] shadow-gray-200/50'
                 }`}>
                 <div className="absolute -inset-1 rounded-full pointer-events-none opacity-80" style={{ background: "transparent", border: isDark ? "1.5px solid rgba(0, 0, 0, 0.25)" : "1.5px solid rgba(255, 255, 255, 0.5)" }}></div>
                 <div className={`absolute inset-2 rounded-full ${isActive(navItems[0].path)
-                  ? 'bg-[#fbbf24]'
+                  ? 'bg-white'
                   : isDark
                     ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151]'
                     : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db]'
                   }`}></div>
                 <div className={`absolute inset-2 rounded-full ${isActive(navItems[0].path)
-                  ? 'bg-[#fbbf24]'
+                  ? 'bg-white'
                   : isDark
                     ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151]'
                     : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db]'
                   }`}></div>
                 <div className={`absolute inset-3 rounded-full opacity-60 ${isActive(navItems[0].path)
-                  ? 'bg-[#fbbf24]'
+                  ? 'bg-white'
                   : isDark
                     ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151]'
                     : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db]'
@@ -182,26 +182,26 @@ const MobileNavigation = () => {
               aria-current={isActive(navItems[1].path) ? 'page' : undefined}
             >
               <div className={`relative w-12 h-12 rounded-full transition-all duration-300 shadow-lg ${isActive(navItems[1].path)
-                ? 'bg-[#fbbf24] shadow-[#fbbf24]/30'
+                ? 'bg-white shadow-black/20'
                 : isDark
                   ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151] shadow-[#6B7280]/20'
                   : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db] shadow-gray-200/50'
                 }`}>
                 <div className="absolute -inset-1 rounded-full pointer-events-none opacity-80" style={{ background: "transparent", border: isDark ? "1.5px solid rgba(0, 0, 0, 0.25)" : "1.5px solid rgba(255, 255, 255, 0.5)" }}></div>
                 <div className={`absolute inset-2 rounded-full ${isActive(navItems[1].path)
-                  ? 'bg-[#fbbf24]'
+                  ? 'bg-white'
                   : isDark
                     ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151]'
                     : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db]'
                   }`}></div>
                 <div className={`absolute inset-2 rounded-full ${isActive(navItems[1].path)
-                  ? 'bg-[#fbbf24]'
+                  ? 'bg-white'
                   : isDark
                     ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151]'
                     : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db]'
                   }`}></div>
                 <div className={`absolute inset-3 rounded-full opacity-60 ${isActive(navItems[1].path)
-                  ? 'bg-[#fbbf24]'
+                  ? 'bg-white'
                   : isDark
                     ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151]'
                     : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db]'
@@ -355,26 +355,26 @@ const MobileNavigation = () => {
               aria-current={isActive(navItems[2].path) ? 'page' : undefined}
             >
               <div className={`relative w-12 h-12 rounded-full transition-all duration-300 shadow-lg ${isActive(navItems[2].path)
-                ? 'bg-[#fbbf24] shadow-[#fbbf24]/30'
+                ? 'bg-white shadow-black/20'
                 : isDark
                   ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151] shadow-[#6B7280]/20'
                   : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db] shadow-gray-200/50'
                 }`}>
                 <div className="absolute -inset-1 rounded-full pointer-events-none opacity-80" style={{ background: "transparent", border: isDark ? "1.5px solid rgba(0, 0, 0, 0.25)" : "1.5px solid rgba(255, 255, 255, 0.5)" }}></div>
                 <div className={`absolute inset-2 rounded-full ${isActive(navItems[2].path)
-                  ? 'bg-[#fbbf24]'
+                  ? 'bg-white'
                   : isDark
                     ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151]'
                     : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db]'
                   }`}></div>
                 <div className={`absolute inset-2 rounded-full ${isActive(navItems[2].path)
-                  ? 'bg-[#fbbf24]'
+                  ? 'bg-white'
                   : isDark
                     ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151]'
                     : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db]'
                   }`}></div>
                 <div className={`absolute inset-3 rounded-full opacity-60 ${isActive(navItems[2].path)
-                  ? 'bg-[#fbbf24]'
+                  ? 'bg-white'
                   : isDark
                     ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151]'
                     : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db]'
@@ -412,26 +412,26 @@ const MobileNavigation = () => {
               aria-current={isActive(navItems[3].path) ? 'page' : undefined}
             >
               <div className={`relative w-12 h-12 rounded-full transition-all duration-300 shadow-lg ${isActive(navItems[3].path)
-                ? 'bg-[#fbbf24] shadow-[#fbbf24]/30'
+                ? 'bg-white shadow-black/20'
                 : isDark
                   ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151] shadow-[#6B7280]/20'
                   : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db] shadow-gray-200/50'
                 }`}>
                 <div className="absolute -inset-1 rounded-full pointer-events-none opacity-80" style={{ background: "transparent", border: isDark ? "1.5px solid rgba(0, 0, 0, 0.25)" : "1.5px solid rgba(255, 255, 255, 0.5)" }}></div>
                 <div className={`absolute inset-2 rounded-full ${isActive(navItems[3].path)
-                  ? 'bg-[#fbbf24]'
+                  ? 'bg-white'
                   : isDark
                     ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151]'
                     : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db]'
                   }`}></div>
                 <div className={`absolute inset-2 rounded-full ${isActive(navItems[3].path)
-                  ? 'bg-[#fbbf24]'
+                  ? 'bg-white'
                   : isDark
                     ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151]'
                     : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db]'
                   }`}></div>
                 <div className={`absolute inset-3 rounded-full opacity-60 ${isActive(navItems[3].path)
-                  ? 'bg-[#fbbf24]'
+                  ? 'bg-white'
                   : isDark
                     ? 'bg-gradient-to-br from-[#6B7280] via-[#4B5563] to-[#374151]'
                     : 'bg-gradient-to-br from-[#f3f4f6] via-[#e5e7eb] to-[#d1d5db]'

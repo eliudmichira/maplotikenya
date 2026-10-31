@@ -76,7 +76,7 @@ const VacancyDemo = () => {
 
         <div className="space-y-8">
           {/* Demo Property */}
-          <div className={`p-6 rounded-2xl border ${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'}`}>
+          <div className={`p-6 rounded-2xl border ${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'}`}>
             <h2 className={`text-2xl font-outfit font-bold mb-4 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
               Demo Property: {demoProperty.title}
             </h2>
@@ -116,7 +116,7 @@ const VacancyDemo = () => {
           />
 
           {/* Instructions */}
-          <div className={`p-6 rounded-2xl border ${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'}`}>
+          <div className={`p-6 rounded-2xl border ${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'}`}>
             <h3 className={`text-xl font-outfit font-bold mb-4 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
               How to Use
             </h3>
@@ -149,7 +149,7 @@ const VacancyDemo = () => {
           </div>
 
           {/* Features */}
-          <div className={`p-6 rounded-2xl border ${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'}`}>
+          <div className={`p-6 rounded-2xl border ${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200 shadow-lg'}`}>
             <h3 className={`text-xl font-outfit font-bold mb-4 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
               Key Features
             </h3>

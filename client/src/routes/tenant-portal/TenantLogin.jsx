@@ -201,7 +201,7 @@ const TenantLogin = () => {
               <div className="flex items-center space-x-4">
                 <Logo variant="image" className="h-12 w-auto" />
                 <div>
-                  <h1 className="text-2xl font-bold bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent">
+                  <h1 className="text-2xl font-bold bg-white text-black font-semibold bg-clip-text text-transparent">
                     MaplotiKenya
                   </h1>
                   <p className="text-sm text-gray-500 font-medium">Tenant Portal</p>
@@ -213,7 +213,7 @@ const TenantLogin = () => {
               onClick={() => setShowFeatures(!showFeatures)}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="px-6 py-3 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 hover:from-[#000000]/20 hover:to-[#f0f0f0]/20 rounded-2xl text-[#000000] font-semibold transition-all duration-300 border border-[#fbbf24]/20"
+              className="px-6 py-3 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 hover:from-[#000000]/20 hover:to-[#f0f0f0]/20 rounded-2xl text-[#000000] font-semibold transition-all duration-300 border border-white/15"
             >
               Why CRIBBY?
             </motion.button>
@@ -237,7 +237,7 @@ const TenantLogin = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.1 }}
-                className="inline-flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 rounded-full border border-[#fbbf24]/20 mb-6"
+                className="inline-flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 rounded-full border border-white/15 mb-6"
               >
                 <Sparkles className="w-4 h-4 text-[#000000]" />
                 <span className="text-sm font-semibold text-[#000000]">Welcome Home! 🏠</span>
@@ -250,7 +250,7 @@ const TenantLogin = () => {
                 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight"
               >
                 Access Your
-                <span className="block bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent">
+                <span className="block bg-white text-black font-semibold bg-clip-text text-transparent">
                   Tenant Portal
                 </span>
               </motion.h2>
@@ -287,7 +287,7 @@ const TenantLogin = () => {
                       value={loginForm.phone}
                       onChange={handleInputChange}
                       placeholder="+254712345678"
-                      className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-2xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-[#000000]/20 focus:border-[#fbbf24] transition-all duration-300 bg-gray-50/50 hover:bg-white"
+                      className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-2xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-[#000000]/20 focus:border-white/30 transition-all duration-300 bg-gray-50/50 hover:bg-white"
                       required
                     />
                   </div>
@@ -307,7 +307,7 @@ const TenantLogin = () => {
                       value={loginForm.apartment}
                       onChange={handleInputChange}
                       placeholder="e.g., Sunset Apartments, Green Valley"
-                      className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-2xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-[#000000]/20 focus:border-[#fbbf24] transition-all duration-300 bg-gray-50/50 hover:bg-white"
+                      className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-2xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-[#000000]/20 focus:border-white/30 transition-all duration-300 bg-gray-50/50 hover:bg-white"
                       required
                     />
                   </div>
@@ -328,7 +328,7 @@ const TenantLogin = () => {
                       onChange={handleInputChange}
                       placeholder="Your unit number (e.g., A-101, Main)"
                       maxLength="10"
-                      className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-2xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-[#000000]/20 focus:border-[#fbbf24] transition-all duration-300 bg-gray-50/50 hover:bg-white"
+                      className="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-2xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-[#000000]/20 focus:border-white/30 transition-all duration-300 bg-gray-50/50 hover:bg-white"
                       required
                     />
                   </div>
@@ -339,10 +339,10 @@ const TenantLogin = () => {
                   disabled={isLoading}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full px-8 py-5 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-bold rounded-2xl hover:shadow-xl hover:shadow-[#000000]/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 text-lg"
+                  className="w-full px-8 py-5 bg-white text-black font-semibold text-[#000000] font-bold rounded-2xl hover:shadow-xl hover:shadow-[#000000]/25 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 text-lg"
                 >
                   {isLoading ? (
-                    <div className="w-6 h-6 border-2 border-[#fbbf24] border-t-transparent rounded-full animate-spin" />
+                    <div className="w-6 h-6 border-2 border-white/30 border-t-transparent rounded-full animate-spin" />
                   ) : (
                     <>
                       <span>🏠 Access My Crib</span>
@@ -369,10 +369,10 @@ const TenantLogin = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="mt-8 p-6 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 rounded-2xl border border-[#fbbf24]/30 backdrop-blur-sm"
+              className="mt-8 p-6 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 rounded-2xl border border-white/15 backdrop-blur-sm"
             >
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-xl flex items-center justify-center shadow-lg shadow-[#000000]/25">
+                <div className="w-10 h-10 bg-white text-black font-semibold rounded-xl flex items-center justify-center shadow-lg shadow-[#000000]/25">
                   <Zap className="w-5 h-5 text-[#000000]" />
                 </div>
                 <h4 className="font-bold text-gray-900 text-lg">Demo Access</h4>
@@ -392,7 +392,7 @@ const TenantLogin = () => {
                     <p className="text-gray-900 font-mono font-bold">A-101</p>
                   </div>
                 </div>
-                <div className="text-center pt-4 border-t border-[#fbbf24]/30">
+                <div className="text-center pt-4 border-t border-white/15">
                   <p className="text-xs text-gray-500 font-semibold mb-2">More demo accounts:</p>
                   <p className="text-xs text-gray-600 font-medium">Jane: +254707654321 | Sunset | B-205</p>
                   <p className="text-xs text-gray-600 font-medium">Mike: +254709876543 | Green Valley | Main</p>
@@ -414,7 +414,7 @@ const TenantLogin = () => {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3 }}
-                className="inline-flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 rounded-full border border-[#fbbf24]/20 mb-6"
+                className="inline-flex items-center gap-3 px-4 py-2 bg-gradient-to-r from-[#000000]/10 to-[#f0f0f0]/10 rounded-full border border-white/15 mb-6"
               >
                 <HeartHandshake className="w-4 h-4 text-[#000000]" />
                 <span className="text-sm font-semibold text-[#000000]">Why Tenants Love CRIBBY 💚</span>
@@ -427,7 +427,7 @@ const TenantLogin = () => {
                 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight"
               >
                 The Smartest Way to
-                <span className="block bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent">
+                <span className="block bg-white text-black font-semibold bg-clip-text text-transparent">
                   Manage Your Rent
                 </span>
               </motion.h3>
@@ -450,9 +450,9 @@ const TenantLogin = () => {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.6 + index * 0.1 }}
-                  className="p-6 rounded-3xl bg-white/80 backdrop-blur-xl border border-gray-200/50 hover:border-[#fbbf24]/40 hover:shadow-xl hover:shadow-[#000000]/10 transition-all duration-500 hover:-translate-y-2 group"
+                  className="p-6 rounded-3xl bg-white/80 backdrop-blur-xl border border-gray-200/50 hover:border-white/15 hover:shadow-xl hover:shadow-[#000000]/10 transition-all duration-500 hover:-translate-y-2 group"
                 >
-                  <div className="w-14 h-14 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-[#000000]/25 group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-14 h-14 bg-white text-black font-semibold rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-[#000000]/25 group-hover:scale-110 transition-transform duration-300">
                     <feature.icon className="w-7 h-7 text-[#000000]" />
                   </div>
                   <h4 className="text-xl font-bold text-gray-900 mb-3">
@@ -474,7 +474,7 @@ const TenantLogin = () => {
             >
               <div className="grid grid-cols-3 gap-8">
                 <div className="text-center group">
-                  <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <div className="text-4xl md:text-5xl font-bold bg-white text-black font-semibold bg-clip-text text-transparent mb-3 group-hover:scale-110 transition-transform duration-300">
                     99.9%
                   </div>
                   <div className="text-sm font-semibold text-gray-600 flex items-center justify-center gap-2">
@@ -483,7 +483,7 @@ const TenantLogin = () => {
                   </div>
                 </div>
                 <div className="text-center group">
-                  <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <div className="text-4xl md:text-5xl font-bold bg-white text-black font-semibold bg-clip-text text-transparent mb-3 group-hover:scale-110 transition-transform duration-300">
                     10k+
                   </div>
                   <div className="text-sm font-semibold text-gray-600 flex items-center justify-center gap-2">
@@ -492,7 +492,7 @@ const TenantLogin = () => {
                   </div>
                 </div>
                 <div className="text-center group">
-                  <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent mb-3 group-hover:scale-110 transition-transform duration-300">
+                  <div className="text-4xl md:text-5xl font-bold bg-white text-black font-semibold bg-clip-text text-transparent mb-3 group-hover:scale-110 transition-transform duration-300">
                     24/7
                   </div>
                   <div className="text-sm font-semibold text-gray-600 flex items-center justify-center gap-2">

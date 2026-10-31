@@ -140,10 +140,10 @@
   --text-subtle:     #808080;
   --border:          rgba(0, 0, 0, 0.08);
   --border-strong:   rgba(0, 0, 0, 0.16);
-  --cta:             #fbbf24;     /* amber — primary CTA everywhere */
-  --cta-fg:          #0e1311;     /* near-black for legibility on amber */
-  --cta-hover:       #f59e0b;
-  --cta-glow:        rgba(251, 191, 36, 0.45);
+  --cta:             #000000;
+  --cta-fg:          #ffffff;     /* near-black for legibility on amber */
+  --cta-hover:       #18181b;
+  --cta-glow:        rgba(255, 255, 255, 0.2);
   --card:            #ffffff;
   --input-bg:        #f8f8f8;
 
@@ -160,7 +160,7 @@
   --text-secondary:  var(--text-muted);
 
   /* Static across modes */
-  --accent-neon:     #fbbf24;
+  --accent-neon:     #ffffff;
   --scrim:           rgba(0, 0, 0, 0.24);
   --emboss-inset-dark:  inset 0 1px 0 rgba(255, 255, 255, 0.10);
   --emboss-inset-light: inset 0 1px 0 rgba(255, 255, 255, 0.65);
@@ -175,10 +175,10 @@ html.dark {
   --text-subtle:     #6b6b6b;
   --border:          #1C1C1C;      /* neutral hairline */
   --border-strong:   #262626;
-  --cta:             #fbbf24;      /* same amber in dark mode — pops on black */
-  --cta-fg:          #0e1311;
-  --cta-hover:       #f59e0b;
-  --cta-glow:        rgba(251, 191, 36, 0.35);
+  --cta:             #ffffff;
+  --cta-fg:          #000000;
+  --cta-hover:       #e4e4e7;
+  --cta-glow:        rgba(255, 255, 255, 0.2);
   --card:            #0e1311;
   --input-bg:        #1a1a1a;
 
@@ -207,8 +207,8 @@ html.dark {
   --ui-popover-foreground: 9 9 11;
   --ui-muted: 244 244 245;
   --ui-muted-foreground: 113 113 122;
-  --ui-primary: 251 191 36;
-  --ui-primary-foreground: 17 17 17;
+  --ui-primary: 0 0 0;
+  --ui-primary-foreground: 255 255 255;
   --ui-secondary: 244 244 245;
   --ui-secondary-foreground: 24 24 27;
   --ui-destructive: 220 38 38;
@@ -217,7 +217,7 @@ html.dark {
   --ui-warning: 217 119 6;
   --ui-border: 228 228 231;
   --ui-input: 228 228 231;
-  --ui-ring: 251 191 36;
+  --ui-ring: 24 24 27;
   --ui-radius: 0.5rem;
 }
 html.dark {
@@ -229,8 +229,8 @@ html.dark {
   --ui-popover-foreground: 242 242 242;
   --ui-muted: 28 28 28;
   --ui-muted-foreground: 163 163 163;
-  --ui-primary: 251 191 36;
-  --ui-primary-foreground: 17 17 17;
+  --ui-primary: 255 255 255;
+  --ui-primary-foreground: 10 10 10;
   --ui-secondary: 28 28 28;
   --ui-secondary-foreground: 242 242 242;
   --ui-destructive: 239 68 68;
@@ -239,7 +239,7 @@ html.dark {
   --ui-warning: 245 158 11;
   --ui-border: 38 38 38;
   --ui-input: 38 38 38;
-  --ui-ring: 251 191 36;
+  --ui-ring: 255 255 255;
 }
 
 /* ── Pill + embossing utilities ─────────────────────────────────── */
@@ -273,7 +273,7 @@ button.btn-pill {
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   border-radius: 999px;
-  background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+  background: var(--cta);
   color: var(--cta-fg);
   font-weight: 600;
   letter-spacing: -0.01em;
@@ -289,7 +289,7 @@ button.btn-pill {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.55),
     0 1px 2px rgba(0, 0, 0, 0.15),
-    0 8px 20px -6px var(--cta-glow, rgba(251, 191, 36, 0.45));
+    0 8px 20px -6px var(--cta-glow, rgba(0, 0, 0, 0.2));
 }
 .btn-mono:hover {
   transform: translateY(-2px);
@@ -297,22 +297,22 @@ button.btn-pill {
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.65),
     0 2px 4px rgba(0, 0, 0, 0.2),
-    0 12px 28px -8px var(--cta-glow, rgba(251, 191, 36, 0.6));
+    0 12px 28px -8px var(--cta-glow, rgba(0, 0, 0, 0.3));
 }
 
 /* ── Hero highlight — for phrases like "Home in Kenya" ──────────── */
 .hero-highlight {
-  color: #fbbf24;
+  color: #ffffff;
   /* Warm amber glow */
   text-shadow:
-    0 0 40px rgba(251, 191, 36, 0.35),
-    0 0 12px rgba(251, 191, 36, 0.25);
+    0 0 40px rgba(255, 255, 255, 0.2),
+    0 0 12px rgba(255, 255, 255, 0.15);
 }
 .hero-highlight--italic { font-style: italic; }
 
 /* Amber text — gradient-filled words, for section titles */
 .text-amber-fill {
-  background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+  background: var(--cta);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -339,7 +339,7 @@ button.btn-pill {
 }
 .btn-mono--dark:hover { background: #1a1a1a; }
 .btn-mono--accent {
-  background: #fbbf24;
+  background: #ffffff;
   color: #0e1311;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.35),
@@ -347,7 +347,7 @@ button.btn-pill {
     0 6px 20px -6px rgba(251, 191, 36, 0.5);
 }
 .btn-mono--accent:hover {
-  background: #f59e0b;
+  background: #e4e4e7;
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.45),
     0 2px 4px rgba(0, 0, 0, 0.3),
@@ -554,7 +554,7 @@ body {
 
   /* Gradient backgrounds — AMBER CTA fill */
   .gradient-primary {
-    background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+    background: var(--cta);
     color: #0e1311;
   }
 
@@ -566,7 +566,7 @@ body {
   .glass {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
   }
 
   .glass-dark {
@@ -1139,7 +1139,7 @@ button:hover {
     border-radius: 12px;
     padding: 4px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
   }
 
   .toggle-button {
@@ -1188,7 +1188,7 @@ button:hover {
   .filters-sidebar {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
-    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    border-right: 1px solid rgba(255, 255, 255, 0.15);
     overflow-y: auto;
     min-width: 320px;
     max-width: 320px;
@@ -1203,7 +1203,7 @@ button:hover {
   .property-listings {
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
-    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    border-left: 1px solid rgba(255, 255, 255, 0.15);
     min-width: 384px;
     max-width: 384px;
   }
@@ -1343,4 +1343,35 @@ html {
 @keyframes loaderSlide {
   0%   { transform: translateX(-100%); }
   100% { transform: translateX(300%); }
+}
+
+/* ── Smoked Obsidian Pill (matches architectural preview screenshot) ── */
+.btn-obsidian {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #27272a 0%, #141416 100%);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  letter-spacing: -0.01em;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 2px 4px rgba(0, 0, 0, 0.35),
+    0 8px 20px -6px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: transform 220ms cubic-bezier(0.16,1,0.3,1),
+              box-shadow 220ms cubic-bezier(0.16,1,0.3,1),
+              border-color 220ms ease;
+}
+.btn-obsidian:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 4px 12px rgba(0, 0, 0, 0.45);
 }

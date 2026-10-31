@@ -344,7 +344,7 @@ const VacancyAnalytics = ({ properties = [] }) => {
             <div key={index} className="flex-1 flex flex-col items-center">
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-t">
                 <div 
-                  className="bg-gradient-to-t from-[#fbbf24] to-[#f59e0b] rounded-t transition-all duration-300"
+                  className="bg-gradient-to-t from-white to-zinc-300 rounded-t transition-all duration-300"
                   style={{ height: `${data.occupancy}%` }}
                 />
               </div>

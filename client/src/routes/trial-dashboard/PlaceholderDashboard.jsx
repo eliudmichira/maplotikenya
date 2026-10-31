@@ -19,7 +19,7 @@ const PlaceholderDashboard = ({ title, description, icon: Icon }) => {
               >
                 <ArrowLeft className="w-5 h-5" />
               </button>
-              <div className="w-10 h-10 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-white text-black font-semibold rounded-xl flex items-center justify-center">
                 <Icon className="w-6 h-6 text-[#111]" />
               </div>
               <div>
@@ -41,7 +41,7 @@ const PlaceholderDashboard = ({ title, description, icon: Icon }) => {
           animate={{ opacity: 1, y: 0 }}
           className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl rounded-2xl p-12 border border-white/20 dark:border-gray-700/20 text-center"
         >
-          <div className="w-24 h-24 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-full flex items-center justify-center mx-auto mb-6">
+          <div className="w-24 h-24 bg-white text-black font-semibold rounded-full flex items-center justify-center mx-auto mb-6">
             <Construction className="w-12 h-12 text-[#111]" />
           </div>
           
@@ -82,7 +82,7 @@ const PlaceholderDashboard = ({ title, description, icon: Icon }) => {
             onClick={() => navigate('/trial-dashboard')}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all"
+            className="bg-white text-black font-semibold text-[#111] px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all"
           >
             Back to Dashboard
           </motion.button>

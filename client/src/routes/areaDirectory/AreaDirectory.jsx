@@ -24,7 +24,7 @@ const avgPriceOf = (a, listingType) => {
 
 // ── Small controls ────────────────────────────────────────────────────────
 const Segmented = ({ options, value, onChange, isDark, className = '' }) => (
-  <div className={`flex rounded-xl p-1 text-xs font-semibold border ${isDark ? 'bg-[#0e1311] border-gray-700/60' : 'bg-white border-gray-200'} ${className}`}>
+  <div className={`flex rounded-xl p-1 text-xs font-semibold border ${isDark ? 'bg-[#0a0a0a] border-gray-700/60' : 'bg-white border-gray-200'} ${className}`}>
     {options.map((opt) => (
       <button
         key={opt.value}
@@ -55,8 +55,8 @@ const Chips = ({ options, value, onChange, isDark }) => (
           aria-pressed={active}
           className={`min-h-[40px] rounded-full border px-3.5 text-sm font-medium transition-colors ${
             active
-              ? 'border-[#fbbf24] bg-[#fbbf24] text-[#111]'
-              : isDark ? 'border-gray-700/60 bg-[#0e1311] text-gray-200 hover:border-gray-500' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-400'
+              ? 'border-white/30 bg-white text-[#111]'
+              : isDark ? 'border-gray-700/60 bg-[#0a0a0a] text-gray-200 hover:border-gray-500' : 'border-gray-200 bg-white text-gray-700 hover:border-gray-400'
           }`}
         >
           {opt.label}
@@ -74,8 +74,8 @@ const NativeSelect = ({ label, value, onChange, options, isDark, className = '' 
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className={`h-10 w-full appearance-none rounded-xl border pl-3 pr-9 text-sm font-medium outline-none transition-colors focus:border-[#fbbf24]/60 ${
-        isDark ? 'bg-[#0e1311] border-gray-700/60 text-white' : 'bg-white border-gray-200 text-gray-900'
+      className={`h-10 w-full appearance-none rounded-xl border pl-3 pr-9 text-sm font-medium outline-none transition-colors focus:border-white/15 ${
+        isDark ? 'bg-[#0a0a0a] border-gray-700/60 text-white' : 'bg-white border-gray-200 text-gray-900'
       }`}
     >
       {options.map((opt) => (
@@ -167,7 +167,7 @@ const AreaDirectory = () => {
   const avgFor = (a) => formatKshShort(avgPriceOf(a, filters.listingType));
   const priceNoun = filters.listingType === 'rent' ? 'avg rent' : 'avg price';
 
-  const surface = isDark ? 'bg-[#0e1311] border-gray-700/60' : 'bg-white border-gray-200';
+  const surface = isDark ? 'bg-[#0a0a0a] border-gray-700/60' : 'bg-white border-gray-200';
   const ink = isDark ? 'text-white' : 'text-gray-900';
   const muted = isDark ? 'text-white/60' : 'text-gray-600';
 
@@ -176,13 +176,13 @@ const AreaDirectory = () => {
       <div className="mx-auto max-w-7xl px-4 pb-16 pt-24 sm:px-6 md:pt-28 lg:px-8" style={navHeight ? { paddingTop: navHeight + 24 } : undefined}>
         {/* Header */}
         <div className="mb-6 text-center md:mb-10">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#fbbf24]/20 bg-black/10 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-black dark:bg-white/10 dark:text-white">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/10 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-wide text-black dark:bg-white/10 dark:text-white">
             <MapPin className="h-3.5 w-3.5" />
             Area Directory
           </div>
           <h1 className={`mb-2 text-3xl font-bold md:mb-4 md:text-5xl ${ink}`}>
             Explore{' '}
-            <span className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] bg-clip-text text-transparent">Every Area</span>
+            <span className="bg-white text-black font-semibold bg-clip-text text-transparent">Every Area</span>
           </h1>
           <p className={`mx-auto max-w-2xl text-sm md:text-lg ${muted}`}>
             {isLoading
@@ -209,7 +209,7 @@ const AreaDirectory = () => {
                   onChange={(e) => setQueryInput(e.target.value)}
                   placeholder="Search areas, e.g. Westlands"
                   aria-label="Search areas"
-                  className={`h-11 w-full rounded-xl border pl-10 pr-9 text-sm outline-none transition-colors focus:border-[#fbbf24]/60 ${surface}`}
+                  className={`h-11 w-full rounded-xl border pl-10 pr-9 text-sm outline-none transition-colors focus:border-white/15 ${surface}`}
                 />
                 {queryInput && (
                   <button type="button" onClick={() => setQueryInput('')} className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded-full p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-200" aria-label="Clear search">
@@ -226,7 +226,7 @@ const AreaDirectory = () => {
               >
                 <SlidersHorizontal className="h-4 w-4" />
                 Filters
-                {activeCount > 0 && <span className="rounded-full bg-[#fbbf24] px-1.5 text-[11px] font-bold text-[#111]">{activeCount}</span>}
+                {activeCount > 0 && <span className="rounded-full bg-white px-1.5 text-[11px] font-bold text-[#111]">{activeCount}</span>}
               </button>
             </div>
 
@@ -255,7 +255,7 @@ const AreaDirectory = () => {
                     key={chip.key}
                     type="button"
                     onClick={() => update({ [chip.key]: chip.key === 'listingType' ? 'all' : '', ...(chip.key === 'listingType' ? { price: '' } : {}) })}
-                    className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-medium ${isDark ? 'border-[#fbbf24]/40 bg-[#fbbf24]/10 text-[#fbbf24]' : 'border-[#f59e0b]/40 bg-[#fbbf24]/15 text-[#7a4b00]'}`}
+                    className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 text-xs font-medium ${isDark ? 'border-white/15 bg-white/10 text-white' : 'border-[#f59e0b]/40 bg-white/10 text-[#7a4b00]'}`}
                   >
                     {chip.label}
                     <X className="h-3 w-3" />
@@ -284,7 +284,7 @@ const AreaDirectory = () => {
                     key={area.name}
                     href={listingsUrlFor(area.name, filters)}
                     onClick={(e) => { e.preventDefault(); navigate(listingsUrlFor(area.name, filters)); }}
-                    className={`group overflow-hidden rounded-2xl text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10 focus:outline-none focus:ring-2 focus:ring-[#fbbf24]/60 ${isDark ? 'bg-[#0e1311]' : 'bg-white'}`}
+                    className={`group overflow-hidden rounded-2xl text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/10 focus:outline-none focus:ring-2 focus:ring-[#fbbf24]/60 ${isDark ? 'bg-[#0a0a0a]' : 'bg-white'}`}
                     style={{ contentVisibility: 'auto', containIntrinsicSize: '260px' }}
                   >
                     <div className="relative aspect-[4/3] overflow-hidden bg-gray-200 dark:bg-gray-800">
@@ -297,7 +297,7 @@ const AreaDirectory = () => {
                     <div className={`px-3 pb-3.5 pt-3 ${ink}`}>
                       <div className="flex items-center justify-between gap-2">
                         <span className="truncate text-sm font-semibold md:text-base">{area.name}</span>
-                        <ArrowRight className="h-4 w-4 shrink-0 -translate-x-1 text-[#fbbf24] opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
+                        <ArrowRight className="h-4 w-4 shrink-0 -translate-x-1 text-white opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
                       </div>
                       <p className={`mt-0.5 flex items-center gap-2 text-xs ${muted}`}>
                         {filters.listingType === 'all' ? (
@@ -326,7 +326,7 @@ const AreaDirectory = () => {
                 <button
                   type="button"
                   onClick={() => setShown((n) => n + PAGE_SIZE)}
-                  className={`min-h-[44px] rounded-full border px-6 text-sm font-semibold transition-colors ${surface} ${ink} hover:border-[#fbbf24]/60`}
+                  className={`min-h-[44px] rounded-full border px-6 text-sm font-semibold transition-colors ${surface} ${ink} hover:border-white/15`}
                 >
                   Show more areas ({visibleAreas.length - shown} left)
                 </button>
@@ -344,7 +344,7 @@ const AreaDirectory = () => {
             <Building2 className="mx-auto mb-4 h-12 w-12 opacity-40" />
             <p className="text-lg font-medium">{filters.q ? `No areas match "${filters.q}"` : 'No areas match these filters'}</p>
             <p className="mt-1 text-sm">Try widening the price range or bedrooms.</p>
-            <button type="button" onClick={clearAll} className="mt-5 rounded-full bg-[#fbbf24] px-5 py-2.5 text-sm font-semibold text-[#111]">Clear filters</button>
+            <button type="button" onClick={clearAll} className="mt-5 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#111]">Clear filters</button>
           </div>
         )}
       </div>
@@ -372,7 +372,7 @@ const AreaDirectory = () => {
             <button type="button" onClick={() => setDraft({ ...DEFAULT_FILTERS, q: draft.q, sort: draft.sort })} className={`min-h-[44px] flex-1 rounded-full border text-sm font-semibold ${surface} ${ink}`}>
               Reset
             </button>
-            <button type="button" onClick={applyDraft} className="min-h-[44px] flex-1 rounded-full bg-[#fbbf24] text-sm font-semibold text-[#111]">
+            <button type="button" onClick={applyDraft} className="min-h-[44px] flex-1 rounded-full bg-white text-sm font-semibold text-[#111]">
               Show {properties.filter((p) => matchesAreaFilters(p, draft)).length.toLocaleString()} listings
             </button>
           </div>

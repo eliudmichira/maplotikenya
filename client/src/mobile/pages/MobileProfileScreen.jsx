@@ -100,7 +100,7 @@ const MobileProfileScreen = () => {
                     icon: TrendingUp,
                     color: 'green',
                     gradient: 'from-amber-500/10 to-amber-600/10',
-                    iconColor: 'text-amber-500',
+                    iconColor: 'text-white',
                     bgColor: 'bg-[#000000]/20'
                 },
                 {
@@ -180,8 +180,8 @@ const MobileProfileScreen = () => {
             sections.push({
                 title: 'Agent Dashboard',
                 items: [
-                    { icon: Home, label: 'My Listings', count: 0, color: 'blue', gradient: 'from-[#000000]/10 to-[#f0f0f0]/10', iconColor: 'text-amber-500', action: () => navigate('/agent/listings') },
-                    { icon: MessageSquare, label: 'Messages', badge: 'New', color: 'green', gradient: 'from-amber-500/10 to-amber-600/10', iconColor: 'text-amber-500', action: () => navigate('/messages') },
+                    { icon: Home, label: 'My Listings', count: 0, color: 'blue', gradient: 'from-[#000000]/10 to-[#f0f0f0]/10', iconColor: 'text-white', action: () => navigate('/agent/listings') },
+                    { icon: MessageSquare, label: 'Messages', badge: 'New', color: 'green', gradient: 'from-amber-500/10 to-amber-600/10', iconColor: 'text-white', action: () => navigate('/messages') },
                     { icon: Star, label: 'Client Reviews', color: 'yellow', gradient: 'from-yellow-500/10 to-amber-500/10', iconColor: 'text-yellow-500', action: () => navigate('/agent/reviews') }
                 ]
             });
@@ -422,7 +422,7 @@ const MobileProfileScreen = () => {
                             className="space-y-4"
                         >
                             <h3 className={`text-xs font-black uppercase tracking-widest mb-4 px-2 flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                                <div className="w-1 h-4 bg-gradient-to-b from-[#fbbf24] to-[#f59e0b] rounded-full" />
+                                <div className="w-1 h-4 bg-white text-black font-semibold rounded-full" />
                                 Recent Activity
                             </h3>
                             {recentActivity.length === 0 ? (
@@ -438,7 +438,7 @@ const MobileProfileScreen = () => {
                                     <p className={`text-sm ${isDark ? 'text-gray-500' : 'text-gray-600'}`}>Start exploring properties to see your activity here</p>
                                     <motion.button
                                         onClick={() => navigate('/properties')}
-                                        className="mt-6 px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-2xl text-[#111] font-bold shadow-lg shadow-[#fbbf24]/20"
+                                        className="mt-6 px-6 py-3 bg-white text-black font-semibold rounded-2xl text-[#111] font-bold shadow-lg shadow-black/20"
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
                                     >
@@ -504,7 +504,7 @@ const MobileProfileScreen = () => {
                             className="space-y-4"
                         >
                             <h3 className={`text-xs font-black uppercase tracking-widest mb-4 px-2 flex items-center gap-2 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
-                                <div className="w-1 h-4 bg-gradient-to-b from-[#fbbf24] to-[#f59e0b] rounded-full" />
+                                <div className="w-1 h-4 bg-white text-black font-semibold rounded-full" />
                                 Market Insights
                             </h3>
 

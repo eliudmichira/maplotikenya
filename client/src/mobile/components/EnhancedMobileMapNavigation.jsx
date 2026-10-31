@@ -255,7 +255,7 @@ const EnhancedMobileMapNavigation = ({
               {currentUser ? (
                 <div className="relative">
                   <button className="flex items-center gap-2 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                    <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-[#fbbf24]/30">
+                    <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-white/15">
                       {/* Animated ring border */}
                       <motion.div
                         className="absolute -inset-1 rounded-full"
@@ -284,7 +284,7 @@ const EnhancedMobileMapNavigation = ({
                             draggable={false}
                           />
                         ) : (
-                          <div className="w-full h-full bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] flex items-center justify-center">
+                          <div className="w-full h-full bg-white text-black font-semibold flex items-center justify-center">
                             <span className="text-[#111] font-bold text-sm">
                               {currentUser.displayName ? currentUser.displayName.charAt(0).toUpperCase() : currentUser.email.charAt(0).toUpperCase()}
                             </span>
@@ -295,7 +295,7 @@ const EnhancedMobileMapNavigation = ({
                   </button>
                 </div>
               ) : (
-                <a href="/login" className="px-4 py-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-[#000000]/30 transition-all duration-300">
+                <a href="/login" className="px-4 py-2 bg-white text-black font-semibold text-[#000000] rounded-full text-sm font-semibold hover:shadow-lg hover:shadow-[#000000]/30 transition-all duration-300">
                   Sign In
                 </a>
               )}
@@ -304,7 +304,7 @@ const EnhancedMobileMapNavigation = ({
 
           {/* Search Bar Row */}
           <div className="relative">
-            <div className={`relative bg-white dark:bg-gray-800 rounded-full shadow-lg border-2 transition-all duration-300 ${isFocused ? 'border-[#fbbf24] shadow-xl shadow-[#000000]/20' : 'border-gray-200 dark:border-gray-700'
+            <div className={`relative bg-white dark:bg-gray-800 rounded-full shadow-lg border-2 transition-all duration-300 ${isFocused ? 'border-white/30 shadow-xl shadow-[#000000]/20' : 'border-gray-200 dark:border-gray-700'
               }`}>
               <div className="flex items-center p-2">
                 <div className="flex-1 flex items-center">
@@ -481,7 +481,7 @@ const EnhancedMobileMapNavigation = ({
                 <button
                   onClick={() => setActiveFilterTab('quick')}
                   className={`flex-1 py-3 text-sm font-medium transition-colors ${activeFilterTab === 'quick'
-                    ? 'text-[#000000] border-b-2 border-[#fbbf24]'
+                    ? 'text-[#000000] border-b-2 border-white/30'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                     }`}
                 >
@@ -490,7 +490,7 @@ const EnhancedMobileMapNavigation = ({
                 <button
                   onClick={() => setActiveFilterTab('advanced')}
                   className={`flex-1 py-3 text-sm font-medium transition-colors ${activeFilterTab === 'advanced'
-                    ? 'text-[#000000] border-b-2 border-[#fbbf24]'
+                    ? 'text-[#000000] border-b-2 border-white/30'
                     : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                     }`}
                 >
@@ -617,7 +617,7 @@ const EnhancedMobileMapNavigation = ({
                       setIsFilterPanelOpen(false);
                       setShowFilters(true);
                     }}
-                    className="flex-1 py-3 px-4 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-xl font-medium hover:shadow-lg hover:shadow-[#000000]/30 transition-all duration-300"
+                    className="flex-1 py-3 px-4 bg-white text-black font-semibold text-[#000000] rounded-xl font-medium hover:shadow-lg hover:shadow-[#000000]/30 transition-all duration-300"
                   >
                     Apply Filters
                   </button>

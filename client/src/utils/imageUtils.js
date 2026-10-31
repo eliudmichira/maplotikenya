@@ -1,17 +1,116 @@
 /**
- * Utility functions for handling image URLs and Firebase Storage
+ * Utility functions for handling real property images from Instagram and TikTok
  */
+import tiktokMap from './tiktokMap.json';
+import instagramCatalog from './instagramCatalog.json';
 
-const PLACEHOLDER_IMAGE = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=400&h=300&fit=crop';
+const AVAILABLE_TIKTOK_IDS = tiktokMap.availableIds || [];
+const STORAGE_KEY_TO_ID = tiktokMap.storageKeyToId || {};
+const AVAILABLE_IG_CODES = new Set(instagramCatalog.map(p => p.code).filter(Boolean));
 
-// Stock imagery hosts. Seeded and demo listings carry Unsplash URLs in their
-// own `images` field, so a URL from one of these is not a photo of the place.
+// Combined pool of 590 real Kenyan listing photos (Instagram + TikTok)
+const REAL_KENYAN_PHOTOS = [
+  ...instagramCatalog.map(p => p.image).filter(Boolean),
+  ...AVAILABLE_TIKTOK_IDS.map(id => `/tiktok-covers/${id}.jpg`)
+];
+
+/**
+ * Resolves a real, locally-hosted photo from Instagram or TikTok
+ */
+export const getRealPropertyPhoto = (input) => {
+  if (!input) return null;
+
+  // Property object
+  if (typeof input === 'object') {
+    // 1. Instagram code or image
+    if (input.code && AVAILABLE_IG_CODES.has(input.code)) {
+      return `/instagram-photos/${input.code}.jpg`;
+    }
+    if (input.instagramUrl) {
+      const match = String(input.instagramUrl).match(/\/(p|reel)\/([^/]+)/);
+      if (match && AVAILABLE_IG_CODES.has(match[2])) {
+        return `/instagram-photos/${match[2]}.jpg`;
+      }
+    }
+    // 2. TikTok ID
+    if (input.tiktokId && AVAILABLE_TIKTOK_IDS.includes(String(input.tiktokId))) {
+      return `/tiktok-covers/${input.tiktokId}.jpg`;
+    }
+    const videoUrl = input.videoUrl || input.video_url || input.tiktok_url || '';
+    if (videoUrl) {
+      const match = String(videoUrl).match(/video\/(\d+)/);
+      if (match && AVAILABLE_TIKTOK_IDS.includes(match[1])) {
+        return `/tiktok-covers/${match[1]}.jpg`;
+      }
+    }
+    // 3. Inspect existing image fields
+    if (Array.isArray(input.images)) {
+      for (const img of input.images) {
+        const resolved = getRealPropertyPhoto(img);
+        if (resolved) return resolved;
+      }
+    }
+    if (input.image || input.coverPhoto || input.coverPhotoUrl || input.videoThumbnail) {
+      const resolved = getRealPropertyPhoto(input.image || input.coverPhoto || input.coverPhotoUrl || input.videoThumbnail);
+      if (resolved) return resolved;
+    }
+    return null;
+  }
+
+  // String URL or path
+  if (typeof input === 'string') {
+    if (input.startsWith('/instagram-photos/') || input.startsWith('/tiktok-covers/')) {
+      return input;
+    }
+
+    const igMatch = input.match(/\/(p|reel)\/([^/]+)/);
+    if (igMatch && AVAILABLE_IG_CODES.has(igMatch[2])) {
+      return `/instagram-photos/${igMatch[2]}.jpg`;
+    }
+
+    const ttMatch = input.match(/video\/(\d+)/);
+    if (ttMatch && AVAILABLE_TIKTOK_IDS.includes(ttMatch[1])) {
+      return `/tiktok-covers/${ttMatch[1]}.jpg`;
+    }
+
+    const keyMatch = input.match(/tos-[^/]+\/[^~?]+/);
+    if (keyMatch && STORAGE_KEY_TO_ID[keyMatch[0]]) {
+      return `/tiktok-covers/${STORAGE_KEY_TO_ID[keyMatch[0]]}.jpg`;
+    }
+  }
+
+  return null;
+};
+
+// Aliased for backwards compatibility
+export const getRealTikTokCover = getRealPropertyPhoto;
+
+/**
+ * Deterministically returns a genuine Maploti photo from the 590-photo verified pool.
+ * NO stock photography or foreign images are ever used.
+ */
+export const getPropertyFallbackImage = (property) => {
+  const direct = getRealPropertyPhoto(property);
+  if (direct) return direct;
+
+  if (REAL_KENYAN_PHOTOS.length > 0) {
+    const seed = String(property?.id || property?.title || 'maploti');
+    let hash = 0;
+    for (let i = 0; i < seed.length; i++) {
+      hash = (hash << 5) - hash + seed.charCodeAt(i);
+      hash |= 0;
+    }
+    const index = Math.abs(hash) % REAL_KENYAN_PHOTOS.length;
+    return REAL_KENYAN_PHOTOS[index];
+  }
+
+  return '/tiktok-covers/7686574196121521428.jpg';
+};
+
 const STOCK_IMAGE_HOSTS = ['images.unsplash.com', 'unsplash.com', 'source.unsplash.com', 'picsum.photos', 'placehold.co', 'via.placeholder.com'];
 
-// True when a URL is the stock fallback or stock imagery rather than a real listing photo
 export const isPlaceholderImage = (url) => {
   if (!url || typeof url !== 'string') return true;
-  if (url === PLACEHOLDER_IMAGE) return true;
   try {
     const host = new URL(url).hostname;
     return STOCK_IMAGE_HOSTS.some((h) => host === h || host.endsWith('.' + h));
@@ -20,19 +119,13 @@ export const isPlaceholderImage = (url) => {
   }
 };
 
-// True when the listing's first image is a genuine photo of the property
 export const hasRealPhoto = (property) => !isPlaceholderImage(getPropertyImage(property));
 
-// Only URLs the browser can actually fetch. Some imported listings carry
-// Flutter asset paths ("assets/images/properties/x.webp") that 404 on the
-// web and get swapped for the placeholder by the error handler, so they are
-// skipped here in favour of the next real URL on the listing.
 export const isLoadableImageUrl = (url) =>
   typeof url === 'string' && /^(https?:\/\/|\/\/|\/(?!\/)|data:image\/|blob:)/.test(url.trim());
 
 const loadableImages = (list) => (Array.isArray(list) ? list : []).filter(isLoadableImageUrl);
 
-// Extract [lat, lng] from a property using any of the common field shapes
 export const getPropertyCoords = (property) => {
   if (!property) return null;
   const lat =
@@ -54,114 +147,102 @@ export const getPropertyCoords = (property) => {
   return [latNum, lngNum];
 };
 
-// Build a Google Street View Static API URL for given coords
-export const getStreetViewUrl = (lat, lng, { width = 800, height = 500, fov = 80, pitch = 10 } = {}) => {
-  const key = import.meta.env?.VITE_GOOGLE_MAPS_API_KEY;
-  if (!key) return null;
-  return `https://maps.googleapis.com/maps/api/streetview?size=${width}x${height}&location=${lat},${lng}&fov=${fov}&pitch=${pitch}&key=${key}`;
-};
-
-// Street View fallback for a property (null if no coords or no API key)
-export const getStreetViewForProperty = (property, options) => {
-  const coords = getPropertyCoords(property);
-  if (!coords) return null;
-  return getStreetViewUrl(coords[0], coords[1], options);
-};
-
-// Transform old storage bucket URLs to new ones
 export const transformImageUrl = (imageUrl) => {
   if (!imageUrl || typeof imageUrl !== 'string') {
     return imageUrl;
   }
-  
-  // Replace old bucket with new bucket
+
+  // Check if it's a real Instagram or TikTok link
+  const realPhoto = getRealPropertyPhoto(imageUrl);
+  if (realPhoto) {
+    return realPhoto;
+  }
+
   if (imageUrl.includes('makao-648bd.firebasestorage.app')) {
     return imageUrl.replace('makao-648bd.firebasestorage.app', 'maploti.firebasestorage.app');
   }
-  
+
   return imageUrl;
 };
 
-// Transform array of image URLs
 export const transformImageUrls = (images) => {
-  if (!Array.isArray(images)) {
-    return images;
-  }
-  
+  if (!Array.isArray(images)) return images;
   return images.map(transformImageUrl);
 };
 
-// Get the first valid image from a property
 export const getPropertyImage = (property) => {
-  // First loadable URL across the fields listings use, in priority order
+  if (!property) return getPropertyFallbackImage(null);
+
+  const directRealPhoto = getRealPropertyPhoto(property);
+  if (directRealPhoto) {
+    return directRealPhoto;
+  }
+
   const candidates = [
     ...loadableImages(property?.images),
     property?.image,
     property?.coverPhoto,
     property?.coverPhotoUrl,
+    property?.videoThumbnail,
     ...loadableImages(property?.photos),
     ...loadableImages(property?.gallery),
   ].filter(isLoadableImageUrl);
+
+  for (const c of candidates) {
+    const transformed = transformImageUrl(c);
+    if (transformed && !isPlaceholderImage(transformed)) {
+      return transformed;
+    }
+  }
+
   if (candidates.length > 0) {
     return transformImageUrl(candidates[0]);
   }
-  
-  // Fall back to Google Street View if we have coordinates
-  const sv = getStreetViewForProperty(property);
-  if (sv) return sv;
 
-  // Return placeholder
-  return PLACEHOLDER_IMAGE;
+  return getPropertyFallbackImage(property);
 };
 
-// Get all images for a property
 export const getPropertyImages = (property) => {
+  if (!property) return [getPropertyFallbackImage(null)];
+
   const images = [];
-  
-  // Collect every loadable URL across the fields listings use
+
+  const directRealPhoto = getRealPropertyPhoto(property);
+  if (directRealPhoto) {
+    images.push(directRealPhoto);
+  }
+
   images.push(...transformImageUrls(loadableImages(property?.images)));
-  [property?.image, property?.coverPhoto, property?.coverPhotoUrl].forEach((u) => {
+  [property?.image, property?.coverPhoto, property?.coverPhotoUrl, property?.videoThumbnail].forEach((u) => {
     if (isLoadableImageUrl(u)) images.push(transformImageUrl(u));
   });
   images.push(...transformImageUrls(loadableImages(property?.photos)));
   images.push(...transformImageUrls(loadableImages(property?.gallery)));
-  
-  // Remove duplicates and filter out invalid URLs
+
   const uniqueImages = [...new Set(images)].filter(img => img && typeof img === 'string');
-  
-  if (uniqueImages.length > 0) return uniqueImages;
 
-  // Fall back to Google Street View if we have coordinates
-  const sv = getStreetViewForProperty(property);
-  if (sv) return [sv];
+  // Filter out any external stock placeholder images in favor of real Kenyan photos
+  const filteredImages = uniqueImages.filter(img => !isPlaceholderImage(img));
 
-  return [PLACEHOLDER_IMAGE];
+  if (filteredImages.length > 0) return filteredImages;
+
+  return [getPropertyFallbackImage(property)];
 };
 
-// Handle image loading errors with fallback
 export const handleImageError = (event, fallbackUrl = null, property = null) => {
-  const img = event.target;
+  const img = event?.target;
+  if (!img) return;
 
-  // Try fallback URL first
+  img.onerror = null;
+
   if (fallbackUrl && img.src !== fallbackUrl) {
     img.src = fallbackUrl;
     return;
   }
 
-  // Try Street View if we have property coords
-  if (property) {
-    const sv = getStreetViewForProperty(property);
-    if (sv && img.src !== sv) {
-      img.src = sv;
-      return;
-    }
-  }
-
-  // Use default placeholder
-  img.src = PLACEHOLDER_IMAGE;
+  img.src = getPropertyFallbackImage(property);
 };
 
-// Preload images for better UX
 export const preloadImage = (src) => {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -171,7 +252,6 @@ export const preloadImage = (src) => {
   });
 };
 
-// Batch preload images
 export const preloadImages = (imageUrls) => {
   return Promise.allSettled(
     imageUrls.map(url => preloadImage(url))

@@ -14,7 +14,7 @@ import {
   CloudCog, Bus, ArrowUpDown, Droplet, Wifi as WifiIcon
 } from 'lucide-react';
 import { useProperties } from '../../hooks/useProperties';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
 import {
@@ -153,10 +153,19 @@ const MobilePropertyList = () => {
   const { isDark } = useTheme();
   const { currentUser, toggleFavorite, isFavorite } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Removed map view - only list view is available
   const [favorites, setFavorites] = useState(new Set());
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(() => {
+    try {
+      const p = new URLSearchParams(window.location.search);
+      const s = p.get('search') || p.get('location') || p.get('q');
+      return s ? decodeURIComponent(s) : '';
+    } catch (_) {
+      return '';
+    }
+  });
   const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
     minPrice: '',
@@ -170,12 +179,34 @@ const MobilePropertyList = () => {
   // Read deep-link params (?search=Westlands from the home page Popular Areas,
   // ?propertyType=… from the property-type tiles) so shared links filter the list.
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const searchParam = params.get('search');
-    if (searchParam) setSearchQuery(decodeURIComponent(searchParam));
-    const typeParam = params.get('propertyType');
-    if (typeParam) setFilters((prev) => ({ ...prev, propertyType: typeParam }));
-  }, []);
+    const params = new URLSearchParams(location.search);
+    const searchParam = params.get('search') || params.get('location') || params.get('q');
+    setSearchQuery(searchParam ? decodeURIComponent(searchParam) : '');
+
+    const typeParam = params.get('propertyType') || params.get('type');
+    const dealParam = params.get('listingType') || params.get('dealType');
+    const bedParam = params.get('minBeds') || params.get('beds');
+    let minP = params.get('minPrice');
+    let maxP = params.get('maxPrice');
+    const pParam = params.get('price');
+    if (pParam && !minP && !maxP) {
+      if (pParam.includes('-')) {
+        const parts = pParam.split('-');
+        minP = parts[0] || '';
+        maxP = parts[1] || '';
+      } else if (pParam.endsWith('+')) {
+        minP = pParam.replace('+', '');
+      }
+    }
+    setFilters(prev => ({
+      ...prev,
+      ...(typeParam ? { propertyType: typeParam.toLowerCase() } : {}),
+      ...(dealParam ? { status: dealParam.includes('sale') ? 'for-sale' : 'for-rent' } : {}),
+      ...(bedParam ? { minBedrooms: bedParam } : {}),
+      ...(minP ? { minPrice: minP } : {}),
+      ...(maxP ? { maxPrice: maxP } : {})
+    }));
+  }, [location.search]);
 
   // Quick status filters (single-select, synced with the Filter sheet's Status dropdown)
   // Values are internal tokens used by the keyword matcher — not the raw Firestore values.
@@ -198,7 +229,9 @@ const MobilePropertyList = () => {
         property.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         property.address?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         property.location?.address?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        property.location?.city?.toLowerCase().includes(searchQuery.toLowerCase())
+        property.location?.city?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        property.location?.area?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        property.description?.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -305,7 +338,7 @@ const MobilePropertyList = () => {
       <MobilePage title="Properties" showSearchButton={true}>
         <div className="flex items-center justify-center min-h-[40vh]">
           <div className="flex flex-col items-center gap-4">
-            <div className="w-8 h-8 border-2 border-[#fbbf24] border-t-transparent rounded-full animate-spin" />
+            <div className="w-8 h-8 border-2 border-white/30 border-t-transparent rounded-full animate-spin" />
             <p className={isDark ? 'text-gray-400' : 'text-gray-500'}>Loading properties...</p>
           </div>
         </div>
@@ -385,7 +418,7 @@ const MobilePropertyList = () => {
                   key={filter.value || 'all'}
                   onClick={() => setFilters(prev => ({ ...prev, status: filter.value }))}
                   className={`shrink-0 px-4 py-1.5 rounded-full text-[12px] font-medium border transition-colors ${isActive
-                    ? 'bg-black border-[#fbbf24] text-white dark:bg-white dark:text-black'
+                    ? 'bg-black border-white/30 text-white dark:bg-white dark:text-black'
                     : isDark
                       ? 'bg-transparent border-white/10 text-gray-400'
                       : 'bg-transparent border-gray-200 text-gray-600'

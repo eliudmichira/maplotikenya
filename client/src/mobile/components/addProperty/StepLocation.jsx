@@ -8,7 +8,7 @@ const StepLocation = ({ formData, handleInputChange, handleMapsLinkChange, handl
 
     return (
         <div className="space-y-6">
-            <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#0e1311]' : 'bg-white shadow-sm'}`}>
+            <div className={`p-5 rounded-2xl ${isDark ? 'bg-[#0a0a0a]' : 'bg-white shadow-sm'}`}>
                 <h2 className={`text-xl font-bold mb-6 flex items-center gap-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                     <MapPin className="w-6 h-6 text-[#000000]" /> Location
                 </h2>
@@ -127,8 +127,8 @@ const StepLocation = ({ formData, handleInputChange, handleMapsLinkChange, handl
                         className={`w-full py-3 rounded-xl font-bold text-sm transition-all border flex items-center justify-center gap-2 ${geocoding
                             ? 'opacity-70 cursor-wait'
                             : isDark
-                                ? 'border-[#fbbf24]/30 text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
-                                : 'border-[#fbbf24] text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
+                                ? 'border-white/15 text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
+                                : 'border-white/30 text-black hover:bg-black/10 dark:text-white dark:hover:bg-white/10'
                             }`}
                     >
                         {geocoding ? 'Locating...' : 'Geocode Address'}

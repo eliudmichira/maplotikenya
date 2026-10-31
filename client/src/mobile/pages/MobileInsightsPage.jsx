@@ -44,7 +44,7 @@ const MobileInsightsPage = () => {
 
             <div className="p-4 pb-24 space-y-6">
                 {isLoading ? (
-                    <div className="flex justify-center py-12"><div className="w-10 h-10 border-2 border-[#fbbf24] border-t-transparent rounded-full animate-spin" /></div>
+                    <div className="flex justify-center py-12"><div className="w-10 h-10 border-2 border-white/30 border-t-transparent rounded-full animate-spin" /></div>
                 ) : (
                     <>
                         <motion.div className={`rounded-2xl border p-5 ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-200'}`} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>

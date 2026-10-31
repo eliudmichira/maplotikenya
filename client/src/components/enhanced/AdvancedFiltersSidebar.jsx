@@ -237,7 +237,7 @@ const AdvancedFiltersSidebar = ({
                         value={filters.minPrice || ''}
                         onChange={(e) => updateFilter('minPrice', e.target.value)}
                         placeholder="0"
-                        className="w-full px-3 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-[#000000] focus:border-[#fbbf24] transition-all duration-200"
+                        className="w-full px-3 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-[#000000] focus:border-white/30 transition-all duration-200"
                       />
                     </div>
                     <div>
@@ -249,7 +249,7 @@ const AdvancedFiltersSidebar = ({
                         value={filters.maxPrice || ''}
                         onChange={(e) => updateFilter('maxPrice', e.target.value)}
                         placeholder="No limit"
-                        className="w-full px-3 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-[#000000] focus:border-[#fbbf24] transition-all duration-200"
+                        className="w-full px-3 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-[#000000] focus:border-white/30 transition-all duration-200"
                       />
                     </div>
                   </div>
@@ -293,7 +293,7 @@ const AdvancedFiltersSidebar = ({
                         onClick={() => toggleArrayFilter('homeTypes', type.id)}
                         className={`p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-2 ${
                           filters.homeTypes?.includes(type.id)
-                            ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
+                            ? 'border-white/30 bg-black/10 text-black dark:bg-white/10 dark:text-white'
                             : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                         }`}
                         whileHover={{ scale: 1.02 }}
@@ -318,7 +318,7 @@ const AdvancedFiltersSidebar = ({
                       <select
                         value={filters.minBeds || ''}
                         onChange={(e) => updateFilter('minBeds', e.target.value)}
-                        className="w-full px-3 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-[#000000] focus:border-[#fbbf24] transition-all duration-200"
+                        className="w-full px-3 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-[#000000] focus:border-white/30 transition-all duration-200"
                       >
                         <option value="">Any</option>
                         <option value="1">1+</option>
@@ -335,7 +335,7 @@ const AdvancedFiltersSidebar = ({
                       <select
                         value={filters.minBaths || ''}
                         onChange={(e) => updateFilter('minBaths', e.target.value)}
-                        className="w-full px-3 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-[#000000] focus:border-[#fbbf24] transition-all duration-200"
+                        className="w-full px-3 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-[#000000] focus:border-white/30 transition-all duration-200"
                       >
                         <option value="">Any</option>
                         <option value="1">1+</option>
@@ -358,7 +358,7 @@ const AdvancedFiltersSidebar = ({
                         value={filters.minSqft || ''}
                         onChange={(e) => updateFilter('minSqft', e.target.value)}
                         placeholder="Min size"
-                        className="w-full px-3 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-[#000000] focus:border-[#fbbf24] transition-all duration-200"
+                        className="w-full px-3 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-[#000000] focus:border-white/30 transition-all duration-200"
                       />
                     </div>
                     <div>
@@ -367,7 +367,7 @@ const AdvancedFiltersSidebar = ({
                         value={filters.maxSqft || ''}
                         onChange={(e) => updateFilter('maxSqft', e.target.value)}
                         placeholder="Max size"
-                        className="w-full px-3 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-[#000000] focus:border-[#fbbf24] transition-all duration-200"
+                        className="w-full px-3 py-2 border-2 border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-[#000000] focus:border-white/30 transition-all duration-200"
                       />
                     </div>
                   </div>
@@ -389,7 +389,7 @@ const AdvancedFiltersSidebar = ({
                         onClick={() => toggleArrayFilter('amenities', amenity.id)}
                         className={`p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-2 ${
                           filters.amenities?.includes(amenity.id)
-                            ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
+                            ? 'border-white/30 bg-black/10 text-black dark:bg-white/10 dark:text-white'
                             : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                         }`}
                         whileHover={{ scale: 1.02 }}
@@ -418,7 +418,7 @@ const AdvancedFiltersSidebar = ({
                         onClick={() => toggleArrayFilter('locationFeatures', feature.id)}
                         className={`w-full p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-3 ${
                           filters.locationFeatures?.includes(feature.id)
-                            ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
+                            ? 'border-white/30 bg-black/10 text-black dark:bg-white/10 dark:text-white'
                             : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                         }`}
                         whileHover={{ scale: 1.01, x: 4 }}
@@ -453,7 +453,7 @@ const AdvancedFiltersSidebar = ({
                         onClick={() => updateFilter(feature.id, !filters[feature.id])}
                         className={`w-full p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-3 ${
                           filters[feature.id]
-                            ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
+                            ? 'border-white/30 bg-black/10 text-black dark:bg-white/10 dark:text-white'
                             : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                         }`}
                         whileHover={{ scale: 1.01, x: 4 }}
@@ -484,7 +484,7 @@ const AdvancedFiltersSidebar = ({
           </div>
           <motion.button
             onClick={handleResetFilters}
-            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 hover:border-[#fbbf24] dark:hover:border-[#fbbf24] transition-all duration-300 flex items-center justify-center gap-2"
+            className="w-full px-4 py-3 border-2 border-gray-300 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-100 dark:hover:bg-gray-700 hover:border-white/30 dark:hover:border-white/30 transition-all duration-300 flex items-center justify-center gap-2"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >

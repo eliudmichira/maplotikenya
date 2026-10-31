@@ -65,9 +65,9 @@ export default {
         },
         // The one sparing neon accent
         accent: {
-          400: '#fbbf24',
-          500: '#fbbf24',
-          DEFAULT: '#fbbf24',
+          400: '#ffffff',
+          500: '#ffffff',
+          DEFAULT: '#ffffff',
         },
         cream: {
           50:  '#fffdf6', 100: '#fffaf0', 200: '#f7f6f0',

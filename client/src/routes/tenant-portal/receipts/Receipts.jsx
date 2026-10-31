@@ -116,7 +116,7 @@ const Receipts = ({ paymentHistory = [] }) => {
             return (
               <div key={p.id} className="flex items-center justify-between p-5 bg-gray-50 rounded-2xl border border-gray-200">
                 <div className="flex items-center space-x-4">
-                  <div className="w-14 h-14 bg-gradient-to-br from-[#000000]/20 to-[#f0f0f0]/20 border border-[#fbbf24]/30 rounded-2xl flex items-center justify-center">
+                  <div className="w-14 h-14 bg-gradient-to-br from-[#000000]/20 to-[#f0f0f0]/20 border border-white/15 rounded-2xl flex items-center justify-center">
                     <CheckCircle className="w-7 h-7 text-[#000000]" />
                   </div>
                   <div>

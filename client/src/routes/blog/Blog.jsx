@@ -139,7 +139,7 @@ const Blog = () => {
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search articles..."
               className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#000000] focus:border-transparent transition-colors font-outfit ${isDark
-                ? 'border-[rgba(251,191,36,0.2)] bg-[#0e1311] text-[#feffff] placeholder-[#ccc]/50'
+                ? 'border-[rgba(251,191,36,0.2)] bg-[#0a0a0a] text-[#feffff] placeholder-[#ccc]/50'
                 : 'border-gray-300 bg-white text-gray-900 placeholder-gray-500'
                 }`}
             />
@@ -163,7 +163,7 @@ const Blog = () => {
                 key={p.slug}
                 to={`/desktop/blog/${p.slug}`}
                 className={`group rounded-2xl border p-6 transition-all duration-300 hover:shadow-xl hover:scale-[1.02] ${isDark
-                  ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)] hover:border-[#fbbf24]/40'
+                  ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)] hover:border-white/15'
                   : 'bg-white border-gray-200 shadow-lg'
                   }`}
               >

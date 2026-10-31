@@ -311,7 +311,7 @@ const AdvancedFilterPanel = ({
                               onClick={() => toggleArrayFilter('homeTypes', type.id)}
                               className={`p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-2 ${
                                 localFilters.homeTypes?.includes(type.id)
-                                  ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
+                                  ? 'border-white/30 bg-black/10 text-black dark:bg-white/10 dark:text-white'
                                   : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -407,7 +407,7 @@ const AdvancedFilterPanel = ({
                               onClick={() => toggleArrayFilter('amenities', amenity.id)}
                               className={`p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-2 ${
                                 localFilters.amenities?.includes(amenity.id)
-                                  ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
+                                  ? 'border-white/30 bg-black/10 text-black dark:bg-white/10 dark:text-white'
                                   : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                               }`}
                               whileHover={{ scale: 1.02 }}
@@ -436,7 +436,7 @@ const AdvancedFilterPanel = ({
                               onClick={() => toggleArrayFilter('locationFeatures', feature.id)}
                               className={`w-full p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-3 ${
                                 localFilters.locationFeatures?.includes(feature.id)
-                                  ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
+                                  ? 'border-white/30 bg-black/10 text-black dark:bg-white/10 dark:text-white'
                                   : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                               }`}
                               whileHover={{ scale: 1.01, x: 4 }}
@@ -471,7 +471,7 @@ const AdvancedFilterPanel = ({
                               onClick={() => updateFilter(feature.id, !localFilters[feature.id])}
                               className={`w-full p-3 rounded-lg border-2 transition-all duration-300 flex items-center gap-3 ${
                                 localFilters[feature.id]
-                                  ? 'border-[#fbbf24] bg-black/10 text-black dark:bg-white/10 dark:text-white'
+                                  ? 'border-white/30 bg-black/10 text-black dark:bg-white/10 dark:text-white'
                                   : 'border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500'
                               }`}
                               whileHover={{ scale: 1.01, x: 4 }}
@@ -506,7 +506,7 @@ const AdvancedFilterPanel = ({
                 </motion.button>
                 <motion.button
                   onClick={handleApplyFilters}
-                  className="flex-1 px-4 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-xl font-semibold hover:shadow-lg hover:shadow-[#000000]/30 transition-all duration-300"
+                  className="flex-1 px-4 py-3 bg-white text-black font-semibold text-[#000000] rounded-xl font-semibold hover:shadow-lg hover:shadow-[#000000]/30 transition-all duration-300"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                 >

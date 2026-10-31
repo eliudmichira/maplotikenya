@@ -45,7 +45,7 @@ const MobileSettingsPage = () => {
                 <button 
                     onClick={onClick}
                     className={`relative w-14 h-8 rounded-full transition-all duration-500 ${
-                        value ? 'bg-gradient-to-r from-[#fbbf24] to-[#f59e0b]' : (isDark ? 'bg-white/10' : 'bg-gray-200')
+                        value ? 'bg-white text-black font-semibold' : (isDark ? 'bg-white/10' : 'bg-gray-200')
                     }`}
                 >
                     <motion.div 

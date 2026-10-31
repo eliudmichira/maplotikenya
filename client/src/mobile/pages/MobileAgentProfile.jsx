@@ -174,9 +174,9 @@ const MobileAgentProfile = () => {
             label: 'This Month',
             value: `KSh ${(agentStats.thisMonthRevenue / 1000).toFixed(0)}k`,
             icon: DollarSign,
-            cardBg: 'bg-amber-100/70',
+            cardBg: 'bg-zinc-800/70',
             tileBg: 'bg-amber-200/70',
-            iconColor: 'text-amber-600',
+            iconColor: 'text-zinc-300',
             loading: isPropertiesLoading
         }] : [])
     ], [agentStats, isPropertiesLoading, isInquiriesLoading, isOwner]);
@@ -506,7 +506,7 @@ const MobileAgentProfile = () => {
                                                 { icon: UserIcon, label: 'Edit Profile Details', tile: 'bg-gradient-to-br from-emerald-400 to-emerald-500', iconColor: 'text-white', action: () => navigate('/profile/edit/agent') },
                                                 { icon: Settings, label: 'Account Preferences', tile: 'bg-blue-50', iconColor: 'text-blue-600', action: () => navigate('/settings') },
                                                 { icon: Shield, label: 'Security & Password', tile: 'bg-purple-50', iconColor: 'text-purple-600', action: () => navigate('/settings') },
-                                                { icon: Building2, label: 'Real Estate License', tile: 'bg-amber-50', iconColor: 'text-amber-600', action: () => navigate('/agent-verification') }
+                                                { icon: Building2, label: 'Real Estate License', tile: 'bg-white/5', iconColor: 'text-zinc-300', action: () => navigate('/agent-verification') }
                                             ].map((item) => (
                                                 <button
                                                     key={item.label}
@@ -567,7 +567,7 @@ const MobileAgentProfile = () => {
                                         <p className={`font-bold text-lg ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>No properties listed yet</p>
                                         <button
                                             onClick={() => navigate('/properties/add')}
-                                            className="mt-6 px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-2xl text-gray-900 font-bold"
+                                            className="mt-6 px-6 py-3 bg-white text-black font-semibold rounded-2xl text-gray-900 font-bold"
                                         >
                                             Add Your First Listing
                                         </button>
@@ -678,7 +678,7 @@ const MobileAgentProfile = () => {
                                             </div>
                                             <div className="h-2 w-full bg-gray-700/30 rounded-full overflow-hidden">
                                                 <motion.div
-                                                    className="h-full bg-gradient-to-r from-[#fbbf24] to-[#f59e0b]"
+                                                    className="h-full bg-white text-black font-semibold"
                                                     initial={{ width: 0 }}
                                                     animate={{ width: `${Math.min(agentStats.totalViews > 0 ? ((inquiries.length / agentStats.totalViews) * 100 * 10) : 0, 100)}%` }}
                                                     transition={{ duration: 1.5, delay: 0.5 }}

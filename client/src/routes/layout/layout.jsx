@@ -5,7 +5,7 @@ import { Navigate, Outlet, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import PageLoader from "../../components/Preloader";
 
-function Layout() {
+function Layout({ children }) {
   const location = useLocation();
   
   // Pages that should use simple footer (agents page)
@@ -18,7 +18,7 @@ function Layout() {
         <Navbar />
       </div>
       <div className="content">
-        <Outlet />
+        {children || <Outlet />}
       </div>
       {useSimpleFooter ? <SimpleFooter /> : <Footer />}
     </div>

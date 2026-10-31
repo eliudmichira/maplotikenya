@@ -90,7 +90,7 @@ const TrialDashboard = () => {
   if (!trialData) {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#fbbf24]"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white/30"></div>
       </div>
     );
   }
@@ -194,7 +194,7 @@ const TrialDashboard = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-[#fbbf24] to-[#f59e0b] rounded-xl flex items-center justify-center">
+              <div className="w-10 h-10 bg-white text-black font-semibold rounded-xl flex items-center justify-center">
                 <Building2 className="w-6 h-6 text-[#111]" />
               </div>
               <div>
@@ -231,7 +231,7 @@ const TrialDashboard = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-2xl p-8 mb-8 text-[#111]"
+          className="bg-white text-black font-semibold rounded-2xl p-8 mb-8 text-[#111]"
         >
           <div className="flex items-center justify-between">
             <div>
@@ -353,8 +353,8 @@ const TrialDashboard = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 + index * 0.1 }}
                   className={`p-6 rounded-xl border transition-all cursor-pointer ${feature.priority
-                      ? 'bg-gradient-to-br from-[#000000]/10 to-[#f0f0f0]/10 border-[#fbbf24]/30 hover:border-[#fbbf24] hover:shadow-xl'
-                      : 'bg-white/80 dark:bg-gray-800/80 border-white/20 dark:border-gray-700/20 hover:border-[#fbbf24] hover:shadow-lg'
+                      ? 'bg-gradient-to-br from-[#000000]/10 to-[#f0f0f0]/10 border-white/15 hover:border-white/30 hover:shadow-xl'
+                      : 'bg-white/80 dark:bg-gray-800/80 border-white/20 dark:border-gray-700/20 hover:border-white/30 hover:shadow-lg'
                     }`}
                   onClick={feature.action}
                 >
@@ -404,7 +404,7 @@ const TrialDashboard = () => {
             onClick={handleUpgrade}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#111] px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all"
+            className="bg-white text-black font-semibold text-[#111] px-8 py-3 rounded-xl font-semibold hover:shadow-lg transition-all"
           >
             Continue with Full Account
           </motion.button>

@@ -40,13 +40,13 @@ const MobileRecommendationsPage = () => {
 
             <div className="p-4 pb-24">
                 {isLoading ? (
-                    <div className="flex justify-center py-12"><div className="w-10 h-10 border-2 border-[#fbbf24] border-t-transparent rounded-full animate-spin" /></div>
+                    <div className="flex justify-center py-12"><div className="w-10 h-10 border-2 border-white/30 border-t-transparent rounded-full animate-spin" /></div>
                 ) : recommended.length === 0 ? (
                     <motion.div className={`flex flex-col items-center justify-center py-20 rounded-3xl border ${isDark ? 'bg-white/5 border-white/10' : 'bg-white border-gray-200'}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                         <Star className="w-12 h-12 text-[#000000] mb-4" />
                         <p className={`font-bold text-lg mb-2 ${isDark ? 'text-white' : 'text-gray-900'}`}>No recommendations yet</p>
                         <p className={`text-sm mb-6 text-center ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Browse and save some favorites to get personalized picks.</p>
-                        <motion.button onClick={() => navigate('/properties')} className="px-6 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] rounded-2xl text-[#111] font-bold shadow-lg shadow-[#fbbf24]/20" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>Browse Properties</motion.button>
+                        <motion.button onClick={() => navigate('/properties')} className="px-6 py-3 bg-white text-black font-semibold rounded-2xl text-[#111] font-bold shadow-lg shadow-black/20" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>Browse Properties</motion.button>
                     </motion.div>
                 ) : (
                     <div className="grid gap-4">

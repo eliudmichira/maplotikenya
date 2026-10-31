@@ -8,7 +8,7 @@ const Support = () => {
       <p className="text-gray-600 mb-4">Need help with payments, maintenance, or your account?</p>
       <div className="flex gap-3">
         <button className="flex-1 py-3 border-2 border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50">Help Center</button>
-        <button className="flex-1 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-bold rounded-xl">Contact Support</button>
+        <button className="flex-1 py-3 bg-white text-black font-semibold text-[#000000] font-bold rounded-xl">Contact Support</button>
       </div>
     </motion.div>
   );

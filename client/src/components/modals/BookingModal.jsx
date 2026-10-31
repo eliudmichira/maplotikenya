@@ -153,7 +153,7 @@ const BookingModal = ({ isOpen, onClose, property, agent }) => {
                                     </button>
                                 </div>
 
-                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#000000]/5 border border-[#fbbf24]/10">
+                                <div className="flex items-center gap-4 p-4 rounded-2xl bg-[#000000]/5 border border-white/15">
                                     <img 
                                         src={property.images?.[0] || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=400&h=300'} 
                                         alt="" 
@@ -189,8 +189,8 @@ const BookingModal = ({ isOpen, onClose, property, agent }) => {
                                                 onChange={(e) => setDate(e.target.value)}
                                                 className={`w-full h-14 pl-12 pr-4 rounded-2xl border outline-none transition-all ${
                                                     isDark 
-                                                    ? 'bg-white/5 border-white/10 text-white focus:border-[#fbbf24]/50' 
-                                                    : 'bg-gray-50 border-gray-200 text-gray-900 focus:border-[#fbbf24]'
+                                                    ? 'bg-white/5 border-white/10 text-white focus:border-white/15' 
+                                                    : 'bg-gray-50 border-gray-200 text-gray-900 focus:border-white/30'
                                                 }`}
                                             />
                                         </div>
@@ -208,7 +208,7 @@ const BookingModal = ({ isOpen, onClose, property, agent }) => {
                                                     onClick={() => setTime(slot)}
                                                     className={`py-3 rounded-xl text-xs font-bold transition-all border ${
                                                         time === slot
-                                                        ? 'bg-black border-[#fbbf24] text-white dark:bg-white dark:text-black'
+                                                        ? 'bg-black border-white/30 text-white dark:bg-white dark:text-black'
                                                         : (isDark ? 'bg-white/5 border-white/10 text-gray-400' : 'bg-white border-gray-200 text-gray-600')
                                                     }`}
                                                 >

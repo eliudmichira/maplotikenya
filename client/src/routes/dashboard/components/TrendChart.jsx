@@ -39,7 +39,7 @@ const TrendChart = ({ data, labels, height = 300, type = 'area', title }) => {
     );
   }
 
-  const colors = ['#fbbf24', '#10b981', '#F59E0B', '#EF4444', '#8b5cf6', '#3b82f6'];
+  const colors = ['#ffffff', '#e4e4e7', '#a1a1aa', '#71717a', '#52525b', '#3f3f46'];
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {

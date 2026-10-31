@@ -30,7 +30,7 @@ const Preloader = ({
 
   // Minimalist Spinner Variant
   const SpinnerLoader = () => (
-    <div className={`${sizeClasses[size]} animate-spin rounded-full border-2 border-[#fbbf24]/20 border-t-[#fbbf24]`} />
+    <div className={`${sizeClasses[size]} animate-spin rounded-full border-2 border-white/20 border-t-white`} />
   );
 
   // Minimalist Pulse Variant
@@ -44,7 +44,7 @@ const Preloader = ({
       {[0, 1, 2].map((i) => (
         <div
           key={i}
-          className={`w-2 h-2 rounded-full bg-[#fbbf24] animate-pulse`}
+          className={`w-2 h-2 rounded-full bg-white animate-pulse`}
           style={{ animationDelay: `${i * 0.2}s` }}
         />
       ))}
@@ -54,8 +54,8 @@ const Preloader = ({
   // Minimalist Ring Variant
   const RingLoader = () => (
     <div className={`${sizeClasses[size]} relative`}>
-      <div className={`absolute inset-0 rounded-full border-2 border-[#fbbf24]/20`} />
-      <div className={`absolute inset-0 rounded-full border-2 border-transparent border-t-[#fbbf24] animate-spin`} />
+      <div className={`absolute inset-0 rounded-full border-2 border-white/20`} />
+      <div className={`absolute inset-0 rounded-full border-2 border-transparent border-t-white animate-spin`} />
     </div>
   );
 
@@ -65,7 +65,7 @@ const Preloader = ({
       {[0, 1, 2, 3, 4].map((i) => (
         <div
           key={i}
-          className={`w-1 h-6 rounded-full bg-[#fbbf24] animate-pulse`}
+          className={`w-1 h-6 rounded-full bg-white animate-pulse`}
           style={{
             animationDelay: `${i * 0.1}s`,
             animationDuration: '1s'
@@ -78,7 +78,7 @@ const Preloader = ({
   // Minimalist Cube Variant
   const CubeLoader = () => (
     <div className={`${sizeClasses[size]} relative transform rotate-45`}>
-      <div className={`absolute inset-0 rounded-lg bg-[#fbbf24]/40 animate-pulse`} />
+      <div className={`absolute inset-0 rounded-lg bg-white/40 animate-pulse`} />
       <div className={`absolute inset-1 rounded-lg ${isDark ? 'bg-[#000000]' : 'bg-white'}`} />
     </div>
   );
@@ -86,7 +86,7 @@ const Preloader = ({
   // Minimalist Gradient Spinner Variant
   const GradientSpinner = () => (
     <div className={`${sizeClasses[size]} relative`}>
-      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] animate-spin" />
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-white to-zinc-300 animate-spin" />
       <div className={`absolute inset-1 rounded-full ${isDark ? 'bg-[#000000]' : 'bg-white'}`} />
     </div>
   );
@@ -95,7 +95,7 @@ const Preloader = ({
   const LogoSpinner = () => (
     <div className="relative">
       {/* Simple spinning ring */}
-      <div className="w-24 h-24 rounded-full border-2 border-[#fbbf24]/20 border-t-[#fbbf24] animate-spin" style={{ animationDuration: '2s' }} />
+      <div className="w-24 h-24 rounded-full border-2 border-white/20 border-t-white animate-spin" style={{ animationDuration: '2s' }} />
 
       {/* Center logo */}
       <div className="absolute inset-4 rounded-full bg-[#000000] flex items-center justify-center overflow-hidden">
@@ -115,7 +115,7 @@ const Preloader = ({
 
   // Minimalist Card Skeleton Variant
   const CardSkeleton = () => (
-    <div className={`rounded-xl p-6 border ${isDark ? 'bg-[#000000] border-[#fbbf24]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
+    <div className={`rounded-xl p-6 border ${isDark ? 'bg-[#000000] border-white/20' : 'bg-white border-gray-200 shadow-lg'}`}>
       <div className="space-y-4">
         <div className={`h-6 rounded w-3/4 bg-[#000000]/20 animate-pulse`} />
         <div className={`h-4 rounded w-full bg-[#000000]/20 animate-pulse`} />
@@ -140,7 +140,7 @@ const Preloader = ({
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className={`rounded-xl p-6 border ${isDark ? 'bg-[#000000] border-[#fbbf24]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
+          <div key={i} className={`rounded-xl p-6 border ${isDark ? 'bg-[#000000] border-white/20' : 'bg-white border-gray-200 shadow-lg'}`}>
             <div className="space-y-3">
               <div className={`h-4 rounded w-1/2 bg-[#000000]/20 animate-pulse`} />
               <div className={`h-8 rounded w-3/4 bg-[#000000]/20 animate-pulse`} />
@@ -152,7 +152,7 @@ const Preloader = ({
 
       {/* Content Area */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className={`lg:col-span-2 rounded-xl p-6 border ${isDark ? 'bg-[#000000] border-[#fbbf24]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
+        <div className={`lg:col-span-2 rounded-xl p-6 border ${isDark ? 'bg-[#000000] border-white/20' : 'bg-white border-gray-200 shadow-lg'}`}>
           <div className="space-y-4">
             <div className={`h-6 rounded w-1/4 bg-[#000000]/20 animate-pulse`} />
             <div className="space-y-3">
@@ -162,7 +162,7 @@ const Preloader = ({
             </div>
           </div>
         </div>
-        <div className={`rounded-xl p-6 border ${isDark ? 'bg-[#000000] border-[#fbbf24]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
+        <div className={`rounded-xl p-6 border ${isDark ? 'bg-[#000000] border-white/20' : 'bg-white border-gray-200 shadow-lg'}`}>
           <div className="space-y-4">
             <div className={`h-6 rounded w-1/3 bg-[#000000]/20 animate-pulse`} />
             <div className="space-y-3">
@@ -178,7 +178,7 @@ const Preloader = ({
 
   // Minimalist Property Card Skeleton
   const PropertyCardSkeleton = () => (
-    <div className={`rounded-xl overflow-hidden border ${isDark ? 'bg-[#000000] border-[#fbbf24]/20' : 'bg-white border-gray-200 shadow-lg'}`}>
+    <div className={`rounded-xl overflow-hidden border ${isDark ? 'bg-[#000000] border-white/20' : 'bg-white border-gray-200 shadow-lg'}`}>
       <div className={`h-48 bg-[#000000]/20 animate-pulse`} />
       <div className="p-4 space-y-3">
         <div className={`h-5 rounded w-3/4 bg-[#000000]/20 animate-pulse`} />
@@ -233,7 +233,7 @@ const Preloader = ({
                   {[0, 1, 2].map((i) => (
                     <div
                       key={i}
-                      className={`w-2 h-2 rounded-full bg-[#fbbf24] animate-pulse`}
+                      className={`w-2 h-2 rounded-full bg-white animate-pulse`}
                       style={{ animationDelay: `${i * 0.2}s` }}
                     />
                   ))}
@@ -280,7 +280,7 @@ export const PageLoader = ({ text = 'Finding your perfect home' }) => (
       {/* Indeterminate amber progress line */}
       <div className="mt-8 mx-auto h-0.5 w-44 rounded-full bg-white/10 overflow-hidden">
         <div
-          className="h-full w-1/3 rounded-full bg-gradient-to-r from-[#fbbf24] to-[#f59e0b]"
+          className="h-full w-1/3 rounded-full bg-gradient-to-r from-white to-zinc-300"
           style={{ animation: 'loaderSlide 1.4s ease-in-out infinite' }}
         />
       </div>

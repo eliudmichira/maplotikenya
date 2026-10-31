@@ -661,7 +661,7 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
                                         </div>
                                         <button
                                             onClick={() => navigate(`/property/${selectedProperty.id}`)}
-                                            className="w-full px-3 py-1.5 bg-[#fbbf24] hover:bg-[#000000] text-white rounded-lg transition-colors text-xs font-semibold"
+                                            className="w-full px-3 py-1.5 bg-white hover:bg-[#000000] text-white rounded-lg transition-colors text-xs font-semibold"
                                         >
                                             View Details
                                         </button>
@@ -765,7 +765,7 @@ const EnhancedMapComponent = ({ propertyData, highlightedProperty, onMarkerHover
             </div>
 
             {/* Property Count Badge */}
-            <div className="absolute bottom-4 left-4 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] px-6 py-3 rounded-2xl shadow-lg flex items-center gap-3">
+            <div className="absolute bottom-4 left-4 bg-white text-black font-semibold text-[#000000] px-6 py-3 rounded-2xl shadow-lg flex items-center gap-3">
                 <Home className="w-5 h-5" />
                 <span className="font-semibold">{propertyData.length} properties</span>
             </div>

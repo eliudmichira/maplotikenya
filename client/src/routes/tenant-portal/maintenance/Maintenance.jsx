@@ -66,7 +66,7 @@ const Maintenance = () => {
           </div>
         </div>
         <div className="mt-4 flex gap-3">
-          <button onClick={submit} className="px-5 py-3 rounded-xl bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] font-semibold inline-flex items-center gap-2"><PlusCircle className="w-5 h-5"/> Submit Request</button>
+          <button onClick={submit} className="px-5 py-3 rounded-xl bg-white text-black font-semibold text-[#000000] font-semibold inline-flex items-center gap-2"><PlusCircle className="w-5 h-5"/> Submit Request</button>
         </div>
       </motion.div>
 
@@ -92,7 +92,7 @@ const Maintenance = () => {
                     {r.details && <p className="text-sm text-gray-700 dark:text-gray-200 mt-1">{r.details}</p>}
                   </div>
                   <div className="text-right">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-xl text-sm font-semibold ${r.status==='resolved'?'bg-green-100 text-green-700':'bg-amber-100 text-amber-800'}`}>{r.status==='resolved' ? 'Resolved' : 'Open'}</span>
+                    <span className={`inline-flex items-center px-3 py-1 rounded-xl text-sm font-semibold ${r.status==='resolved'?'bg-green-100 text-green-700':'bg-zinc-800 text-amber-800'}`}>{r.status==='resolved' ? 'Resolved' : 'Open'}</span>
                   </div>
                 </div>
               );

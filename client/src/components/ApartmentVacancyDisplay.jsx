@@ -180,7 +180,7 @@ const ApartmentVacancyDisplay = ({ property, onVacancyUpdate, isEditable = false
   }
 
   return (
-    <div className={`${isDark ? 'bg-[#0e1311] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200'} rounded-2xl border shadow-lg transition-colors duration-300`}>
+    <div className={`${isDark ? 'bg-[#0a0a0a] border-[rgba(251,191,36,0.2)]' : 'bg-white border-gray-200'} rounded-2xl border shadow-lg transition-colors duration-300`}>
       {/* Header */}
       <div className={`p-6 border-b ${isDark ? 'border-[rgba(251,191,36,0.1)]' : 'border-gray-200'}`}>
         <div className="flex items-center justify-between">
@@ -205,7 +205,7 @@ const ApartmentVacancyDisplay = ({ property, onVacancyUpdate, isEditable = false
                   <button
                     onClick={handleSave}
                     disabled={isUpdating}
-                    className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-lg font-semibold text-sm transition-all hover:shadow-lg disabled:opacity-50"
+                    className="flex items-center space-x-2 px-4 py-2 bg-white text-black font-semibold text-[#000000] rounded-lg font-semibold text-sm transition-all hover:shadow-lg disabled:opacity-50"
                   >
                     <Save className="w-4 h-4" />
                     <span>{isUpdating ? 'Saving...' : 'Save'}</span>
@@ -477,7 +477,7 @@ const ApartmentVacancyDisplay = ({ property, onVacancyUpdate, isEditable = false
         {/* Call to Action */}
         <div className="flex space-x-3">
           {vacancyData.availableUnits > 0 ? (
-            <button className="flex-1 flex items-center justify-center space-x-2 py-3 bg-gradient-to-r from-[#fbbf24] to-[#f59e0b] text-[#000000] rounded-lg font-semibold text-sm transition-all hover:shadow-lg">
+            <button className="flex-1 flex items-center justify-center space-x-2 py-3 bg-white text-black font-semibold text-[#000000] rounded-lg font-semibold text-sm transition-all hover:shadow-lg">
               <CheckCircle className="w-4 h-4" />
               <span>Apply Now</span>
             </button>

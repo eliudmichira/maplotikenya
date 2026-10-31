@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { handleImageError as handleFallbackImageError,  Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Heart,
@@ -66,8 +66,9 @@ const EnhancedMobilePropertyCard = ({
     setIsImageLoading(false);
   };
 
-  const handleImageError = () => {
+  const handleImageError = (e) => {
     setIsImageLoading(false);
+    handleFallbackImageError(e, null, property);
   };
 
   // Image navigation
