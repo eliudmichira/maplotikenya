@@ -23,6 +23,8 @@ import { testimonialsAPI } from '../../lib/firebaseAPI';
 import { getPropertyImage, handleImageError, isPlaceholderImage } from '../../utils/imageUtils';
 import { getAreasFromProperties, rankAreas } from '../../utils/popularAreas';
 import AreaImageCarousel from '../../components/AreaImageCarousel';
+import ListingCard from '../../components/listing/ListingCard';
+import { useNavigate } from 'react-router-dom';
 
 // Custom hooks
 const useIntersectionObserver = (options = {}) => {
@@ -64,181 +66,6 @@ const useParallax = (speed = 0.5) => {
 };
 
 // Minimal Premium Property Card Component
-function PropertyCard({ property, index, onClick }) {
-  const { isDark } = useTheme();
-  const [isSaved, setIsSaved] = useState(false);
-
-
-  const handleContactAgent = (e) => {
-    e.stopPropagation();
-    window.open(`https://wa.me/254700000000?text=Hi, I'm interested in ${property.title}`, '_blank');
-  };
-
-  const formatPrice = (price) => {
-    return new Intl.NumberFormat('en-KE', {
-      style: 'currency',
-      currency: 'KES',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(price);
-  };
-
-  return (
-    <div
-      className={`group cursor-pointer rounded-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2 ${isDark
-        ? 'bg-[#0a0a0a] shadow-lg hover:shadow-2xl hover:shadow-[#000000]/20 hover:border hover:border-white/20'
-        : 'bg-white shadow-lg hover:shadow-2xl hover:shadow-[#000000]/20 hover:border hover:border-white/20'
-        }`}
-      onClick={onClick}
-    >
-      <div className="relative h-64 overflow-hidden">
-        <img
-          src={getPropertyImage(property)}
-          alt={property.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-          loading="lazy"
-          onError={(e) => handleImageError(e, null, property)}
-        />
-
-        {/* Featured Badge - only if property marks it */}
-        {(property.featured || property.is_featured) && (
-          <div className="absolute top-4 left-4">
-            <span className="px-3 py-1.5 rounded-full text-xs font-medium backdrop-blur-md bg-white/90 text-gray-900 shadow-sm group-hover:shadow-lg group-hover:shadow-[#000000]/20 transition-all duration-300">
-              <Star className="w-3 h-3 inline-block -mt-0.5 mr-1 fill-current text-white/80" />Featured
-            </span>
-          </div>
-        )}
-
-        {/* Minimal Save Button */}
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            setIsSaved(!isSaved);
-          }}
-          className="absolute top-4 right-4 w-10 h-10 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center hover:scale-110 transition-all duration-300 shadow-sm group-hover:shadow-lg group-hover:shadow-[#000000]/20"
-        >
-          <Heart className={`w-5 h-5 transition-colors ${isSaved ? 'fill-red-500 text-red-500' : 'text-gray-600'}`} />
-        </button>
-
-        {/* Minimal Property Features */}
-        <div className="absolute bottom-4 left-4 right-4">
-          <div className="flex items-center gap-2 text-white text-sm">
-            <span className="flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full">
-              <Bed className="w-4 h-4" />
-              <span className="font-medium">{property.bedrooms}</span>
-            </span>
-            <span className="flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full">
-              <Bath className="w-4 h-4" />
-              <span className="font-medium">{property.bathrooms}</span>
-            </span>
-            <span className="flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-3 py-1.5 rounded-full">
-              <Square className="w-4 h-4" />
-              <span className="font-medium">{property.area?.toLocaleString()}</span>
-            </span>
-          </div>
-        </div>
-
-
-      </div>
-
-      {/* Minimal Property Details */}
-      <div className="p-6">
-        <div className="flex items-start justify-between mb-3">
-          <div className="flex-1">
-            <h3 className={`text-xl font-semibold mb-2 leading-tight ${isDark ? 'text-white' : 'text-gray-900'
-              }`}>
-              {property.title}
-            </h3>
-            <div className="flex items-center gap-1.5 mb-2">
-              <MapPin className={`w-4 h-4 ${isDark ? 'text-white/60' : 'text-gray-500'}`} />
-              <p className={`text-sm ${isDark ? 'text-white/70' : 'text-gray-600'
-                }`}>
-                {(() => {
-                  // Safely extract address from location object or fallback to property.address
-                  if (typeof property.location === 'string') {
-                    return property.location;
-                  } else if (property.location && typeof property.location === 'object') {
-                    return property.location.address || property.location.city || property.location.state || '';
-                  }
-                  if (typeof property.address === 'object') {
-                    return property.address.address || property.address.city || 'Location available';
-                  }
-                  return property.address || '';
-                })()}
-              </p>
-            </div>
-          </div>
-          {typeof property.rating === 'number' && (
-            <div className="flex items-center gap-1.5 bg-yellow-500 px-2 py-1 rounded-full">
-              <Star className="w-4 h-4 text-white fill-current" />
-              <span className="text-white text-sm font-medium">
-                {property.rating.toFixed(1)}
-              </span>
-            </div>
-          )}
-        </div>
-
-        {/* Price Display */}
-        <div className="flex items-center justify-between mb-3">
-          <div>
-            <div className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'
-              }`}>
-              {formatPrice(property.price)}
-            </div>
-            {(
-              typeof property.listing_type === 'string' && property.listing_type.toLowerCase() === 'rent'
-            ) && (
-                <div className={`text-xs ${isDark ? 'text-white/60' : 'text-gray-500'
-                  }`}>
-                  per month
-                </div>
-              )}
-          </div>
-          <div className="text-right">
-            {property.status && (
-              <div className={`text-sm font-medium ${isDark ? 'text-white' : 'text-gray-900'
-                }`}>
-                {property.status}
-              </div>
-            )}
-            {typeof property.days_on_market === 'number' && (
-              <div className={`text-xs ${isDark ? 'text-white/60' : 'text-gray-500'
-                }`}>
-                {property.days_on_market} days on market
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Amenities - show only what exists */}
-        {(() => {
-          const amenities = Array.isArray(property.amenities) ? property.amenities.map(a => String(a).toLowerCase()) : [];
-          const features = Array.isArray(property.features) ? property.features.map(f => String(f).toLowerCase()) : [];
-          const hasWifi = amenities.includes('wifi') || amenities.includes('fibre') || features.includes('wifi');
-          const hasParking = amenities.includes('parking') || features.includes('parking') || property.hasParking;
-          const hasGarden = amenities.includes('garden') || features.includes('garden');
-          const chips = [
-            hasWifi && { key: 'wifi', icon: <Wifi className="w-3 h-3" />, label: 'WiFi' },
-            hasParking && { key: 'parking', icon: <Car className="w-3 h-3" />, label: 'Parking' },
-            hasGarden && { key: 'garden', icon: <Trees className="w-3 h-3" />, label: 'Garden' }
-          ].filter(Boolean);
-          return chips.length > 0 ? (
-            <div className="flex items-center gap-4 text-xs">
-              {chips.map(chip => (
-                <span key={chip.key} className={`flex items-center gap-1 ${isDark ? 'text-white/70' : 'text-gray-600'
-                  }`}>
-                  {chip.icon}
-                  <span>{chip.label}</span>
-                </span>
-              ))}
-            </div>
-          ) : null;
-        })()}
-      </div>
-    </div>
-  );
-}
-
 const HomePage = () => {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
   const [remoteTestimonials, setRemoteTestimonials] = useState([]);
@@ -246,6 +73,7 @@ const HomePage = () => {
   const [isAddReviewOpen, setIsAddReviewOpen] = useState(false);
   const [reviewForm, setReviewForm] = useState({ name: '', location: '', rating: 5, comment: '' });
   const { isDark } = useTheme();
+  const navigate = useNavigate();
 
   // Get featured properties from Firebase
   const { data: featuredData, isLoading: featuredLoading } = useFeaturedProperties(6);
@@ -284,7 +112,8 @@ const HomePage = () => {
   };
 
   const handlePropertyCardClick = (propertyId) => {
-    window.location.href = `/property/${propertyId}`;
+    const property = featuredProperties.find((p) => p.id === propertyId) || (proofListing?.id === propertyId ? proofListing : undefined);
+    navigate(`/property/${propertyId}`, { state: property ? { property } : undefined });
   };
 
   const handleStartSearching = () => {
@@ -300,6 +129,33 @@ const HomePage = () => {
   const scrollByAmount = (ref, amount) => {
     if (!ref?.current) return;
     ref.current.scrollBy({ left: amount, behavior: 'smooth' });
+  };
+
+  // Featured carousel: move exactly one card (card width + gap) per click so
+  // it always lands on a card edge, and track which card is first in view.
+  const [featuredIndex, setFeaturedIndex] = useState(0);
+  const [featuredEnds, setFeaturedEnds] = useState({ start: true, end: false });
+  const featuredStep = () => {
+    const el = featuredRef.current;
+    const first = el?.children?.[0];
+    if (!el || !first) return 0;
+    const gap = parseFloat(getComputedStyle(el).columnGap || '0') || 0;
+    return first.getBoundingClientRect().width + gap;
+  };
+  const scrollFeatured = (dir) => {
+    const step = featuredStep();
+    if (step) featuredRef.current.scrollBy({ left: dir * step, behavior: 'smooth' });
+  };
+  const scrollFeaturedTo = (i) => {
+    const step = featuredStep();
+    if (step) featuredRef.current.scrollTo({ left: i * step, behavior: 'smooth' });
+  };
+  const onFeaturedScroll = () => {
+    const el = featuredRef.current;
+    const step = featuredStep();
+    if (!el || !step) return;
+    setFeaturedIndex(Math.round(el.scrollLeft / step));
+    setFeaturedEnds({ start: el.scrollLeft <= 2, end: el.scrollLeft + el.clientWidth >= el.scrollWidth - 2 });
   };
 
   // Enhanced auto-scroll carousels with smooth infinite loop
@@ -349,10 +205,8 @@ const HomePage = () => {
       };
     };
 
-    const cleanupFeatured = setupAutoScroll(featuredRef.current, 1.5);
     const cleanupTestimonials = setupAutoScroll(testimonialsRef.current, 1.0);
     return () => {
-      cleanupFeatured && cleanupFeatured();
       cleanupTestimonials && cleanupTestimonials();
     };
   }, []);
@@ -636,56 +490,65 @@ const HomePage = () => {
             </div>
           ) : featuredProperties.length > 0 ? (
             <div className="relative">
-              {/* Minimal Navigation Arrows */}
-              <button
-                onClick={() => scrollByAmount(featuredRef, -400)}
-                className={`absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isDark
-                  ? 'bg-white/10 text-white hover:bg-white/20 backdrop-blur-md'
-                  : 'bg-white text-gray-900 hover:bg-gray-100 shadow-md border border-gray-200'
-                  }`}
+              {/* Track: native scroll with snap, so swipes and arrow clicks
+                  always settle on a card edge. Three cards on desktop, two on
+                  tablets, one and a peek on phones. */}
+              <div
+                ref={featuredRef}
+                onScroll={onFeaturedScroll}
+                className="flex snap-x snap-mandatory gap-6 overflow-x-auto scroll-smooth pb-4 pt-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               >
-                <ChevronRight className="w-5 h-5 rotate-180" />
-              </button>
-
-              <button
-                onClick={() => scrollByAmount(featuredRef, 400)}
-                className={`absolute right-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${isDark
-                  ? 'bg-white/10 text-white hover:bg-white/20 backdrop-blur-md'
-                  : 'bg-white text-gray-900 hover:bg-gray-100 shadow-md border border-gray-200'
-                  }`}
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-
-              <div ref={featuredRef} className="flex gap-6 overflow-hidden scroll-smooth pb-12 pt-6 px-8" style={{ scrollBehavior: 'smooth' }}>
-                {featuredProperties.map((property, index) => (
-                  <div key={property.id} className="min-w-[320px] md:min-w-[360px] lg:min-w-[400px] flex-shrink-0">
-                    <PropertyCard
-                      property={property}
-                      index={index}
-                      onClick={() => handlePropertyCardClick(property.id)}
-                    />
+                {featuredProperties.map((property) => (
+                  <div
+                    key={property.id}
+                    className="flex min-w-0 shrink-0 basis-[85%] snap-start sm:basis-[calc((100%-1.5rem)/2)] lg:basis-[calc((100%-3rem)/3)]"
+                  >
+                    <ListingCard property={property} className="flex w-full flex-col" />
                   </div>
                 ))}
               </div>
 
-
-              {/* Subtle edge fade overlays */}
-              <div className={`pointer-events-none absolute inset-y-0 left-0 w-32 z-5 ${isDark ? 'bg-gradient-to-r from-[#000000]/80 via-[#000000]/40 to-transparent' : 'bg-gradient-to-r from-white/80 via-white/40 to-transparent'}`}></div>
-              <div className={`pointer-events-none absolute inset-y-0 right-0 w-32 z-5 ${isDark ? 'bg-gradient-to-l from-[#000000]/80 via-[#000000]/40 to-transparent' : 'bg-gradient-to-l from-white/80 via-white/40 to-transparent'}`}></div>
-
-              {/* Minimal Scroll Indicators */}
-              <div className="flex justify-center items-center gap-2 mt-8">
-                {featuredProperties.slice(0, 3).map((_, index) => (
-                  <div
-                    key={index}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${index === 0
-                      ? 'bg-gray-900 dark:bg-white w-6'
-                      : 'bg-gray-300 dark:bg-gray-600'
-                      }`}
-                  ></div>
-                ))}
-              </div>
+              {/* Controls: arrows beside the dots, never on top of the cards */}
+              {featuredProperties.length > 1 && (
+                <div className="mt-6 flex items-center justify-center gap-4">
+                  <button
+                    type="button"
+                    onClick={() => scrollFeatured(-1)}
+                    disabled={featuredEnds.start}
+                    aria-label="Previous listing"
+                    className={`flex h-10 w-10 items-center justify-center rounded-full border transition-colors disabled:opacity-30 ${isDark
+                      ? 'border-white/15 text-white hover:bg-white/10'
+                      : 'border-gray-200 bg-white text-gray-900 hover:bg-gray-100'}`}
+                  >
+                    <ChevronRight className="h-5 w-5 rotate-180" />
+                  </button>
+                  <div className="flex items-center gap-2">
+                    {featuredProperties.map((p, i) => (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClick={() => scrollFeaturedTo(i)}
+                        aria-label={`Go to listing ${i + 1}`}
+                        aria-current={i === featuredIndex}
+                        className={`h-2 rounded-full transition-all ${i === featuredIndex
+                          ? 'w-6 bg-gray-900 dark:bg-white'
+                          : 'w-2 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600'}`}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => scrollFeatured(1)}
+                    disabled={featuredEnds.end}
+                    aria-label="Next listing"
+                    className={`flex h-10 w-10 items-center justify-center rounded-full border transition-colors disabled:opacity-30 ${isDark
+                      ? 'border-white/15 text-white hover:bg-white/10'
+                      : 'border-gray-200 bg-white text-gray-900 hover:bg-gray-100'}`}
+                  >
+                    <ChevronRight className="h-5 w-5" />
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-center py-12">

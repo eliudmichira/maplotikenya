@@ -1,5 +1,5 @@
 import instagramCatalog from '../utils/instagramCatalog.json';
-﻿import {
+import {
   collection,
   doc,
   getDocs,

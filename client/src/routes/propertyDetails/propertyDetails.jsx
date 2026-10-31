@@ -18,7 +18,7 @@ function PropertyDetailsSkeleton({ isDark }) {
           {/* Main content column */}
           <div className="lg:col-span-2 space-y-6">
             {/* Hero Photo Gallery skeleton */}
-            <div className={`relative rounded-3xl overflow-hidden aspect-[16/10] sm:aspect-[16/9] border ${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-gray-200 border-gray-300'}`}>
+            <div className={`relative rounded-2xl overflow-hidden h-96 md:h-[500px] border ${isDark ? 'bg-[#0a0a0a] border-white/10' : 'bg-gray-200 border-gray-300'}`}>
               {/* Shimmer effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse"></div>
               {/* Center Brand Spinner */}
@@ -106,8 +106,9 @@ function PropertyDetailsSkeleton({ isDark }) {
   );
 }
 
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, { useState, useEffect, useContext, useMemo, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 import './propertyDetails.scss';
 import useAnalytics from '../../hooks/useAnalytics';
 import {
@@ -228,11 +229,124 @@ const showToast = (options) => {
   }, 4000);
 };
 
+// Full-screen photo viewer. Rendered into <body> so it sits above the fixed
+// navbar. Shares the gallery's index, so it opens on the photo you were
+// looking at and the page shows the photo you closed on.
+function Lightbox({ images, index, onIndex, onClose, title }) {
+  const railRef = useRef(null);
+  const touchX = useRef(null);
+  const count = images.length;
+  const go = (d) => onIndex((index + d + count) % count);
+
+  // Keyboard, and freeze the page behind (the body is the scroll container).
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
+      else if (e.key === 'ArrowRight') go(1);
+      else if (e.key === 'ArrowLeft') go(-1);
+    };
+    window.addEventListener('keydown', onKey);
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.style.overflow = prevOverflow;
+    };
+  });
+
+  // Keep the active thumbnail in view.
+  useEffect(() => {
+    railRef.current?.children?.[index]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+  }, [index]);
+
+  const ctrl = 'flex items-center justify-center rounded-full bg-black/60 text-white ring-1 ring-white/20 backdrop-blur transition-colors hover:bg-black/80';
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[2000] flex flex-col"
+      style={{ backgroundColor: '#000' }}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${title} photos`}
+      onTouchStart={(e) => { touchX.current = e.touches[0].clientX; }}
+      onTouchEnd={(e) => {
+        if (touchX.current == null) return;
+        const d = touchX.current - e.changedTouches[0].clientX;
+        touchX.current = null;
+        if (Math.abs(d) > 50) go(d > 0 ? 1 : -1);
+      }}
+    >
+      {/* Top bar: counter and close, on their own contrast pills */}
+      <div className="flex items-center justify-between p-3 sm:p-4">
+        <span className="rounded-full bg-black/60 px-3 py-1 text-sm tabular-nums text-white ring-1 ring-white/20">
+          {index + 1} / {count}
+        </span>
+        <button type="button" onClick={onClose} aria-label="Close photos" className={`${ctrl} h-11 w-11`}>
+          <X className="h-6 w-6" />
+        </button>
+      </div>
+
+      {/* Photo: whole image, letterboxed, never cropped */}
+      <div className="relative flex min-h-0 flex-1 items-center justify-center px-2 sm:px-16" onClick={onClose}>
+        <img
+          key={images[index]}
+          src={images[index]}
+          alt={`${title} - photo ${index + 1} of ${count}`}
+          onClick={(e) => e.stopPropagation()}
+          className="max-h-full max-w-full select-none object-contain"
+          draggable={false}
+        />
+        {count > 1 && (
+          <>
+            <button type="button" onClick={(e) => { e.stopPropagation(); go(-1); }} aria-label="Previous photo"
+              className={`${ctrl} absolute left-2 top-1/2 h-12 w-12 -translate-y-1/2 sm:left-4`}>
+              <ChevronLeft className="h-7 w-7" />
+            </button>
+            <button type="button" onClick={(e) => { e.stopPropagation(); go(1); }} aria-label="Next photo"
+              className={`${ctrl} absolute right-2 top-1/2 h-12 w-12 -translate-y-1/2 sm:right-4`}>
+              <ChevronRight className="h-7 w-7" />
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* Thumbnail rail for jumping straight to any photo */}
+      {count > 1 && (
+        <div ref={railRef} className="flex gap-2 overflow-x-auto px-3 py-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:justify-center">
+          {images.map((src, i) => (
+            <button
+              key={src + i}
+              type="button"
+              onClick={() => onIndex(i)}
+              aria-label={`Photo ${i + 1}`}
+              aria-current={i === index}
+              className={`h-14 w-20 shrink-0 overflow-hidden rounded-md ring-2 transition ${i === index ? 'ring-white opacity-100' : 'ring-transparent opacity-50 hover:opacity-90'}`}
+            >
+              <img src={src} alt="" loading="lazy" className="h-full w-full object-cover" />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>,
+    document.body
+  );
+}
+
 // Photo Gallery Component
 function PhotoGallery({ images = [], title, property }) {
   const [currentImage, setCurrentImage] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [imageErrors, setImageErrors] = useState(new Set());
+  const thumbsRef = useRef(null);
+
+  // Keep the selected thumbnail visible in the strip (19 photos overflow it).
+  useEffect(() => {
+    const el = thumbsRef.current?.children?.[currentImage];
+    if (!el || !thumbsRef.current) return;
+    const strip = thumbsRef.current;
+    const left = el.offsetLeft - strip.clientWidth / 2 + el.clientWidth / 2;
+    strip.scrollTo({ left, behavior: 'smooth' });
+  }, [currentImage]);
   const { isDark } = useTheme();
 
   // Get properly formatted images using utility function — pass full property so
@@ -309,9 +423,11 @@ function PhotoGallery({ images = [], title, property }) {
         <img
           src={validImages[currentImage]}
           alt={`${title} - Image ${currentImage + 1}`}
-          loading="lazy"
+          loading="eager"
+          fetchpriority="high"
           decoding="async"
-          className="w-full h-full object-cover"
+          onClick={() => setIsFullscreen(true)}
+          className="w-full h-full object-cover cursor-zoom-in"
           onError={(e) => handleImageError(e, null, property)}
         />
 
@@ -343,7 +459,9 @@ function PhotoGallery({ images = [], title, property }) {
 
         {/* Fullscreen Button */}
         <button
-          onClick={() => setIsFullscreen(!isFullscreen)}
+          type="button"
+          aria-label="View photos full screen"
+          onClick={() => setIsFullscreen(true)}
           className={`absolute bottom-4 right-4 p-2 rounded-full transition-all duration-200 backdrop-blur-sm ${isDark ? 'bg-[#000000]/70 hover:bg-[#000000]/90 text-white' : 'bg-black/50 hover:bg-black/70 text-white'
             }`}
         >
@@ -354,7 +472,7 @@ function PhotoGallery({ images = [], title, property }) {
 
       {/* Thumbnail Gallery */}
       {validImages.length > 1 && (
-        <div className="mt-4 flex gap-2 overflow-x-auto">
+        <div ref={thumbsRef} className="mt-4 flex gap-2 overflow-x-auto">
           {validImages.map((image, index) => (
             <button
               key={index}
@@ -377,37 +495,15 @@ function PhotoGallery({ images = [], title, property }) {
         </div>
       )}
 
-      {/* Fullscreen Modal */}
+      {/* Fullscreen viewer */}
       {isFullscreen && (
-        <div className="fixed inset-0 bg-black z-50 flex items-center justify-center">
-          <div className="relative max-w-7xl max-h-full p-4">
-            <img
-              src={validImages[currentImage]}
-              alt={`${title} - Fullscreen`}
-              loading="eager"
-              decoding="async"
-              className="max-w-full max-h-full object-contain"
-            />
-            <button
-              onClick={() => setIsFullscreen(false)}
-              className="absolute top-4 right-4 bg-white/20 backdrop-blur-sm text-white p-2 rounded-full hover:bg-white/30 transition-all duration-200"
-            >
-              <X className="w-6 h-6" />
-            </button>
-            <button
-              onClick={prevImage}
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white p-4 rounded-full hover:bg-white/30 transition-all duration-200"
-            >
-              <ChevronLeft className="w-8 h-8" />
-            </button>
-            <button
-              onClick={nextImage}
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white p-4 rounded-full hover:bg-white/30 transition-all duration-200"
-            >
-              <ChevronRight className="w-8 h-8" />
-            </button>
-          </div>
-        </div>
+        <Lightbox
+          images={validImages}
+          index={currentImage}
+          onIndex={setCurrentImage}
+          onClose={() => setIsFullscreen(false)}
+          title={title}
+        />
       )}
     </div>
   );

@@ -63,6 +63,7 @@ export default function ListingCard({
   const [busy, setBusy] = useState(false);
   const touchStart = useRef(0);
   const touchEnd = useRef(0);
+  const swiped = useRef(false);
 
   const images = getPropertyImages(property);
   const hasMultiple = images.length > 1;
@@ -76,6 +77,8 @@ export default function ListingCard({
 
   const go = (e) => {
     e.preventDefault();
+    // A swipe through the photos ends with a tap event; don't treat it as "open".
+    if (swiped.current) { swiped.current = false; return; }
     navigate(href, { state: { property } });
   };
   const step = (dir) => setCurrent((i) => (i + dir + images.length) % images.length);
@@ -92,6 +95,7 @@ export default function ListingCard({
   const onTouchEnd = () => {
     const d = touchStart.current - touchEnd.current;
     if (!hasMultiple || Math.abs(d) < 50) return;
+    swiped.current = true;
     step(d > 0 ? 1 : -1);
   };
 
@@ -190,7 +194,7 @@ export default function ListingCard({
       </div>
 
       {/* Body */}
-      <div className={cn('min-w-0 p-3', row && 'flex flex-1 flex-col justify-center')}>
+      <div className={cn('flex min-w-0 flex-1 flex-col p-3', row && 'justify-center')}>
         <p className="flex items-baseline gap-1 text-base font-semibold tabular-nums leading-tight text-foreground">
           {formatKsh(property)}
           {kind === 'rent' && sanitizePrice(property) > 0 && <span className="text-xs font-normal text-muted-foreground">/month</span>}
@@ -217,7 +221,13 @@ export default function ListingCard({
             </span>
           )}
         </p>
-        {(views > 0 || verified) && (
+        {!row && (
+          <p className="mt-auto flex min-h-[1.75rem] items-end justify-between pt-2 text-[11px] text-muted-foreground">
+            <span className="flex items-center gap-1 tabular-nums">{views > 0 && <><Eye className="h-3 w-3" />{views.toLocaleString()} views</>}</span>
+            {verified && <span className="flex items-center gap-1 text-foreground/80"><BadgeCheck className="h-3.5 w-3.5 text-primary" />Verified agent</span>}
+          </p>
+        )}
+        {row && (views > 0 || verified) && (
           <p className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
             <span className="flex items-center gap-1 tabular-nums">{views > 0 && <><Eye className="h-3 w-3" />{views.toLocaleString()} views</>}</span>
             {verified && <span className="flex items-center gap-1 text-foreground/80"><BadgeCheck className="h-3.5 w-3.5 text-primary" />Verified agent</span>}
