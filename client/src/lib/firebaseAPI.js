@@ -1,4 +1,7 @@
 import instagramCatalog from '../utils/instagramCatalog.json';
+// Old Instagram listing ids that were duplicates of a Firestore listing (or of
+// another post), mapped to the listing that replaced them, so shared links keep working.
+import instagramRedirects from '../utils/instagramRedirects.json';
 import {
   collection,
   doc,
@@ -28,6 +31,15 @@ import { db, storage } from './firebase';
 import { hasRealPhoto } from '../utils/imageUtils';
 import { getCountyFromCoords, getGeohash } from '../utils/locationUtils';
 import { cleanAndDeduplicateProperties } from '../utils/propertyUtils';
+
+// Instagram listings bundled with the site. Once a listing has been imported
+// into Firestore (same id, e.g. "ig_<code>"), the Firestore copy wins so edits
+// made in the admin panel show up and nothing appears twice.
+const catalogNotInFirestore = (firestoreListings) => {
+  if (!Array.isArray(instagramCatalog)) return [];
+  const ids = new Set((firestoreListings || []).map((p) => p.id));
+  return instagramCatalog.filter((p) => !ids.has(p.id));
+};
 
 // Dev-only logger â€” keeps the production console clean. console.error/warn are left intact.
 const devLog = (...args) => { if (import.meta.env.DEV) console.log(...args); };
@@ -139,7 +151,7 @@ export const propertiesAPI = {
       });
 
       const allCombined = [
-        ...(Array.isArray(instagramCatalog) ? instagramCatalog : []),
+        ...catalogNotInFirestore(properties),
         ...properties
       ];
       const cleaned = cleanAndDeduplicateProperties(allCombined);
@@ -191,7 +203,7 @@ export const propertiesAPI = {
         });
 
         const allFallback = [
-          ...(Array.isArray(instagramCatalog) ? instagramCatalog : []),
+          ...catalogNotInFirestore(properties),
           ...properties
         ];
         const cleanedFallback = cleanAndDeduplicateProperties(allFallback);
@@ -325,11 +337,22 @@ export const propertiesAPI = {
     try {
       if (!id) throw new Error('Property ID is required');
 
-      const cleanId = String(id).trim();
+      const requested = String(id).trim();
+      const cleanId = instagramRedirects[requested] || requested;
       const lowerId = cleanId.toLowerCase();
       const rawCode = lowerId.replace(/^ig_/, '');
 
-      // 1. Direct match in Instagram catalog by exact id or code
+      // 1. Firestore first, so imported and edited listings win
+      const docRef = doc(db, 'listings', cleanId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const raw = { id: docSnap.id, ...docSnap.data() };
+        const [cleaned] = cleanAndDeduplicateProperties([raw]);
+        return cleaned || raw;
+      }
+
+      // 2. Not in Firestore: fall back to the bundled Instagram catalog
       if (Array.isArray(instagramCatalog)) {
         const igMatch = instagramCatalog.find(
           p => String(p.id).toLowerCase() === lowerId ||
@@ -342,15 +365,6 @@ export const propertiesAPI = {
         }
       }
 
-      // 2. Query Firestore listings by document ID
-      const docRef = doc(db, 'listings', cleanId);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const raw = { id: docSnap.id, ...docSnap.data() };
-        const [cleaned] = cleanAndDeduplicateProperties([raw]);
-        return cleaned || raw;
-      }
 
       // 3. Fallback: Search Firestore listings by tiktokId, code, or custom id field
       const tiktokQuery = query(collection(db, 'listings'), where('tiktokId', '==', cleanId), limit(1));
