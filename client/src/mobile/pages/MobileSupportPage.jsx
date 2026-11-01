@@ -142,15 +142,15 @@ const MobileSupportPage = () => {
                         <ContactButton 
                             icon={Mail} 
                             label="Email Support" 
-                            subtitle="support@maplotikenya.com"
-                            onClick={() => window.location.href = 'mailto:support@maplotikenya.com'} 
+                            subtitle="kamaueric711@gmail.com"
+                            onClick={() => window.location.href = 'mailto:kamaueric711@gmail.com'} 
                             color="purple"
                         />
                         <ContactButton 
                             icon={Phone} 
                             label="Call Us" 
-                            subtitle="+254 700 000 000"
-                            onClick={() => window.location.href = 'tel:+254700000000'} 
+                            subtitle="+254 705 906 024"
+                            onClick={() => window.location.href = 'tel:+254705906024'} 
                             color="emerald"
                         />
                     </div>

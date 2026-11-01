@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { MessageCircle, Phone, Mail, MapPin, Send, ArrowLeft, Clock, Shield, Award, Users, CheckCircle, AlertCircle } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 import { useAuth } from '../../context/AuthContext';
@@ -6,12 +7,17 @@ import { useAuth } from '../../context/AuthContext';
 function ContactPage() {
   const { isDark } = useTheme();
   const { currentUser } = useAuth();
+  const location = useLocation();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [contactData, setContactData] = useState({
-    propertyTitle: "Modern 3-Bedroom Apartment in Westlands",
-    agentName: "Grace Wanjiku",
-    agentEmail: "grace.wanjiku@kenyarealestate.co.ke"
+    propertyTitle: "General Property Inquiry",
+    agentName: "Eric Kamau",
+    agentEmail: "kamaueric711@gmail.com",
+    agentPhone: "+254 705 906 024",
+    agentImage: "https://lh3.googleusercontent.com/a/ACg8ocIi53wSeH2LJ-9clfTiFfJZHDqj2QsSU41UDf25W-XmA7-kzw=s96-c",
+    agentRole: "Founder & Principal Agent",
+    company: "Maploti Real Estate"
   });
   
   const [formData, setFormData] = useState({
@@ -28,26 +34,19 @@ function ContactPage() {
   const [notification, setNotification] = useState(null);
 
   useEffect(() => {
-    // Update form data when currentUser changes
-    if (currentUser) {
-      setFormData(prev => ({
-        ...prev,
-        name: currentUser.displayName || '',
-        email: currentUser.email || ''
-      }));
-    }
-  }, [currentUser]);
+    const prop = location.state?.property;
+    const ag = location.state?.agent || prop?.agent;
 
-  useEffect(() => {
-    // Simulate loading contact data (since localStorage isn't supported)
-    // In a real app, this would come from props or URL parameters
-    const mockContactData = {
-      propertyTitle: "Modern 3-Bedroom Apartment in Westlands",
-      agentName: "Grace Wanjiku",
-      agentEmail: "grace.wanjiku@kenyarealestate.co.ke"
-    };
-    setContactData(mockContactData);
-  }, []);
+    setContactData({
+      propertyTitle: prop?.title || "Direct Property Consultation",
+      agentName: ag?.name || "Eric Kamau",
+      agentEmail: ag?.email || "kamaueric711@gmail.com",
+      agentPhone: ag?.phone || "+254 705 906 024",
+      agentImage: ag?.photo || ag?.avatar || ag?.image || "https://lh3.googleusercontent.com/a/ACg8ocIi53wSeH2LJ-9clfTiFfJZHDqj2QsSU41UDf25W-XmA7-kzw=s96-c",
+      agentRole: ag?.specialization || "Founder & Principal Agent",
+      company: ag?.company || "Maploti Real Estate"
+    });
+  }, [location.state]);
 
   const handleSubmit = async () => {
     // Basic validation
@@ -64,7 +63,13 @@ function ContactPage() {
 
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      if (formData.preferredContact === 'whatsapp') {
+        const cleanPhone = (contactData.agentPhone || '+254705906024').replace(/[^0-9]/g, '');
+        const text = `Hi ${contactData.agentName}, my name is ${formData.name}. Regarding "${contactData.propertyTitle}": ${formData.message}`;
+        window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(text)}`, '_blank');
+      }
       
       // Show success notification
       setNotification({
@@ -356,74 +361,95 @@ function ContactPage() {
               
               <div className="text-center mb-8">
                 <div className="relative inline-block">
-                  <div className="w-20 h-20 bg-white text-black font-semibold rounded-full flex items-center justify-center shadow-lg mb-4">
-                    <span className="text-[#111] font-outfit font-bold text-2xl">
-                      {contactData?.agentName?.[0] || 'G'}
-                    </span>
-                  </div>
-                  <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-[#000000] rounded-full border-4 border-white flex items-center justify-center">
-                    <div className="w-2 h-2 bg-[#111] rounded-full animate-pulse"></div>
+                  <img
+                    src={contactData?.agentImage || "https://lh3.googleusercontent.com/a/ACg8ocIi53wSeH2LJ-9clfTiFfJZHDqj2QsSU41UDf25W-XmA7-kzw=s96-c"}
+                    alt={contactData?.agentName || "Eric Kamau"}
+                    className="w-20 h-20 rounded-full object-cover shadow-lg mb-4 border-2 border-white/20 mx-auto"
+                  />
+                  <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-[#000000] rounded-full border-2 border-white flex items-center justify-center">
+                    <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></div>
                   </div>
                 </div>
                 <h3 className={`text-lg font-outfit font-bold mb-1 ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
-                  {contactData?.agentName || 'Grace Wanjiku'}
+                  {contactData?.agentName || 'Eric Kamau'}
                 </h3>
-                <p className={`font-outfit font-medium ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>Senior Real Estate Professional</p>
-                <p className="text-sm text-[#000000] font-outfit font-semibold mt-1">● Available Now</p>
+                <p className={`font-outfit font-medium text-sm ${isDark ? 'text-[#ccc]' : 'text-gray-600'}`}>
+                  {contactData?.agentRole || 'Founder & Principal Agent'} • {contactData?.company || 'Maploti Real Estate'}
+                </p>
+                <p className="text-sm text-emerald-400 font-outfit font-semibold mt-1">● Verified & Available Now</p>
               </div>
 
               <div className="space-y-4 mb-8">
-                <div className={`flex items-center gap-4 p-3 rounded-xl transition-colors duration-300 ${
-                  isDark ? 'bg-[#000000]' : 'bg-gray-50'
-                }`}>
+                <a
+                  href={`mailto:${contactData?.agentEmail || 'kamaueric711@gmail.com'}`}
+                  className={`flex items-center gap-4 p-3 rounded-xl transition-colors hover:bg-white/10 ${
+                    isDark ? 'bg-[#000000]' : 'bg-gray-50'
+                  }`}
+                >
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    isDark ? 'bg-[rgba(251,191,36,0.2)]' : 'bg-emerald-100'
+                    isDark ? 'bg-white/10' : 'bg-emerald-100'
                   }`}>
-                    <Mail className="w-5 h-5 text-[#000000]" />
+                    <Mail className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className={`font-outfit font-medium truncate ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
-                      {contactData?.agentEmail || 'grace.wanjiku@kenyarealestate.co.ke'}
+                    <p className={`font-outfit text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Email</p>
+                    <p className={`font-outfit font-medium truncate text-sm ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
+                      {contactData?.agentEmail || 'kamaueric711@gmail.com'}
                     </p>
                   </div>
-                </div>
+                </a>
                 
-                <div className={`flex items-center gap-4 p-3 rounded-xl transition-colors duration-300 ${
-                  isDark ? 'bg-[#000000]' : 'bg-gray-50'
-                }`}>
+                <a
+                  href="tel:+254705906024"
+                  className={`flex items-center gap-4 p-3 rounded-xl transition-colors hover:bg-white/10 ${
+                    isDark ? 'bg-[#000000]' : 'bg-gray-50'
+                  }`}
+                >
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    isDark ? 'bg-[rgba(251,191,36,0.2)]' : 'bg-green-100'
+                    isDark ? 'bg-white/10' : 'bg-green-100'
                   }`}>
-                    <Phone className="w-5 h-5 text-[#000000]" />
+                    <Phone className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1">
-                    <p className={`font-outfit font-medium ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>+254 712 345 678</p>
+                    <p className={`font-outfit text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Phone / Call</p>
+                    <p className={`font-outfit font-medium text-sm ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
+                      {contactData?.agentPhone || '+254 705 906 024'}
+                    </p>
                   </div>
-                </div>
+                </a>
                 
-                <div className={`flex items-center gap-4 p-3 rounded-xl transition-colors duration-300 ${
-                  isDark ? 'bg-[#000000]' : 'bg-gray-50'
-                }`}>
+                <a
+                  href={`https://wa.me/254705906024?text=${encodeURIComponent('Hi Eric, I would like to inquire about properties on Maploti')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`flex items-center gap-4 p-3 rounded-xl transition-colors hover:bg-white/10 ${
+                    isDark ? 'bg-[#000000]' : 'bg-gray-50'
+                  }`}
+                >
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    isDark ? 'bg-[rgba(251,191,36,0.2)]' : 'bg-purple-100'
+                    isDark ? 'bg-white/10' : 'bg-purple-100'
                   }`}>
-                    <MessageCircle className="w-5 h-5 text-[#000000]" />
+                    <MessageCircle className="w-5 h-5 text-emerald-400" />
                   </div>
                   <div className="flex-1">
-                    <p className={`font-outfit font-medium ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>WhatsApp: +254 712 345 678</p>
+                    <p className={`font-outfit text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>WhatsApp Direct</p>
+                    <p className={`font-outfit font-medium text-sm ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>
+                      WhatsApp: {contactData?.agentPhone || '+254 705 906 024'}
+                    </p>
                   </div>
-                </div>
+                </a>
 
-                <div className={`flex items-center gap-4 p-3 rounded-xl transition-colors duration-300 ${
+                <div className={`flex items-center gap-4 p-3 rounded-xl ${
                   isDark ? 'bg-[#000000]' : 'bg-gray-50'
                 }`}>
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                    isDark ? 'bg-[rgba(251,191,36,0.2)]' : 'bg-red-100'
+                    isDark ? 'bg-white/10' : 'bg-red-100'
                   }`}>
-                    <MapPin className="w-5 h-5 text-[#000000]" />
+                    <MapPin className="w-5 h-5 text-white" />
                   </div>
                   <div className="flex-1">
-                    <p className={`font-outfit font-medium ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Nairobi, Kenya</p>
+                    <p className={`font-outfit text-xs ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>Head Office</p>
+                    <p className={`font-outfit font-medium text-sm ${isDark ? 'text-[#feffff]' : 'text-gray-900'}`}>Nairobi, Kenya</p>
                   </div>
                 </div>
               </div>

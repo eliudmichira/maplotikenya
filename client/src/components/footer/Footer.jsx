@@ -116,22 +116,22 @@ const Footer = () => {
               </div>
 
               <a
-                href="tel:+254700000000"
+                href="tel:+254705906024"
                 className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/15 hover:bg-white/10 transition-all group"
               >
                 <Phone className="w-4 h-4 text-white flex-shrink-0 group-hover:scale-110 transition-transform" />
                 <span className={`font-outfit text-sm group-hover:text-white transition-colors ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}>
-                  +254 700 000 000
+                  +254 705 906 024
                 </span>
               </a>
 
               <a
-                href="mailto:support@maplotikenya.com"
+                href="mailto:kamaueric711@gmail.com"
                 className="flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 hover:border-white/15 hover:bg-white/10 transition-all group"
               >
                 <Mail className="w-4 h-4 text-white flex-shrink-0 group-hover:scale-110 transition-transform" />
                 <span className={`font-outfit text-sm break-all group-hover:text-white transition-colors ${isDark ? 'text-[#ccc]' : 'text-gray-300'}`}>
-                  support@maplotikenya.com
+                  kamaueric711@gmail.com
                 </span>
               </a>
             </div>
